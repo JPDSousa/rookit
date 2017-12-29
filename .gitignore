@@ -19,6 +19,12 @@ hs_err_pid*
 
 \target/
 
+\rookit-hyper-crawler/
+
 Database/
 
 db\.bat
+
+Data/
+
+db_test\.bat
