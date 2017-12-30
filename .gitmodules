@@ -1,0 +1,3 @@
+[submodule "rookit-player"]
+	path = rookit-player
+	url = https://github.com/JPDSousa/rookit-player.git
