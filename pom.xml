@@ -94,4 +94,15 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	<modules>
+		<module>rookit-player</module>
+		<module>rookit-core</module>
+		<module>rookit-data-model</module>
+		<module>rookit-data-model-test</module>
+		<module>rookit-mongodb</module>
+		<module>rookit-parser</module>
+		<module>rookit-spark-connector</module>
+		<module>rookit-utils</module>
+		<module>rookit-web-crawler</module>
+	</modules>
 </project>
