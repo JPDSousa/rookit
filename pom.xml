@@ -1,7 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.rookit</groupId>
 	<artifactId>rookit</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
@@ -10,6 +9,7 @@
 		<rookit.version>0.0.1-SNAPSHOT</rookit.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<rookit.group>com.github.JPDSousa</rookit.group>
 	</properties>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
@@ -94,14 +94,14 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	<groupId>com.github.JPDSousa</groupId>
 	<modules>
-		<module>rookit-player</module>
 		<module>rookit-core</module>
 		<module>rookit-data-model</module>
 		<module>rookit-data-model-test</module>
 		<module>rookit-mongodb</module>
 		<module>rookit-parser</module>
-		<module>rookit-spark-connector</module>
+		<module>rookit-player</module>
 		<module>rookit-utils</module>
 		<module>rookit-web-crawler</module>
 	</modules>
