@@ -1,6 +1,0 @@
-[submodule "rookit-player"]
-	path = rookit-player
-	url = https://github.com/JPDSousa/rookit-player.git
-[submodule "rookit-data-model"]
-	path = rookit-data-model
-	url = https://github.com/JPDSousa/rookit-data-model
