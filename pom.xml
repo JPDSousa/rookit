@@ -3,11 +3,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>rookit</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Rookit</name>
 	<properties>
-		<rookit.version>0.0.1-SNAPSHOT</rookit.version>
+		<rookit.version>-SNAPSHOT</rookit.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<rookit.group>com.github.JPDSousa</rookit.group>
