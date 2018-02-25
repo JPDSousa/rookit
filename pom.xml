@@ -7,10 +7,11 @@
 	<packaging>pom</packaging>
 	<name>Rookit</name>
 	<properties>
-		<rookit.version>-SNAPSHOT</rookit.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<rookit.group>com.github.JPDSousa</rookit.group>
+		<rookit.version>-SNAPSHOT</rookit.version>
+		<rookit.junit.version>4.12</rookit.junit.version>
 	</properties>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
@@ -125,7 +126,7 @@
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>4.12</version>
+				<version>${rookit.junit.version}</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -191,4 +192,14 @@
 		</dependencies>
 	</dependencyManagement>
 	<groupId>com.github.JPDSousa</groupId>
+	<modules>
+		<module>../rookit-api</module>
+		<module>../rookit-core</module>
+		<module>../rookit-data-model</module>
+		<module>../rookit-data-model-test</module>
+		<module>../rookit-mongodb</module>
+		<module>../rookit-mongodb-test</module>
+		<module>../rookit-parser</module>
+		<module>../rookit-utils</module>
+	</modules>
 </project>
