@@ -51,11 +51,6 @@
 						</execution>
 					</executions>
 				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>2.20.1</version>
-				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -144,7 +139,7 @@
 			<dependency>
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
-				<version>23.0</version>
+				<version>24.0-jre</version>
 			</dependency>
 			<dependency>
 				<groupId>com.google.inject</groupId>
@@ -201,5 +196,6 @@
 		<module>../rookit-mongodb-test</module>
 		<module>../rookit-parser</module>
 		<module>../rookit-utils</module>
+		<module>../rookit-test</module>
 	</modules>
 </project>
