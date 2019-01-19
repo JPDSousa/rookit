@@ -5,15 +5,30 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.JPDSousa</groupId>
     <artifactId>rookit</artifactId>
-    <version>-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Rookit</name>
+    <modules>
+        <module>../rookit-utils</module>
+        <module>../rookit-auto</module>
+        <module>../rookit-api</module>
+        <module>../rookit-data-model</module>
+        <module>../rookit-mongodb</module>
+        <module>../rookit-convention</module>
+        <module>../rookit-serializer</module>
+        <module>../rookit-failsafe</module>
+        <module>../rookit-test</module>
+        <module>../rookit-config</module>
+        <module>../rookit-io</module>
+        <module>../rookit-storage</module>
+    </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <rookit.group>com.github.JPDSousa</rookit.group>
-        <rookit.version>-SNAPSHOT</rookit.version>
+        <rookit.version>0.0.1-SNAPSHOT</rookit.version>
         <rookit.junit.version>4.12</rookit.junit.version>
+        <rookit.java.version>1.8</rookit.java.version>
     </properties>
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
@@ -30,9 +45,12 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.7.0</version>
                     <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
+                        <source>${rookit.java.version}</source>
+                        <target>${rookit.java.version}</target>
                         <showWarnings>true</showWarnings>
+                        <generatedSourcesDirectory>
+                            ${project.build.directory}/generated-sources
+                        </generatedSourcesDirectory>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -74,12 +92,6 @@
             </plugins>
         </pluginManagement>
     </build>
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
     <dependencies>
         <dependency>
             <groupId>com.google.guava</groupId>
