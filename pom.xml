@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.JPDSousa</groupId>
     <artifactId>rookit</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Rookit</name>
     <modules>
@@ -26,7 +26,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <rookit.group>com.github.JPDSousa</rookit.group>
-        <rookit.version>0.0.1-SNAPSHOT</rookit.version>
+        <rookit.version>-SNAPSHOT</rookit.version>
         <rookit.junit.version>4.12</rookit.junit.version>
         <rookit.java.version>1.8</rookit.java.version>
     </properties>
