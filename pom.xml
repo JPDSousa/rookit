@@ -2,26 +2,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
+
+    <packaging>pom</packaging>
+
     <groupId>com.github.JPDSousa</groupId>
     <artifactId>rookit</artifactId>
     <version>-SNAPSHOT</version>
-    <packaging>pom</packaging>
+
     <name>Rookit</name>
-    <modules>
-        <module>../rookit-utils</module>
-        <module>../rookit-auto</module>
-        <module>../rookit-api</module>
-        <module>../rookit-data-model</module>
-        <module>../rookit-mongodb</module>
-        <module>../rookit-convention</module>
-        <module>../rookit-serializer</module>
-        <module>../rookit-failsafe</module>
-        <module>../rookit-test</module>
-        <module>../rookit-config</module>
-        <module>../rookit-io</module>
-        <module>../rookit-storage</module>
-    </modules>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -30,14 +21,8 @@
         <rookit.junit.version>4.12</rookit.junit.version>
         <rookit.java.version>1.8</rookit.java.version>
     </properties>
+
     <build>
-        <sourceDirectory>src/main/java</sourceDirectory>
-        <testSourceDirectory>src/test/java</testSourceDirectory>
-        <testResources>
-            <testResource>
-                <directory>src/test/resources</directory>
-            </testResource>
-        </testResources>
         <pluginManagement>
             <plugins>
                 <plugin>
