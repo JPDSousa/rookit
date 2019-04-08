@@ -35,6 +35,7 @@
         <mockito.version>2.24.0</mockito.version>
         <mongodb.version>3.9.1</mongodb.version>
         <streamex.version>0.6.8</streamex.version>
+        <guava.version>27.1-jre</guava.version>
     </properties>
 
     <build>
