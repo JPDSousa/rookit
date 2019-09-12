@@ -50,6 +50,7 @@
         <music.theory.version>v0.6.9</music.theory.version>
         <nv-il8n.version>1.22</nv-il8n.version>
         <okhttp.version>3.10.0</okhttp.version>
+        <reflections.version>0.9.11</reflections.version>
         <rxjava.version>2.2.2</rxjava.version>
         <streamex.version>0.6.8</streamex.version>
         <slf4j.version>1.7.25</slf4j.version>
@@ -127,6 +128,12 @@
                 <version>${jackson.version}</version>
             </dependency>
 
+            <!-- Reflections -->
+            <dependency>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>${reflections.version}</version>
+            </dependency>
 
             <!-- Github -->
             <dependency>
