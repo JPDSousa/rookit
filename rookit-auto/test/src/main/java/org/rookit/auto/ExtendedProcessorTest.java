@@ -62,8 +62,7 @@ public interface ExtendedProcessorTest {
                 new AbstractModule() {
                     @Override
                     protected void configure() {
-                        bind(Filer.class).toInstance(filer);
-                        bind(Filer.class).annotatedWith(Proxied.class).to(Filer.class);
+                        bind(Filer.class).annotatedWith(Proxied.class).toInstance(filer);
                         bind(Messager.class).toInstance(messager);
                     }
 
