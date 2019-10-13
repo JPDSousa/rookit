@@ -1,0 +1,68 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.github.JPDSousa</groupId>
+        <artifactId>rookit</artifactId>
+        <version>-SNAPSHOT</version>
+    </parent>
+
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>rookit-mongodb-driver</module>
+        <module>rookit-mongodb-test</module>
+        <module>rookit-mongodb-api</module>
+        <module>rookit-mongodb-lib</module>
+    </modules>
+
+    <artifactId>rookit-mongodb</artifactId>
+
+    <name>Rookit MongoDB</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver-sync</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-api-dm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${rookit.group}.rookit-utils</groupId>
+            <artifactId>api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.mongodb</groupId>
+                <artifactId>mongodb-driver-sync</artifactId>
+                <version>3.7.1</version>
+            </dependency>
+            <dependency>
+                <groupId>${rookit.group}</groupId>
+                <artifactId>rookit-api-dm</artifactId>
+                <version>${rookit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${rookit.group}.rookit-utils</groupId>
+                <artifactId>api</artifactId>
+                <version>${rookit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${rookit.group}</groupId>
+                <artifactId>rookit-test</artifactId>
+                <version>${rookit.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

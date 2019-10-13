@@ -1,0 +1,360 @@
+{
+  "href": "https://api.spotify.com/v1/users/kryptonkirk/playlists?offset=5&limit=10",
+  "items": [
+    {
+      "collaborative": false,
+      "external_urls": {
+        "spotify": "https://open.spotify.com/playlist/6x0yl5LodaoJuIfGruXEHH"
+      },
+      "href": "https://api.spotify.com/v1/playlists/6x0yl5LodaoJuIfGruXEHH",
+      "id": "6x0yl5LodaoJuIfGruXEHH",
+      "images": [
+        {
+          "height": null,
+          "url": "https://pl.scdn.co/images/pl/default/209a8ce43554e9ebe1d0d886887fbaadc4ed7d30",
+          "width": null
+        }
+      ],
+      "name": "Future Bass & Chill Trap",
+      "owner": {
+        "display_name": "Aux London",
+        "external_urls": {
+          "spotify": "https://open.spotify.com/user/auxlondon"
+        },
+        "href": "https://api.spotify.com/v1/users/auxlondon",
+        "id": "auxlondon",
+        "type": "user",
+        "uri": "spotify:user:auxlondon"
+      },
+      "primary_color": null,
+      "public": false,
+      "snapshot_id": "MTg3MywwZmRiZjgzYjdiZDY3NzcxOTYxMDU3ZTYyYzBjMTdjYzliODk5OTQ1",
+      "tracks": {
+        "href": "https://api.spotify.com/v1/playlists/6x0yl5LodaoJuIfGruXEHH/tracks",
+        "total": 138
+      },
+      "type": "playlist",
+      "uri": "spotify:user:auxlondon:playlist:6x0yl5LodaoJuIfGruXEHH"
+    },
+    {
+      "collaborative": false,
+      "external_urls": {
+        "spotify": "https://open.spotify.com/playlist/3QXYksLeyoKUixpomAoR9j"
+      },
+      "href": "https://api.spotify.com/v1/playlists/3QXYksLeyoKUixpomAoR9j",
+      "id": "3QXYksLeyoKUixpomAoR9j",
+      "images": [
+        {
+          "height": null,
+          "url": "https://pl.scdn.co/images/pl/default/a4225f0fd428359024752f19e138b199b0c96bab",
+          "width": null
+        }
+      ],
+      "name": "Flyboy: The Skyride",
+      "owner": {
+        "display_name": "Flyboy",
+        "external_urls": {
+          "spotify": "https://open.spotify.com/user/1195405800"
+        },
+        "href": "https://api.spotify.com/v1/users/1195405800",
+        "id": "1195405800",
+        "type": "user",
+        "uri": "spotify:user:1195405800"
+      },
+      "primary_color": null,
+      "public": false,
+      "snapshot_id": "MTIxNywyNmE5NjMyMjIzYjE5MmU2MDg4Njc2MGZlOGEwNzY3NjFmOWEwZTA4",
+      "tracks": {
+        "href": "https://api.spotify.com/v1/playlists/3QXYksLeyoKUixpomAoR9j/tracks",
+        "total": 60
+      },
+      "type": "playlist",
+      "uri": "spotify:user:1195405800:playlist:3QXYksLeyoKUixpomAoR9j"
+    },
+    {
+      "collaborative": false,
+      "external_urls": {
+        "spotify": "https://open.spotify.com/playlist/3ALvEYoNQKWc8lpgEXMAdy"
+      },
+      "href": "https://api.spotify.com/v1/playlists/3ALvEYoNQKWc8lpgEXMAdy",
+      "id": "3ALvEYoNQKWc8lpgEXMAdy",
+      "images": [
+        {
+          "height": null,
+          "url": "https://pl.scdn.co/images/pl/default/b7d400e3ac65797200fb0f2c48d495d9901a8e60",
+          "width": null
+        }
+      ],
+      "name": "The Zoo | Elephante",
+      "owner": {
+        "display_name": null,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/user/iamtheelephante"
+        },
+        "href": "https://api.spotify.com/v1/users/iamtheelephante",
+        "id": "iamtheelephante",
+        "type": "user",
+        "uri": "spotify:user:iamtheelephante"
+      },
+      "primary_color": null,
+      "public": true,
+      "snapshot_id": "MTE3Nyw4YjhkNmI4NmE1Y2VmZjQyMmE5M2I3MmE2YTNjMTVkZjc3ZWE1OWU3",
+      "tracks": {
+        "href": "https://api.spotify.com/v1/playlists/3ALvEYoNQKWc8lpgEXMAdy/tracks",
+        "total": 47
+      },
+      "type": "playlist",
+      "uri": "spotify:user:iamtheelephante:playlist:3ALvEYoNQKWc8lpgEXMAdy"
+    },
+    {
+      "collaborative": false,
+      "external_urls": {
+        "spotify": "https://open.spotify.com/playlist/7xRVn4q3S4bsOc4G5x36Ci"
+      },
+      "href": "https://api.spotify.com/v1/playlists/7xRVn4q3S4bsOc4G5x36Ci",
+      "id": "7xRVn4q3S4bsOc4G5x36Ci",
+      "images": [
+        {
+          "height": null,
+          "url": "https://pl.scdn.co/images/pl/default/c570f6a8619835042c3102098f0eefbe2c47828f",
+          "width": null
+        }
+      ],
+      "name": "theartistunion",
+      "owner": {
+        "display_name": null,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/user/theartistunion"
+        },
+        "href": "https://api.spotify.com/v1/users/theartistunion",
+        "id": "theartistunion",
+        "type": "user",
+        "uri": "spotify:user:theartistunion"
+      },
+      "primary_color": null,
+      "public": true,
+      "snapshot_id": "MTM5OCwzNmU5YzVhNGQxZTA2ZWU5NjlmODA5ZWMyYWJjYzA3MjczMzgzYTMz",
+      "tracks": {
+        "href": "https://api.spotify.com/v1/playlists/7xRVn4q3S4bsOc4G5x36Ci/tracks",
+        "total": 68
+      },
+      "type": "playlist",
+      "uri": "spotify:user:theartistunion:playlist:7xRVn4q3S4bsOc4G5x36Ci"
+    },
+    {
+      "collaborative": false,
+      "external_urls": {
+        "spotify": "https://open.spotify.com/playlist/0xi25Vfgv2VIUEo8YfI29j"
+      },
+      "href": "https://api.spotify.com/v1/playlists/0xi25Vfgv2VIUEo8YfI29j",
+      "id": "0xi25Vfgv2VIUEo8YfI29j",
+      "images": [
+        {
+          "height": null,
+          "url": "https://pl.scdn.co/images/pl/default/cdf1a36aa5bb19c5399494ede1936da139ac8286",
+          "width": null
+        }
+      ],
+      "name": "Bigroom House Top 50",
+      "owner": {
+        "display_name": "Sash_S",
+        "external_urls": {
+          "spotify": "https://open.spotify.com/user/melodictune"
+        },
+        "href": "https://api.spotify.com/v1/users/melodictune",
+        "id": "melodictune",
+        "type": "user",
+        "uri": "spotify:user:melodictune"
+      },
+      "primary_color": null,
+      "public": true,
+      "snapshot_id": "MTIzMiwyY2FhY2FmOTE3ZDQ5ODQ4OThkMGE2MjRhNTcyZjQxMWZlMzNmNjQ1",
+      "tracks": {
+        "href": "https://api.spotify.com/v1/playlists/0xi25Vfgv2VIUEo8YfI29j/tracks",
+        "total": 44
+      },
+      "type": "playlist",
+      "uri": "spotify:user:melodictune:playlist:0xi25Vfgv2VIUEo8YfI29j"
+    },
+    {
+      "collaborative": false,
+      "external_urls": {
+        "spotify": "https://open.spotify.com/playlist/4hqpZwVoOtiyfWdj35EzNp"
+      },
+      "href": "https://api.spotify.com/v1/playlists/4hqpZwVoOtiyfWdj35EzNp",
+      "id": "4hqpZwVoOtiyfWdj35EzNp",
+      "images": [
+        {
+          "height": null,
+          "url": "https://pl.scdn.co/images/pl/default/ff38fe85cad5b8add393d7c0279eb77126ffcce3",
+          "width": null
+        }
+      ],
+      "name": "Simplify. New Releases",
+      "owner": {
+        "display_name": "Simplify.",
+        "external_urls": {
+          "spotify": "https://open.spotify.com/user/simplifyrecordings"
+        },
+        "href": "https://api.spotify.com/v1/users/simplifyrecordings",
+        "id": "simplifyrecordings",
+        "type": "user",
+        "uri": "spotify:user:simplifyrecordings"
+      },
+      "primary_color": null,
+      "public": true,
+      "snapshot_id": "MjY0NCxkYmUwNDliZDgwM2QxMDMyZTFlZDUyNDljMzFjNTFiNDE3NDUzZjVl",
+      "tracks": {
+        "href": "https://api.spotify.com/v1/playlists/4hqpZwVoOtiyfWdj35EzNp/tracks",
+        "total": 201
+      },
+      "type": "playlist",
+      "uri": "spotify:user:simplifyrecordings:playlist:4hqpZwVoOtiyfWdj35EzNp"
+    },
+    {
+      "collaborative": false,
+      "external_urls": {
+        "spotify": "https://open.spotify.com/playlist/0vhCn7FJi7OxLA52VdK6Pw"
+      },
+      "href": "https://api.spotify.com/v1/playlists/0vhCn7FJi7OxLA52VdK6Pw",
+      "id": "0vhCn7FJi7OxLA52VdK6Pw",
+      "images": [
+        {
+          "height": null,
+          "url": "https://pl.scdn.co/images/pl/default/fa1769f62f12619d73c0c3b184fcedbdc7f5013b",
+          "width": null
+        }
+      ],
+      "name": "Golden Vibes | Best Pop & Future Trap Music",
+      "owner": {
+        "display_name": "Golden Frame",
+        "external_urls": {
+          "spotify": "https://open.spotify.com/user/goldenfra.me"
+        },
+        "href": "https://api.spotify.com/v1/users/goldenfra.me",
+        "id": "goldenfra.me",
+        "type": "user",
+        "uri": "spotify:user:goldenfra.me"
+      },
+      "primary_color": null,
+      "public": false,
+      "snapshot_id": "NDIyLGM3ZTU5OTYwNWNlMDRhNTU0YTFlZDFhMTlkZWVkNDBhNGY3YTBiNmI=",
+      "tracks": {
+        "href": "https://api.spotify.com/v1/playlists/0vhCn7FJi7OxLA52VdK6Pw/tracks",
+        "total": 72
+      },
+      "type": "playlist",
+      "uri": "spotify:user:goldenfra.me:playlist:0vhCn7FJi7OxLA52VdK6Pw"
+    },
+    {
+      "collaborative": false,
+      "external_urls": {
+        "spotify": "https://open.spotify.com/playlist/6yOuTYrDAk5EaUXZriLCkG"
+      },
+      "href": "https://api.spotify.com/v1/playlists/6yOuTYrDAk5EaUXZriLCkG",
+      "id": "6yOuTYrDAk5EaUXZriLCkG",
+      "images": [
+        {
+          "height": null,
+          "url": "https://pl.scdn.co/images/pl/default/54575da77087121a51c29fe58460a5350cc06b06",
+          "width": null
+        }
+      ],
+      "name": "Golden Beats | Best Hip-Hop & Trap Music",
+      "owner": {
+        "display_name": "Golden Frame",
+        "external_urls": {
+          "spotify": "https://open.spotify.com/user/goldenfra.me"
+        },
+        "href": "https://api.spotify.com/v1/users/goldenfra.me",
+        "id": "goldenfra.me",
+        "type": "user",
+        "uri": "spotify:user:goldenfra.me"
+      },
+      "primary_color": null,
+      "public": false,
+      "snapshot_id": "NTk2LDdmMDk4ZWY4NTgxNjM4MWMyOWFlNDg4NDlhOGQyM2JkYzQ4ZGQ0YTQ=",
+      "tracks": {
+        "href": "https://api.spotify.com/v1/playlists/6yOuTYrDAk5EaUXZriLCkG/tracks",
+        "total": 79
+      },
+      "type": "playlist",
+      "uri": "spotify:user:goldenfra.me:playlist:6yOuTYrDAk5EaUXZriLCkG"
+    },
+    {
+      "collaborative": false,
+      "external_urls": {
+        "spotify": "https://open.spotify.com/playlist/37i9dQZEVXcOh33K1hEnLe"
+      },
+      "href": "https://api.spotify.com/v1/playlists/37i9dQZEVXcOh33K1hEnLe",
+      "id": "37i9dQZEVXcOh33K1hEnLe",
+      "images": [
+        {
+          "height": 300,
+          "url": "https://i.scdn.co/image/6682aad217c11156e6d8985036996f1ea7ebb518",
+          "width": 300
+        }
+      ],
+      "name": "Discover Weekly",
+      "owner": {
+        "display_name": "Spotify",
+        "external_urls": {
+          "spotify": "https://open.spotify.com/user/spotify"
+        },
+        "href": "https://api.spotify.com/v1/users/spotify",
+        "id": "spotify",
+        "type": "user",
+        "uri": "spotify:user:spotify"
+      },
+      "primary_color": null,
+      "public": false,
+      "snapshot_id": "MjU2MTkwNDAsMDAwMDAwMDAzNDU3OWMzZGE1N2I0ZThhMWNlMWUyNzMzOGUwOTU3MQ==",
+      "tracks": {
+        "href": "https://api.spotify.com/v1/playlists/37i9dQZEVXcOh33K1hEnLe/tracks",
+        "total": 30
+      },
+      "type": "playlist",
+      "uri": "spotify:user:spotify:playlist:37i9dQZEVXcOh33K1hEnLe"
+    },
+    {
+      "collaborative": false,
+      "external_urls": {
+        "spotify": "https://open.spotify.com/playlist/6Gp3E89xD6vRQtuAKFizMo"
+      },
+      "href": "https://api.spotify.com/v1/playlists/6Gp3E89xD6vRQtuAKFizMo",
+      "id": "6Gp3E89xD6vRQtuAKFizMo",
+      "images": [
+        {
+          "height": null,
+          "url": "https://pl.scdn.co/images/pl/default/64a6761556440b4618d9d5bfc6b1510dc6e485b6",
+          "width": null
+        }
+      ],
+      "name": "Dim Mak New Releases",
+      "owner": {
+        "display_name": "Dim Mak Records",
+        "external_urls": {
+          "spotify": "https://open.spotify.com/user/dimmakrecords"
+        },
+        "href": "https://api.spotify.com/v1/users/dimmakrecords",
+        "id": "dimmakrecords",
+        "type": "user",
+        "uri": "spotify:user:dimmakrecords"
+      },
+      "primary_color": null,
+      "public": true,
+      "snapshot_id": "MzA5NCw2ZjZhNGUzOWM4MmFkNjUwMjRiMjQ0YWVjMTQ2MTk5MWM3YzAyN2Fj",
+      "tracks": {
+        "href": "https://api.spotify.com/v1/playlists/6Gp3E89xD6vRQtuAKFizMo/tracks",
+        "total": 67
+      },
+      "type": "playlist",
+      "uri": "spotify:user:dimmakrecords:playlist:6Gp3E89xD6vRQtuAKFizMo"
+    }
+  ],
+  "limit": 10,
+  "next": "https://api.spotify.com/v1/users/kryptonkirk/playlists?offset=15&limit=10",
+  "offset": 5,
+  "previous": "https://api.spotify.com/v1/users/kryptonkirk/playlists?offset=0&limit=10",
+  "total": 20
+}

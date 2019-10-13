@@ -1,0 +1,69 @@
+{
+  "storage": {
+    "enabled": true,
+    "basePackage": "storage",
+    "partialEntityTemplate": "Generic{}",
+    "filter": {
+      "enabled": true,
+      "parameterName": "I",
+      "basePackage": "filter",
+      "entityTemplate": "{}Filter",
+      "methodTemplate": "with{}"
+    },
+    "query": {
+      "enabled": true,
+      "parameterName": "Q",
+      "elementParameterName": "E",
+      "basePackage": "query",
+      "entityTemplate": "{}Query",
+      "methodTemplate": "with{}"
+    },
+    "updateFilter": {
+      "enabled": true,
+      "parameterName": "P",
+      "basePackage": "update.filter",
+      "entityTemplate": "{}UpdateFilterQuery"
+    },
+    "update": {
+      "enabled": true,
+      "parameterName": "U",
+      "basePackage": "update",
+      "entityTemplate": "{}UpdateQuery",
+      "methodTemplate": "set{}"
+    }
+  },
+  "convention": {
+    "basePackage": "meta",
+    "api": {
+      "enabled": true,
+      "parameterName": "M",
+      "entityTemplate": "{}MetaType",
+      "partialEntityTemplate": "Generic{}MetaType"
+    },
+    "metatype": {
+      "enabled": true,
+      "entityTemplate": "{}MetaTypeImpl"
+    },
+    "property": {
+      "enabled": true,
+      "parameterName": "T",
+      "entityTemplate": "{}MetaTypeImpl",
+      "naming": {
+        "type": "modelType",
+        "serializer": "modelSerializer",
+        "propertyName": "propertyName",
+        "getter": "getter"
+      }
+    },
+    "module": {
+      "enabled": true,
+      "singletonMethodName": "getModule",
+      "entityTemplate": "{}MetaTypeModule"
+    }
+  },
+  "guice": {
+    "enabled": true,
+    "basePackage": "guice",
+    "propertyPackage": "org.rookit.api.meta"
+  }
+}

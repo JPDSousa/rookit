@@ -12,6 +12,20 @@
     <artifactId>rookit</artifactId>
     <version>-SNAPSHOT</version>
 
+    <modules>
+        <module>rookit-api</module>
+        <module>rookit-auto</module>
+        <module>rookit-config</module>
+        <module>rookit-convention</module>
+        <module>rookit-failsafe</module>
+        <module>rookit-guice</module>
+        <module>rookit-io</module>
+        <module>rookit-serializer</module>
+        <module>rookit-storage</module>
+        <module>rookit-test</module>
+        <module>rookit-utils</module>
+    </modules>
+
     <name>Rookit</name>
 
     <properties>

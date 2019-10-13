@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.github.JPDSousa</groupId>
+    <artifactId>rookit-accumulator</artifactId>
+    <version>-SNAPSHOT</version>
+  </parent>
+  <artifactId>rookit-accumulator-auto</artifactId>
+  <name>Rookit Data Model Accumulator (code generation)</name>
+  <dependencies>
+    <dependency>
+        <groupId>com.squareup</groupId>
+        <artifactId>javapoet</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>com.google.auto.service</groupId>
+        <artifactId>auto-service</artifactId>
+    </dependency>
+      <dependency>
+          <groupId>${rookit.group}</groupId>
+          <artifactId>rookit-accumulator-core</artifactId>
+      </dependency>
+  </dependencies>
+  <dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-accumulator-core</artifactId>
+            <version>-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup</groupId>
+            <artifactId>javapoet</artifactId>
+            <version>1.10.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.auto.service</groupId>
+            <artifactId>auto-service</artifactId>
+            <version>1.0-rc4</version>
+        </dependency>
+    </dependencies>
+  </dependencyManagement>
+</project>

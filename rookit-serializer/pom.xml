@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>com.github.JPDSousa</groupId>
+        <artifactId>rookit</artifactId>
+        <version>-SNAPSHOT</version>
+    </parent>
+
+    <modules>
+        <module>api</module>
+        <module>lib</module>
+        <module>bson</module>
+        <module>json</module>
+        <module>bundle</module>
+    </modules>
+
+    <groupId>com.github.JPDSousa.rookit-serializer</groupId>
+    <artifactId>rookit-serializer</artifactId>
+
+    <name>Rookit Serializer</name>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>${rookit.group}.rookit-failsafe</groupId>
+                <artifactId>api</artifactId>
+                <version>${rookit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${rookit.group}.rookit-io</groupId>
+                <artifactId>path-api</artifactId>
+                <version>${rookit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${rookit.group}.rookit-serializer</groupId>
+                <artifactId>api</artifactId>
+                <version>${rookit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${rookit.group}.rookit-serializer</groupId>
+                <artifactId>bson</artifactId>
+                <version>${rookit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${rookit.group}.rookit-serializer</groupId>
+                <artifactId>json</artifactId>
+                <version>${rookit.version}</version>
+            </dependency>
+            <!-- TODO move me conviniently -->
+            <dependency>
+                <groupId>com.esotericsoftware</groupId>
+                <artifactId>kryo</artifactId>
+                <version>4.0.2</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    
+</project>

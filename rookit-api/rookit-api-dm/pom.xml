@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.github.JPDSousa</groupId>
+        <artifactId>rookit-api</artifactId>
+        <version>-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>rookit-api-dm</artifactId>
+    <name>Rookit Data Model API</name>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <configuration combine.self="override">
+                            <annotationProcessorPaths>
+                            </annotationProcessorPaths>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>${rookit.group}.rookit-utils</groupId>
+            <artifactId>api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${rookit.group}.rookit-storage</groupId>
+            <artifactId>api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.Andy671</groupId>
+            <artifactId>MusicTheory</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.neovisionaries</groupId>
+            <artifactId>nv-i18n</artifactId>
+        </dependency>
+        <!-- Code Generators -->
+        <dependency>
+            <groupId>${rookit.group}.rookit-convention</groupId>
+            <artifactId>auto-guice</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>${rookit.group}.rookit-convention</groupId>
+            <artifactId>auto-metatype-api-generator</artifactId>
+            <scope>provided</scope>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>${rookit.group}.rookit-convention</groupId>-->
+<!--            <artifactId>auto-metatype-type</artifactId>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>${rookit.group}.rookit-convention</groupId>-->
+<!--            <artifactId>auto-metatype-property</artifactId>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>${rookit.group}.rookit-convention</groupId>-->
+<!--            <artifactId>auto-module</artifactId>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>${rookit.group}.rookit-storage</groupId>-->
+            <!--<artifactId>auto-filter</artifactId>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>${rookit.group}.rookit-storage</groupId>-->
+            <!--<artifactId>auto-query</artifactId>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>${rookit.group}.rookit-storage</groupId>-->
+            <!--<artifactId>auto-update-filter</artifactId>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>${rookit.group}.rookit-storage</groupId>-->
+            <!--<artifactId>auto-update</artifactId>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
+    </dependencies>
+
+</project>

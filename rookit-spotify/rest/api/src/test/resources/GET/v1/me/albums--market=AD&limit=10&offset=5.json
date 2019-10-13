@@ -1,0 +1,1032 @@
+{
+  "href": "https://api.spotify.com/v1/me/albums?offset=5&limit=10",
+  "items": [
+    {
+      "added_at": "2014-07-15T18:11:33Z",
+      "album": {
+        "album_type": "single",
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/7dc6hUwyuIhrZdh80eaCEE"
+            },
+            "href": "https://api.spotify.com/v1/artists/7dc6hUwyuIhrZdh80eaCEE",
+            "id": "7dc6hUwyuIhrZdh80eaCEE",
+            "name": "Fedde Le Grand",
+            "type": "artist",
+            "uri": "spotify:artist:7dc6hUwyuIhrZdh80eaCEE"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/0d1nFNO90pwRmCeeqjOx2Q"
+            },
+            "href": "https://api.spotify.com/v1/artists/0d1nFNO90pwRmCeeqjOx2Q",
+            "id": "0d1nFNO90pwRmCeeqjOx2Q",
+            "name": "Di-Rect",
+            "type": "artist",
+            "uri": "spotify:artist:0d1nFNO90pwRmCeeqjOx2Q"
+          }
+        ],
+        "available_markets": [],
+        "copyrights": [
+          {
+            "text": "© 2013 Universal Music B.V., The Netherlands",
+            "type": "C"
+          },
+          {
+            "text": "℗ 2013 Universal Music B.V., The Netherlands",
+            "type": "P"
+          }
+        ],
+        "external_ids": {
+          "upc": "00602537602711"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/album/1elmKJJ651Wml8Nai8UVm5"
+        },
+        "genres": [],
+        "href": "https://api.spotify.com/v1/albums/1elmKJJ651Wml8Nai8UVm5",
+        "id": "1elmKJJ651Wml8Nai8UVm5",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/f126d1726f56c9df0d1a289ed3dac8c65bdb52d2",
+            "width": 640
+          },
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/767d3d26567ee6a827a50f37145d8efb58191c6d",
+            "width": 300
+          },
+          {
+            "height": 64,
+            "url": "https://i.scdn.co/image/07fff60b2dfc904520af7b3b64c650035b301500",
+            "width": 64
+          }
+        ],
+        "label": "Universal Music Group",
+        "name": "Where We Belong",
+        "popularity": 2,
+        "release_date": "2013-01-01",
+        "release_date_precision": "day",
+        "total_tracks": 1,
+        "tracks": {
+          "href": "https://api.spotify.com/v1/albums/1elmKJJ651Wml8Nai8UVm5/tracks?offset=0&limit=50",
+          "items": [
+            {
+              "artists": [
+                {
+                  "external_urls": {
+                    "spotify": "https://open.spotify.com/artist/7dc6hUwyuIhrZdh80eaCEE"
+                  },
+                  "href": "https://api.spotify.com/v1/artists/7dc6hUwyuIhrZdh80eaCEE",
+                  "id": "7dc6hUwyuIhrZdh80eaCEE",
+                  "name": "Fedde Le Grand",
+                  "type": "artist",
+                  "uri": "spotify:artist:7dc6hUwyuIhrZdh80eaCEE"
+                },
+                {
+                  "external_urls": {
+                    "spotify": "https://open.spotify.com/artist/0d1nFNO90pwRmCeeqjOx2Q"
+                  },
+                  "href": "https://api.spotify.com/v1/artists/0d1nFNO90pwRmCeeqjOx2Q",
+                  "id": "0d1nFNO90pwRmCeeqjOx2Q",
+                  "name": "Di-Rect",
+                  "type": "artist",
+                  "uri": "spotify:artist:0d1nFNO90pwRmCeeqjOx2Q"
+                }
+              ],
+              "available_markets": [],
+              "disc_number": 1,
+              "duration_ms": 240906,
+              "explicit": false,
+              "external_urls": {
+                "spotify": "https://open.spotify.com/track/7hXqAfbPAAX9o2HIppKQHa"
+              },
+              "href": "https://api.spotify.com/v1/tracks/7hXqAfbPAAX9o2HIppKQHa",
+              "id": "7hXqAfbPAAX9o2HIppKQHa",
+              "is_local": false,
+              "name": "Where We Belong",
+              "preview_url": null,
+              "track_number": 1,
+              "type": "track",
+              "uri": "spotify:track:7hXqAfbPAAX9o2HIppKQHa"
+            }
+          ],
+          "limit": 50,
+          "next": null,
+          "offset": 0,
+          "previous": null,
+          "total": 1
+        },
+        "type": "album",
+        "uri": "spotify:album:1elmKJJ651Wml8Nai8UVm5"
+      }
+    },
+    {
+      "added_at": "2014-07-15T18:10:41Z",
+      "album": {
+        "album_type": "single",
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/5he5w2lnU9x7JFhnwcekXX"
+            },
+            "href": "https://api.spotify.com/v1/artists/5he5w2lnU9x7JFhnwcekXX",
+            "id": "5he5w2lnU9x7JFhnwcekXX",
+            "name": "Skrillex",
+            "type": "artist",
+            "uri": "spotify:artist:5he5w2lnU9x7JFhnwcekXX"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/3QJzdZJYIAcoET1GcfpNGi"
+            },
+            "href": "https://api.spotify.com/v1/artists/3QJzdZJYIAcoET1GcfpNGi",
+            "id": "3QJzdZJYIAcoET1GcfpNGi",
+            "name": "Damian Marley",
+            "type": "artist",
+            "uri": "spotify:artist:3QJzdZJYIAcoET1GcfpNGi"
+          }
+        ],
+        "available_markets": [
+          "AD",
+          "AR",
+          "AT",
+          "AU",
+          "BE",
+          "BG",
+          "BO",
+          "BR",
+          "CA",
+          "CH",
+          "CL",
+          "CO",
+          "CR",
+          "CY",
+          "CZ",
+          "DE",
+          "DK",
+          "DO",
+          "EC",
+          "EE",
+          "ES",
+          "FI",
+          "FR",
+          "GB",
+          "GR",
+          "GT",
+          "HK",
+          "HN",
+          "HU",
+          "ID",
+          "IE",
+          "IL",
+          "IS",
+          "IT",
+          "JP",
+          "LI",
+          "LT",
+          "LU",
+          "LV",
+          "MC",
+          "MT",
+          "MX",
+          "MY",
+          "NI",
+          "NL",
+          "NO",
+          "NZ",
+          "PA",
+          "PE",
+          "PH",
+          "PL",
+          "PT",
+          "PY",
+          "RO",
+          "SE",
+          "SG",
+          "SK",
+          "SV",
+          "TH",
+          "TR",
+          "TW",
+          "US",
+          "UY",
+          "VN",
+          "ZA"
+        ],
+        "copyrights": [
+          {
+            "text": "2012 OWSLA/Big Beat Records for the United States and WEA International for the world outside the United States.",
+            "type": "C"
+          },
+          {
+            "text": "2012 OWSLA/Big Beat Records for the United States and WEA International for the world outside the United States.",
+            "type": "P"
+          }
+        ],
+        "external_ids": {
+          "upc": "075679961136"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/album/381oom8nio77eU6BuUb4UO"
+        },
+        "genres": [],
+        "href": "https://api.spotify.com/v1/albums/381oom8nio77eU6BuUb4UO",
+        "id": "381oom8nio77eU6BuUb4UO",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/76feb81998f14a28bb6a474ddad3e37aae868317",
+            "width": 640
+          },
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/161c35158e4311d19cc2b73dd61b3784f0847d87",
+            "width": 300
+          },
+          {
+            "height": 64,
+            "url": "https://i.scdn.co/image/a47ca1781a5b4b5ac6d03c68e793b11a0f05ac44",
+            "width": 64
+          }
+        ],
+        "label": "Big Beat Records/OWSLA",
+        "name": "Make It Bun Dem",
+        "popularity": 54,
+        "release_date": "2012-05-01",
+        "release_date_precision": "day",
+        "total_tracks": 1,
+        "tracks": {
+          "href": "https://api.spotify.com/v1/albums/381oom8nio77eU6BuUb4UO/tracks?offset=0&limit=50",
+          "items": [
+            {
+              "artists": [
+                {
+                  "external_urls": {
+                    "spotify": "https://open.spotify.com/artist/5he5w2lnU9x7JFhnwcekXX"
+                  },
+                  "href": "https://api.spotify.com/v1/artists/5he5w2lnU9x7JFhnwcekXX",
+                  "id": "5he5w2lnU9x7JFhnwcekXX",
+                  "name": "Skrillex",
+                  "type": "artist",
+                  "uri": "spotify:artist:5he5w2lnU9x7JFhnwcekXX"
+                },
+                {
+                  "external_urls": {
+                    "spotify": "https://open.spotify.com/artist/3QJzdZJYIAcoET1GcfpNGi"
+                  },
+                  "href": "https://api.spotify.com/v1/artists/3QJzdZJYIAcoET1GcfpNGi",
+                  "id": "3QJzdZJYIAcoET1GcfpNGi",
+                  "name": "Damian Marley",
+                  "type": "artist",
+                  "uri": "spotify:artist:3QJzdZJYIAcoET1GcfpNGi"
+                }
+              ],
+              "available_markets": [
+                "AD",
+                "AR",
+                "AT",
+                "AU",
+                "BE",
+                "BG",
+                "BO",
+                "BR",
+                "CA",
+                "CH",
+                "CL",
+                "CO",
+                "CR",
+                "CY",
+                "CZ",
+                "DE",
+                "DK",
+                "DO",
+                "EC",
+                "EE",
+                "ES",
+                "FI",
+                "FR",
+                "GB",
+                "GR",
+                "GT",
+                "HK",
+                "HN",
+                "HU",
+                "ID",
+                "IE",
+                "IL",
+                "IS",
+                "IT",
+                "JP",
+                "LI",
+                "LT",
+                "LU",
+                "LV",
+                "MC",
+                "MT",
+                "MX",
+                "MY",
+                "NI",
+                "NL",
+                "NO",
+                "NZ",
+                "PA",
+                "PE",
+                "PH",
+                "PL",
+                "PT",
+                "PY",
+                "RO",
+                "SE",
+                "SG",
+                "SK",
+                "SV",
+                "TH",
+                "TR",
+                "TW",
+                "US",
+                "UY",
+                "VN",
+                "ZA"
+              ],
+              "disc_number": 1,
+              "duration_ms": 213696,
+              "explicit": false,
+              "external_urls": {
+                "spotify": "https://open.spotify.com/track/6AbVJjzv7thIvmMCuhZrmK"
+              },
+              "href": "https://api.spotify.com/v1/tracks/6AbVJjzv7thIvmMCuhZrmK",
+              "id": "6AbVJjzv7thIvmMCuhZrmK",
+              "is_local": false,
+              "name": "Make It Bun Dem",
+              "preview_url": "https://p.scdn.co/mp3-preview/6c5a8c709156eaa212b319d915d9b1c3a3505d90?cid=774b29d4f13844c495f206cafdad9c86",
+              "track_number": 1,
+              "type": "track",
+              "uri": "spotify:track:6AbVJjzv7thIvmMCuhZrmK"
+            }
+          ],
+          "limit": 50,
+          "next": null,
+          "offset": 0,
+          "previous": null,
+          "total": 1
+        },
+        "type": "album",
+        "uri": "spotify:album:381oom8nio77eU6BuUb4UO"
+      }
+    },
+    {
+      "added_at": "2014-07-15T18:09:59Z",
+      "album": {
+        "album_type": "single",
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/73jBynjsVtofjRpdpRAJGk"
+            },
+            "href": "https://api.spotify.com/v1/artists/73jBynjsVtofjRpdpRAJGk",
+            "id": "73jBynjsVtofjRpdpRAJGk",
+            "name": "Dimitri Vegas & Like Mike",
+            "type": "artist",
+            "uri": "spotify:artist:73jBynjsVtofjRpdpRAJGk"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/4pwXiI7Z5ZStkgKowZyoKi"
+            },
+            "href": "https://api.spotify.com/v1/artists/4pwXiI7Z5ZStkgKowZyoKi",
+            "id": "4pwXiI7Z5ZStkgKowZyoKi",
+            "name": "Like Mike",
+            "type": "artist",
+            "uri": "spotify:artist:4pwXiI7Z5ZStkgKowZyoKi"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/1Wt63OMKtv6v2ivHuQLm2C"
+            },
+            "href": "https://api.spotify.com/v1/artists/1Wt63OMKtv6v2ivHuQLm2C",
+            "id": "1Wt63OMKtv6v2ivHuQLm2C",
+            "name": "Coone",
+            "type": "artist",
+            "uri": "spotify:artist:1Wt63OMKtv6v2ivHuQLm2C"
+          }
+        ],
+        "available_markets": [
+          "AD",
+          "AR",
+          "AT",
+          "AU",
+          "BE",
+          "BG",
+          "BO",
+          "BR",
+          "CA",
+          "CH",
+          "CL",
+          "CO",
+          "CR",
+          "CY",
+          "CZ",
+          "DE",
+          "DK",
+          "DO",
+          "EC",
+          "EE",
+          "ES",
+          "FI",
+          "FR",
+          "GB",
+          "GR",
+          "GT",
+          "HK",
+          "HN",
+          "HU",
+          "ID",
+          "IE",
+          "IL",
+          "IS",
+          "IT",
+          "JP",
+          "LI",
+          "LT",
+          "LU",
+          "LV",
+          "MC",
+          "MT",
+          "MX",
+          "MY",
+          "NI",
+          "NL",
+          "NO",
+          "NZ",
+          "PA",
+          "PE",
+          "PH",
+          "PL",
+          "PT",
+          "PY",
+          "RO",
+          "SE",
+          "SG",
+          "SK",
+          "SV",
+          "TH",
+          "TR",
+          "TW",
+          "US",
+          "UY",
+          "VN",
+          "ZA"
+        ],
+        "copyrights": [
+          {
+            "text": "2013 Dim Mak Inc.",
+            "type": "C"
+          },
+          {
+            "text": "2013 Dim Mak Inc.",
+            "type": "P"
+          }
+        ],
+        "external_ids": {
+          "upc": "887396687530"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/album/74jlBb8zAwPriWI6Jpm7ak"
+        },
+        "genres": [],
+        "href": "https://api.spotify.com/v1/albums/74jlBb8zAwPriWI6Jpm7ak",
+        "id": "74jlBb8zAwPriWI6Jpm7ak",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/356374c678be48495afae6471aa008a1e2bcdc23",
+            "width": 640
+          },
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/24bf32b6a4975a5b394cb8307ccc313d3cbc7b88",
+            "width": 300
+          },
+          {
+            "height": 64,
+            "url": "https://i.scdn.co/image/e3ad0ac1817dbf38aa70eae62d0e8e5c1e536f02",
+            "width": 64
+          }
+        ],
+        "label": "Dim Mak",
+        "name": "Madness [feat. Lil Jon]",
+        "popularity": 33,
+        "release_date": "2014-05-20",
+        "release_date_precision": "day",
+        "total_tracks": 1,
+        "tracks": {
+          "href": "https://api.spotify.com/v1/albums/74jlBb8zAwPriWI6Jpm7ak/tracks?offset=0&limit=50",
+          "items": [
+            {
+              "artists": [
+                {
+                  "external_urls": {
+                    "spotify": "https://open.spotify.com/artist/73jBynjsVtofjRpdpRAJGk"
+                  },
+                  "href": "https://api.spotify.com/v1/artists/73jBynjsVtofjRpdpRAJGk",
+                  "id": "73jBynjsVtofjRpdpRAJGk",
+                  "name": "Dimitri Vegas & Like Mike",
+                  "type": "artist",
+                  "uri": "spotify:artist:73jBynjsVtofjRpdpRAJGk"
+                },
+                {
+                  "external_urls": {
+                    "spotify": "https://open.spotify.com/artist/4pwXiI7Z5ZStkgKowZyoKi"
+                  },
+                  "href": "https://api.spotify.com/v1/artists/4pwXiI7Z5ZStkgKowZyoKi",
+                  "id": "4pwXiI7Z5ZStkgKowZyoKi",
+                  "name": "Like Mike",
+                  "type": "artist",
+                  "uri": "spotify:artist:4pwXiI7Z5ZStkgKowZyoKi"
+                },
+                {
+                  "external_urls": {
+                    "spotify": "https://open.spotify.com/artist/1Wt63OMKtv6v2ivHuQLm2C"
+                  },
+                  "href": "https://api.spotify.com/v1/artists/1Wt63OMKtv6v2ivHuQLm2C",
+                  "id": "1Wt63OMKtv6v2ivHuQLm2C",
+                  "name": "Coone",
+                  "type": "artist",
+                  "uri": "spotify:artist:1Wt63OMKtv6v2ivHuQLm2C"
+                },
+                {
+                  "external_urls": {
+                    "spotify": "https://open.spotify.com/artist/7sfl4Xt5KmfyDs2T3SVSMK"
+                  },
+                  "href": "https://api.spotify.com/v1/artists/7sfl4Xt5KmfyDs2T3SVSMK",
+                  "id": "7sfl4Xt5KmfyDs2T3SVSMK",
+                  "name": "Lil Jon",
+                  "type": "artist",
+                  "uri": "spotify:artist:7sfl4Xt5KmfyDs2T3SVSMK"
+                }
+              ],
+              "available_markets": [
+                "AD",
+                "AR",
+                "AT",
+                "AU",
+                "BE",
+                "BG",
+                "BO",
+                "BR",
+                "CA",
+                "CH",
+                "CL",
+                "CO",
+                "CR",
+                "CY",
+                "CZ",
+                "DE",
+                "DK",
+                "DO",
+                "EC",
+                "EE",
+                "ES",
+                "FI",
+                "FR",
+                "GB",
+                "GR",
+                "GT",
+                "HK",
+                "HN",
+                "HU",
+                "ID",
+                "IE",
+                "IL",
+                "IS",
+                "IT",
+                "JP",
+                "LI",
+                "LT",
+                "LU",
+                "LV",
+                "MC",
+                "MT",
+                "MX",
+                "MY",
+                "NI",
+                "NL",
+                "NO",
+                "NZ",
+                "PA",
+                "PE",
+                "PH",
+                "PL",
+                "PT",
+                "PY",
+                "RO",
+                "SE",
+                "SG",
+                "SK",
+                "SV",
+                "TH",
+                "TR",
+                "TW",
+                "US",
+                "UY",
+                "VN",
+                "ZA"
+              ],
+              "disc_number": 1,
+              "duration_ms": 381712,
+              "explicit": false,
+              "external_urls": {
+                "spotify": "https://open.spotify.com/track/2Yotwu3OzVJPROOVsszO6S"
+              },
+              "href": "https://api.spotify.com/v1/tracks/2Yotwu3OzVJPROOVsszO6S",
+              "id": "2Yotwu3OzVJPROOVsszO6S",
+              "is_local": false,
+              "name": "Madness (feat. Lil Jon) - Original Mix",
+              "preview_url": "https://p.scdn.co/mp3-preview/b48a6a57a8f599ab5159c469938e4ad5d783d0b7?cid=774b29d4f13844c495f206cafdad9c86",
+              "track_number": 1,
+              "type": "track",
+              "uri": "spotify:track:2Yotwu3OzVJPROOVsszO6S"
+            }
+          ],
+          "limit": 50,
+          "next": null,
+          "offset": 0,
+          "previous": null,
+          "total": 1
+        },
+        "type": "album",
+        "uri": "spotify:album:74jlBb8zAwPriWI6Jpm7ak"
+      }
+    },
+    {
+      "added_at": "2014-07-15T18:08:56Z",
+      "album": {
+        "album_type": "single",
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/085pc2PYOi8bGKj0PNjekA"
+            },
+            "href": "https://api.spotify.com/v1/artists/085pc2PYOi8bGKj0PNjekA",
+            "id": "085pc2PYOi8bGKj0PNjekA",
+            "name": "will.i.am",
+            "type": "artist",
+            "uri": "spotify:artist:085pc2PYOi8bGKj0PNjekA"
+          }
+        ],
+        "available_markets": [],
+        "copyrights": [
+          {
+            "text": "© 2012 Interscope Records",
+            "type": "C"
+          },
+          {
+            "text": "℗ 2012 Interscope Records",
+            "type": "P"
+          }
+        ],
+        "external_ids": {
+          "upc": "00602537260324"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/album/0TbxqNfvk8z1ktpHik61cy"
+        },
+        "genres": [],
+        "href": "https://api.spotify.com/v1/albums/0TbxqNfvk8z1ktpHik61cy",
+        "id": "0TbxqNfvk8z1ktpHik61cy",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/ba946f28b39784b27e0e3585c1f30088b6f923dd",
+            "width": 640
+          },
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/47f35df8f11eda4d6d8fbf60e56edcb292db6f6c",
+            "width": 300
+          },
+          {
+            "height": 64,
+            "url": "https://i.scdn.co/image/2f1109b1f95444e7c9534fb179de378135674b18",
+            "width": 64
+          }
+        ],
+        "label": "Universal Music Group",
+        "name": "Scream & Shout",
+        "popularity": 23,
+        "release_date": "2012-01-01",
+        "release_date_precision": "day",
+        "total_tracks": 1,
+        "tracks": {
+          "href": "https://api.spotify.com/v1/albums/0TbxqNfvk8z1ktpHik61cy/tracks?offset=0&limit=50",
+          "items": [
+            {
+              "artists": [
+                {
+                  "external_urls": {
+                    "spotify": "https://open.spotify.com/artist/085pc2PYOi8bGKj0PNjekA"
+                  },
+                  "href": "https://api.spotify.com/v1/artists/085pc2PYOi8bGKj0PNjekA",
+                  "id": "085pc2PYOi8bGKj0PNjekA",
+                  "name": "will.i.am",
+                  "type": "artist",
+                  "uri": "spotify:artist:085pc2PYOi8bGKj0PNjekA"
+                },
+                {
+                  "external_urls": {
+                    "spotify": "https://open.spotify.com/artist/26dSoYclwsYLMAKD3tpOr4"
+                  },
+                  "href": "https://api.spotify.com/v1/artists/26dSoYclwsYLMAKD3tpOr4",
+                  "id": "26dSoYclwsYLMAKD3tpOr4",
+                  "name": "Britney Spears",
+                  "type": "artist",
+                  "uri": "spotify:artist:26dSoYclwsYLMAKD3tpOr4"
+                }
+              ],
+              "available_markets": [],
+              "disc_number": 1,
+              "duration_ms": 284413,
+              "explicit": true,
+              "external_urls": {
+                "spotify": "https://open.spotify.com/track/7n6ibfsRHhCb1Ccl9Fg2CZ"
+              },
+              "href": "https://api.spotify.com/v1/tracks/7n6ibfsRHhCb1Ccl9Fg2CZ",
+              "id": "7n6ibfsRHhCb1Ccl9Fg2CZ",
+              "is_local": false,
+              "name": "Scream & Shout",
+              "preview_url": null,
+              "track_number": 1,
+              "type": "track",
+              "uri": "spotify:track:7n6ibfsRHhCb1Ccl9Fg2CZ"
+            }
+          ],
+          "limit": 50,
+          "next": null,
+          "offset": 0,
+          "previous": null,
+          "total": 1
+        },
+        "type": "album",
+        "uri": "spotify:album:0TbxqNfvk8z1ktpHik61cy"
+      }
+    },
+    {
+      "added_at": "2014-07-15T18:04:38Z",
+      "album": {
+        "album_type": "single",
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/5Pwc4xIPtQLFEnJriah9YJ"
+            },
+            "href": "https://api.spotify.com/v1/artists/5Pwc4xIPtQLFEnJriah9YJ",
+            "id": "5Pwc4xIPtQLFEnJriah9YJ",
+            "name": "OneRepublic",
+            "type": "artist",
+            "uri": "spotify:artist:5Pwc4xIPtQLFEnJriah9YJ"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/4AVFqumd2ogHFlRbKIjp1t"
+            },
+            "href": "https://api.spotify.com/v1/artists/4AVFqumd2ogHFlRbKIjp1t",
+            "id": "4AVFqumd2ogHFlRbKIjp1t",
+            "name": "Alesso",
+            "type": "artist",
+            "uri": "spotify:artist:4AVFqumd2ogHFlRbKIjp1t"
+          }
+        ],
+        "available_markets": [],
+        "copyrights": [
+          {
+            "text": "(C) 2013 Mosley Music/Interscope Records",
+            "type": "C"
+          },
+          {
+            "text": "(P) 2013 Mosley Music/Interscope Records",
+            "type": "P"
+          }
+        ],
+        "external_ids": {
+          "upc": "00602537371693"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/album/700ki3z1ZeqWTqeeGFNBjT"
+        },
+        "genres": [],
+        "href": "https://api.spotify.com/v1/albums/700ki3z1ZeqWTqeeGFNBjT",
+        "id": "700ki3z1ZeqWTqeeGFNBjT",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/cc6bdbbcc44ed4dc91badf13c3fc1865b9289d23",
+            "width": 640
+          },
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/0813713496980efc58e077488bcfc089a40df7b2",
+            "width": 300
+          },
+          {
+            "height": 64,
+            "url": "https://i.scdn.co/image/6ec028a334d16a84b507b91c351d18e00f24cbb2",
+            "width": 64
+          }
+        ],
+        "label": "Universal Music Group",
+        "name": "If I Lose Myself (Alesso vs OneRepublic)",
+        "popularity": 4,
+        "release_date": "2013-01-01",
+        "release_date_precision": "day",
+        "total_tracks": 1,
+        "tracks": {
+          "href": "https://api.spotify.com/v1/albums/700ki3z1ZeqWTqeeGFNBjT/tracks?offset=0&limit=50",
+          "items": [
+            {
+              "artists": [
+                {
+                  "external_urls": {
+                    "spotify": "https://open.spotify.com/artist/5Pwc4xIPtQLFEnJriah9YJ"
+                  },
+                  "href": "https://api.spotify.com/v1/artists/5Pwc4xIPtQLFEnJriah9YJ",
+                  "id": "5Pwc4xIPtQLFEnJriah9YJ",
+                  "name": "OneRepublic",
+                  "type": "artist",
+                  "uri": "spotify:artist:5Pwc4xIPtQLFEnJriah9YJ"
+                },
+                {
+                  "external_urls": {
+                    "spotify": "https://open.spotify.com/artist/4AVFqumd2ogHFlRbKIjp1t"
+                  },
+                  "href": "https://api.spotify.com/v1/artists/4AVFqumd2ogHFlRbKIjp1t",
+                  "id": "4AVFqumd2ogHFlRbKIjp1t",
+                  "name": "Alesso",
+                  "type": "artist",
+                  "uri": "spotify:artist:4AVFqumd2ogHFlRbKIjp1t"
+                }
+              ],
+              "available_markets": [],
+              "disc_number": 1,
+              "duration_ms": 214066,
+              "explicit": false,
+              "external_urls": {
+                "spotify": "https://open.spotify.com/track/0AhRPDuVwHkLAACbPXidb3"
+              },
+              "href": "https://api.spotify.com/v1/tracks/0AhRPDuVwHkLAACbPXidb3",
+              "id": "0AhRPDuVwHkLAACbPXidb3",
+              "is_local": false,
+              "name": "If I Lose Myself - Alesso vs OneRepublic",
+              "preview_url": null,
+              "track_number": 1,
+              "type": "track",
+              "uri": "spotify:track:0AhRPDuVwHkLAACbPXidb3"
+            }
+          ],
+          "limit": 50,
+          "next": null,
+          "offset": 0,
+          "previous": null,
+          "total": 1
+        },
+        "type": "album",
+        "uri": "spotify:album:700ki3z1ZeqWTqeeGFNBjT"
+      }
+    },
+    {
+      "added_at": "2014-07-15T18:04:37Z",
+      "album": {
+        "album_type": "single",
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/7CajNmpbOovFoOoasH2HaY"
+            },
+            "href": "https://api.spotify.com/v1/artists/7CajNmpbOovFoOoasH2HaY",
+            "id": "7CajNmpbOovFoOoasH2HaY",
+            "name": "Calvin Harris",
+            "type": "artist",
+            "uri": "spotify:artist:7CajNmpbOovFoOoasH2HaY"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/4AVFqumd2ogHFlRbKIjp1t"
+            },
+            "href": "https://api.spotify.com/v1/artists/4AVFqumd2ogHFlRbKIjp1t",
+            "id": "4AVFqumd2ogHFlRbKIjp1t",
+            "name": "Alesso",
+            "type": "artist",
+            "uri": "spotify:artist:4AVFqumd2ogHFlRbKIjp1t"
+          }
+        ],
+        "available_markets": [],
+        "copyrights": [
+          {
+            "text": "(P) 2013 Sony Music Entertainment UK Limited",
+            "type": "P"
+          }
+        ],
+        "external_ids": {
+          "upc": "886444257138"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/album/0Kl9iqjYkpiL3YOxpjNx9v"
+        },
+        "genres": [],
+        "href": "https://api.spotify.com/v1/albums/0Kl9iqjYkpiL3YOxpjNx9v",
+        "id": "0Kl9iqjYkpiL3YOxpjNx9v",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/8e5565e576206d24c7af7dbc080131e361dcd057",
+            "width": 640
+          },
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/0114714c3dd1ba33b0b9e27a832103f245733655",
+            "width": 300
+          },
+          {
+            "height": 64,
+            "url": "https://i.scdn.co/image/f6477dc6b07a4e3d89df8f44a752f684c84d8870",
+            "width": 64
+          }
+        ],
+        "label": "Columbia",
+        "name": "Under Control",
+        "popularity": 10,
+        "release_date": "2014-11-12",
+        "release_date_precision": "day",
+        "total_tracks": 1,
+        "tracks": {
+          "href": "https://api.spotify.com/v1/albums/0Kl9iqjYkpiL3YOxpjNx9v/tracks?offset=0&limit=50",
+          "items": [
+            {
+              "artists": [
+                {
+                  "external_urls": {
+                    "spotify": "https://open.spotify.com/artist/7CajNmpbOovFoOoasH2HaY"
+                  },
+                  "href": "https://api.spotify.com/v1/artists/7CajNmpbOovFoOoasH2HaY",
+                  "id": "7CajNmpbOovFoOoasH2HaY",
+                  "name": "Calvin Harris",
+                  "type": "artist",
+                  "uri": "spotify:artist:7CajNmpbOovFoOoasH2HaY"
+                },
+                {
+                  "external_urls": {
+                    "spotify": "https://open.spotify.com/artist/4AVFqumd2ogHFlRbKIjp1t"
+                  },
+                  "href": "https://api.spotify.com/v1/artists/4AVFqumd2ogHFlRbKIjp1t",
+                  "id": "4AVFqumd2ogHFlRbKIjp1t",
+                  "name": "Alesso",
+                  "type": "artist",
+                  "uri": "spotify:artist:4AVFqumd2ogHFlRbKIjp1t"
+                },
+                {
+                  "external_urls": {
+                    "spotify": "https://open.spotify.com/artist/3w4VAlllkAWI6m0AV0Gn6a"
+                  },
+                  "href": "https://api.spotify.com/v1/artists/3w4VAlllkAWI6m0AV0Gn6a",
+                  "id": "3w4VAlllkAWI6m0AV0Gn6a",
+                  "name": "Hurts",
+                  "type": "artist",
+                  "uri": "spotify:artist:3w4VAlllkAWI6m0AV0Gn6a"
+                }
+              ],
+              "available_markets": [],
+              "disc_number": 1,
+              "duration_ms": 184373,
+              "explicit": false,
+              "external_urls": {
+                "spotify": "https://open.spotify.com/track/352zfYbDFG8sxkmOAhVeuj"
+              },
+              "href": "https://api.spotify.com/v1/tracks/352zfYbDFG8sxkmOAhVeuj",
+              "id": "352zfYbDFG8sxkmOAhVeuj",
+              "is_local": false,
+              "name": "Under Control",
+              "preview_url": null,
+              "track_number": 1,
+              "type": "track",
+              "uri": "spotify:track:352zfYbDFG8sxkmOAhVeuj"
+            }
+          ],
+          "limit": 50,
+          "next": null,
+          "offset": 0,
+          "previous": null,
+          "total": 1
+        },
+        "type": "album",
+        "uri": "spotify:album:0Kl9iqjYkpiL3YOxpjNx9v"
+      }
+    }
+  ],
+  "limit": 10,
+  "next": null,
+  "offset": 5,
+  "previous": "https://api.spotify.com/v1/me/albums?offset=0&limit=10",
+  "total": 11
+}

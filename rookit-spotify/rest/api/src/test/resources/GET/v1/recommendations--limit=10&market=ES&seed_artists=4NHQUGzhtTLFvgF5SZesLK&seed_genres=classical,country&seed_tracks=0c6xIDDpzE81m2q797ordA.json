@@ -1,0 +1,967 @@
+{
+  "tracks": [
+    {
+      "album": {
+        "album_type": "ALBUM",
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/7yxi31szvlbwvKq9dYOmFI"
+            },
+            "href": "https://api.spotify.com/v1/artists/7yxi31szvlbwvKq9dYOmFI",
+            "id": "7yxi31szvlbwvKq9dYOmFI",
+            "name": "Jon Hopkins",
+            "type": "artist",
+            "uri": "spotify:artist:7yxi31szvlbwvKq9dYOmFI"
+          }
+        ],
+        "external_urls": {
+          "spotify": "https://open.spotify.com/album/77oFsOpnRksjnaaHR99vuY"
+        },
+        "href": "https://api.spotify.com/v1/albums/77oFsOpnRksjnaaHR99vuY",
+        "id": "77oFsOpnRksjnaaHR99vuY",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/4930804df8014375cd93f4a648d988bdd07212dd",
+            "width": 640
+          },
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/80cf1be3bea6312e661f00be72e6ef827efd0f50",
+            "width": 300
+          },
+          {
+            "height": 64,
+            "url": "https://i.scdn.co/image/3f27cb49e2a190a6f355bc3bf72fab92b7985786",
+            "width": 64
+          }
+        ],
+        "name": "Late Night Tales: Jon Hopkins",
+        "type": "album",
+        "uri": "spotify:album:77oFsOpnRksjnaaHR99vuY"
+      },
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/7yxi31szvlbwvKq9dYOmFI"
+          },
+          "href": "https://api.spotify.com/v1/artists/7yxi31szvlbwvKq9dYOmFI",
+          "id": "7yxi31szvlbwvKq9dYOmFI",
+          "name": "Jon Hopkins",
+          "type": "artist",
+          "uri": "spotify:artist:7yxi31szvlbwvKq9dYOmFI"
+        }
+      ],
+      "disc_number": 1,
+      "duration_ms": 260620,
+      "explicit": false,
+      "external_ids": {
+        "isrc": "GB5EM1401453"
+      },
+      "external_urls": {
+        "spotify": "https://open.spotify.com/track/45oJPQDkRbRipePLcXRdEL"
+      },
+      "href": "https://api.spotify.com/v1/tracks/45oJPQDkRbRipePLcXRdEL",
+      "id": "45oJPQDkRbRipePLcXRdEL",
+      "is_playable": true,
+      "linked_from": {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/track/6W4OTAu8XW5p2Ac4aAIUDl"
+        },
+        "href": "https://api.spotify.com/v1/tracks/6W4OTAu8XW5p2Ac4aAIUDl",
+        "id": "6W4OTAu8XW5p2Ac4aAIUDl",
+        "type": "track",
+        "uri": "spotify:track:6W4OTAu8XW5p2Ac4aAIUDl"
+      },
+      "name": "I Remember",
+      "popularity": 44,
+      "preview_url": "https://p.scdn.co/mp3-preview/d56a57dcd692f765cd04fd10b1a29ca9d1998e18?cid=774b29d4f13844c495f206cafdad9c86",
+      "track_number": 9,
+      "type": "track",
+      "uri": "spotify:track:45oJPQDkRbRipePLcXRdEL"
+    },
+    {
+      "album": {
+        "album_type": "ALBUM",
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/4EvpjRZNR6ZzxqYPwJ2FmH"
+            },
+            "href": "https://api.spotify.com/v1/artists/4EvpjRZNR6ZzxqYPwJ2FmH",
+            "id": "4EvpjRZNR6ZzxqYPwJ2FmH",
+            "name": "David Fanning",
+            "type": "artist",
+            "uri": "spotify:artist:4EvpjRZNR6ZzxqYPwJ2FmH"
+          }
+        ],
+        "external_urls": {
+          "spotify": "https://open.spotify.com/album/5A74UlWIAnKvjSVKvSWaKa"
+        },
+        "href": "https://api.spotify.com/v1/albums/5A74UlWIAnKvjSVKvSWaKa",
+        "id": "5A74UlWIAnKvjSVKvSWaKa",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/2713d771e68f4eeaab67ae9815ba2d7c7c538c88",
+            "width": 640
+          },
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/bf359e6e3323609df1dd1628d8f9d9290c6e0c02",
+            "width": 300
+          },
+          {
+            "height": 64,
+            "url": "https://i.scdn.co/image/6871b0917bdde2cf1caf40545051dac688afde65",
+            "width": 64
+          }
+        ],
+        "name": "Ex Thing",
+        "type": "album",
+        "uri": "spotify:album:5A74UlWIAnKvjSVKvSWaKa"
+      },
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/4EvpjRZNR6ZzxqYPwJ2FmH"
+          },
+          "href": "https://api.spotify.com/v1/artists/4EvpjRZNR6ZzxqYPwJ2FmH",
+          "id": "4EvpjRZNR6ZzxqYPwJ2FmH",
+          "name": "David Fanning",
+          "type": "artist",
+          "uri": "spotify:artist:4EvpjRZNR6ZzxqYPwJ2FmH"
+        }
+      ],
+      "disc_number": 1,
+      "duration_ms": 192120,
+      "explicit": false,
+      "external_ids": {
+        "isrc": "TCADR1883815"
+      },
+      "external_urls": {
+        "spotify": "https://open.spotify.com/track/7rf6iJ8oHRh4kzFub5fML4"
+      },
+      "href": "https://api.spotify.com/v1/tracks/7rf6iJ8oHRh4kzFub5fML4",
+      "id": "7rf6iJ8oHRh4kzFub5fML4",
+      "is_playable": true,
+      "name": "Ex Thing",
+      "popularity": 60,
+      "preview_url": "https://p.scdn.co/mp3-preview/3b6b62134ec9c19831a574ae192be8f281218afe?cid=774b29d4f13844c495f206cafdad9c86",
+      "track_number": 1,
+      "type": "track",
+      "uri": "spotify:track:7rf6iJ8oHRh4kzFub5fML4"
+    },
+    {
+      "album": {
+        "album_type": "ALBUM",
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/4NHQUGzhtTLFvgF5SZesLK"
+            },
+            "href": "https://api.spotify.com/v1/artists/4NHQUGzhtTLFvgF5SZesLK",
+            "id": "4NHQUGzhtTLFvgF5SZesLK",
+            "name": "Tove Lo",
+            "type": "artist",
+            "uri": "spotify:artist:4NHQUGzhtTLFvgF5SZesLK"
+          }
+        ],
+        "external_urls": {
+          "spotify": "https://open.spotify.com/album/6jggnLM3SdDnjQ3GWmIZ4L"
+        },
+        "href": "https://api.spotify.com/v1/albums/6jggnLM3SdDnjQ3GWmIZ4L",
+        "id": "6jggnLM3SdDnjQ3GWmIZ4L",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/dc7bbcd3d046104c6e16b3edc8eb276081ac6b50",
+            "width": 640
+          },
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/73e8f30d32e685503f62655ebd3998e2c9818604",
+            "width": 300
+          },
+          {
+            "height": 64,
+            "url": "https://i.scdn.co/image/733658e11a2481fa80df775209b9cd185de2a033",
+            "width": 64
+          }
+        ],
+        "name": "BLUE LIPS (lady wood phase II)",
+        "type": "album",
+        "uri": "spotify:album:6jggnLM3SdDnjQ3GWmIZ4L"
+      },
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/4NHQUGzhtTLFvgF5SZesLK"
+          },
+          "href": "https://api.spotify.com/v1/artists/4NHQUGzhtTLFvgF5SZesLK",
+          "id": "4NHQUGzhtTLFvgF5SZesLK",
+          "name": "Tove Lo",
+          "type": "artist",
+          "uri": "spotify:artist:4NHQUGzhtTLFvgF5SZesLK"
+        }
+      ],
+      "disc_number": 1,
+      "duration_ms": 208390,
+      "explicit": false,
+      "external_ids": {
+        "isrc": "SEUM71700917"
+      },
+      "external_urls": {
+        "spotify": "https://open.spotify.com/track/5rUETOajWWAqpjamjDD4cT"
+      },
+      "href": "https://api.spotify.com/v1/tracks/5rUETOajWWAqpjamjDD4cT",
+      "id": "5rUETOajWWAqpjamjDD4cT",
+      "is_playable": true,
+      "name": "cycles",
+      "popularity": 51,
+      "preview_url": null,
+      "track_number": 10,
+      "type": "track",
+      "uri": "spotify:track:5rUETOajWWAqpjamjDD4cT"
+    },
+    {
+      "album": {
+        "album_type": "ALBUM",
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/5Ks8fS8lZJnTFbtvxkDOkM"
+            },
+            "href": "https://api.spotify.com/v1/artists/5Ks8fS8lZJnTFbtvxkDOkM",
+            "id": "5Ks8fS8lZJnTFbtvxkDOkM",
+            "name": "Witold Lutosławski",
+            "type": "artist",
+            "uri": "spotify:artist:5Ks8fS8lZJnTFbtvxkDOkM"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/43wuPaPcZVMJQWLRaPR4Yz"
+            },
+            "href": "https://api.spotify.com/v1/artists/43wuPaPcZVMJQWLRaPR4Yz",
+            "id": "43wuPaPcZVMJQWLRaPR4Yz",
+            "name": "Krystian Zimerman",
+            "type": "artist",
+            "uri": "spotify:artist:43wuPaPcZVMJQWLRaPR4Yz"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/6uRJnvQ3f8whVnmeoecv5Z"
+            },
+            "href": "https://api.spotify.com/v1/artists/6uRJnvQ3f8whVnmeoecv5Z",
+            "id": "6uRJnvQ3f8whVnmeoecv5Z",
+            "name": "Berliner Philharmoniker",
+            "type": "artist",
+            "uri": "spotify:artist:6uRJnvQ3f8whVnmeoecv5Z"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/4GQwgdcDQwqtcHICjUNndp"
+            },
+            "href": "https://api.spotify.com/v1/artists/4GQwgdcDQwqtcHICjUNndp",
+            "id": "4GQwgdcDQwqtcHICjUNndp",
+            "name": "Sir Simon Rattle",
+            "type": "artist",
+            "uri": "spotify:artist:4GQwgdcDQwqtcHICjUNndp"
+          }
+        ],
+        "external_urls": {
+          "spotify": "https://open.spotify.com/album/0h3DpkVdwuAdracElgUpdV"
+        },
+        "href": "https://api.spotify.com/v1/albums/0h3DpkVdwuAdracElgUpdV",
+        "id": "0h3DpkVdwuAdracElgUpdV",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/91e34790a8134352bd2bccc9a1479b83ebf771ae",
+            "width": 640
+          },
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/074e3abf2786e080329a70a191efe496aee23d3e",
+            "width": 300
+          },
+          {
+            "height": 64,
+            "url": "https://i.scdn.co/image/82f7f8051beb8eec8a81d7360e2c7a5229b440f7",
+            "width": 64
+          }
+        ],
+        "name": "Lutoslawski: Piano Concerto; Symphony No.2",
+        "type": "album",
+        "uri": "spotify:album:0h3DpkVdwuAdracElgUpdV"
+      },
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/5Ks8fS8lZJnTFbtvxkDOkM"
+          },
+          "href": "https://api.spotify.com/v1/artists/5Ks8fS8lZJnTFbtvxkDOkM",
+          "id": "5Ks8fS8lZJnTFbtvxkDOkM",
+          "name": "Witold Lutosławski",
+          "type": "artist",
+          "uri": "spotify:artist:5Ks8fS8lZJnTFbtvxkDOkM"
+        },
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/43wuPaPcZVMJQWLRaPR4Yz"
+          },
+          "href": "https://api.spotify.com/v1/artists/43wuPaPcZVMJQWLRaPR4Yz",
+          "id": "43wuPaPcZVMJQWLRaPR4Yz",
+          "name": "Krystian Zimerman",
+          "type": "artist",
+          "uri": "spotify:artist:43wuPaPcZVMJQWLRaPR4Yz"
+        },
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/6uRJnvQ3f8whVnmeoecv5Z"
+          },
+          "href": "https://api.spotify.com/v1/artists/6uRJnvQ3f8whVnmeoecv5Z",
+          "id": "6uRJnvQ3f8whVnmeoecv5Z",
+          "name": "Berliner Philharmoniker",
+          "type": "artist",
+          "uri": "spotify:artist:6uRJnvQ3f8whVnmeoecv5Z"
+        },
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/4GQwgdcDQwqtcHICjUNndp"
+          },
+          "href": "https://api.spotify.com/v1/artists/4GQwgdcDQwqtcHICjUNndp",
+          "id": "4GQwgdcDQwqtcHICjUNndp",
+          "name": "Sir Simon Rattle",
+          "type": "artist",
+          "uri": "spotify:artist:4GQwgdcDQwqtcHICjUNndp"
+        }
+      ],
+      "disc_number": 1,
+      "duration_ms": 279746,
+      "explicit": false,
+      "external_ids": {
+        "isrc": "DEN961305012"
+      },
+      "external_urls": {
+        "spotify": "https://open.spotify.com/track/0qkMYjXnxz91fEnnuMZNi0"
+      },
+      "href": "https://api.spotify.com/v1/tracks/0qkMYjXnxz91fEnnuMZNi0",
+      "id": "0qkMYjXnxz91fEnnuMZNi0",
+      "is_playable": true,
+      "name": "Concerto For Piano And Orchestra: 2. Presto - Poco meno mosso - Lento",
+      "popularity": 14,
+      "preview_url": null,
+      "track_number": 2,
+      "type": "track",
+      "uri": "spotify:track:0qkMYjXnxz91fEnnuMZNi0"
+    },
+    {
+      "album": {
+        "album_type": "ALBUM",
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/3dRfiJ2650SZu6GbydcHNb"
+            },
+            "href": "https://api.spotify.com/v1/artists/3dRfiJ2650SZu6GbydcHNb",
+            "id": "3dRfiJ2650SZu6GbydcHNb",
+            "name": "John Williams",
+            "type": "artist",
+            "uri": "spotify:artist:3dRfiJ2650SZu6GbydcHNb"
+          }
+        ],
+        "external_urls": {
+          "spotify": "https://open.spotify.com/album/1NVw0NWLA3NJwQy89A2pd6"
+        },
+        "href": "https://api.spotify.com/v1/albums/1NVw0NWLA3NJwQy89A2pd6",
+        "id": "1NVw0NWLA3NJwQy89A2pd6",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/8374b9c697307ff264c22b2104f558250318dd68",
+            "width": 640
+          },
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/b7fd536c14e0d42da83730e04364ed00dbed18e6",
+            "width": 300
+          },
+          {
+            "height": 64,
+            "url": "https://i.scdn.co/image/421c9ba990359be36f5f70eff56eaf6a7ff207d6",
+            "width": 64
+          }
+        ],
+        "name": "John Williams - Greatest Hits 1969-1999",
+        "type": "album",
+        "uri": "spotify:album:1NVw0NWLA3NJwQy89A2pd6"
+      },
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/0hIG9FXgjQxT8fKaYceFbA"
+          },
+          "href": "https://api.spotify.com/v1/artists/0hIG9FXgjQxT8fKaYceFbA",
+          "id": "0hIG9FXgjQxT8fKaYceFbA",
+          "name": "Itzhak Perlman",
+          "type": "artist",
+          "uri": "spotify:artist:0hIG9FXgjQxT8fKaYceFbA"
+        },
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/3dRfiJ2650SZu6GbydcHNb"
+          },
+          "href": "https://api.spotify.com/v1/artists/3dRfiJ2650SZu6GbydcHNb",
+          "id": "3dRfiJ2650SZu6GbydcHNb",
+          "name": "John Williams",
+          "type": "artist",
+          "uri": "spotify:artist:3dRfiJ2650SZu6GbydcHNb"
+        }
+      ],
+      "disc_number": 2,
+      "duration_ms": 211760,
+      "explicit": false,
+      "external_ids": {
+        "isrc": "USSM19604992"
+      },
+      "external_urls": {
+        "spotify": "https://open.spotify.com/track/6O7Et1ArYoS9nOKwRjK3Oq"
+      },
+      "href": "https://api.spotify.com/v1/tracks/6O7Et1ArYoS9nOKwRjK3Oq",
+      "id": "6O7Et1ArYoS9nOKwRjK3Oq",
+      "is_playable": true,
+      "name": "Main Theme (From \"Schindler's List\")",
+      "popularity": 28,
+      "preview_url": "https://p.scdn.co/mp3-preview/b8c606aca6011a0fe328dcd9a6bde0cd1dbc79ae?cid=774b29d4f13844c495f206cafdad9c86",
+      "track_number": 3,
+      "type": "track",
+      "uri": "spotify:track:6O7Et1ArYoS9nOKwRjK3Oq"
+    },
+    {
+      "album": {
+        "album_type": "ALBUM",
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/2P6ygesd9xg5DPOBnda2jg"
+            },
+            "href": "https://api.spotify.com/v1/artists/2P6ygesd9xg5DPOBnda2jg",
+            "id": "2P6ygesd9xg5DPOBnda2jg",
+            "name": "Arvo Pärt",
+            "type": "artist",
+            "uri": "spotify:artist:2P6ygesd9xg5DPOBnda2jg"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/4xz6NoBwhQYH0TLJU8bn5a"
+            },
+            "href": "https://api.spotify.com/v1/artists/4xz6NoBwhQYH0TLJU8bn5a",
+            "id": "4xz6NoBwhQYH0TLJU8bn5a",
+            "name": "Estonian Philharmonic Chamber Choir",
+            "type": "artist",
+            "uri": "spotify:artist:4xz6NoBwhQYH0TLJU8bn5a"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/5pECl3lGqlL7VfZXxrkAlF"
+            },
+            "href": "https://api.spotify.com/v1/artists/5pECl3lGqlL7VfZXxrkAlF",
+            "id": "5pECl3lGqlL7VfZXxrkAlF",
+            "name": "Paul Hillier",
+            "type": "artist",
+            "uri": "spotify:artist:5pECl3lGqlL7VfZXxrkAlF"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/0bqxV7zIaqAp1JqKjSyMKn"
+            },
+            "href": "https://api.spotify.com/v1/artists/0bqxV7zIaqAp1JqKjSyMKn",
+            "id": "0bqxV7zIaqAp1JqKjSyMKn",
+            "name": "Christopher Bowers-Broadbent",
+            "type": "artist",
+            "uri": "spotify:artist:0bqxV7zIaqAp1JqKjSyMKn"
+          }
+        ],
+        "external_urls": {
+          "spotify": "https://open.spotify.com/album/58r3ejz6GxgFszg49ZxuKp"
+        },
+        "href": "https://api.spotify.com/v1/albums/58r3ejz6GxgFszg49ZxuKp",
+        "id": "58r3ejz6GxgFszg49ZxuKp",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/c5df7e4d7414fb18d6f39731d3ed0c1c132c55f1",
+            "width": 640
+          },
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/ee6f42fc698811b36e915a67cf7423e9ecc6fe57",
+            "width": 300
+          },
+          {
+            "height": 64,
+            "url": "https://i.scdn.co/image/77c87bafe4eae9ca2516285c14b2810bc5424828",
+            "width": 64
+          }
+        ],
+        "name": "Arvo Pärt: Da pacem",
+        "type": "album",
+        "uri": "spotify:album:58r3ejz6GxgFszg49ZxuKp"
+      },
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/2P6ygesd9xg5DPOBnda2jg"
+          },
+          "href": "https://api.spotify.com/v1/artists/2P6ygesd9xg5DPOBnda2jg",
+          "id": "2P6ygesd9xg5DPOBnda2jg",
+          "name": "Arvo Pärt",
+          "type": "artist",
+          "uri": "spotify:artist:2P6ygesd9xg5DPOBnda2jg"
+        },
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/4xz6NoBwhQYH0TLJU8bn5a"
+          },
+          "href": "https://api.spotify.com/v1/artists/4xz6NoBwhQYH0TLJU8bn5a",
+          "id": "4xz6NoBwhQYH0TLJU8bn5a",
+          "name": "Estonian Philharmonic Chamber Choir",
+          "type": "artist",
+          "uri": "spotify:artist:4xz6NoBwhQYH0TLJU8bn5a"
+        },
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/5pECl3lGqlL7VfZXxrkAlF"
+          },
+          "href": "https://api.spotify.com/v1/artists/5pECl3lGqlL7VfZXxrkAlF",
+          "id": "5pECl3lGqlL7VfZXxrkAlF",
+          "name": "Paul Hillier",
+          "type": "artist",
+          "uri": "spotify:artist:5pECl3lGqlL7VfZXxrkAlF"
+        }
+      ],
+      "disc_number": 1,
+      "duration_ms": 343200,
+      "explicit": false,
+      "external_ids": {
+        "isrc": "USHM10540101"
+      },
+      "external_urls": {
+        "spotify": "https://open.spotify.com/track/3qmBqj3EmghQ4UayTRBbL1"
+      },
+      "href": "https://api.spotify.com/v1/tracks/3qmBqj3EmghQ4UayTRBbL1",
+      "id": "3qmBqj3EmghQ4UayTRBbL1",
+      "is_playable": true,
+      "name": "Da pacem Domine",
+      "popularity": 39,
+      "preview_url": "https://p.scdn.co/mp3-preview/91a012b023aac64e36f58609c610965eaaaa9192?cid=774b29d4f13844c495f206cafdad9c86",
+      "track_number": 1,
+      "type": "track",
+      "uri": "spotify:track:3qmBqj3EmghQ4UayTRBbL1"
+    },
+    {
+      "album": {
+        "album_type": "ALBUM",
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/4VNQWV2y1E97Eqo2D5UTjx"
+            },
+            "href": "https://api.spotify.com/v1/artists/4VNQWV2y1E97Eqo2D5UTjx",
+            "id": "4VNQWV2y1E97Eqo2D5UTjx",
+            "name": "Gorgon City",
+            "type": "artist",
+            "uri": "spotify:artist:4VNQWV2y1E97Eqo2D5UTjx"
+          }
+        ],
+        "external_urls": {
+          "spotify": "https://open.spotify.com/album/5fTQCKSHr5hpGHEo51n4e7"
+        },
+        "href": "https://api.spotify.com/v1/albums/5fTQCKSHr5hpGHEo51n4e7",
+        "id": "5fTQCKSHr5hpGHEo51n4e7",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/1b53ed1b41dec8b14cb7a8de399464e9e4c5267f",
+            "width": 640
+          },
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/db5e768d003dbad6ef5b672773dddbc696cbdf40",
+            "width": 300
+          },
+          {
+            "height": 64,
+            "url": "https://i.scdn.co/image/9220f6a97d6c66c1d537d67cf0dfd26f8ad62b59",
+            "width": 64
+          }
+        ],
+        "name": "Escape",
+        "type": "album",
+        "uri": "spotify:album:5fTQCKSHr5hpGHEo51n4e7"
+      },
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/4VNQWV2y1E97Eqo2D5UTjx"
+          },
+          "href": "https://api.spotify.com/v1/artists/4VNQWV2y1E97Eqo2D5UTjx",
+          "id": "4VNQWV2y1E97Eqo2D5UTjx",
+          "name": "Gorgon City",
+          "type": "artist",
+          "uri": "spotify:artist:4VNQWV2y1E97Eqo2D5UTjx"
+        },
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/3rJPS8fYBokXpYw1mS9wr0"
+          },
+          "href": "https://api.spotify.com/v1/artists/3rJPS8fYBokXpYw1mS9wr0",
+          "id": "3rJPS8fYBokXpYw1mS9wr0",
+          "name": "Raphaella",
+          "type": "artist",
+          "uri": "spotify:artist:3rJPS8fYBokXpYw1mS9wr0"
+        }
+      ],
+      "disc_number": 1,
+      "duration_ms": 232773,
+      "explicit": false,
+      "external_ids": {
+        "isrc": "GBUM71803010"
+      },
+      "external_urls": {
+        "spotify": "https://open.spotify.com/track/0LHjotMicZfqH5qTuB0k8P"
+      },
+      "href": "https://api.spotify.com/v1/tracks/0LHjotMicZfqH5qTuB0k8P",
+      "id": "0LHjotMicZfqH5qTuB0k8P",
+      "is_playable": true,
+      "name": "Kingdom",
+      "popularity": 56,
+      "preview_url": null,
+      "track_number": 1,
+      "type": "track",
+      "uri": "spotify:track:0LHjotMicZfqH5qTuB0k8P"
+    },
+    {
+      "album": {
+        "album_type": "ALBUM",
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/0LyfQWJT6nXafLPZqxe9Of"
+            },
+            "href": "https://api.spotify.com/v1/artists/0LyfQWJT6nXafLPZqxe9Of",
+            "id": "0LyfQWJT6nXafLPZqxe9Of",
+            "name": "Various Artists",
+            "type": "artist",
+            "uri": "spotify:artist:0LyfQWJT6nXafLPZqxe9Of"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/1V8rAXmdVnkT0417znOkAs"
+            },
+            "href": "https://api.spotify.com/v1/artists/1V8rAXmdVnkT0417znOkAs",
+            "id": "1V8rAXmdVnkT0417znOkAs",
+            "name": "Ondrej Lenard",
+            "type": "artist",
+            "uri": "spotify:artist:1V8rAXmdVnkT0417znOkAs"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/7HhN6bM72WvN2aBMYV111g"
+            },
+            "href": "https://api.spotify.com/v1/artists/7HhN6bM72WvN2aBMYV111g",
+            "id": "7HhN6bM72WvN2aBMYV111g",
+            "name": "András Ligeti",
+            "type": "artist",
+            "uri": "spotify:artist:7HhN6bM72WvN2aBMYV111g"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/12eE2b1achxTzCwb8lcx6l"
+            },
+            "href": "https://api.spotify.com/v1/artists/12eE2b1achxTzCwb8lcx6l",
+            "id": "12eE2b1achxTzCwb8lcx6l",
+            "name": "Kenneth Jean",
+            "type": "artist",
+            "uri": "spotify:artist:12eE2b1achxTzCwb8lcx6l"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/2enPrYI2oHc6IWCuCmLfX9"
+            },
+            "href": "https://api.spotify.com/v1/artists/2enPrYI2oHc6IWCuCmLfX9",
+            "id": "2enPrYI2oHc6IWCuCmLfX9",
+            "name": "Alexander Rahbari",
+            "type": "artist",
+            "uri": "spotify:artist:2enPrYI2oHc6IWCuCmLfX9"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/3QEztQUVjL5FGxXuP70mJQ"
+            },
+            "href": "https://api.spotify.com/v1/artists/3QEztQUVjL5FGxXuP70mJQ",
+            "id": "3QEztQUVjL5FGxXuP70mJQ",
+            "name": "Johannes Wildner",
+            "type": "artist",
+            "uri": "spotify:artist:3QEztQUVjL5FGxXuP70mJQ"
+          }
+        ],
+        "external_urls": {
+          "spotify": "https://open.spotify.com/album/6QYIZ9dY0abMCQxgf3DEnu"
+        },
+        "href": "https://api.spotify.com/v1/albums/6QYIZ9dY0abMCQxgf3DEnu",
+        "id": "6QYIZ9dY0abMCQxgf3DEnu",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/bd8ab0ce46904365bee82fe4c987dbe38dfc8990",
+            "width": 640
+          },
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/2ac8d542a3e8835b7f7e5102f569bb55a33c0a83",
+            "width": 300
+          },
+          {
+            "height": 64,
+            "url": "https://i.scdn.co/image/09bcd8eb4d212dfe3fdf8527c5c28c448975b56c",
+            "width": 64
+          }
+        ],
+        "name": "Cinema Classics, Vol. 7",
+        "type": "album",
+        "uri": "spotify:album:6QYIZ9dY0abMCQxgf3DEnu"
+      },
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/36VGTEPZnpAU5FfivpFaJO"
+          },
+          "href": "https://api.spotify.com/v1/artists/36VGTEPZnpAU5FfivpFaJO",
+          "id": "36VGTEPZnpAU5FfivpFaJO",
+          "name": "Alessandro Marcello",
+          "type": "artist",
+          "uri": "spotify:artist:36VGTEPZnpAU5FfivpFaJO"
+        },
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/1hninhiYSqfJZbHMS2RbZM"
+          },
+          "href": "https://api.spotify.com/v1/artists/1hninhiYSqfJZbHMS2RbZM",
+          "id": "1hninhiYSqfJZbHMS2RbZM",
+          "name": "Jozsef Kiss",
+          "type": "artist",
+          "uri": "spotify:artist:1hninhiYSqfJZbHMS2RbZM"
+        },
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/6GknxwK9Gbjgg3P3Qqyay1"
+          },
+          "href": "https://api.spotify.com/v1/artists/6GknxwK9Gbjgg3P3Qqyay1",
+          "id": "6GknxwK9Gbjgg3P3Qqyay1",
+          "name": "Budapest Ferenc Erkel Chamber Orchestra",
+          "type": "artist",
+          "uri": "spotify:artist:6GknxwK9Gbjgg3P3Qqyay1"
+        }
+      ],
+      "disc_number": 1,
+      "duration_ms": 261000,
+      "explicit": false,
+      "external_ids": {
+        "isrc": "HKI199204111"
+      },
+      "external_urls": {
+        "spotify": "https://open.spotify.com/track/4LvswFQIJCZcBOTBiKJ39m"
+      },
+      "href": "https://api.spotify.com/v1/tracks/4LvswFQIJCZcBOTBiKJ39m",
+      "id": "4LvswFQIJCZcBOTBiKJ39m",
+      "is_playable": true,
+      "name": "Oboe Concerto in D Minor: Adagio (Anonimo Veneziano)",
+      "popularity": 27,
+      "preview_url": "https://p.scdn.co/mp3-preview/104e15239671bf0cdb4f99c8afa4286ff2720fe9?cid=774b29d4f13844c495f206cafdad9c86",
+      "track_number": 4,
+      "type": "track",
+      "uri": "spotify:track:4LvswFQIJCZcBOTBiKJ39m"
+    },
+    {
+      "album": {
+        "album_type": "ALBUM",
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/4NHQUGzhtTLFvgF5SZesLK"
+            },
+            "href": "https://api.spotify.com/v1/artists/4NHQUGzhtTLFvgF5SZesLK",
+            "id": "4NHQUGzhtTLFvgF5SZesLK",
+            "name": "Tove Lo",
+            "type": "artist",
+            "uri": "spotify:artist:4NHQUGzhtTLFvgF5SZesLK"
+          }
+        ],
+        "external_urls": {
+          "spotify": "https://open.spotify.com/album/5Z5O36p7BivXzkucc0PAfw"
+        },
+        "href": "https://api.spotify.com/v1/albums/5Z5O36p7BivXzkucc0PAfw",
+        "id": "5Z5O36p7BivXzkucc0PAfw",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/10e359ca5c32b609274c8fcde447fcd9c4cb31fe",
+            "width": 640
+          },
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/003397ef673672fc37b9d9178c6e52e65fe48c31",
+            "width": 300
+          },
+          {
+            "height": 64,
+            "url": "https://i.scdn.co/image/214e5d43690c718994a429c6c814976657c51d32",
+            "width": 64
+          }
+        ],
+        "name": "Queen Of The Clouds",
+        "type": "album",
+        "uri": "spotify:album:5Z5O36p7BivXzkucc0PAfw"
+      },
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/4NHQUGzhtTLFvgF5SZesLK"
+          },
+          "href": "https://api.spotify.com/v1/artists/4NHQUGzhtTLFvgF5SZesLK",
+          "id": "4NHQUGzhtTLFvgF5SZesLK",
+          "name": "Tove Lo",
+          "type": "artist",
+          "uri": "spotify:artist:4NHQUGzhtTLFvgF5SZesLK"
+        }
+      ],
+      "disc_number": 1,
+      "duration_ms": 218062,
+      "explicit": false,
+      "external_ids": {
+        "isrc": "SEUM71401535"
+      },
+      "external_urls": {
+        "spotify": "https://open.spotify.com/track/6O2urHAlufyVOPlpxpsWJu"
+      },
+      "href": "https://api.spotify.com/v1/tracks/6O2urHAlufyVOPlpxpsWJu",
+      "id": "6O2urHAlufyVOPlpxpsWJu",
+      "is_playable": true,
+      "name": "Not Made For This World",
+      "popularity": 36,
+      "preview_url": null,
+      "track_number": 18,
+      "type": "track",
+      "uri": "spotify:track:6O2urHAlufyVOPlpxpsWJu"
+    },
+    {
+      "album": {
+        "album_type": "ALBUM",
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/17ewtqMhsRUPRdhpYLzMxg"
+            },
+            "href": "https://api.spotify.com/v1/artists/17ewtqMhsRUPRdhpYLzMxg",
+            "id": "17ewtqMhsRUPRdhpYLzMxg",
+            "name": "Adam Sanders",
+            "type": "artist",
+            "uri": "spotify:artist:17ewtqMhsRUPRdhpYLzMxg"
+          }
+        ],
+        "external_urls": {
+          "spotify": "https://open.spotify.com/album/4Q7wksRKBfouQEPhUIfrST"
+        },
+        "href": "https://api.spotify.com/v1/albums/4Q7wksRKBfouQEPhUIfrST",
+        "id": "4Q7wksRKBfouQEPhUIfrST",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/1677937a81e2345aac0d003ce0dee4bdac20d199",
+            "width": 640
+          },
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/a4d13a6ae0bfda6311a8597df599af96a8f805eb",
+            "width": 300
+          },
+          {
+            "height": 64,
+            "url": "https://i.scdn.co/image/698bb9b65d2a1aecd084feb6e778aca645f67ba8",
+            "width": 64
+          }
+        ],
+        "name": "Adam Sanders",
+        "type": "album",
+        "uri": "spotify:album:4Q7wksRKBfouQEPhUIfrST"
+      },
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/17ewtqMhsRUPRdhpYLzMxg"
+          },
+          "href": "https://api.spotify.com/v1/artists/17ewtqMhsRUPRdhpYLzMxg",
+          "id": "17ewtqMhsRUPRdhpYLzMxg",
+          "name": "Adam Sanders",
+          "type": "artist",
+          "uri": "spotify:artist:17ewtqMhsRUPRdhpYLzMxg"
+        }
+      ],
+      "disc_number": 1,
+      "duration_ms": 191200,
+      "explicit": false,
+      "external_ids": {
+        "isrc": "QMRY41800421"
+      },
+      "external_urls": {
+        "spotify": "https://open.spotify.com/track/7vIwwIRqEyiDFmL1L0Cd5t"
+      },
+      "href": "https://api.spotify.com/v1/tracks/7vIwwIRqEyiDFmL1L0Cd5t",
+      "id": "7vIwwIRqEyiDFmL1L0Cd5t",
+      "is_playable": true,
+      "name": "Over Did It",
+      "popularity": 61,
+      "preview_url": "https://p.scdn.co/mp3-preview/92bf68e685ac4e1ba47b0d7f59960c1df602f84f?cid=774b29d4f13844c495f206cafdad9c86",
+      "track_number": 3,
+      "type": "track",
+      "uri": "spotify:track:7vIwwIRqEyiDFmL1L0Cd5t"
+    }
+  ],
+  "seeds": [
+    {
+      "initialPoolSize": 250,
+      "afterFilteringSize": 250,
+      "afterRelinkingSize": 249,
+      "id": "4NHQUGzhtTLFvgF5SZesLK",
+      "type": "ARTIST",
+      "href": "https://api.spotify.com/v1/artists/4NHQUGzhtTLFvgF5SZesLK"
+    },
+    {
+      "initialPoolSize": 250,
+      "afterFilteringSize": 250,
+      "afterRelinkingSize": 246,
+      "id": "0c6xIDDpzE81m2q797ordA",
+      "type": "TRACK",
+      "href": "https://api.spotify.com/v1/tracks/0c6xIDDpzE81m2q797ordA"
+    },
+    {
+      "initialPoolSize": 517,
+      "afterFilteringSize": 313,
+      "afterRelinkingSize": 311,
+      "id": "classical",
+      "type": "GENRE",
+      "href": null
+    },
+    {
+      "initialPoolSize": 997,
+      "afterFilteringSize": 313,
+      "afterRelinkingSize": 307,
+      "id": "country",
+      "type": "GENRE",
+      "href": null
+    }
+  ]
+}

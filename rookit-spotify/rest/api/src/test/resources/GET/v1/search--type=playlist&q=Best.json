@@ -1,0 +1,372 @@
+{
+  "playlists": {
+    "href": "https://api.spotify.com/v1/search?query=Best&type=playlist&market=US&offset=5&limit=10",
+    "items": [
+      {
+        "collaborative": false,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/playlist/37i9dQZF1DWX82ahbDuQIz"
+        },
+        "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DWX82ahbDuQIz",
+        "id": "37i9dQZF1DWX82ahbDuQIz",
+        "images": [
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/c90bb34a3e985b8be3d4a3128ee4053485c71725",
+            "width": 300
+          }
+        ],
+        "name": "Best of Broadway",
+        "owner": {
+          "display_name": "Spotify",
+          "external_urls": {
+            "spotify": "https://open.spotify.com/user/spotify"
+          },
+          "href": "https://api.spotify.com/v1/users/spotify",
+          "id": "spotify",
+          "type": "user",
+          "uri": "spotify:user:spotify"
+        },
+        "primary_color": null,
+        "public": null,
+        "snapshot_id": "MTUzODcyNjA3MCwwMDAwMDAyYzAwMDAwMTY2MGMwOTY1NWUwMDAwMDE2NWU4YzFjZDkz",
+        "tracks": {
+          "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DWX82ahbDuQIz/tracks",
+          "total": 31
+        },
+        "type": "playlist",
+        "uri": "spotify:user:spotify:playlist:37i9dQZF1DWX82ahbDuQIz"
+      },
+      {
+        "collaborative": false,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/playlist/37i9dQZF1DXdrxKdrXE2Vk"
+        },
+        "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DXdrxKdrXE2Vk",
+        "id": "37i9dQZF1DXdrxKdrXE2Vk",
+        "images": [
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/28e327ba0115a54f000b8d4a9f70eba89f342d6d",
+            "width": 300
+          }
+        ],
+        "name": "Best of Live Worship",
+        "owner": {
+          "display_name": "Spotify",
+          "external_urls": {
+            "spotify": "https://open.spotify.com/user/spotify"
+          },
+          "href": "https://api.spotify.com/v1/users/spotify",
+          "id": "spotify",
+          "type": "user",
+          "uri": "spotify:user:spotify"
+        },
+        "primary_color": null,
+        "public": null,
+        "snapshot_id": "MTUzODcyNjA2OCwwMDAwMDAzNTAwMDAwMTY2MTEzZGY0OTYwMDAwMDE2NjExMzlhMDgy",
+        "tracks": {
+          "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DXdrxKdrXE2Vk/tracks",
+          "total": 59
+        },
+        "type": "playlist",
+        "uri": "spotify:user:spotify:playlist:37i9dQZF1DXdrxKdrXE2Vk"
+      },
+      {
+        "collaborative": false,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/playlist/3W9yi4tgxOvroqfiC8pzIw"
+        },
+        "href": "https://api.spotify.com/v1/playlists/3W9yi4tgxOvroqfiC8pzIw",
+        "id": "3W9yi4tgxOvroqfiC8pzIw",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://mosaic.scdn.co/640/52d83377fe9d7fc838deeb859499f3973adf903f6db774767e7a5b5b4b5b7c74ac61a24ae4cd9730a6d307979309bfc1b8ba9ca64aeae4dc9f51f1cecbf333da51368e549765f272c7b7645fbfe627a6",
+            "width": 640
+          },
+          {
+            "height": 300,
+            "url": "https://mosaic.scdn.co/300/52d83377fe9d7fc838deeb859499f3973adf903f6db774767e7a5b5b4b5b7c74ac61a24ae4cd9730a6d307979309bfc1b8ba9ca64aeae4dc9f51f1cecbf333da51368e549765f272c7b7645fbfe627a6",
+            "width": 300
+          },
+          {
+            "height": 60,
+            "url": "https://mosaic.scdn.co/60/52d83377fe9d7fc838deeb859499f3973adf903f6db774767e7a5b5b4b5b7c74ac61a24ae4cd9730a6d307979309bfc1b8ba9ca64aeae4dc9f51f1cecbf333da51368e549765f272c7b7645fbfe627a6",
+            "width": 60
+          }
+        ],
+        "name": "ACDC Best of the best",
+        "owner": {
+          "display_name": "Mattias Andersson",
+          "external_urls": {
+            "spotify": "https://open.spotify.com/user/mattekde"
+          },
+          "href": "https://api.spotify.com/v1/users/mattekde",
+          "id": "mattekde",
+          "type": "user",
+          "uri": "spotify:user:mattekde"
+        },
+        "primary_color": null,
+        "public": null,
+        "snapshot_id": "MjUsZDhiY2Q3MWU0ZWVkMTFiMWFjYTQyZThjY2ZjZWNkYTZmOTJlYjVjNg==",
+        "tracks": {
+          "href": "https://api.spotify.com/v1/playlists/3W9yi4tgxOvroqfiC8pzIw/tracks",
+          "total": 23
+        },
+        "type": "playlist",
+        "uri": "spotify:user:mattekde:playlist:3W9yi4tgxOvroqfiC8pzIw"
+      },
+      {
+        "collaborative": false,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/playlist/43mnKzy2LaOV1q6LhsJERY"
+        },
+        "href": "https://api.spotify.com/v1/playlists/43mnKzy2LaOV1q6LhsJERY",
+        "id": "43mnKzy2LaOV1q6LhsJERY",
+        "images": [
+          {
+            "height": null,
+            "url": "https://pl.scdn.co/images/pl/default/132d58edd91ec5a3728bd74119ae9b5a2145ad78",
+            "width": null
+          }
+        ],
+        "name": "Imagine Dragons Best Of",
+        "owner": {
+          "display_name": "Imagine Dragons",
+          "external_urls": {
+            "spotify": "https://open.spotify.com/user/imaginedragonsofficial"
+          },
+          "href": "https://api.spotify.com/v1/users/imaginedragonsofficial",
+          "id": "imaginedragonsofficial",
+          "type": "user",
+          "uri": "spotify:user:imaginedragonsofficial"
+        },
+        "primary_color": null,
+        "public": null,
+        "snapshot_id": "MjQ3LDg2OTRmM2Q0NjFkNGUxYzJmMTQ1NjViYmUyYmI3NGU0NTdhZDJmOTY=",
+        "tracks": {
+          "href": "https://api.spotify.com/v1/playlists/43mnKzy2LaOV1q6LhsJERY/tracks",
+          "total": 52
+        },
+        "type": "playlist",
+        "uri": "spotify:user:imaginedragonsofficial:playlist:43mnKzy2LaOV1q6LhsJERY"
+      },
+      {
+        "collaborative": false,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/playlist/1uqHylr7sadOZbQCVbkyjA"
+        },
+        "href": "https://api.spotify.com/v1/playlists/1uqHylr7sadOZbQCVbkyjA",
+        "id": "1uqHylr7sadOZbQCVbkyjA",
+        "images": [
+          {
+            "height": null,
+            "url": "https://pl.scdn.co/images/pl/default/13bec10eb5998d6e9e86519b94292132e174876f",
+            "width": null
+          }
+        ],
+        "name": "Kygo: The Best Of",
+        "owner": {
+          "display_name": "Kygo",
+          "external_urls": {
+            "spotify": "https://open.spotify.com/user/kygoofficial"
+          },
+          "href": "https://api.spotify.com/v1/users/kygoofficial",
+          "id": "kygoofficial",
+          "type": "user",
+          "uri": "spotify:user:kygoofficial"
+        },
+        "primary_color": null,
+        "public": null,
+        "snapshot_id": "MTExLDk0MDljYWY4OGE2OWU1MmFkNTU1NGRlYTViZGQxZjAxMTU3NTMzNGU=",
+        "tracks": {
+          "href": "https://api.spotify.com/v1/playlists/1uqHylr7sadOZbQCVbkyjA/tracks",
+          "total": 37
+        },
+        "type": "playlist",
+        "uri": "spotify:user:kygoofficial:playlist:1uqHylr7sadOZbQCVbkyjA"
+      },
+      {
+        "collaborative": false,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/playlist/6aqL0E6hwdf1sUs1mzZuiH"
+        },
+        "href": "https://api.spotify.com/v1/playlists/6aqL0E6hwdf1sUs1mzZuiH",
+        "id": "6aqL0E6hwdf1sUs1mzZuiH",
+        "images": [
+          {
+            "height": null,
+            "url": "https://pl.scdn.co/images/pl/default/ae9dc6526763a338bf55b68d720119fef01e2aae",
+            "width": null
+          }
+        ],
+        "name": "Future Trance Best of the Best",
+        "owner": {
+          "display_name": "Klaas Freese",
+          "external_urls": {
+            "spotify": "https://open.spotify.com/user/1132003692"
+          },
+          "href": "https://api.spotify.com/v1/users/1132003692",
+          "id": "1132003692",
+          "type": "user",
+          "uri": "spotify:user:1132003692"
+        },
+        "primary_color": null,
+        "public": null,
+        "snapshot_id": "MjEzLDNiYTJhNzc5NTQwNmE4ZGZjMDJhMTQ0YmM3YmFlM2M1Njc0ODY4ZDA=",
+        "tracks": {
+          "href": "https://api.spotify.com/v1/playlists/6aqL0E6hwdf1sUs1mzZuiH/tracks",
+          "total": 191
+        },
+        "type": "playlist",
+        "uri": "spotify:user:1132003692:playlist:6aqL0E6hwdf1sUs1mzZuiH"
+      },
+      {
+        "collaborative": false,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/playlist/37i9dQZF1DWUaThf8nMdW6"
+        },
+        "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DWUaThf8nMdW6",
+        "id": "37i9dQZF1DWUaThf8nMdW6",
+        "images": [
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/ab54b81430781eaa005348d99fe602d98f8cdc51",
+            "width": 300
+          }
+        ],
+        "name": "Best of '00s Pop",
+        "owner": {
+          "display_name": "Spotify",
+          "external_urls": {
+            "spotify": "https://open.spotify.com/user/spotify"
+          },
+          "href": "https://api.spotify.com/v1/users/spotify",
+          "id": "spotify",
+          "type": "user",
+          "uri": "spotify:user:spotify"
+        },
+        "primary_color": null,
+        "public": null,
+        "snapshot_id": "MTUzODcyNjA3OCwwMDAwMDAzNDAwMDAwMTY1ODM2YmE4ZWEwMDAwMDE2MmYyYjBlOGQ4",
+        "tracks": {
+          "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DWUaThf8nMdW6/tracks",
+          "total": 30
+        },
+        "type": "playlist",
+        "uri": "spotify:user:spotify:playlist:37i9dQZF1DWUaThf8nMdW6"
+      },
+      {
+        "collaborative": false,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/playlist/37i9dQZF1DX5iwIl2oN1P1"
+        },
+        "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DX5iwIl2oN1P1",
+        "id": "37i9dQZF1DX5iwIl2oN1P1",
+        "images": [
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/18a7bcae5a6224e5cbfa1f06f5d4d5a43b67e70b",
+            "width": 300
+          }
+        ],
+        "name": "Sunday Bests",
+        "owner": {
+          "display_name": "Spotify",
+          "external_urls": {
+            "spotify": "https://open.spotify.com/user/spotify"
+          },
+          "href": "https://api.spotify.com/v1/users/spotify",
+          "id": "spotify",
+          "type": "user",
+          "uri": "spotify:user:spotify"
+        },
+        "primary_color": null,
+        "public": null,
+        "snapshot_id": "MTUzODcyNjA4MCwwMDAwMDAwMzAwMDAwMTYxNzY2MzI5YmYwMDAwMDE2MmYyYjBlOGQ4",
+        "tracks": {
+          "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DX5iwIl2oN1P1/tracks",
+          "total": 53
+        },
+        "type": "playlist",
+        "uri": "spotify:user:spotify:playlist:37i9dQZF1DX5iwIl2oN1P1"
+      },
+      {
+        "collaborative": false,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/playlist/0V4WND9P7IDEdtZjOJomHi"
+        },
+        "href": "https://api.spotify.com/v1/playlists/0V4WND9P7IDEdtZjOJomHi",
+        "id": "0V4WND9P7IDEdtZjOJomHi",
+        "images": [
+          {
+            "height": null,
+            "url": "https://pl.scdn.co/images/pl/default/a8acadaac3a67b13222c0f5f05dc34bc457b5828",
+            "width": null
+          }
+        ],
+        "name": "OneRepublic Best Of",
+        "owner": {
+          "display_name": "OneRepublic",
+          "external_urls": {
+            "spotify": "https://open.spotify.com/user/onerepublicofficial"
+          },
+          "href": "https://api.spotify.com/v1/users/onerepublicofficial",
+          "id": "onerepublicofficial",
+          "type": "user",
+          "uri": "spotify:user:onerepublicofficial"
+        },
+        "primary_color": null,
+        "public": null,
+        "snapshot_id": "Mjg3LGQwYzExZWM4MDVmMTlkZWY0NTc5NTQxMzNmZDVmMjQwNWM0NjMxYWU=",
+        "tracks": {
+          "href": "https://api.spotify.com/v1/playlists/0V4WND9P7IDEdtZjOJomHi/tracks",
+          "total": 69
+        },
+        "type": "playlist",
+        "uri": "spotify:user:onerepublicofficial:playlist:0V4WND9P7IDEdtZjOJomHi"
+      },
+      {
+        "collaborative": false,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/playlist/37i9dQZF1DXdKMCnEhDnDL"
+        },
+        "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DXdKMCnEhDnDL",
+        "id": "37i9dQZF1DXdKMCnEhDnDL",
+        "images": [
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/149391cf3ba1c4bfe648a4454d90b90cd8529bd8",
+            "width": 300
+          }
+        ],
+        "name": "Beste van NL",
+        "owner": {
+          "display_name": "Spotify",
+          "external_urls": {
+            "spotify": "https://open.spotify.com/user/spotify"
+          },
+          "href": "https://api.spotify.com/v1/users/spotify",
+          "id": "spotify",
+          "type": "user",
+          "uri": "spotify:user:spotify"
+        },
+        "primary_color": null,
+        "public": null,
+        "snapshot_id": "MTUzODcyNjA5MiwwMDAwMDA1NzAwMDAwMTY2NDExODNmMzEwMDAwMDE2NjNlYmVkNTFi",
+        "tracks": {
+          "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DXdKMCnEhDnDL/tracks",
+          "total": 100
+        },
+        "type": "playlist",
+        "uri": "spotify:user:spotify:playlist:37i9dQZF1DXdKMCnEhDnDL"
+      }
+    ],
+    "limit": 10,
+    "next": "https://api.spotify.com/v1/search?query=Best&type=playlist&market=US&offset=15&limit=10",
+    "offset": 5,
+    "previous": "https://api.spotify.com/v1/search?query=Best&type=playlist&market=US&offset=0&limit=10",
+    "total": 934027
+  }
+}

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>rookit-accumulator</artifactId>
+        <groupId>com.github.JPDSousa</groupId>
+        <version>-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>rookit-accumulator-dm</artifactId>
+
+    <name>Rookit Data Model Accumulator</name>
+    <dependencies>
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-accumulator-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-accumulator-auto</artifactId>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>${rookit.group}</groupId>
+                <artifactId>rookit-accumulator-core</artifactId>
+                <version>-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>${rookit.group}</groupId>
+                <artifactId>rookit-accumulator-auto</artifactId>
+                <version>-SNAPSHOT</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

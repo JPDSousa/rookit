@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.github.JPDSousa.rookit-auto</groupId>
+        <artifactId>rookit-auto</artifactId>
+        <version>-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>test</artifactId>
+
+    <name>Rookit Auto Test</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>${rookit.group}.rookit-auto</groupId>
+            <artifactId>lib</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${rookit.group}.rookit-test</groupId>
+            <artifactId>api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${rookit.group}.rookit-auto</groupId>
+            <artifactId>javax-runtime-lib</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.glytching</groupId>
+            <artifactId>junit-extensions</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

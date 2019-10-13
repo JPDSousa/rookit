@@ -1,0 +1,5 @@
+{
+  "enabled": true,
+  "basePackage": "guice",
+  "propertyPackage": "org.rookit.api.meta"
+}

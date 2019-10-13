@@ -1,0 +1,30 @@
+{
+  "conventionApi": {
+    "enabled": true,
+    "basePackage": "meta",
+    "parameterName": "M",
+    "entitySuffix": "Metatype",
+    "partialEntityPrefix": "Generic"
+  },
+  "conventionMetatype": {
+    "enabled": true,
+    "basePackage": "meta",
+    "entitySuffix": "MetatypeImpl"
+  },
+  "conventionProperty": {
+    "enabled": true,
+    "basePackage": "meta",
+    "parameterName": "T",
+    "entitySuffix": "MetatypeImpl",
+    "naming": {
+      "metatype": "metatype",
+      "propertyName": "propertyName",
+      "getter": "getter"
+    }
+  },
+  "guice": {
+    "enabled": true,
+    "basePackage": "guice",
+    "propertyPackage": "org.rookit.api.meta"
+  }
+}

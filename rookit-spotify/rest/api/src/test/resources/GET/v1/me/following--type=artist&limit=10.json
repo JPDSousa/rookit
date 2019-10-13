@@ -1,0 +1,411 @@
+{
+  "artists": {
+    "items": [
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/0IF46mUS8NXjgHabxk2MCM"
+        },
+        "followers": {
+          "href": null,
+          "total": 230271
+        },
+        "genres": [
+          "dance pop",
+          "electropop",
+          "hip pop",
+          "indie r&b",
+          "neo soul",
+          "pop",
+          "r&b",
+          "urban contemporary"
+        ],
+        "href": "https://api.spotify.com/v1/artists/0IF46mUS8NXjgHabxk2MCM",
+        "id": "0IF46mUS8NXjgHabxk2MCM",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/977668064535a289d35377405b81673d22355411",
+            "width": 640
+          },
+          {
+            "height": 320,
+            "url": "https://i.scdn.co/image/5ff63728fbd782130dffe4a914ad7aab959362c4",
+            "width": 320
+          },
+          {
+            "height": 160,
+            "url": "https://i.scdn.co/image/cea226f978489b11c4c17105253bf92c31444715",
+            "width": 160
+          }
+        ],
+        "name": "Kelis",
+        "popularity": 65,
+        "type": "artist",
+        "uri": "spotify:artist:0IF46mUS8NXjgHabxk2MCM"
+      },
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/0SfsnGyD8FpIN4U4WCkBZ5"
+        },
+        "followers": {
+          "href": null,
+          "total": 2351512
+        },
+        "genres": [
+          "edm",
+          "progressive house",
+          "progressive trance",
+          "trance"
+        ],
+        "href": "https://api.spotify.com/v1/artists/0SfsnGyD8FpIN4U4WCkBZ5",
+        "id": "0SfsnGyD8FpIN4U4WCkBZ5",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/9c1ab64065641361f6b077cb4200b6b8d2f7bc1e",
+            "width": 640
+          },
+          {
+            "height": 320,
+            "url": "https://i.scdn.co/image/be4524e0f1e5096aa112a1d2bfae5cc7a4def4ac",
+            "width": 320
+          },
+          {
+            "height": 160,
+            "url": "https://i.scdn.co/image/bf79c7e4b36f69ba9f0c7147747ec253f2cb42e0",
+            "width": 160
+          }
+        ],
+        "name": "Armin van Buuren",
+        "popularity": 80,
+        "type": "artist",
+        "uri": "spotify:artist:0SfsnGyD8FpIN4U4WCkBZ5"
+      },
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/0X2BH1fck6amBIoJhDVmmJ"
+        },
+        "followers": {
+          "href": null,
+          "total": 5291110
+        },
+        "genres": [
+          "dance pop",
+          "edm",
+          "electropop",
+          "metropopolis",
+          "pop",
+          "post-teen pop",
+          "r&b",
+          "tropical house"
+        ],
+        "href": "https://api.spotify.com/v1/artists/0X2BH1fck6amBIoJhDVmmJ",
+        "id": "0X2BH1fck6amBIoJhDVmmJ",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/c2fe5d1e00a76b69ecd53164304ce2004f6064e9",
+            "width": 640
+          },
+          {
+            "height": 320,
+            "url": "https://i.scdn.co/image/dd1852b2a3e4aebc2bb779d642acfa782afad0e7",
+            "width": 320
+          },
+          {
+            "height": 160,
+            "url": "https://i.scdn.co/image/848a19e113ef29d7e5a485a4c3cf2116745ddbff",
+            "width": 160
+          }
+        ],
+        "name": "Ellie Goulding",
+        "popularity": 79,
+        "type": "artist",
+        "uri": "spotify:artist:0X2BH1fck6amBIoJhDVmmJ"
+      },
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/0daugAjUgbJSqdlyYNwIbT"
+        },
+        "followers": {
+          "href": null,
+          "total": 219475
+        },
+        "genres": [
+          "big room",
+          "catstep",
+          "dance pop",
+          "deep big room",
+          "edm",
+          "electro house",
+          "pop",
+          "progressive electro house",
+          "progressive house",
+          "tracestep",
+          "tropical house"
+        ],
+        "href": "https://api.spotify.com/v1/artists/0daugAjUgbJSqdlyYNwIbT",
+        "id": "0daugAjUgbJSqdlyYNwIbT",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/9082f6be2dd6c3059780f1717b0acb201bd1dc66",
+            "width": 640
+          },
+          {
+            "height": 320,
+            "url": "https://i.scdn.co/image/66c460068a602ef64feb3d2d5a16908db40608bf",
+            "width": 320
+          },
+          {
+            "height": 160,
+            "url": "https://i.scdn.co/image/c86ba1a9ca5f99f0f52fa7b1fa4bbfbe0c63aa29",
+            "width": 160
+          }
+        ],
+        "name": "Vicetone",
+        "popularity": 68,
+        "type": "artist",
+        "uri": "spotify:artist:0daugAjUgbJSqdlyYNwIbT"
+      },
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/0gadJ2b9A4SKsB1RFkBb66"
+        },
+        "followers": {
+          "href": null,
+          "total": 1820615
+        },
+        "genres": [
+          "neo mellow",
+          "pop"
+        ],
+        "href": "https://api.spotify.com/v1/artists/0gadJ2b9A4SKsB1RFkBb66",
+        "id": "0gadJ2b9A4SKsB1RFkBb66",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/78771cc16b6c1793963ce776a3eb9f186bd327fe",
+            "width": 640
+          },
+          {
+            "height": 320,
+            "url": "https://i.scdn.co/image/41a08cca55408c256db52e24eeeca647c4134206",
+            "width": 320
+          },
+          {
+            "height": 160,
+            "url": "https://i.scdn.co/image/c181ee2efeab8f7d663d8879f5e7c760d7aabbd9",
+            "width": 160
+          }
+        ],
+        "name": "Passenger",
+        "popularity": 77,
+        "type": "artist",
+        "uri": "spotify:artist:0gadJ2b9A4SKsB1RFkBb66"
+      },
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/0jnsk9HBra6NMjO2oANoPY"
+        },
+        "followers": {
+          "href": null,
+          "total": 6341161
+        },
+        "genres": [
+          "dance pop",
+          "edm",
+          "pop",
+          "pop rap"
+        ],
+        "href": "https://api.spotify.com/v1/artists/0jnsk9HBra6NMjO2oANoPY",
+        "id": "0jnsk9HBra6NMjO2oANoPY",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/2d0b5f483c7ed95b7c3c63147c3d38f9366b2c21",
+            "width": 640
+          },
+          {
+            "height": 320,
+            "url": "https://i.scdn.co/image/98f6070f467c5b95e09505aeda1aa5b48d1a133d",
+            "width": 320
+          },
+          {
+            "height": 160,
+            "url": "https://i.scdn.co/image/d1a78628d48a855d51ab7d74b6d78c22ee8a2b63",
+            "width": 160
+          }
+        ],
+        "name": "Flo Rida",
+        "popularity": 81,
+        "type": "artist",
+        "uri": "spotify:artist:0jnsk9HBra6NMjO2oANoPY"
+      },
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/0xliTEbFfy5HQHvsTknTkX"
+        },
+        "followers": {
+          "href": null,
+          "total": 212497
+        },
+        "genres": [
+          "dance rock",
+          "europop",
+          "new romantic",
+          "new wave",
+          "new wave pop",
+          "synthpop"
+        ],
+        "href": "https://api.spotify.com/v1/artists/0xliTEbFfy5HQHvsTknTkX",
+        "id": "0xliTEbFfy5HQHvsTknTkX",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/4ce9519551cd95a5ad11372365931be8c7f58978",
+            "width": 640
+          },
+          {
+            "height": 320,
+            "url": "https://i.scdn.co/image/a9e72577ce1085fb6b2e0c6eada296a7b1d45e88",
+            "width": 320
+          },
+          {
+            "height": 160,
+            "url": "https://i.scdn.co/image/71a2441b4eaff1e7dbbfe3241028db6bc5fd76fc",
+            "width": 160
+          }
+        ],
+        "name": "Alphaville",
+        "popularity": 65,
+        "type": "artist",
+        "uri": "spotify:artist:0xliTEbFfy5HQHvsTknTkX"
+      },
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/0z4gvV4rjIZ9wHck67ucSV"
+        },
+        "followers": {
+          "href": null,
+          "total": 1676497
+        },
+        "genres": [
+          "dance pop",
+          "pop",
+          "pop rap",
+          "r&b",
+          "rap"
+        ],
+        "href": "https://api.spotify.com/v1/artists/0z4gvV4rjIZ9wHck67ucSV",
+        "id": "0z4gvV4rjIZ9wHck67ucSV",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/2654dec641e9ce23b79574dbff1189bdff5f3248",
+            "width": 640
+          },
+          {
+            "height": 320,
+            "url": "https://i.scdn.co/image/5b4ca8f438a3908e8b931bbe695f5b0cd300d402",
+            "width": 320
+          },
+          {
+            "height": 160,
+            "url": "https://i.scdn.co/image/4691a13e776cf44172ace1e104d11810d3191629",
+            "width": 160
+          }
+        ],
+        "name": "Akon",
+        "popularity": 80,
+        "type": "artist",
+        "uri": "spotify:artist:0z4gvV4rjIZ9wHck67ucSV"
+      },
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/163tK9Wjr9P9DmM0AVK7lm"
+        },
+        "followers": {
+          "href": null,
+          "total": 3645121
+        },
+        "genres": [
+          "art pop",
+          "dance pop",
+          "electropop",
+          "metropopolis",
+          "pop"
+        ],
+        "href": "https://api.spotify.com/v1/artists/163tK9Wjr9P9DmM0AVK7lm",
+        "id": "163tK9Wjr9P9DmM0AVK7lm",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/d25fc756cd04c8b3ea196b7c07c6d057685cc405",
+            "width": 640
+          },
+          {
+            "height": 320,
+            "url": "https://i.scdn.co/image/ca2e7772dcdfd03401cdd0c66aeee1bea8ea3904",
+            "width": 320
+          },
+          {
+            "height": 160,
+            "url": "https://i.scdn.co/image/2f22ea3ea1597887d86441a030204dac49a74a81",
+            "width": 160
+          }
+        ],
+        "name": "Lorde",
+        "popularity": 79,
+        "type": "artist",
+        "uri": "spotify:artist:163tK9Wjr9P9DmM0AVK7lm"
+      },
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/16oZKvXb6WkQlVAjwo2Wbg"
+        },
+        "followers": {
+          "href": null,
+          "total": 2700883
+        },
+        "genres": [
+          "folk-pop",
+          "indie folk",
+          "indie pop",
+          "modern rock",
+          "stomp and holler"
+        ],
+        "href": "https://api.spotify.com/v1/artists/16oZKvXb6WkQlVAjwo2Wbg",
+        "id": "16oZKvXb6WkQlVAjwo2Wbg",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/10f34039c92c88c0067b9841919ceae8ba25e41f",
+            "width": 640
+          },
+          {
+            "height": 320,
+            "url": "https://i.scdn.co/image/9c7bb0886733610dae2d0639d44ad0dc73f18cb7",
+            "width": 320
+          },
+          {
+            "height": 160,
+            "url": "https://i.scdn.co/image/669c3d60be85953c1488891a0aa4e2056809f427",
+            "width": 160
+          }
+        ],
+        "name": "The Lumineers",
+        "popularity": 78,
+        "type": "artist",
+        "uri": "spotify:artist:16oZKvXb6WkQlVAjwo2Wbg"
+      }
+    ],
+    "next": "https://api.spotify.com/v1/me/following?type=artist&after=16oZKvXb6WkQlVAjwo2Wbg&limit=10",
+    "total": 97,
+    "cursors": {
+      "after": "16oZKvXb6WkQlVAjwo2Wbg"
+    },
+    "limit": 10,
+    "href": "https://api.spotify.com/v1/me/following?type=artist&after=0I2XqVXqHScXjHhk6AYYRe&limit=10"
+  }
+}

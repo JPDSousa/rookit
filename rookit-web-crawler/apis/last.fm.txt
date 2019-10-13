@@ -1,0 +1,4 @@
+Application name	Rookit
+API key				4c0824b3aa2f1114eee0ca8259512071
+Shared secret		1a51b108fc3b057cb57a2b4fdf22de4b
+Registered to		kryptonkirk

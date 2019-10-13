@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>auto</artifactId>
+        <groupId>com.github.JPDSousa.rookit-convention</groupId>
+        <version>-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>auto-lib</artifactId>
+
+    <name>Rookit Convention Auto Library</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>${rookit.group}.rookit-convention</groupId>
+            <artifactId>auto-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${rookit.group}.rookit-convention</groupId>
+            <artifactId>api</artifactId>
+        </dependency>
+        <!--   TODO why do we need the dependencies below? There should be no lib -> lib dependencies     -->
+        <dependency>
+            <groupId>${rookit.group}.rookit-auto</groupId>
+            <artifactId>lib</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${rookit.group}.rookit-guice</groupId>
+            <artifactId>auto-lib</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

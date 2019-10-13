@@ -1,0 +1,363 @@
+{
+  "message": "Torsdagsmorgonens musik",
+  "playlists": {
+    "href": "https://api.spotify.com/v1/browse/featured-playlists?country=SE&locale=sv_se&timestamp=2014-10-23T09%3A00%3A00&offset=5&limit=10",
+    "items": [
+      {
+        "collaborative": false,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/playlist/37i9dQZF1DWWGRfB2jBjnV"
+        },
+        "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DWWGRfB2jBjnV",
+        "id": "37i9dQZF1DWWGRfB2jBjnV",
+        "images": [
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/8d44bdf0f012be52bdd52acb0a72010eddb89eeb",
+            "width": 300
+          }
+        ],
+        "name": "Akustisk höst",
+        "owner": {
+          "display_name": "Spotify",
+          "external_urls": {
+            "spotify": "https://open.spotify.com/user/spotify"
+          },
+          "href": "https://api.spotify.com/v1/users/spotify",
+          "id": "spotify",
+          "type": "user",
+          "uri": "spotify:user:spotify"
+        },
+        "primary_color": null,
+        "public": null,
+        "snapshot_id": "MTUzNzY5MDE1NywwMDAwMDA1ODAwMDAwMTY1YzdhMmM1YTQwMDAwMDE2NWM3YTE1MGIz",
+        "tracks": {
+          "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DWWGRfB2jBjnV/tracks",
+          "total": 76
+        },
+        "type": "playlist",
+        "uri": "spotify:user:spotify:playlist:37i9dQZF1DWWGRfB2jBjnV"
+      },
+      {
+        "collaborative": false,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/playlist/37i9dQZF1DWZeKCadgRdKQ"
+        },
+        "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DWZeKCadgRdKQ",
+        "id": "37i9dQZF1DWZeKCadgRdKQ",
+        "images": [
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/47b2162c9833fe9f3d5e2f56c5aa8157e1cca81a",
+            "width": 300
+          }
+        ],
+        "name": "Deep Focus",
+        "owner": {
+          "display_name": "Spotify",
+          "external_urls": {
+            "spotify": "https://open.spotify.com/user/spotify"
+          },
+          "href": "https://api.spotify.com/v1/users/spotify",
+          "id": "spotify",
+          "type": "user",
+          "uri": "spotify:user:spotify"
+        },
+        "primary_color": null,
+        "public": null,
+        "snapshot_id": "MTUzNzY5MDIxMCwwMDAwMDA1YTAwMDAwMTY1OTEyOTc4ZWQwMDAwMDE2MmYyYjBlOGQ4",
+        "tracks": {
+          "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DWZeKCadgRdKQ/tracks",
+          "total": 153
+        },
+        "type": "playlist",
+        "uri": "spotify:user:spotify:playlist:37i9dQZF1DWZeKCadgRdKQ"
+      },
+      {
+        "collaborative": false,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/playlist/37i9dQZF1DXbITWG1ZJKYt"
+        },
+        "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DXbITWG1ZJKYt",
+        "id": "37i9dQZF1DXbITWG1ZJKYt",
+        "images": [
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/b11bebef6fc3aab3747b22f59c19c06620dbe727",
+            "width": 300
+          }
+        ],
+        "name": "Jazz Classics",
+        "owner": {
+          "display_name": "Spotify",
+          "external_urls": {
+            "spotify": "https://open.spotify.com/user/spotify"
+          },
+          "href": "https://api.spotify.com/v1/users/spotify",
+          "id": "spotify",
+          "type": "user",
+          "uri": "spotify:user:spotify"
+        },
+        "primary_color": null,
+        "public": null,
+        "snapshot_id": "MTUzNzY5MDE1NCwwMDAwMDA1NjAwMDAwMTY1ZDMxOGNmNjEwMDAwMDE2NWFmMDljMmRm",
+        "tracks": {
+          "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DXbITWG1ZJKYt/tracks",
+          "total": 80
+        },
+        "type": "playlist",
+        "uri": "spotify:user:spotify:playlist:37i9dQZF1DXbITWG1ZJKYt"
+      },
+      {
+        "collaborative": false,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/playlist/37i9dQZF1DWXRqgorJj26U"
+        },
+        "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DWXRqgorJj26U",
+        "id": "37i9dQZF1DWXRqgorJj26U",
+        "images": [
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/c5cf920f0ab3c5dcf131c2a12f4a67f60a98f6ea",
+            "width": 300
+          }
+        ],
+        "name": "Rock Anthems",
+        "owner": {
+          "display_name": "Spotify",
+          "external_urls": {
+            "spotify": "https://open.spotify.com/user/spotify"
+          },
+          "href": "https://api.spotify.com/v1/users/spotify",
+          "id": "spotify",
+          "type": "user",
+          "uri": "spotify:user:spotify"
+        },
+        "primary_color": null,
+        "public": null,
+        "snapshot_id": "MTUzNzY5MDE1MSwwMDAwMDA0NjAwMDAwMTY1ZmNhODY2YzUwMDAwMDE2MmYyYjBlOGQ4",
+        "tracks": {
+          "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DWXRqgorJj26U/tracks",
+          "total": 150
+        },
+        "type": "playlist",
+        "uri": "spotify:user:spotify:playlist:37i9dQZF1DWXRqgorJj26U"
+      },
+      {
+        "collaborative": false,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/playlist/37i9dQZF1DWZh2e6r48GWn"
+        },
+        "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DWZh2e6r48GWn",
+        "id": "37i9dQZF1DWZh2e6r48GWn",
+        "images": [
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/d1b2059f2eeedde9a4698c5cf24a00cd0acf594d",
+            "width": 300
+          }
+        ],
+        "name": "Heard It Before?",
+        "owner": {
+          "display_name": "Spotify",
+          "external_urls": {
+            "spotify": "https://open.spotify.com/user/spotify"
+          },
+          "href": "https://api.spotify.com/v1/users/spotify",
+          "id": "spotify",
+          "type": "user",
+          "uri": "spotify:user:spotify"
+        },
+        "primary_color": null,
+        "public": null,
+        "snapshot_id": "MTUzNzY5MDE5MywwMDAwMDAwYjAwMDAwMTY1N2ExYmU4MjcwMDAwMDE2MmYyYjBlOGQ4",
+        "tracks": {
+          "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DWZh2e6r48GWn/tracks",
+          "total": 55
+        },
+        "type": "playlist",
+        "uri": "spotify:user:spotify:playlist:37i9dQZF1DWZh2e6r48GWn"
+      },
+      {
+        "collaborative": false,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/playlist/37i9dQZF1DXcQFLaKHy42g"
+        },
+        "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DXcQFLaKHy42g",
+        "id": "37i9dQZF1DXcQFLaKHy42g",
+        "images": [
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/3a28f3e2a7f437ed2baef700c1b9f9ef18791e6b",
+            "width": 300
+          }
+        ],
+        "name": "Träna till 90-talet",
+        "owner": {
+          "display_name": "Spotify",
+          "external_urls": {
+            "spotify": "https://open.spotify.com/user/spotify"
+          },
+          "href": "https://api.spotify.com/v1/users/spotify",
+          "id": "spotify",
+          "type": "user",
+          "uri": "spotify:user:spotify"
+        },
+        "primary_color": null,
+        "public": null,
+        "snapshot_id": "MTUzNzY5MDE4NywwMDAwMDAxYzAwMDAwMTY1Mzg1ZjIxZGIwMDAwMDE2MmYyYjBlOGQ4",
+        "tracks": {
+          "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DXcQFLaKHy42g/tracks",
+          "total": 51
+        },
+        "type": "playlist",
+        "uri": "spotify:user:spotify:playlist:37i9dQZF1DXcQFLaKHy42g"
+      },
+      {
+        "collaborative": false,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/playlist/37i9dQZF1DX10zKzsJ2jva"
+        },
+        "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DX10zKzsJ2jva",
+        "id": "37i9dQZF1DX10zKzsJ2jva",
+        "images": [
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/dbf219751c1885ce8b6f0801f2157dc43e2d5e91",
+            "width": 300
+          }
+        ],
+        "name": "¡Viva Latino!",
+        "owner": {
+          "display_name": "Spotify",
+          "external_urls": {
+            "spotify": "https://open.spotify.com/user/spotify"
+          },
+          "href": "https://api.spotify.com/v1/users/spotify",
+          "id": "spotify",
+          "type": "user",
+          "uri": "spotify:user:spotify"
+        },
+        "primary_color": null,
+        "public": null,
+        "snapshot_id": "MTUzNzY5MDIxMCwwMDAwMDBlOTAwMDAwMTY1ZmNiNzVmODQwMDAwMDE2NWY4Yzc3NmNi",
+        "tracks": {
+          "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DX10zKzsJ2jva/tracks",
+          "total": 57
+        },
+        "type": "playlist",
+        "uri": "spotify:user:spotify:playlist:37i9dQZF1DX10zKzsJ2jva"
+      },
+      {
+        "collaborative": false,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/playlist/37i9dQZF1DXbSbnqxMTGx9"
+        },
+        "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DXbSbnqxMTGx9",
+        "id": "37i9dQZF1DXbSbnqxMTGx9",
+        "images": [
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/5f71a438c379a10a9af834efab0e52aeebfdbd4b",
+            "width": 300
+          }
+        ],
+        "name": "Reggae Classics",
+        "owner": {
+          "display_name": "Spotify",
+          "external_urls": {
+            "spotify": "https://open.spotify.com/user/spotify"
+          },
+          "href": "https://api.spotify.com/v1/users/spotify",
+          "id": "spotify",
+          "type": "user",
+          "uri": "spotify:user:spotify"
+        },
+        "primary_color": null,
+        "public": null,
+        "snapshot_id": "MTUzNzY5MDE1MywwMDAwMDAzNzAwMDAwMTY1ZmNmNWI3N2MwMDAwMDE2MmYyYjBlOGQ4",
+        "tracks": {
+          "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DXbSbnqxMTGx9/tracks",
+          "total": 60
+        },
+        "type": "playlist",
+        "uri": "spotify:user:spotify:playlist:37i9dQZF1DXbSbnqxMTGx9"
+      },
+      {
+        "collaborative": false,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/playlist/37i9dQZF1DX4UtSsGT1Sbe"
+        },
+        "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DX4UtSsGT1Sbe",
+        "id": "37i9dQZF1DX4UtSsGT1Sbe",
+        "images": [
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/a3eb4bc891e296a89337556269098bac5beff915",
+            "width": 300
+          }
+        ],
+        "name": "All Out 80s",
+        "owner": {
+          "display_name": "Spotify",
+          "external_urls": {
+            "spotify": "https://open.spotify.com/user/spotify"
+          },
+          "href": "https://api.spotify.com/v1/users/spotify",
+          "id": "spotify",
+          "type": "user",
+          "uri": "spotify:user:spotify"
+        },
+        "primary_color": null,
+        "public": null,
+        "snapshot_id": "MTUzNzY5MDIxMCwwMDAwMDA3ZjAwMDAwMTY1ZjM3MTg5MDkwMDAwMDE2NWNjZGQ3NDgy",
+        "tracks": {
+          "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DX4UtSsGT1Sbe/tracks",
+          "total": 104
+        },
+        "type": "playlist",
+        "uri": "spotify:user:spotify:playlist:37i9dQZF1DX4UtSsGT1Sbe"
+      },
+      {
+        "collaborative": false,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/playlist/37i9dQZF1DX8ky12eWIvcW"
+        },
+        "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DX8ky12eWIvcW",
+        "id": "37i9dQZF1DX8ky12eWIvcW",
+        "images": [
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/b808f5f35355ee60f10519d3575f96f74cdabffb",
+            "width": 300
+          }
+        ],
+        "name": "Throwback Jams",
+        "owner": {
+          "display_name": "Spotify",
+          "external_urls": {
+            "spotify": "https://open.spotify.com/user/spotify"
+          },
+          "href": "https://api.spotify.com/v1/users/spotify",
+          "id": "spotify",
+          "type": "user",
+          "uri": "spotify:user:spotify"
+        },
+        "primary_color": null,
+        "public": null,
+        "snapshot_id": "MTUzNzY5MDIwMCwwMDAwMDAyNDAwMDAwMTY1ZTlkMDYxOTEwMDAwMDE2MmYyYjBlOGQ4",
+        "tracks": {
+          "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DX8ky12eWIvcW/tracks",
+          "total": 93
+        },
+        "type": "playlist",
+        "uri": "spotify:user:spotify:playlist:37i9dQZF1DX8ky12eWIvcW"
+      }
+    ],
+    "limit": 10,
+    "next": "https://api.spotify.com/v1/browse/featured-playlists?country=SE&locale=sv_se&timestamp=2014-10-23T09%3A00%3A00&offset=15&limit=10",
+    "offset": 5,
+    "previous": "https://api.spotify.com/v1/browse/featured-playlists?country=SE&locale=sv_se&timestamp=2014-10-23T09%3A00%3A00&offset=0&limit=10",
+    "total": 19
+  }
+}
