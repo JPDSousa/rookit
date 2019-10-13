@@ -19,36 +19,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
+package org.rookit.utils.supplier;
 
-package org.rookit.utils.optional;
+import com.google.inject.AbstractModule;
+import com.google.inject.Module;
+import com.google.inject.Singleton;
 
-import com.google.inject.Inject;
+public final class SupplierModule extends AbstractModule {
 
-import java.util.Arrays;
+    private static final Module MODULE = new SupplierModule();
 
-final class OptionalUtilsImpl implements OptionalUtils {
-
-    @Inject
-    private OptionalUtilsImpl() { }
-
-    @Override
-    public boolean isAllPresent(final Optional<?>... optionals) {
-        return Arrays.stream(optionals)
-                .allMatch(Optional::isPresent);
+    public static Module getModule() {
+        return MODULE;
     }
 
+    private SupplierModule() {}
+
     @Override
-    public <T extends Comparable<T>> int compare(final Optional<T> left, final Optional<T> right) {
-        if (isAllPresent(left, right)) {
-            return left.get().compareTo(right.get());
-        }
-        if (!left.isPresent() && !right.isPresent()) {
-            return 0;
-        }
-        if (left.isPresent()) {
-            return 1;
-        }
-        return -1;
+    protected void configure() {
+        bind(SupplierUtils.class).to(SupplierUtilsImpl.class).in(Singleton.class);
     }
 
 }

@@ -21,19 +21,16 @@
  ******************************************************************************/
 package org.rookit.utils.supplier;
 
+import com.google.inject.Inject;
+
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 
-@SuppressWarnings("javadoc")
-public final class SupplierUtilsImpl implements SupplierUtils {
+final class SupplierUtilsImpl implements SupplierUtils {
 
-    public static SupplierUtils create() {
-        return new SupplierUtilsImpl();
-    }
-
-    private SupplierUtilsImpl() {
-    }
+    @Inject
+    private SupplierUtilsImpl() { }
 
     @Override
     public <T> Supplier<T> fixedValueSupplier(final T fixedValue) {

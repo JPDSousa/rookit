@@ -23,11 +23,7 @@ package org.rookit.utils.reflect;
 
 import com.google.inject.Inject;
 
-public final class BaseExtendedClassFactory implements ExtendedClassFactory {
-
-    public static ExtendedClassFactory create(final ExtendedMethodFactory methodFactory) {
-        return new BaseExtendedClassFactory(methodFactory);
-    }
+final class BaseExtendedClassFactory implements ExtendedClassFactory {
 
     private final ExtendedMethodFactory methodFactory;
 

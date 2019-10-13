@@ -40,22 +40,16 @@ import org.rookit.utils.io.DummyReader;
 import org.rookit.utils.io.DummyWriter;
 import org.rookit.utils.object.ObjectModule;
 import org.rookit.utils.optional.OptionalBoolean;
-import org.rookit.utils.optional.OptionalFactory;
-import org.rookit.utils.optional.OptionalFactoryImpl;
+import org.rookit.utils.optional.OptionalModule;
 import org.rookit.utils.optional.OptionalShort;
-import org.rookit.utils.optional.OptionalUtils;
-import org.rookit.utils.optional.OptionalUtilsImpl;
 import org.rookit.utils.primitive.PrimitiveModule;
-import org.rookit.utils.reflect.BaseExtendedClassFactory;
-import org.rookit.utils.reflect.ExtendedClassFactory;
 import org.rookit.utils.reflect.ReflectModule;
 import org.rookit.utils.registry.RegistryModule;
 import org.rookit.utils.repetition.RepetitionModule;
 import org.rookit.utils.string.StringModule;
 import org.rookit.utils.string.template.Template1;
 import org.rookit.utils.string.template.TemplateFactory;
-import org.rookit.utils.supplier.SupplierUtils;
-import org.rookit.utils.supplier.SupplierUtilsImpl;
+import org.rookit.utils.supplier.SupplierModule;
 import org.rookit.utils.system.SystemModule;
 
 import java.io.InputStream;
@@ -84,11 +78,13 @@ public final class UtilsModule extends AbstractModule {
             CollectionsModule.getModule(),
             GraphModule.getModule(),
             ObjectModule.getModule(),
+            OptionalModule.getModule(),
             PrimitiveModule.getModule(),
             ReflectModule.getModule(),
             RegistryModule.getModule(),
             RepetitionModule.getModule(),
             StringModule.getModule(),
+            SupplierModule.getModule(),
             SystemModule.getModule()
     );
 
@@ -106,11 +102,6 @@ public final class UtilsModule extends AbstractModule {
         bindKeyed();
         bindGson();
 
-        bind(OptionalUtils.class).toInstance(OptionalUtilsImpl.create());
-        bind(SupplierUtils.class).toInstance(SupplierUtilsImpl.create());
-        //bind(PrintUtils.class).to(PrintUtilsImpl.class).in(Singleton.class);
-        bind(OptionalFactory.class).to(OptionalFactoryImpl.class).in(Singleton.class);
-        bind(ExtendedClassFactory.class).to(BaseExtendedClassFactory.class).in(Singleton.class);
         // TODO might be configurable
         bind(Locale.class).toInstance(Locale.getDefault());
         bind(Charset.class).toInstance(Charset.forName("UTF-8"));

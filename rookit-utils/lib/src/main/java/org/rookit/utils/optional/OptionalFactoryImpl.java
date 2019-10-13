@@ -23,13 +23,7 @@ package org.rookit.utils.optional;
 
 import com.google.inject.Inject;
 
-public final class OptionalFactoryImpl implements OptionalFactory {
-
-    private static final OptionalFactory SINGLETON = new OptionalFactoryImpl();
-
-    public static OptionalFactory create() {
-        return SINGLETON;
-    }
+final class OptionalFactoryImpl implements OptionalFactory {
 
     private final Optional<?> empty;
     private final OptionalShort emptyShort;
