@@ -19,17 +19,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.type.executable.node;
+package org.rookit.auto.javax.runtime.type.executable.node.dependency;
 
 import org.rookit.utils.graph.Dependency;
 import org.rookit.utils.graph.DependencyVisitor;
 
-public interface ThrownTypeDependency extends Dependency {
+public interface ReturnTypeDependency extends Dependency {
 
     @Override
     default <R, P> R accept(final DependencyVisitor<R, P> visitor, final P parameter) {
         if (visitor instanceof ExecutableDependencyVisitor) {
-            return ((ExecutableDependencyVisitor<R, P>) visitor).visitThrownType(this, parameter);
+            return ((ExecutableDependencyVisitor<R, P>) visitor).visitReturnType(this, parameter);
         }
         return visitor.visitUnknown(this, parameter);
     }

@@ -24,7 +24,7 @@ package org.rookit.auto.javax.runtime.mirror.executable;
 import com.google.inject.Inject;
 import org.rookit.auto.javax.runtime.entity.RuntimeExecutableEntity;
 import org.rookit.auto.javax.runtime.type.executable.ExecutableTypeFactory;
-import org.rookit.auto.javax.runtime.type.executable.node.ExecutableDependencyFactory;
+import org.rookit.auto.javax.runtime.type.executable.node.dependency.ExecutableDependencyFactory;
 import org.rookit.auto.javax.runtime.type.mirror.NodeTypeMirrorFactory;
 import org.rookit.auto.javax.runtime.type.no.NoTypeFactory;
 import org.rookit.utils.graph.DependencyWrapperFactory;
@@ -56,10 +56,12 @@ final class ExecutableTypeFactoryImpl implements ExecutableTypeFactory {
                 this.nodeFactory.createMutableFromEntity(executable),
                 this.wrapperFactory.createMulti("Type Variable",
                                                 this.dependencyFactory::createTypeVariableDependency),
-                this.wrapperFactory.createSingle(),
+                this.wrapperFactory.createSingle("Return Type",
+                                                 this.dependencyFactory::createReturnTypeDependency),
                 this.wrapperFactory.createMulti("Parameter Type",
                                                 this.dependencyFactory::createParameterTypeDependency),
-                this.wrapperFactory.createSingle(),
+                this.wrapperFactory.createSingle("Receiver Type",
+                                                 this.dependencyFactory::createReceiverTypeDependency),
                 this.wrapperFactory.createMulti("Thrown Type",
                                                 this.dependencyFactory::createThrownTypeDependency),
                 this.noTypeFactory.noType()

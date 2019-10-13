@@ -22,7 +22,6 @@
 package org.rookit.utils.graph;
 
 import com.google.common.collect.ImmutableList;
-import com.google.inject.Inject;
 import io.reactivex.Completable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,8 +43,7 @@ final class MultiDependencyWrapperImpl<D> implements MultiDependencyWrapper<D> {
     private final Function<D, Dependency> dependencyFactory;
     private final String dependencyName;
 
-    @Inject
-    private MultiDependencyWrapperImpl(
+    MultiDependencyWrapperImpl(
             final List<D> values,
             final Function<D, Dependency> dependencyFactory,
             final String dependencyName) {

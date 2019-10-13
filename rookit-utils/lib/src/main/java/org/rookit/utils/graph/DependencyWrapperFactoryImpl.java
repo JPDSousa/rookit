@@ -23,17 +23,24 @@ package org.rookit.utils.graph;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
+import org.rookit.utils.optional.OptionalFactory;
 
 import java.util.function.Function;
 
 final class DependencyWrapperFactoryImpl implements DependencyWrapperFactory {
 
+    private final OptionalFactory optionalFactory;
+
     @Inject
-    private DependencyWrapperFactoryImpl() {}
+    private DependencyWrapperFactoryImpl(final OptionalFactory optionalFactory) {
+        this.optionalFactory = optionalFactory;
+    }
 
     @Override
-    public <D> DependencyWrapper<D> createSingle() {
-        return new DependencyWrapperImpl<>();
+    public <D> DependencyWrapper<D> createSingle(
+            final String dependencyName,
+            final Function<D, Dependency> dependencyFactory) {
+        return new DependencyWrapperImpl<>(this.optionalFactory, dependencyFactory, dependencyName);
     }
 
     @Override
@@ -41,6 +48,13 @@ final class DependencyWrapperFactoryImpl implements DependencyWrapperFactory {
             final String dependencyName,
             final Function<D, Dependency> dependencyFactory) {
         return new MultiDependencyWrapperImpl<>(ImmutableList.of(), dependencyFactory, dependencyName);
+    }
+
+    @Override
+    public String toString() {
+        return "DependencyWrapperFactoryImpl{" +
+                "optionalFactory=" + this.optionalFactory +
+                "}";
     }
 
 }

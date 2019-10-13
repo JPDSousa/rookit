@@ -19,24 +19,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.element.graph;
+package org.rookit.utils.graph;
 
-import org.rookit.utils.graph.Dependency;
-import org.rookit.utils.graph.DependencyVisitor;
+import com.google.inject.AbstractModule;
+import com.google.inject.Module;
+import com.google.inject.Singleton;
 
-import javax.lang.model.element.Element;
+public final class GraphModule extends AbstractModule {
 
-public interface EnclosedDependency extends Dependency {
+    private static final Module MODULE = new GraphModule();
 
-    Element element();
+    public static Module getModule() {
+        return MODULE;
+    }
 
-    // TODO push down to implementation, so that we an add logging
+    private GraphModule() {}
+
     @Override
-    default <R, P> R accept(final DependencyVisitor<R, P> visitor, final P parameter) {
-        if (visitor instanceof ElementDependencyVisitor) {
-            return ((ElementDependencyVisitor<R, P>) visitor).visitEnclosedDependency(this, parameter);
-        }
-        return visitor.visitUnknown(this, parameter);
+    protected void configure() {
+        bind(DependencyWrapperFactory.class).to(DependencyWrapperFactoryImpl.class).in(Singleton.class);
     }
 
 }

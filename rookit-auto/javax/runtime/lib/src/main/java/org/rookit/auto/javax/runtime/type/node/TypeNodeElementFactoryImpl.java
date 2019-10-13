@@ -58,7 +58,8 @@ final class TypeNodeElementFactoryImpl implements RuntimeTypeNodeElementFactory 
         return this.nodeElementFactory.createMutableFromEntity(entity)
                .map(node -> new MutableTypeNodeElementImpl(
                        node,
-                       this.wrapperFactory.createSingle(),
+                       this.wrapperFactory.createSingle("Superclass",
+                                                        this.dependencyFactory::createSuperClassDependency),
                        this.wrapperFactory.createMulti("Interfaces",
                                                        this.dependencyFactory::createInterfaceDependency),
                        this.wrapperFactory.createMulti("Type Parameters",

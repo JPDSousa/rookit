@@ -19,16 +19,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.element.graph;
+package org.rookit.auto.javax.runtime.type.executable.node.dependency;
 
 import org.rookit.utils.graph.DependencyVisitor;
 
-public interface ElementDependencyVisitor<R, P> extends DependencyVisitor<R, P> {
+public interface ExecutableDependencyVisitor<R, P> extends DependencyVisitor<R, P> {
 
-    R visitEnclosedDependency(EnclosedDependency dependency, P parameter);
+    R visitTypeVariable(TypeVariableDependency dependency, P parameter);
 
-    R visitEnclosingDependency(EnclosingDependency dependency, P parameter);
+    R visitParameterType(ParameterTypeDependency dependency, P parameter);
 
-    R visitTypeMirrorDependency(TypeMirrorDependency dependency, P parameter);
+    R visitThrownType(ThrownTypeDependency dependency, P parameter);
+
+    R visitReturnType(ReturnTypeDependency dependency, P parameter);
+
+    R visitReceiverType(ReceiverTypeDependency dependency, P parameter);
 
 }

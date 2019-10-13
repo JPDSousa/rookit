@@ -21,7 +21,7 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.element.type.parameter.node;
 
-import org.rookit.auto.javax.runtime.element.graph.DependencyFactory;
+import org.rookit.auto.javax.runtime.element.node.dependency.DependencyFactory;
 
 import javax.lang.model.type.TypeMirror;
 

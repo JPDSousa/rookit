@@ -23,10 +23,10 @@ package org.rookit.auto.javax.runtime.element.node;
 
 import com.google.inject.Inject;
 import io.reactivex.Single;
-import org.rookit.auto.javax.runtime.element.graph.EnclosedDependency;
-import org.rookit.auto.javax.runtime.element.graph.EnclosingDependency;
-import org.rookit.auto.javax.runtime.element.graph.ElementDependencyVisitor;
-import org.rookit.auto.javax.runtime.element.graph.TypeMirrorDependency;
+import org.rookit.auto.javax.runtime.element.node.dependency.EnclosedDependency;
+import org.rookit.auto.javax.runtime.element.node.dependency.EnclosingDependency;
+import org.rookit.auto.javax.runtime.element.node.dependency.ElementDependencyVisitor;
+import org.rookit.auto.javax.runtime.element.node.dependency.TypeMirrorDependency;
 import org.rookit.utils.graph.Dependency;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -24,8 +24,8 @@ package org.rookit.auto.javax.runtime.element.node;
 import com.google.inject.Inject;
 import io.reactivex.Single;
 import org.rookit.auto.javax.runtime.annotation.RuntimeAnnotatedConstructFactory;
-import org.rookit.auto.javax.runtime.element.graph.DependencyFactory;
-import org.rookit.auto.javax.runtime.element.graph.ElementDependencyVisitor;
+import org.rookit.auto.javax.runtime.element.node.dependency.DependencyFactory;
+import org.rookit.auto.javax.runtime.element.node.dependency.ElementDependencyVisitor;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntity;
 import org.rookit.utils.graph.DependencyWrapperFactory;
 
@@ -60,8 +60,10 @@ final class NodeElementFactoryImpl implements NodeElementFactory {
                 .map(construct -> new MutableNodeElementImpl(
                         this.wrapperFactory.createMulti("Enclosed Elements",
                                                         this.dependencyFactory::enclosedDependency),
-                        this.wrapperFactory.createSingle(),
-                        this.wrapperFactory.createSingle(),
+                        this.wrapperFactory.createSingle("Enclosing Element",
+                                                         this.dependencyFactory::enclosingDependency),
+                        this.wrapperFactory.createSingle("Type Mirror",
+                                                         this.dependencyFactory::typeMirrorDependency),
                         construct,
                         this.visitor));
     }

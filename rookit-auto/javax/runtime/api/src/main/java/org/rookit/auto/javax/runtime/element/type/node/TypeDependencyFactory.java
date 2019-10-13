@@ -21,7 +21,7 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.element.type.node;
 
-import org.rookit.auto.javax.runtime.element.graph.DependencyFactory;
+import org.rookit.auto.javax.runtime.element.node.dependency.DependencyFactory;
 
 import javax.lang.model.element.TypeParameterElement;
 import javax.lang.model.type.TypeMirror;
@@ -31,5 +31,7 @@ public interface TypeDependencyFactory extends DependencyFactory {
     InterfaceDependency createInterfaceDependency(TypeMirror dependency);
 
     TypeParameterDependency createTypeParameterDependency(TypeParameterElement dependency);
+
+    SuperClassDependency createSuperClassDependency(TypeMirror dependency);
 
 }

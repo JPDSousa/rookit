@@ -33,6 +33,7 @@ import com.google.inject.util.Modules;
 import org.apache.commons.collections4.Bag;
 import org.apache.commons.collections4.BoundedCollection;
 import org.rookit.utils.collection.CollectionsModule;
+import org.rookit.utils.graph.GraphModule;
 import org.rookit.utils.io.DummyInputStream;
 import org.rookit.utils.io.DummyOutputStream;
 import org.rookit.utils.io.DummyReader;
@@ -81,6 +82,7 @@ public final class UtilsModule extends AbstractModule {
     private static final Module MODULE = Modules.combine(
             new UtilsModule(),
             CollectionsModule.getModule(),
+            GraphModule.getModule(),
             ObjectModule.getModule(),
             PrimitiveModule.getModule(),
             ReflectModule.getModule(),

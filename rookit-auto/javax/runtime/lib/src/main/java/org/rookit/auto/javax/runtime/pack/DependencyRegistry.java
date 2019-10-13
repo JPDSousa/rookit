@@ -27,7 +27,7 @@ import org.reflections.Reflections;
 import org.rookit.auto.javax.runtime.element.type.RuntimeTypeElementFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntityFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimePackageEntity;
-import org.rookit.auto.javax.runtime.element.graph.DependencyFactory;
+import org.rookit.auto.javax.runtime.element.node.dependency.DependencyFactory;
 import org.rookit.utils.graph.Dependency;
 import org.rookit.utils.registry.MultiRegistry;
 import org.slf4j.Logger;

@@ -19,18 +19,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.utils.graph;
+package org.rookit.auto.javax.runtime.element.node.dependency;
 
-import java.util.function.Function;
+import org.rookit.utils.graph.Dependency;
+import org.rookit.utils.graph.DependencyVisitor;
 
-public interface DependencyWrapperFactory {
+import javax.lang.model.element.Element;
 
-    <D> DependencyWrapper<D> createSingle(
-            String dependencyName,
-            Function<D, Dependency> dependencyFactory);
+public interface EnclosingDependency extends Dependency {
 
-    <D> MultiDependencyWrapper<D> createMulti(
-            String dependencyName,
-            Function<D, Dependency> dependencyFactory);
+    Element element();
+
+    // TODO push down to implementation, so that we an add logging
+    @Override
+    default <R, P> R accept(final DependencyVisitor<R, P> visitor, final P parameter) {
+        if (visitor instanceof ElementDependencyVisitor) {
+            return ((ElementDependencyVisitor<R, P>) visitor).visitEnclosingDependency(this, parameter);
+        }
+        return visitor.visitUnknown(this, parameter);
+    }
 
 }

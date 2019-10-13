@@ -19,18 +19,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.utils.graph;
+package org.rookit.auto.javax.runtime.element.node.dependency;
 
-import java.util.function.Function;
+import javax.lang.model.element.Element;
+import javax.lang.model.type.TypeMirror;
 
-public interface DependencyWrapperFactory {
+public interface DependencyFactory {
 
-    <D> DependencyWrapper<D> createSingle(
-            String dependencyName,
-            Function<D, Dependency> dependencyFactory);
+    EnclosingDependency enclosingDependency(Element element);
 
-    <D> MultiDependencyWrapper<D> createMulti(
-            String dependencyName,
-            Function<D, Dependency> dependencyFactory);
+    EnclosedDependency enclosedDependency(Element element);
+
+    TypeMirrorDependency typeMirrorDependency(TypeMirror typeMirror);
 
 }

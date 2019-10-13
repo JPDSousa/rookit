@@ -44,6 +44,12 @@ final class DependencyWrapperImpl<D> implements DependencyWrapper<D> {
     private final Function<D, Dependency> dependencyFactory;
     private final String dependencyName;
 
+    DependencyWrapperImpl(final OptionalFactory optionalFactory,
+                          final Function<D, Dependency> dependencyFactory,
+                          final String dependencyName) {
+        this(null, optionalFactory, dependencyFactory, dependencyName);
+    }
+
     DependencyWrapperImpl(
             @Nullable final D value,
             final OptionalFactory optionalFactory,

@@ -29,4 +29,6 @@ public interface TypeDependencyVisitor<R, P> extends DependencyVisitor<R, P> {
 
     R visitTypeParameter(TypeParameterDependency dependency, P parameter);
 
+    R visitSuperClass(SuperClassDependency dependency, P parameter);
+
 }

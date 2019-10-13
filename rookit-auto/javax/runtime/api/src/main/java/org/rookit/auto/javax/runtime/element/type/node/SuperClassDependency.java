@@ -19,17 +19,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.element.graph;
+package org.rookit.auto.javax.runtime.element.type.node;
 
-import javax.lang.model.element.Element;
-import javax.lang.model.type.TypeMirror;
+import org.rookit.utils.graph.Dependency;
+import org.rookit.utils.graph.DependencyVisitor;
 
-public interface DependencyFactory {
+public interface SuperClassDependency extends Dependency {
 
-    EnclosingDependency enclosingDependency(Element element);
-
-    EnclosedDependency enclosedDependency(Element element);
-
-    TypeMirrorDependency typeMirrorDependency(TypeMirror typeMirror);
+    @Override
+    default <R, P> R accept(final DependencyVisitor<R, P> visitor, final P parameter) {
+        if (visitor instanceof TypeDependencyVisitor) {
+            return ((TypeDependencyVisitor<R, P>) visitor).visitSuperClass(this, parameter);
+        }
+        return visitor.visitUnknown(this, parameter);
+    }
 
 }
