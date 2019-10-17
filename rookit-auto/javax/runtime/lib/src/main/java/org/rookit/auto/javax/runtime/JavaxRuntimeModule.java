@@ -28,7 +28,7 @@ import com.google.inject.util.Modules;
 import org.rookit.auto.javax.runtime.annotation.AnnotationModule;
 import org.rookit.auto.javax.runtime.element.ElementModule;
 import org.rookit.auto.javax.runtime.entity.EntityModule;
-import org.rookit.auto.javax.runtime.executable.ExecutableModule;
+import org.rookit.auto.javax.runtime.element.executable.ExecutableModule;
 import org.rookit.auto.javax.runtime.mirror.MirrorModule;
 import org.rookit.auto.javax.runtime.modifier.ModifierModule;
 import org.rookit.auto.javax.runtime.name.NameModule;
@@ -44,7 +44,6 @@ public final class JavaxRuntimeModule extends AbstractModule {
     private static final Module MODULE = Modules.combine(
             new JavaxRuntimeModule(),
             AnnotationModule.getModule(),
-            ExecutableModule.getModule(),
             EntityModule.getModule(),
             ElementModule.getModule(),
             NameModule.getModule(),

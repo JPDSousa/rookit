@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.executable;
+package org.rookit.auto.javax.runtime.element.executable;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
@@ -29,11 +29,9 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.util.Modules;
 import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactories;
 import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactory;
-import org.rookit.auto.javax.runtime.element.executable.ExecutableElementFactory;
-import org.rookit.auto.javax.runtime.element.executable.RuntimeExecutableElement;
 import org.rookit.auto.javax.runtime.entity.RuntimeExecutableEntity;
-import org.rookit.auto.javax.runtime.executable.dependency.DependencyModule;
-import org.rookit.auto.javax.runtime.executable.node.NodeModule;
+import org.rookit.auto.javax.runtime.element.executable.dependency.DependencyModule;
+import org.rookit.auto.javax.runtime.element.executable.node.NodeModule;
 import org.rookit.utils.graph.Dependency;
 import org.rookit.utils.registry.MultiRegistry;
 import org.rookit.utils.registry.Registry;

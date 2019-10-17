@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.executable;
+package org.rookit.auto.javax.runtime.element.executable;
 
 import com.google.inject.Inject;
 import io.reactivex.Single;

@@ -19,11 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.executable;
+package org.rookit.auto.javax.runtime.element.executable;
 
 import com.google.common.collect.ImmutableSet;
 import io.reactivex.Completable;
-import org.rookit.auto.javax.runtime.element.executable.RuntimeExecutableElement;
 import org.rookit.auto.javax.runtime.element.executable.node.MutableExecutableNodeElement;
 import org.rookit.utils.graph.Dependency;
 import org.rookit.utils.optional.Optional;

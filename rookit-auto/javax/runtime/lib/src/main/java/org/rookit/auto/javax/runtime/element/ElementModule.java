@@ -26,6 +26,7 @@ import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
 import org.rookit.auto.javax.runtime.element.dependency.DependencyModule;
+import org.rookit.auto.javax.runtime.element.executable.ExecutableModule;
 import org.rookit.auto.javax.runtime.element.kind.RuntimeElementKindFactory;
 import org.rookit.auto.javax.runtime.element.node.NodeModule;
 
@@ -34,6 +35,7 @@ public final class ElementModule extends AbstractModule {
     private static final Module MODULE = Modules.combine(
             new ElementModule(),
             DependencyModule.getModule(),
+            ExecutableModule.getModule(),
             NodeModule.getModule()
     );
 
