@@ -11,7 +11,7 @@
 
     <artifactId>auto-lib</artifactId>
 
-    <name>Rookit Convention Auto Library</name>
+    <name>Rookit Convention Auto Lib</name>
 
     <dependencies>
         <dependency>
