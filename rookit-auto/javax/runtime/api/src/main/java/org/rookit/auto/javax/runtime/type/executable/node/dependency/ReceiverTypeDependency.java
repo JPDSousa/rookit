@@ -24,7 +24,10 @@ package org.rookit.auto.javax.runtime.type.executable.node.dependency;
 import org.rookit.utils.graph.Dependency;
 import org.rookit.utils.graph.DependencyVisitor;
 
-public interface ReceiverTypeDependency extends Dependency {
+import javax.lang.model.type.TypeMirror;
+
+@FunctionalInterface
+public interface ReceiverTypeDependency extends Dependency<TypeMirror> {
 
     @Override
     default <R, P> R accept(final DependencyVisitor<R, P> visitor, final P parameter) {

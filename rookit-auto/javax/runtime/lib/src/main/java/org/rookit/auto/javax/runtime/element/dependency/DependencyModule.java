@@ -19,22 +19,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.type.executable.node.dependency;
+package org.rookit.auto.javax.runtime.element.dependency;
 
-import org.rookit.utils.graph.Dependency;
-import org.rookit.utils.graph.DependencyVisitor;
+import com.google.inject.AbstractModule;
+import com.google.inject.Module;
+import com.google.inject.Singleton;
+import org.rookit.auto.javax.runtime.element.node.dependency.DependencyFactory;
 
-import javax.lang.model.type.TypeMirror;
+public final class DependencyModule extends AbstractModule {
 
-@FunctionalInterface
-public interface ReturnTypeDependency extends Dependency<TypeMirror> {
+    private static final Module MODULE = new DependencyModule();
+
+    public static Module getModule() {
+        return MODULE;
+    }
+
+    private DependencyModule() {}
 
     @Override
-    default <R, P> R accept(final DependencyVisitor<R, P> visitor, final P parameter) {
-        if (visitor instanceof ExecutableDependencyVisitor) {
-            return ((ExecutableDependencyVisitor<R, P>) visitor).visitReturnType(this, parameter);
-        }
-        return visitor.visitUnknown(this, parameter);
+    protected void configure() {
+        bind(DependencyFactory.class).to(DependencyFactoryImpl.class).in(Singleton.class);
     }
 
 }

@@ -26,9 +26,7 @@ import org.rookit.utils.graph.DependencyVisitor;
 
 import javax.lang.model.element.Element;
 
-public interface EnclosedDependency extends Dependency {
-
-    Element element();
+public interface EnclosedDependency extends Dependency<Element> {
 
     // TODO push down to implementation, so that we an add logging
     @Override

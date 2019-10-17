@@ -171,13 +171,13 @@ final class RuntimeParameterVariableElement implements RuntimeVariableElement {
     }
 
     @Override
-    public Completable setDependencies(final Collection<Dependency> dependencies) {
+    public Completable setDependencies(final Collection<Dependency<?>> dependencies) {
         logger.trace("Delegating call to node");
         return this.node.setDependencies(dependencies);
     }
 
     @Override
-    public Completable addDependency(final Dependency dependency) {
+    public Completable addDependency(final Dependency<?> dependency) {
         logger.trace("Delegating call to node");
         return this.node.addDependency(dependency);
     }

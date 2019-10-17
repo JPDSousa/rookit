@@ -21,8 +21,10 @@
  ******************************************************************************/
 package org.rookit.utils.graph;
 
-public interface Dependency {
+public interface Dependency<V> {
 
     <R, P> R accept(DependencyVisitor<R, P> visitor, P parameter);
+
+    V value();
 
 }

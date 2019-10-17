@@ -172,13 +172,13 @@ final class NamedPackageElement implements RuntimePackageElement {
     }
 
     @Override
-    public Completable setDependencies(final Collection<Dependency> dependencies) {
+    public Completable setDependencies(final Collection<Dependency<?>> dependencies) {
         logger.trace("Delegating to node element");
         return this.nodeElement.setDependencies(dependencies);
     }
 
     @Override
-    public Completable addDependency(final Dependency dependency) {
+    public Completable addDependency(final Dependency<?> dependency) {
         logger.trace("Delegating to node element");
         return this.nodeElement.addDependency(dependency);
     }

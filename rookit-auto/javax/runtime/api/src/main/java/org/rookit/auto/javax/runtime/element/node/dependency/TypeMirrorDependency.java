@@ -26,9 +26,7 @@ import org.rookit.utils.graph.DependencyVisitor;
 
 import javax.lang.model.type.TypeMirror;
 
-public interface TypeMirrorDependency extends Dependency {
-
-    TypeMirror typeMirror();
+public interface TypeMirrorDependency extends Dependency<TypeMirror> {
 
     // TODO push down to implementation, so that we an add logging
     @Override

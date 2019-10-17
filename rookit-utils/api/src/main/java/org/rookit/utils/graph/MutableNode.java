@@ -27,8 +27,8 @@ import java.util.Collection;
 
 public interface MutableNode extends Node {
 
-    Completable setDependencies(Collection<Dependency> dependencies);
+    Completable setDependencies(Collection<Dependency<?>> dependencies);
 
-    Completable addDependency(Dependency dependency);
+    Completable addDependency(Dependency<?> dependency);
 
 }

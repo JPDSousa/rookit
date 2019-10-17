@@ -24,23 +24,22 @@ package org.rookit.auto.javax.runtime.type.parameter;
 import com.google.inject.Inject;
 import io.reactivex.Single;
 import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactory;
+import org.rookit.auto.javax.runtime.element.type.parameter.RuntimeTypeParameterElement;
 import org.rookit.auto.javax.runtime.element.type.parameter.RuntimeTypeParameterElementFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeTypeVariableEntity;
 
-import javax.lang.model.element.TypeParameterElement;
-
 final class RuntimeTypeParameterElementFactoryImpl implements RuntimeTypeParameterElementFactory {
 
-    private final RuntimeGenericElementFactory<RuntimeTypeVariableEntity, TypeParameterElement> delegate;
+    private final RuntimeGenericElementFactory<RuntimeTypeVariableEntity, RuntimeTypeParameterElement> delegate;
 
     @Inject
     private RuntimeTypeParameterElementFactoryImpl(
-            final RuntimeGenericElementFactory<RuntimeTypeVariableEntity, TypeParameterElement> delegate) {
+            final RuntimeGenericElementFactory<RuntimeTypeVariableEntity, RuntimeTypeParameterElement> delegate) {
         this.delegate = delegate;
     }
 
     @Override
-    public Single<TypeParameterElement> createElement(final RuntimeTypeVariableEntity entity) {
+    public Single<RuntimeTypeParameterElement> createElement(final RuntimeTypeVariableEntity entity) {
         return this.delegate.createElement(entity);
     }
 

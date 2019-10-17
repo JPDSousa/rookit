@@ -23,6 +23,6 @@ package org.rookit.utils.graph;
 
 public interface DependencyVisitor<R, P> {
 
-    R visitUnknown(Dependency dependency, P parameter);
+    R visitUnknown(Dependency<?> dependency, P parameter);
 
 }

@@ -24,7 +24,10 @@ package org.rookit.auto.javax.runtime.type.executable.node.dependency;
 import org.rookit.utils.graph.Dependency;
 import org.rookit.utils.graph.DependencyVisitor;
 
-public interface TypeVariableDependency extends Dependency {
+import javax.lang.model.type.TypeVariable;
+
+@FunctionalInterface
+public interface TypeVariableDependency extends Dependency<TypeVariable> {
 
     @Override
     default <R, P> R accept(final DependencyVisitor<R, P> visitor, final P parameter) {

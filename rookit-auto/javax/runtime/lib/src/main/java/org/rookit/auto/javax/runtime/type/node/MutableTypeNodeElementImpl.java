@@ -107,8 +107,7 @@ final class MutableTypeNodeElementImpl implements MutableTypeNodeElement {
     @Override
     public TypeMirror superclass() {
         logger.trace("Delegating to '{}'", this.superclass);
-        return this.superclass.get()
-                .orElseThrow(() -> new IllegalStateException("Superclass has not been set"));
+        return this.superclass.fetch();
     }
 
     @Override
@@ -160,13 +159,13 @@ final class MutableTypeNodeElementImpl implements MutableTypeNodeElement {
     }
 
     @Override
-    public Completable setDependencies(final Collection<Dependency> dependencies) {
+    public Completable setDependencies(final Collection<Dependency<?>> dependencies) {
         logger.trace("Delegating to node element");
         return this.nodeElement.setDependencies(dependencies);
     }
 
     @Override
-    public Completable addDependency(final Dependency dependency) {
+    public Completable addDependency(final Dependency<?> dependency) {
         logger.trace("Delegating to node element");
         return this.nodeElement.addDependency(dependency);
     }

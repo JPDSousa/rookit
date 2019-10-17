@@ -29,6 +29,8 @@ public interface DependencyWrapper<D> {
 
     Optional<D> get();
 
+    D fetch() throws IllegalStateException;
+
     Completable set(D value);
 
     Optional<Dependency> asDependency();

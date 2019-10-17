@@ -67,6 +67,12 @@ final class DependencyWrapperImpl<D> implements DependencyWrapper<D> {
     }
 
     @Override
+    public D fetch() throws IllegalStateException {
+        return get()
+                .orElseThrow(() -> new IllegalStateException(this.dependencyName + " has not been set"));
+    }
+
+    @Override
     public Completable set(final D value) {
         if (logger.isTraceEnabled()) {
             logger.trace("Setting '{}' to '{}'", this.dependencyName, value);

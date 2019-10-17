@@ -45,26 +45,26 @@ final class ElementDependencySetter implements ElementDependencyVisitor<Single<M
     @Override
     public Single<MutableNodeElement> visitEnclosedDependency(final EnclosedDependency dependency,
                                                               final MutableNodeElement parameter) {
-        return parameter.addEnclosedElement(dependency.element())
+        return parameter.addEnclosedElement(dependency.value())
                 .toSingleDefault(parameter);
     }
 
     @Override
     public Single<MutableNodeElement> visitEnclosingDependency(final EnclosingDependency dependency,
                                                                final MutableNodeElement parameter) {
-        return parameter.enclosingElement(dependency.element())
+        return parameter.enclosingElement(dependency.value())
                 .toSingleDefault(parameter);
     }
 
     @Override
     public Single<MutableNodeElement> visitTypeMirrorDependency(final TypeMirrorDependency dependency,
                                                                 final MutableNodeElement parameter) {
-        return parameter.typeMirror(dependency.typeMirror())
+        return parameter.typeMirror(dependency.value())
                 .toSingleDefault(parameter);
     }
 
     @Override
-    public Single<MutableNodeElement> visitUnknown(final Dependency dependency,
+    public Single<MutableNodeElement> visitUnknown(final Dependency<?> dependency,
                                                    final MutableNodeElement parameter) {
         logger.warn("Visiting unknown dependency.");
         return Single.just(parameter);

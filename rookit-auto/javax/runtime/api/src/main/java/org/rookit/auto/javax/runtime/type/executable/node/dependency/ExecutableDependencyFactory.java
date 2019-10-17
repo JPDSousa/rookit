@@ -21,12 +21,10 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.type.executable.node.dependency;
 
-import org.rookit.auto.javax.runtime.element.node.dependency.DependencyFactory;
-
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.type.TypeVariable;
 
-public interface ExecutableDependencyFactory extends DependencyFactory {
+public interface ExecutableDependencyFactory {
 
     TypeVariableDependency createTypeVariableDependency(TypeVariable dependency);
 

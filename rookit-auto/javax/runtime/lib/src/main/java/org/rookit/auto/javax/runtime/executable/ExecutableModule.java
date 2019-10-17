@@ -26,11 +26,14 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
+import com.google.inject.util.Modules;
 import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactories;
 import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactory;
 import org.rookit.auto.javax.runtime.element.executable.ExecutableElementFactory;
 import org.rookit.auto.javax.runtime.element.executable.RuntimeExecutableElement;
 import org.rookit.auto.javax.runtime.entity.RuntimeExecutableEntity;
+import org.rookit.auto.javax.runtime.executable.dependency.DependencyModule;
+import org.rookit.auto.javax.runtime.executable.node.NodeModule;
 import org.rookit.utils.graph.Dependency;
 import org.rookit.utils.registry.MultiRegistry;
 import org.rookit.utils.registry.Registry;
@@ -38,7 +41,11 @@ import org.rookit.utils.registry.Registry;
 @SuppressWarnings("MethodMayBeStatic")
 public final class ExecutableModule extends AbstractModule {
 
-    private static final Module MODULE = new ExecutableModule();
+    private static final Module MODULE = Modules.combine(
+            new ExecutableModule(),
+            NodeModule.getModule(),
+            DependencyModule.getModule()
+    );
 
     public static Module getModule() {
         return MODULE;

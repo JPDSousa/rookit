@@ -90,8 +90,7 @@ final class MutableNodeElementImpl implements MutableNodeElement {
 
     @Override
     public TypeMirror typeMirror() {
-        return this.typeMirror.get()
-                .orElseThrow(() -> new IllegalStateException("No type mirror found"));
+        return this.typeMirror.fetch();
     }
 
     @Override
@@ -122,7 +121,7 @@ final class MutableNodeElementImpl implements MutableNodeElement {
     }
 
     @Override
-    public Completable setDependencies(final Collection<Dependency> dependencies) {
+    public Completable setDependencies(final Collection<Dependency<?>> dependencies) {
         // TODO move this logic to its own type
         if (dependencies.stream().anyMatch(EnclosedDependency.class::isInstance)) {
             logger.debug("Resetting enclosed elements, since there's at least one to be set");
@@ -134,7 +133,7 @@ final class MutableNodeElementImpl implements MutableNodeElement {
     }
 
     @Override
-    public Completable addDependency(final Dependency dependency) {
+    public Completable addDependency(final Dependency<?> dependency) {
         return dependency.accept(this.visitor, this).ignoreElement();
     }
 

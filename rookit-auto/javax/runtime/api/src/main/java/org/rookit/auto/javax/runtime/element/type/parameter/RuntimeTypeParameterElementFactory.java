@@ -24,11 +24,7 @@ package org.rookit.auto.javax.runtime.element.type.parameter;
 import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeTypeVariableEntity;
 
-import javax.lang.model.element.TypeParameterElement;
-import java.lang.reflect.GenericDeclaration;
-import java.util.Collection;
-
 public interface RuntimeTypeParameterElementFactory
-        extends RuntimeGenericElementFactory<RuntimeTypeVariableEntity, TypeParameterElement> {
+        extends RuntimeGenericElementFactory<RuntimeTypeVariableEntity, RuntimeTypeParameterElement> {
 
 }

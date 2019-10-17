@@ -19,20 +19,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.type.executable.node.dependency;
+package org.rookit.auto.javax.runtime.element.executable.node.dependency;
 
 import org.rookit.utils.graph.Dependency;
 import org.rookit.utils.graph.DependencyVisitor;
 
-import javax.lang.model.type.TypeMirror;
+import javax.lang.model.element.TypeParameterElement;
 
 @FunctionalInterface
-public interface ReturnTypeDependency extends Dependency<TypeMirror> {
+public interface TypeParameterDependency extends Dependency<TypeParameterElement> {
 
     @Override
     default <R, P> R accept(final DependencyVisitor<R, P> visitor, final P parameter) {
         if (visitor instanceof ExecutableDependencyVisitor) {
-            return ((ExecutableDependencyVisitor<R, P>) visitor).visitReturnType(this, parameter);
+            return ((ExecutableDependencyVisitor<R, P>) visitor).visitTypeParameterDependency(this, parameter);
         }
         return visitor.visitUnknown(this, parameter);
     }
