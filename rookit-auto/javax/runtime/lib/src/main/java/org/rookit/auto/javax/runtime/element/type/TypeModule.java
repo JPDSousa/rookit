@@ -29,6 +29,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.util.Modules;
 import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactories;
 import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactory;
+import org.rookit.auto.javax.runtime.element.type.dependency.DependencyModule;
 import org.rookit.auto.javax.runtime.entity.RuntimeTypeEntity;
 import org.rookit.auto.javax.runtime.element.type.node.NodeModule;
 import org.rookit.auto.javax.runtime.element.type.parameter.ParameterModule;
@@ -40,6 +41,7 @@ public final class TypeModule extends AbstractModule {
 
     private static final Module MODULE = Modules.combine(
             new TypeModule(),
+            DependencyModule.getModule(),
             NodeModule.getModule(),
             ParameterModule.getModule()
     );
