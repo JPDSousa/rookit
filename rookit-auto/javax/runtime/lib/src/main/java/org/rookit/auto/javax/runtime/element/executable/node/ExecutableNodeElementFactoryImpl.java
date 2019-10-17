@@ -19,13 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.executable.node;
+package org.rookit.auto.javax.runtime.element.executable.node;
 
 import com.google.inject.Inject;
 import io.reactivex.Single;
-import org.rookit.auto.javax.runtime.element.executable.node.ExecutableNodeElement;
-import org.rookit.auto.javax.runtime.element.executable.node.ExecutableNodeElementFactory;
-import org.rookit.auto.javax.runtime.element.executable.node.MutableExecutableNodeElement;
 import org.rookit.auto.javax.runtime.element.executable.node.dependency.ExecutableDependencyFactory;
 import org.rookit.auto.javax.runtime.element.node.NodeElementFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntity;

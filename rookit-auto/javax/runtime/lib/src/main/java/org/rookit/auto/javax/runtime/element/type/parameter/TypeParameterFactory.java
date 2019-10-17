@@ -19,13 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.type.parameter;
+package org.rookit.auto.javax.runtime.element.type.parameter;
 
 import com.google.inject.Inject;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import org.rookit.auto.javax.runtime.NameFactory;
-import org.rookit.auto.javax.runtime.element.type.parameter.RuntimeTypeParameterElement;
 import org.rookit.auto.javax.runtime.element.type.parameter.node.TypeParameterNodeElementFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeTypeVariableEntity;
 import org.rookit.utils.registry.Registry;

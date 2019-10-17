@@ -29,6 +29,7 @@ import org.rookit.auto.javax.runtime.element.dependency.DependencyModule;
 import org.rookit.auto.javax.runtime.element.executable.ExecutableModule;
 import org.rookit.auto.javax.runtime.element.kind.RuntimeElementKindFactory;
 import org.rookit.auto.javax.runtime.element.node.NodeModule;
+import org.rookit.auto.javax.runtime.element.type.TypeModule;
 
 public final class ElementModule extends AbstractModule {
 
@@ -36,7 +37,8 @@ public final class ElementModule extends AbstractModule {
             new ElementModule(),
             DependencyModule.getModule(),
             ExecutableModule.getModule(),
-            NodeModule.getModule()
+            NodeModule.getModule(),
+            TypeModule.getModule()
     );
 
     public static Module getModule() {

@@ -19,54 +19,54 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.type.parameter.node;
+package org.rookit.auto.javax.runtime.element.type.node;
 
 import com.google.inject.Inject;
 import io.reactivex.Single;
 import org.rookit.auto.javax.runtime.element.node.NodeElementFactory;
-import org.rookit.auto.javax.runtime.element.type.parameter.node.MutableTypeParameterNodeElement;
-import org.rookit.auto.javax.runtime.element.type.parameter.node.TypeParameterDependencyFactory;
-import org.rookit.auto.javax.runtime.element.type.parameter.node.TypeParameterNodeElementFactory;
-import org.rookit.auto.javax.runtime.element.type.parameter.node.TypeParameterNodeElement;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntity;
 import org.rookit.utils.graph.DependencyWrapperFactory;
 
-final class TypeParameterNodeElementFactoryImpl implements TypeParameterNodeElementFactory {
+final class TypeNodeElementFactoryImpl implements RuntimeTypeNodeElementFactory {
 
-    private final NodeElementFactory nodeFactory;
+    private final NodeElementFactory nodeElementFactory;
     private final DependencyWrapperFactory wrapperFactory;
-    private final TypeParameterDependencyFactory dependencyFactory;
+    private final TypeDependencyFactory dependencyFactory;
 
     @Inject
-    private TypeParameterNodeElementFactoryImpl(
-            final NodeElementFactory nodeFactory,
+    private TypeNodeElementFactoryImpl(
+            final NodeElementFactory nodeElementFactory,
             final DependencyWrapperFactory wrapperFactory,
-            final TypeParameterDependencyFactory dependencyFactory) {
-        this.nodeFactory = nodeFactory;
+            final TypeDependencyFactory dependencyFactory) {
+        this.nodeElementFactory = nodeElementFactory;
         this.wrapperFactory = wrapperFactory;
         this.dependencyFactory = dependencyFactory;
     }
 
     @Override
-    public Single<TypeParameterNodeElement> createFromEntity(final RuntimeEntity entity) {
+    public Single<TypeNodeElement> createFromEntity(final RuntimeEntity entity) {
         return createMutableFromEntity(entity)
-                .cast(TypeParameterNodeElement.class);
+                .cast(TypeNodeElement.class);
     }
 
     @Override
-    public Single<MutableTypeParameterNodeElement> createMutableFromEntity(final RuntimeEntity entity) {
-        return this.nodeFactory.createMutableFromEntity(entity)
-                .map(node -> new MutableTypeParameterNodeElementImpl(
-                        node,
-                        this.wrapperFactory.createMulti("Bounds",
-                                                        this.dependencyFactory::createBoundDependency)
-                ));
+    public Single<MutableTypeNodeElement> createMutableFromEntity(final RuntimeEntity entity) {
+        return this.nodeElementFactory.createMutableFromEntity(entity)
+               .map(node -> new MutableTypeNodeElementImpl(
+                       node,
+                       this.wrapperFactory.createSingle("Superclass",
+                                                        this.dependencyFactory::createSuperClassDependency),
+                       this.wrapperFactory.createMulti("Interfaces",
+                                                       this.dependencyFactory::createInterfaceDependency),
+                       this.wrapperFactory.createMulti("Type Parameters",
+                                                       this.dependencyFactory::createTypeParameterDependency)
+               ));
     }
 
     @Override
     public String toString() {
-        return "TypeParameterNodeElementFactoryImpl{" +
-                "nodeFactory=" + this.nodeFactory +
+        return "TypeNodeElementFactoryImpl{" +
+                "nodeElementFactory=" + this.nodeElementFactory +
                 ", wrapperFactory=" + this.wrapperFactory +
                 ", dependencyFactory=" + this.dependencyFactory +
                 "}";

@@ -19,12 +19,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.type.parameter.node;
+package org.rookit.auto.javax.runtime.element.type.parameter.node;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
-import org.rookit.auto.javax.runtime.element.type.parameter.node.TypeParameterNodeElementFactory;
 
 public final class NodeModule extends AbstractModule {
 

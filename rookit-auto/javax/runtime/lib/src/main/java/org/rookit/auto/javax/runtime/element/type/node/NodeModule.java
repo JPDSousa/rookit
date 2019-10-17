@@ -19,35 +19,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.type.parameter;
+package org.rookit.auto.javax.runtime.element.type.node;
 
-import com.google.inject.Inject;
-import io.reactivex.Single;
-import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactory;
-import org.rookit.auto.javax.runtime.element.type.parameter.RuntimeTypeParameterElement;
-import org.rookit.auto.javax.runtime.element.type.parameter.RuntimeTypeParameterElementFactory;
-import org.rookit.auto.javax.runtime.entity.RuntimeTypeVariableEntity;
+import com.google.inject.AbstractModule;
+import com.google.inject.Module;
+import com.google.inject.Singleton;
 
-final class RuntimeTypeParameterElementFactoryImpl implements RuntimeTypeParameterElementFactory {
+public final class NodeModule extends AbstractModule {
 
-    private final RuntimeGenericElementFactory<RuntimeTypeVariableEntity, RuntimeTypeParameterElement> delegate;
+    private static final Module MODULE = new NodeModule();
 
-    @Inject
-    private RuntimeTypeParameterElementFactoryImpl(
-            final RuntimeGenericElementFactory<RuntimeTypeVariableEntity, RuntimeTypeParameterElement> delegate) {
-        this.delegate = delegate;
+    public static Module getModule() {
+        return MODULE;
     }
 
-    @Override
-    public Single<RuntimeTypeParameterElement> createElement(final RuntimeTypeVariableEntity entity) {
-        return this.delegate.createElement(entity);
-    }
+    private NodeModule() {}
 
     @Override
-    public String toString() {
-        return "RuntimeTypeParameterElementFactoryImpl{" +
-                "delegate=" + this.delegate +
-                "}";
+    protected void configure() {
+        bind(RuntimeTypeNodeElementFactory.class).to(TypeNodeElementFactoryImpl.class).in(Singleton.class);
     }
 
 }

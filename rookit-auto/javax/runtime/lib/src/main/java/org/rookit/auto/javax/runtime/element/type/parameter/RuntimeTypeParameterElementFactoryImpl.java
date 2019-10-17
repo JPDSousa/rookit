@@ -19,40 +19,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.type;
+package org.rookit.auto.javax.runtime.element.type.parameter;
 
 import com.google.inject.Inject;
 import io.reactivex.Single;
 import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactory;
-import org.rookit.auto.javax.runtime.element.type.RuntimeTypeElement;
-import org.rookit.auto.javax.runtime.element.type.RuntimeTypeElementFactory;
-import org.rookit.auto.javax.runtime.entity.RuntimeTypeEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.rookit.auto.javax.runtime.element.type.parameter.RuntimeTypeParameterElement;
+import org.rookit.auto.javax.runtime.element.type.parameter.RuntimeTypeParameterElementFactory;
+import org.rookit.auto.javax.runtime.entity.RuntimeTypeVariableEntity;
 
-final class DelegateFactory implements RuntimeTypeElementFactory {
+final class RuntimeTypeParameterElementFactoryImpl implements RuntimeTypeParameterElementFactory {
 
-    /**
-     * Logger for this class.
-     */
-    private static final Logger logger = LoggerFactory.getLogger(DelegateFactory.class);
-
-    private final RuntimeGenericElementFactory<RuntimeTypeEntity, RuntimeTypeElement> delegate;
+    private final RuntimeGenericElementFactory<RuntimeTypeVariableEntity, RuntimeTypeParameterElement> delegate;
 
     @Inject
-    private DelegateFactory(final RuntimeGenericElementFactory<RuntimeTypeEntity, RuntimeTypeElement> delegate) {
+    private RuntimeTypeParameterElementFactoryImpl(
+            final RuntimeGenericElementFactory<RuntimeTypeVariableEntity, RuntimeTypeParameterElement> delegate) {
         this.delegate = delegate;
     }
 
     @Override
-    public Single<RuntimeTypeElement> createElement(final RuntimeTypeEntity entity) {
-        logger.trace("Delegating to '{}'", this.delegate);
+    public Single<RuntimeTypeParameterElement> createElement(final RuntimeTypeVariableEntity entity) {
         return this.delegate.createElement(entity);
     }
 
     @Override
     public String toString() {
-        return "DelegateFactory{" +
+        return "RuntimeTypeParameterElementFactoryImpl{" +
                 "delegate=" + this.delegate +
                 "}";
     }

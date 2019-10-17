@@ -19,54 +19,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.type;
+package org.rookit.auto.javax.runtime.element.type.parameter;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
 import com.google.inject.util.Modules;
 import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactories;
 import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactory;
-import org.rookit.auto.javax.runtime.element.type.RuntimeTypeElement;
-import org.rookit.auto.javax.runtime.element.type.RuntimeTypeElementFactory;
-import org.rookit.auto.javax.runtime.entity.RuntimeTypeEntity;
-import org.rookit.auto.javax.runtime.type.node.NodeModule;
-import org.rookit.auto.javax.runtime.type.parameter.ParameterModule;
+import org.rookit.auto.javax.runtime.entity.RuntimeTypeVariableEntity;
+import org.rookit.auto.javax.runtime.element.type.parameter.node.NodeModule;
 import org.rookit.utils.graph.Dependency;
 import org.rookit.utils.registry.MultiRegistry;
 import org.rookit.utils.registry.Registry;
 
-public final class TypeModule extends AbstractModule {
+@SuppressWarnings("MethodMayBeStatic")
+public final class ParameterModule extends AbstractModule {
 
     private static final Module MODULE = Modules.combine(
-            new TypeModule(),
-            NodeModule.getModule(),
-            ParameterModule.getModule()
+            new ParameterModule(),
+            NodeModule.getModule()
     );
 
     public static Module getModule() {
         return MODULE;
     }
 
-    private TypeModule() {}
+    private ParameterModule() {}
 
-    @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
     @Override
     protected void configure() {
-        bind(RuntimeTypeElementFactory.class).to(DelegateFactory.class).in(Singleton.class);
-        bind(new TypeLiteral<Registry<RuntimeTypeEntity, RuntimeTypeElement>>() {})
-                .to(RuntimeTypeElementFactoryImpl.class).in(Singleton.class);
+        bind(RuntimeTypeParameterElementFactory.class).to(RuntimeTypeParameterElementFactoryImpl.class)
+                .in(Singleton.class);
     }
 
     @Provides
     @Singleton
-    RuntimeGenericElementFactory<RuntimeTypeEntity, RuntimeTypeElement> typeFactory(
+    RuntimeGenericElementFactory<RuntimeTypeVariableEntity, RuntimeTypeParameterElement> parameterFactory(
             final RuntimeGenericElementFactories factories,
-            final Registry<RuntimeTypeEntity, RuntimeTypeElement> registry,
-            final MultiRegistry<RuntimeTypeEntity, Dependency> dependenciesRegistry) {
-        return factories.factory(registry, dependenciesRegistry, RuntimeTypeElement.class);
+            final Registry<RuntimeTypeVariableEntity, RuntimeTypeParameterElement> registry,
+            final MultiRegistry<RuntimeTypeVariableEntity, Dependency> dependenciesRegistry) {
+        return factories.factory(registry, dependenciesRegistry, RuntimeTypeParameterElement.class);
     }
 
 }

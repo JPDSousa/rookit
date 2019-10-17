@@ -19,11 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.type.parameter.node;
+package org.rookit.auto.javax.runtime.element.type.parameter.node;
 
 import io.reactivex.Completable;
 import org.rookit.auto.javax.runtime.element.node.MutableNodeElement;
-import org.rookit.auto.javax.runtime.element.type.parameter.node.MutableTypeParameterNodeElement;
 import org.rookit.utils.graph.Dependency;
 import org.rookit.utils.graph.MultiDependencyWrapper;
 import org.rookit.utils.optional.Optional;

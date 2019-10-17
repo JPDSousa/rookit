@@ -19,26 +19,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.type.node;
+package org.rookit.auto.javax.runtime.element.type;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Module;
-import com.google.inject.Singleton;
-import org.rookit.auto.javax.runtime.element.type.node.RuntimeTypeNodeElementFactory;
+import com.google.inject.Inject;
+import io.reactivex.Single;
+import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactory;
+import org.rookit.auto.javax.runtime.entity.RuntimeTypeEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public final class NodeModule extends AbstractModule {
+final class DelegateFactory implements RuntimeTypeElementFactory {
 
-    private static final Module MODULE = new NodeModule();
+    /**
+     * Logger for this class.
+     */
+    private static final Logger logger = LoggerFactory.getLogger(DelegateFactory.class);
 
-    public static Module getModule() {
-        return MODULE;
+    private final RuntimeGenericElementFactory<RuntimeTypeEntity, RuntimeTypeElement> delegate;
+
+    @Inject
+    private DelegateFactory(final RuntimeGenericElementFactory<RuntimeTypeEntity, RuntimeTypeElement> delegate) {
+        this.delegate = delegate;
     }
 
-    private NodeModule() {}
+    @Override
+    public Single<RuntimeTypeElement> createElement(final RuntimeTypeEntity entity) {
+        logger.trace("Delegating to '{}'", this.delegate);
+        return this.delegate.createElement(entity);
+    }
 
     @Override
-    protected void configure() {
-        bind(RuntimeTypeNodeElementFactory.class).to(TypeNodeElementFactoryImpl.class).in(Singleton.class);
+    public String toString() {
+        return "DelegateFactory{" +
+                "delegate=" + this.delegate +
+                "}";
     }
 
 }
