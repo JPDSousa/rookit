@@ -22,7 +22,7 @@
 package org.rookit.auto.javax.runtime;
 
 import com.google.inject.Inject;
-import org.rookit.auto.javax.runtime.type.no.NoTypeFactory;
+import org.rookit.auto.javax.runtime.mirror.no.NoTypeFactory;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;

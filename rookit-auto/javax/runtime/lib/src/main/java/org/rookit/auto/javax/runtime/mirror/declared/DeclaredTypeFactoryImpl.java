@@ -23,9 +23,7 @@ package org.rookit.auto.javax.runtime.mirror.declared;
 
 import com.google.inject.Inject;
 import org.rookit.auto.javax.runtime.entity.RuntimeTypeEntity;
-import org.rookit.auto.javax.runtime.type.declared.DeclaredTypeFactory;
-import org.rookit.auto.javax.runtime.type.declared.node.NodeDeclaredTypeFactory;
-import org.rookit.auto.javax.runtime.type.declared.RuntimeDeclaredType;
+import org.rookit.auto.javax.runtime.mirror.declared.node.NodeDeclaredTypeFactory;
 
 final class DeclaredTypeFactoryImpl implements DeclaredTypeFactory {
 

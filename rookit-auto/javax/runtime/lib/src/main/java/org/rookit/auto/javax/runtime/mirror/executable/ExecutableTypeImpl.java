@@ -22,8 +22,7 @@
 package org.rookit.auto.javax.runtime.mirror.executable;
 
 import io.reactivex.Completable;
-import org.rookit.auto.javax.runtime.type.executable.RuntimeExecutableType;
-import org.rookit.auto.javax.runtime.type.mirror.MutableNodeTypeMirror;
+import org.rookit.auto.javax.runtime.mirror.MutableNodeTypeMirror;
 import org.rookit.utils.graph.DependencyWrapper;
 import org.rookit.utils.graph.MultiDependencyWrapper;
 import org.slf4j.Logger;

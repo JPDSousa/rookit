@@ -25,7 +25,7 @@ import com.google.inject.Inject;
 import io.reactivex.Single;
 import org.rookit.auto.javax.runtime.element.variable.RuntimeVariableElementFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntityFactory;
-import org.rookit.auto.javax.runtime.type.declared.DeclaredTypeFactory;
+import org.rookit.auto.javax.runtime.mirror.declared.DeclaredTypeFactory;
 
 import javax.lang.model.element.AnnotationValue;
 

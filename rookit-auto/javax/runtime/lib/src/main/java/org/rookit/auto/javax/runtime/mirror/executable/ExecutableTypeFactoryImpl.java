@@ -23,10 +23,9 @@ package org.rookit.auto.javax.runtime.mirror.executable;
 
 import com.google.inject.Inject;
 import org.rookit.auto.javax.runtime.entity.RuntimeExecutableEntity;
-import org.rookit.auto.javax.runtime.type.executable.ExecutableTypeFactory;
-import org.rookit.auto.javax.runtime.type.executable.node.dependency.ExecutableDependencyFactory;
-import org.rookit.auto.javax.runtime.type.mirror.NodeTypeMirrorFactory;
-import org.rookit.auto.javax.runtime.type.no.NoTypeFactory;
+import org.rookit.auto.javax.runtime.mirror.executable.dependency.ExecutableDependencyFactory;
+import org.rookit.auto.javax.runtime.mirror.NodeTypeMirrorFactory;
+import org.rookit.auto.javax.runtime.mirror.no.NoTypeFactory;
 import org.rookit.utils.graph.DependencyWrapperFactory;
 
 import javax.lang.model.type.ExecutableType;

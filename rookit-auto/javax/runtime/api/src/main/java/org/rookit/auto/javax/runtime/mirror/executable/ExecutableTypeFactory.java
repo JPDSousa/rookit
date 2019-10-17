@@ -21,23 +21,12 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.mirror.executable;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Module;
-import com.google.inject.Singleton;
+import org.rookit.auto.javax.runtime.entity.RuntimeExecutableEntity;
 
-public final class ExecutableModule extends AbstractModule {
+import javax.lang.model.type.ExecutableType;
 
-    private static final Module MODULE = new ExecutableModule();
+public interface ExecutableTypeFactory {
 
-    public static Module getModule() {
-        return MODULE;
-    }
-
-    private ExecutableModule() {}
-
-    @Override
-    protected void configure() {
-        bind(ExecutableTypeFactory.class).to(ExecutableTypeFactoryImpl.class).in(Singleton.class);
-    }
+    ExecutableType createFromExecutable(RuntimeExecutableEntity executable);
 
 }

@@ -19,25 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.mirror.executable;
+package org.rookit.auto.javax.runtime.mirror.executable.node;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Module;
-import com.google.inject.Singleton;
+import org.rookit.auto.javax.runtime.mirror.GenericNodeFactory;
 
-public final class ExecutableModule extends AbstractModule {
-
-    private static final Module MODULE = new ExecutableModule();
-
-    public static Module getModule() {
-        return MODULE;
-    }
-
-    private ExecutableModule() {}
-
-    @Override
-    protected void configure() {
-        bind(ExecutableTypeFactory.class).to(ExecutableTypeFactoryImpl.class).in(Singleton.class);
-    }
+public interface NodeExecutableTypeFactory extends GenericNodeFactory<NodeExecutableType, MutableNodeExecutableType> {
 
 }

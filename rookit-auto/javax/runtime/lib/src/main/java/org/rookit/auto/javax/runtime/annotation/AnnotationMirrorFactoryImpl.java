@@ -30,8 +30,8 @@ import org.rookit.auto.javax.runtime.element.executable.RuntimeExecutableElement
 import org.rookit.auto.javax.runtime.entity.RuntimeEntityFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeMethodEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeTypeEntity;
-import org.rookit.auto.javax.runtime.type.declared.DeclaredTypeFactory;
-import org.rookit.auto.javax.runtime.type.declared.RuntimeDeclaredType;
+import org.rookit.auto.javax.runtime.mirror.declared.DeclaredTypeFactory;
+import org.rookit.auto.javax.runtime.mirror.declared.RuntimeDeclaredType;
 
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;

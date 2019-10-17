@@ -21,23 +21,50 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.mirror.executable;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Module;
-import com.google.inject.Singleton;
+import org.rookit.auto.javax.runtime.mirror.executable.node.MutableNodeExecutableType;
 
-public final class ExecutableModule extends AbstractModule {
+import javax.lang.model.type.ExecutableType;
+import javax.lang.model.type.TypeKind;
+import javax.lang.model.type.TypeMirror;
+import javax.lang.model.type.TypeVariable;
+import javax.lang.model.type.TypeVisitor;
+import java.util.List;
 
-    private static final Module MODULE = new ExecutableModule();
-
-    public static Module getModule() {
-        return MODULE;
-    }
-
-    private ExecutableModule() {}
+public interface RuntimeExecutableType extends ExecutableType, MutableNodeExecutableType {
 
     @Override
-    protected void configure() {
-        bind(ExecutableTypeFactory.class).to(ExecutableTypeFactoryImpl.class).in(Singleton.class);
+    default List<? extends TypeVariable> getTypeVariables() {
+        return typeVariables();
+    }
+
+    @Override
+    default TypeMirror getReturnType() {
+        return returnType();
+    }
+
+    @Override
+    default List<? extends TypeMirror> getParameterTypes() {
+        return parameterTypes();
+    }
+
+    @Override
+    default TypeMirror getReceiverType() {
+        return receiverType();
+    }
+
+    @Override
+    default List<? extends TypeMirror> getThrownTypes() {
+        return thrownTypes();
+    }
+
+    @Override
+    default <R, P> R accept(final TypeVisitor<R, P> v, final P p) {
+        return v.visitExecutable(this, p);
+    }
+
+    @Override
+    default TypeKind getKind() {
+        return TypeKind.EXECUTABLE;
     }
 
 }

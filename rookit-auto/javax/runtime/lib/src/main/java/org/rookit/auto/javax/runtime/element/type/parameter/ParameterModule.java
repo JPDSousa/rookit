@@ -28,6 +28,7 @@ import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
 import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactories;
 import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactory;
+import org.rookit.auto.javax.runtime.element.type.parameter.dependency.DependencyModule;
 import org.rookit.auto.javax.runtime.entity.RuntimeTypeVariableEntity;
 import org.rookit.auto.javax.runtime.element.type.parameter.node.NodeModule;
 import org.rookit.utils.graph.Dependency;
@@ -39,6 +40,7 @@ public final class ParameterModule extends AbstractModule {
 
     private static final Module MODULE = Modules.combine(
             new ParameterModule(),
+            DependencyModule.getModule(),
             NodeModule.getModule()
     );
 

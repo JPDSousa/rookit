@@ -22,8 +22,7 @@
 package org.rookit.auto.javax.runtime.mirror.declared;
 
 import io.reactivex.Completable;
-import org.rookit.auto.javax.runtime.type.declared.node.MutableNodeDeclaredType;
-import org.rookit.auto.javax.runtime.type.declared.RuntimeDeclaredType;
+import org.rookit.auto.javax.runtime.mirror.declared.node.MutableNodeDeclaredType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

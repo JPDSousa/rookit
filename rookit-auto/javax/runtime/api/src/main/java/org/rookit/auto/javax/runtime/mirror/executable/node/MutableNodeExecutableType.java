@@ -19,25 +19,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.mirror.executable;
+package org.rookit.auto.javax.runtime.mirror.executable.node;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Module;
-import com.google.inject.Singleton;
+import io.reactivex.Completable;
+import org.rookit.auto.javax.runtime.mirror.MutableNodeTypeMirror;
 
-public final class ExecutableModule extends AbstractModule {
+import javax.lang.model.type.TypeMirror;
+import javax.lang.model.type.TypeVariable;
+import java.util.List;
 
-    private static final Module MODULE = new ExecutableModule();
+public interface MutableNodeExecutableType extends NodeExecutableType, MutableNodeTypeMirror {
 
-    public static Module getModule() {
-        return MODULE;
-    }
+    Completable typeVariables(List<? extends TypeVariable> typeVariables);
 
-    private ExecutableModule() {}
+    Completable returnType(TypeMirror returnType);
 
-    @Override
-    protected void configure() {
-        bind(ExecutableTypeFactory.class).to(ExecutableTypeFactoryImpl.class).in(Singleton.class);
-    }
+    Completable parameterTypes(List<? extends TypeMirror> parameterTypes);
+
+    Completable receiverType(TypeMirror receiverType);
+
+    Completable thrownTypes(List<? extends TypeMirror> thrownTypes);
 
 }
