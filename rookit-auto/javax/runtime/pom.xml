@@ -13,11 +13,12 @@
 
     <packaging>pom</packaging>
 
-    <name>Rookti Auto Javax Runtime</name>
+    <name>Rookit Auto Javax Runtime</name>
 
     <modules>
         <module>api</module>
         <module>lib</module>
+        <module>entity</module>
     </modules>
 
 

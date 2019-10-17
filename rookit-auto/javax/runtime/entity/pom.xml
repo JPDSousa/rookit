@@ -9,18 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>javax-runtime-api</artifactId>
-    <name>Rookit Auto Javax Runtime API</name>
+    <artifactId>javax-runtime-entity</artifactId>
+    <name>Rookit Auto Javax Runtime Entity</name>
 
-    <dependencies>
-        <dependency>
-            <groupId>${rookit.group}.rookit-utils</groupId>
-            <artifactId>api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${rookit.group}.rookit-auto</groupId>
-            <artifactId>javax-runtime-entity-api</artifactId>
-        </dependency>
-    </dependencies>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>api</module>
+    </modules>
+
 
 </project>

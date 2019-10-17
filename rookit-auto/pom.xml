@@ -52,6 +52,11 @@
             </dependency>
             <dependency>
                 <groupId>${rookit.group}.rookit-auto</groupId>
+                <artifactId>javax-runtime-entity-api</artifactId>
+                <version>${rookit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${rookit.group}.rookit-auto</groupId>
                 <artifactId>javax-runtime-lib</artifactId>
                 <version>${rookit.version}</version>
             </dependency>
