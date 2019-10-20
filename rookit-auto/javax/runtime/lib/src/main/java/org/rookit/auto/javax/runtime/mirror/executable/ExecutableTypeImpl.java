@@ -22,14 +22,13 @@
 package org.rookit.auto.javax.runtime.mirror.executable;
 
 import io.reactivex.Completable;
-import org.rookit.auto.javax.runtime.mirror.MutableNodeTypeMirror;
 import org.rookit.utils.graph.DependencyWrapper;
 import org.rookit.utils.graph.MultiDependencyWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.lang.model.AnnotatedConstruct;
 import javax.lang.model.element.AnnotationMirror;
-import javax.lang.model.element.Element;
 import javax.lang.model.type.NoType;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.type.TypeVariable;
@@ -43,7 +42,7 @@ final class ExecutableTypeImpl implements RuntimeExecutableType {
      */
     private static final Logger logger = LoggerFactory.getLogger(ExecutableTypeImpl.class);
 
-    private final MutableNodeTypeMirror node;
+    private final AnnotatedConstruct annotatedConstruct;
     private final MultiDependencyWrapper<TypeVariable> typeVariables;
     private final DependencyWrapper<TypeMirror> returnType;
     private final MultiDependencyWrapper<TypeMirror> parameterTypes;
@@ -53,14 +52,14 @@ final class ExecutableTypeImpl implements RuntimeExecutableType {
 
 
     ExecutableTypeImpl(
-            final MutableNodeTypeMirror node,
+            final AnnotatedConstruct annotatedConstruct,
             final MultiDependencyWrapper<TypeVariable> typeVariables,
             final DependencyWrapper<TypeMirror> returnType,
             final MultiDependencyWrapper<TypeMirror> parameterTypes,
             final DependencyWrapper<TypeMirror> receiverType,
             final MultiDependencyWrapper<TypeMirror> thrownTypes,
             final NoType noType) {
-        this.node = node;
+        this.annotatedConstruct = annotatedConstruct;
         this.typeVariables = typeVariables;
         this.returnType = returnType;
         this.parameterTypes = parameterTypes;
@@ -71,20 +70,20 @@ final class ExecutableTypeImpl implements RuntimeExecutableType {
 
     @Override
     public List<? extends AnnotationMirror> getAnnotationMirrors() {
-        logger.trace("Delegating to node");
-        return this.node.getAnnotationMirrors();
+        logger.trace("Delegating to annotatedConstruct");
+        return this.annotatedConstruct.getAnnotationMirrors();
     }
 
     @Override
     public <A extends Annotation> A getAnnotation(final Class<A> annotationType) {
-        logger.trace("Delegating to node");
-        return this.node.getAnnotation(annotationType);
+        logger.trace("Delegating to annotatedConstruct");
+        return this.annotatedConstruct.getAnnotation(annotationType);
     }
 
     @Override
     public <A extends Annotation> A[] getAnnotationsByType(final Class<A> annotationType) {
-        logger.trace("Delegating to node");
-        return this.node.getAnnotationsByType(annotationType);
+        logger.trace("Delegating to annotatedConstruct");
+        return this.annotatedConstruct.getAnnotationsByType(annotationType);
     }
 
     @Override
@@ -149,21 +148,9 @@ final class ExecutableTypeImpl implements RuntimeExecutableType {
     }
 
     @Override
-    public Completable element(final Element element) {
-        logger.trace("Delegating to node");
-        return this.node.element(element);
-    }
-
-    @Override
-    public Element element() {
-        logger.trace("Delegating to node");
-        return this.node.element();
-    }
-
-    @Override
     public String toString() {
         return "ExecutableTypeImpl{" +
-                "node=" + this.node +
+                "annotatedConstruct=" + this.annotatedConstruct +
                 ", typeVariables=" + this.typeVariables +
                 ", returnType=" + this.returnType +
                 ", parameterTypes=" + this.parameterTypes +

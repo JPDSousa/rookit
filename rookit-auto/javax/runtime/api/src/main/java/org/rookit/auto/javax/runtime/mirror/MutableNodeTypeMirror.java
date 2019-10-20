@@ -21,12 +21,7 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.mirror;
 
-import io.reactivex.Completable;
-
-import javax.lang.model.element.Element;
-
+// TODO marker interface
 public interface MutableNodeTypeMirror extends NodeTypeMirror {
-
-    Completable element(Element element);
 
 }

@@ -22,10 +22,8 @@
 package org.rookit.auto.javax.runtime.mirror;
 
 import javax.lang.model.AnnotatedConstruct;
-import javax.lang.model.element.Element;
 
+// TODO marker interface
 public interface NodeTypeMirror extends AnnotatedConstruct {
-
-    Element element();
 
 }
