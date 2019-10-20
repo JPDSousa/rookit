@@ -21,12 +21,13 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.mirror.executable;
 
+import io.reactivex.Single;
 import org.rookit.auto.javax.runtime.entity.RuntimeExecutableEntity;
 
 import javax.lang.model.type.ExecutableType;
 
 public interface ExecutableTypeFactory {
 
-    ExecutableType createFromExecutable(RuntimeExecutableEntity executable);
+    Single<ExecutableType> createFromExecutable(RuntimeExecutableEntity executable);
 
 }

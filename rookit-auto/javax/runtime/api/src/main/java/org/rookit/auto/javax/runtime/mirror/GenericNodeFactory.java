@@ -21,12 +21,13 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.mirror;
 
+import io.reactivex.Single;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntity;
 
 public interface GenericNodeFactory<I extends NodeTypeMirror, M extends MutableNodeTypeMirror> {
 
-    I createFromEntity(RuntimeEntity entity);
+    Single<I> createFromEntity(RuntimeEntity entity);
 
-    M createMutableFromEntity(RuntimeEntity entity);
+    Single<M> createMutableFromEntity(RuntimeEntity entity);
 
 }

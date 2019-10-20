@@ -22,9 +22,10 @@
 package org.rookit.auto.javax.runtime.mirror.executable;
 
 import com.google.inject.Inject;
+import io.reactivex.Single;
+import org.rookit.auto.javax.runtime.annotation.RuntimeAnnotatedConstructFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeExecutableEntity;
 import org.rookit.auto.javax.runtime.mirror.executable.dependency.ExecutableDependencyFactory;
-import org.rookit.auto.javax.runtime.mirror.NodeTypeMirrorFactory;
 import org.rookit.auto.javax.runtime.mirror.no.NoTypeFactory;
 import org.rookit.utils.graph.DependencyWrapperFactory;
 
@@ -32,48 +33,49 @@ import javax.lang.model.type.ExecutableType;
 
 final class ExecutableTypeFactoryImpl implements ExecutableTypeFactory {
 
-    private final NodeTypeMirrorFactory nodeFactory;
     private final DependencyWrapperFactory wrapperFactory;
     private final ExecutableDependencyFactory dependencyFactory;
     private final NoTypeFactory noTypeFactory;
+    private final RuntimeAnnotatedConstructFactory annotatedFactory;
 
     @Inject
     private ExecutableTypeFactoryImpl(
-            final NodeTypeMirrorFactory nodeFactory,
             final DependencyWrapperFactory wrapperFactory,
             final ExecutableDependencyFactory dependencyFactory,
-            final NoTypeFactory noTypeFactory) {
-        this.nodeFactory = nodeFactory;
+            final NoTypeFactory noTypeFactory,
+            final RuntimeAnnotatedConstructFactory annotatedFactory) {
         this.wrapperFactory = wrapperFactory;
         this.dependencyFactory = dependencyFactory;
         this.noTypeFactory = noTypeFactory;
+        this.annotatedFactory = annotatedFactory;
     }
 
     @Override
-    public ExecutableType createFromExecutable(final RuntimeExecutableEntity executable) {
-        return new ExecutableTypeImpl(
-                this.nodeFactory.createMutableFromEntity(executable),
-                this.wrapperFactory.createMulti("Type Variable",
-                                                this.dependencyFactory::createTypeVariableDependency),
-                this.wrapperFactory.createSingle("Return Type",
-                                                 this.dependencyFactory::createReturnTypeDependency),
-                this.wrapperFactory.createMulti("Parameter Type",
-                                                this.dependencyFactory::createParameterTypeDependency),
-                this.wrapperFactory.createSingle("Receiver Type",
-                                                 this.dependencyFactory::createReceiverTypeDependency),
-                this.wrapperFactory.createMulti("Thrown Type",
-                                                this.dependencyFactory::createThrownTypeDependency),
-                this.noTypeFactory.noType()
-        );
+    public Single<ExecutableType> createFromExecutable(final RuntimeExecutableEntity executable) {
+        return this.annotatedFactory.createFromEntity(executable)
+                .map(annotated -> new ExecutableTypeImpl(
+                        annotated,
+                        this.wrapperFactory.createMulti("Type Variable",
+                                                        this.dependencyFactory::createTypeVariableDependency),
+                        this.wrapperFactory.createSingle("Return Type",
+                                                         this.dependencyFactory::createReturnTypeDependency),
+                        this.wrapperFactory.createMulti("Parameter Type",
+                                                        this.dependencyFactory::createParameterTypeDependency),
+                        this.wrapperFactory.createSingle("Receiver Type",
+                                                         this.dependencyFactory::createReceiverTypeDependency),
+                        this.wrapperFactory.createMulti("Thrown Type",
+                                                        this.dependencyFactory::createThrownTypeDependency),
+                        this.noTypeFactory.noType()
+                ));
     }
 
     @Override
     public String toString() {
         return "ExecutableTypeFactoryImpl{" +
-                "nodeFactory=" + this.nodeFactory +
-                ", wrapperFactory=" + this.wrapperFactory +
+                "wrapperFactory=" + this.wrapperFactory +
                 ", dependencyFactory=" + this.dependencyFactory +
                 ", noTypeFactory=" + this.noTypeFactory +
+                ", annotatedFactory=" + this.annotatedFactory +
                 "}";
     }
 
