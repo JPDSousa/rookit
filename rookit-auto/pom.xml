@@ -13,7 +13,6 @@
         <version>-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.github.JPDSousa.rookit-auto</groupId>
     <artifactId>rookit-auto</artifactId>
 
     <name>Rookit Auto</name>
@@ -27,95 +26,5 @@
         <module>source</module>
         <module>guice</module>
     </modules>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>${rookit.group}.rookit-auto</groupId>
-                <artifactId>api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-auto</groupId>
-                <artifactId>guice</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-auto</groupId>
-                <artifactId>javax-api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-auto</groupId>
-                <artifactId>javax-runtime-api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-auto</groupId>
-                <artifactId>javax-runtime-entity-api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-auto</groupId>
-                <artifactId>javax-runtime-lib</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-auto</groupId>
-                <artifactId>lib</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-auto</groupId>
-                <artifactId>source-api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-auto</groupId>
-                <artifactId>source-javapoet-api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-auto</groupId>
-                <artifactId>source-lib</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-config</groupId>
-                <artifactId>api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-failsafe</groupId>
-                <artifactId>api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-io</groupId>
-                <artifactId>api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-io</groupId>
-                <artifactId>path-api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-io</groupId>
-                <artifactId>path-lib</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-test</groupId>
-                <artifactId>api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-utils</groupId>
-                <artifactId>api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
 </project>

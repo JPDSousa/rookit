@@ -13,7 +13,6 @@
         <version>-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.github.JPDSousa.rookit-spotify</groupId>
     <artifactId>rookit-spotify</artifactId>
 
     <modules>

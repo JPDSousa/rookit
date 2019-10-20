@@ -6,28 +6,33 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.github.JPDSousa.rookit-io</groupId>
-        <artifactId>path</artifactId>
+        <groupId>com.github.JPDSousa</groupId>
+        <artifactId>rookit-io-path</artifactId>
         <version>-SNAPSHOT</version>
     </parent>
 
-    <artifactId>path-api</artifactId>
+    <artifactId>rookit-io-path-api</artifactId>
 
     <name>Rookit IO Path API</name>
 
     <dependencies>
-        <dependency>
-            <groupId>${rookit.group}.rookit-failsafe</groupId>
-            <artifactId>api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${rookit.group}.rookit-io</groupId>
-            <artifactId>api</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>org.immutables</groupId>
             <artifactId>value</artifactId>
+            <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-utils-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-io-api</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

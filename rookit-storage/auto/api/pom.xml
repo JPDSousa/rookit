@@ -6,20 +6,27 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.github.JPDSousa.rookit-storage</groupId>
-        <artifactId>auto</artifactId>
+        <groupId>com.github.JPDSousa</groupId>
+        <artifactId>rookit-storage-auto</artifactId>
         <version>-SNAPSHOT</version>
     </parent>
 
-    <artifactId>auto-api</artifactId>
+    <artifactId>rookit-storage-auto-api</artifactId>
 
     <name>Rookit Storage Auto API</name>
 
     <dependencies>
+
         <dependency>
-            <groupId>${rookit.group}.rookit-auto</groupId>
-            <artifactId>api</artifactId>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-auto-api</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-utils-api</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

@@ -4,16 +4,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <parent>
-        <artifactId>source</artifactId>
-        <groupId>com.github.JPDSousa.rookit-auto</groupId>
+        <groupId>com.github.JPDSousa</groupId>
+        <artifactId>rookit-auto-source</artifactId>
         <version>-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>source-javapoet</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>rookit-auto-source-javapoet</artifactId>
+
     <name>Rookit Auto Source JavaPoet</name>
+
+    <packaging>pom</packaging>
+    
     <modules>
         <module>api</module>
         <module>lib</module>

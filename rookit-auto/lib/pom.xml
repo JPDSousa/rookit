@@ -6,28 +6,47 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.github.JPDSousa.rookit-auto</groupId>
+        <groupId>com.github.JPDSousa</groupId>
         <artifactId>rookit-auto</artifactId>
         <version>-SNAPSHOT</version>
     </parent>
 
-    <artifactId>lib</artifactId>
+    <artifactId>rookit-auto-lib</artifactId>
 
     <name>Rookit Auto Lib</name>
 
     <dependencies>
+
         <dependency>
-            <groupId>${rookit.group}.rookit-auto</groupId>
-            <artifactId>api</artifactId>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>${rookit.group}.rookit-auto</groupId>
-            <artifactId>guice</artifactId>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>${rookit.group}.rookit-config</groupId>
-            <artifactId>api</artifactId>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-failsafe-api</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-auto-guice</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-auto-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-config-api</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

@@ -21,30 +21,7 @@
             <groupId>${rookit.group}</groupId>
             <artifactId>rookit-test</artifactId>
         </dependency>
-        <dependency>
-            <groupId>${rookit.group}.rookit-utils</groupId>
-            <artifactId>api</artifactId>
-        </dependency>
     </dependencies>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>${rookit.group}</groupId>
-                <artifactId>rookit-api-dm</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}</groupId>
-                <artifactId>rookit-test</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-utils</groupId>
-                <artifactId>api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
 </project>

@@ -3,13 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.github.JPDSousa.rookit-serializer</groupId>
+        <groupId>com.github.JPDSousa</groupId>
         <artifactId>rookit-serializer</artifactId>
         <version>-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>bundle</artifactId>
+    <artifactId>rookit-serializer-bundle</artifactId>
 
     <name>Rookit Serializer Bundle</name>
 
@@ -19,12 +19,12 @@
             <artifactId>guice</artifactId>
         </dependency>
         <dependency>
-            <groupId>${rookit.group}.rookit-serializer</groupId>
-            <artifactId>bson</artifactId>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-serializer-bson</artifactId>
         </dependency>
         <dependency>
-            <groupId>${rookit.group}.rookit-serializer</groupId>
-            <artifactId>json</artifactId>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-serializer-json</artifactId>
         </dependency>
     </dependencies>
 

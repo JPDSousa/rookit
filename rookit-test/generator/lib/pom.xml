@@ -6,59 +6,89 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.github.JPDSousa.rookit-test</groupId>
-        <artifactId>generator</artifactId>
+        <groupId>com.github.JPDSousa</groupId>
+        <artifactId>rookit-test-generator</artifactId>
         <version>-SNAPSHOT</version>
     </parent>
 
-    <artifactId>generator-lib</artifactId>
+    <artifactId>rookit-test-generator-lib</artifactId>
 
     <name>Rookit Test Generator Library</name>
     
     <dependencies>
+
         <dependency>
-            <groupId>${rookit.group}.rookit-failsafe</groupId>
-            <artifactId>api</artifactId>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>${rookit.group}.rookit-test</groupId>
-            <artifactId>generator-api</artifactId>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>one.util</groupId>
+            <artifactId>streamex</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-failsafe-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-test-generator-api</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.devskiller</groupId>
             <artifactId>jfairy</artifactId>
         </dependency>
+
+        <!-- Test Dependencies -->
         <dependency>
-            <groupId>${rookit.group}.rookit-test</groupId>
-            <artifactId>runner</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
         </dependency>
-    </dependencies>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>${rookit.group}.rookit-failsafe</groupId>
-                <artifactId>api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-test</groupId>
-                <artifactId>generator-api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.devskiller</groupId>
-                <artifactId>jfairy</artifactId>
-                <version>0.6.2</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-test</groupId>
-                <artifactId>runner</artifactId>
-                <version>${rookit.version}</version>
-                <scope>test</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-test-runner</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-test-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-test-injector</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
 
 </project>

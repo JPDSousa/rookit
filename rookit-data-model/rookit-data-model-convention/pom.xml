@@ -19,53 +19,10 @@
             <artifactId>rookit-api-dm</artifactId>
         </dependency>
         <dependency>
-            <groupId>${rookit.group}.rookit-io</groupId>
-            <artifactId>api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${rookit.group}.rookit-convention</groupId>
-            <artifactId>api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${rookit.group}.rookit-convention</groupId>
-            <artifactId>lib</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${rookit.group}.rookit-test</groupId>
-            <artifactId>runner</artifactId>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-test-runner</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>${rookit.group}</groupId>
-                <artifactId>rookit-api-dm</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-io</groupId>
-                <artifactId>api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}</groupId>
-                <artifactId>rookit-convention-api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}</groupId>
-                <artifactId>rookit-convention-lib</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-test</groupId>
-                <artifactId>runner</artifactId>
-                <version>${rookit.version}</version>
-                <scope>test</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
 </project>

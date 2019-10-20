@@ -13,7 +13,6 @@
         <version>-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.github.JPDSousa.rookit-config</groupId>
     <artifactId>rookit-config</artifactId>
 
     <name>Rookit Config</name>
@@ -21,16 +20,5 @@
     <modules>
         <module>api</module>
     </modules>
-
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>${rookit.group}.rookit-config</groupId>
-                <artifactId>api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
 </project>

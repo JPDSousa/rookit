@@ -6,12 +6,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.github.JPDSousa.rookit-config</groupId>
+        <groupId>com.github.JPDSousa</groupId>
         <artifactId>rookit-config</artifactId>
         <version>-SNAPSHOT</version>
     </parent>
 
-    <artifactId>api</artifactId>
+    <artifactId>rookit-config-api</artifactId>
 
     <name>Rookit Config API</name>
 

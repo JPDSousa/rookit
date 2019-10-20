@@ -6,28 +6,27 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.github.JPDSousa.rookit-failsafe</groupId>
+        <groupId>com.github.JPDSousa</groupId>
         <artifactId>rookit-failsafe</artifactId>
         <version>-SNAPSHOT</version>
     </parent>
 
-    <artifactId>lib</artifactId>
+    <artifactId>rookit-failsafe-lib</artifactId>
+
+    <name>Rookit Failsafe Lib</name>
 
     <dependencies>
-        <dependency>
-            <groupId>${rookit.group}.rookit-failsafe</groupId>
-            <artifactId>api</artifactId>
-        </dependency>
-    </dependencies>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>${rookit.group}.rookit-failsafe</groupId>
-                <artifactId>api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-failsafe-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+    </dependencies>
 
 </project>

@@ -8,12 +8,12 @@
     <packaging>pom</packaging>
 
     <parent>
-        <groupId>com.github.JPDSousa.rookit-io</groupId>
+        <groupId>com.github.JPDSousa</groupId>
         <artifactId>rookit-io</artifactId>
         <version>-SNAPSHOT</version>
     </parent>
 
-    <artifactId>path</artifactId>
+    <artifactId>rookit-io-path</artifactId>
     <name>Rookit IO Path</name>
 
     <modules>

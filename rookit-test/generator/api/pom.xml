@@ -6,30 +6,28 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.github.JPDSousa.rookit-test</groupId>
-        <artifactId>generator</artifactId>
+        <groupId>com.github.JPDSousa</groupId>
+        <artifactId>rookit-test-generator</artifactId>
         <version>-SNAPSHOT</version>
     </parent>
 
-    <artifactId>generator-api</artifactId>
+    <artifactId>rookit-test-generator-api</artifactId>
 
     <name>Rookit Test Generator API</name>
 
     <dependencies>
-        <dependency>
-            <groupId>${rookit.group}.rookit-utils</groupId>
-            <artifactId>api</artifactId>
-        </dependency>
-    </dependencies>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>${rookit.group}.rookit-utils</groupId>
-                <artifactId>api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-utils-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>${guice.version}</version>
+        </dependency>
+
+    </dependencies>
 
 </project>

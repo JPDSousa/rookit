@@ -10,7 +10,6 @@
         <version>-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.github.JPDSousa.rookit-utils</groupId>
     <artifactId>rookit-utils</artifactId>
 
     <modules>
@@ -20,25 +19,4 @@
 
     <name>Rookit Utils</name>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>${rookit.group}.rookit-utils</groupId>
-                <artifactId>api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-failsafe</groupId>
-                <artifactId>api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
 </project>

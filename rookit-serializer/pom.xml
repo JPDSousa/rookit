@@ -21,45 +21,8 @@
         <module>bundle</module>
     </modules>
 
-    <groupId>com.github.JPDSousa.rookit-serializer</groupId>
     <artifactId>rookit-serializer</artifactId>
 
     <name>Rookit Serializer</name>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>${rookit.group}.rookit-failsafe</groupId>
-                <artifactId>api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-io</groupId>
-                <artifactId>path-api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-serializer</groupId>
-                <artifactId>api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-serializer</groupId>
-                <artifactId>bson</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-serializer</groupId>
-                <artifactId>json</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <!-- TODO move me conviniently -->
-            <dependency>
-                <groupId>com.esotericsoftware</groupId>
-                <artifactId>kryo</artifactId>
-                <version>4.0.2</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
     
 </project>

@@ -31,38 +31,9 @@
             <artifactId>rookit-api-dm</artifactId>
         </dependency>
         <dependency>
-            <groupId>${rookit.group}.rookit-utils</groupId>
-            <artifactId>api</artifactId>
-        </dependency>
-        <dependency>
             <groupId>${rookit.group}</groupId>
             <artifactId>rookit-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.mongodb</groupId>
-                <artifactId>mongodb-driver-sync</artifactId>
-                <version>3.7.1</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}</groupId>
-                <artifactId>rookit-api-dm</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}.rookit-utils</groupId>
-                <artifactId>api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${rookit.group}</groupId>
-                <artifactId>rookit-test</artifactId>
-                <version>${rookit.version}</version>
-                <scope>test</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 </project>

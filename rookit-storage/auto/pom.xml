@@ -8,12 +8,12 @@
     <packaging>pom</packaging>
 
     <parent>
-        <groupId>com.github.JPDSousa.rookit-storage</groupId>
+        <groupId>com.github.JPDSousa</groupId>
         <artifactId>rookit-storage</artifactId>
         <version>-SNAPSHOT</version>
     </parent>
 
-    <artifactId>auto</artifactId>
+    <artifactId>rookit-storage-auto</artifactId>
 
     <name>Rookit Storage Auto</name>
 

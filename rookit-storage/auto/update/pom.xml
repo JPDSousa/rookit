@@ -6,30 +6,115 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.github.JPDSousa.rookit-storage</groupId>
-        <artifactId>auto</artifactId>
+        <groupId>com.github.JPDSousa</groupId>
+        <artifactId>rookit-storage-auto</artifactId>
         <version>-SNAPSHOT</version>
     </parent>
 
-    <artifactId>auto-update</artifactId>
+    <artifactId>rookit-storage-auto-update</artifactId>
 
     <name>Rookit Storage Auto Update</name>
 
     <dependencies>
+
         <dependency>
-            <groupId>${rookit.group}.rookit-storage</groupId>
-            <artifactId>auto-update-filter</artifactId>
+            <groupId>one.util</groupId>
+            <artifactId>streamex</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>${rookit.group}.rookit-storage</groupId>
-            <artifactId>auto-lib</artifactId>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.squareup</groupId>
+            <artifactId>javapoet</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-storage-auto-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-storage-auto-lib</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-auto-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-convention-auto-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-auto-lib</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-auto-guice</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-storage-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-auto-javax-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-auto-source-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-auto-source-javapoet-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-utils-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-storage-auto-update-filter</artifactId>
+        </dependency>
+
         <!-- Test dependencies -->
         <dependency>
-            <groupId>${rookit.group}.rookit-auto</groupId>
-            <artifactId>test</artifactId>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-auto-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
 </project>

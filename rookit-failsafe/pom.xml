@@ -13,7 +13,6 @@
         <version>-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.github.JPDSousa.rookit-failsafe</groupId>
     <artifactId>rookit-failsafe</artifactId>
 
     <name>Rookit Failsafe</name>
@@ -22,12 +21,5 @@
         <module>api</module>
         <module>lib</module>
     </modules>
-
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
 
 </project>

@@ -7,7 +7,7 @@
 
     <parent>
         <artifactId>rest</artifactId>
-        <groupId>com.github.JPDSousa.rookit-spotify</groupId>
+        <groupId>com.github.JPDSousa</groupId>
         <version>-SNAPSHOT</version>
     </parent>
 
@@ -17,12 +17,12 @@
 
     <dependencies>
         <dependency>
-            <groupId>${rookit.group}.rookit-spotify</groupId>
+            <groupId>${rookit.group}</groupId>
             <artifactId>data-model-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>${rookit.group}.rookit-io</groupId>
-            <artifactId>http-api</artifactId>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-io-http-api</artifactId>
         </dependency>
         <dependency>
             <groupId>com.neovisionaries</groupId>
@@ -30,13 +30,13 @@
         </dependency>
         <!-- Test dependencies -->
         <dependency>
-            <groupId>${rookit.group}.rookit-test</groupId>
-            <artifactId>runner</artifactId>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-test-runner</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>${rookit.group}.rookit-io</groupId>
-            <artifactId>http-test</artifactId>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-io-http-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -44,26 +44,26 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>${rookit.group}.rookit-spotify</groupId>
+                <groupId>${rookit.group}</groupId>
                 <artifactId>data-model-api</artifactId>
                 <version>${rookit.version}</version>
             </dependency>
             <dependency>
-                <groupId>${rookit.group}.rookit-io</groupId>
-                <artifactId>http-api</artifactId>
+                <groupId>${rookit.group}</groupId>
+                <artifactId>rookit-io-http-api</artifactId>
                 <version>${rookit.version}</version>
             </dependency>
 
             <!-- Test dependencies -->
             <dependency>
-                <groupId>${rookit.group}.rookit-test</groupId>
-                <artifactId>runner</artifactId>
+                <groupId>${rookit.group}</groupId>
+                <artifactId>rookit-test-runner</artifactId>
                 <version>${rookit.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>${rookit.group}.rookit-io</groupId>
-                <artifactId>http-test</artifactId>
+                <groupId>${rookit.group}</groupId>
+                <artifactId>rookit-io-http-test</artifactId>
                 <version>${rookit.version}</version>
                 <scope>test</scope>
             </dependency>

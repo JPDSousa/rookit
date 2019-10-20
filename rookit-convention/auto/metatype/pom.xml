@@ -8,8 +8,8 @@
     <packaging>pom</packaging>
 
     <parent>
-        <groupId>com.github.JPDSousa.rookit-convention</groupId>
-        <artifactId>auto</artifactId>
+        <groupId>com.github.JPDSousa</groupId>
+        <artifactId>rookit-convention-auto</artifactId>
         <version>-SNAPSHOT</version>
     </parent>
 
@@ -21,7 +21,7 @@
         <module>lib</module>
     </modules>
 
-    <artifactId>auto-metatype</artifactId>
+    <artifactId>rookit-convention-auto-metatype</artifactId>
 
     <name>Rookit Convention Auto MetaType</name>
 

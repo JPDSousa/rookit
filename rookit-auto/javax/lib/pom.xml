@@ -2,30 +2,71 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <parent>
-        <artifactId>javax</artifactId>
-        <groupId>com.github.JPDSousa.rookit-auto</groupId>
+        <groupId>com.github.JPDSousa</groupId>
+        <artifactId>rookit-auto-javax</artifactId>
         <version>-SNAPSHOT</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>javax-lib</artifactId>
+    <artifactId>rookit-auto-javax-lib</artifactId>
 
     <name>Rookit Auto Javax Lib</name>
 
     <dependencies>
+
         <dependency>
-            <groupId>${rookit.group}.rookit-failsafe</groupId>
-            <artifactId>api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${rookit.group}.rookit-auto</groupId>
-            <artifactId>javax-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${rookit.group}.rookit-auto</groupId>
+            <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>it.unimi.dsi</groupId>
+            <artifactId>fastutil</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.reactivex.rxjava2</groupId>
+            <artifactId>rxjava</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>one.util</groupId>
+            <artifactId>streamex</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-auto-javax-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-failsafe-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-utils-api</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

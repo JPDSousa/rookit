@@ -6,22 +6,24 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.github.JPDSousa.rookit-serializer</groupId>
+        <groupId>com.github.JPDSousa</groupId>
         <artifactId>rookit-serializer</artifactId>
         <version>-SNAPSHOT</version>
     </parent>
 
-    <artifactId>bson</artifactId>
+    <artifactId>rookit-serializer-bson</artifactId>
     <name>Rookit Serializer Bson</name>
 
     <dependencies>
-        <dependency>
-            <groupId>${rookit.group}.rookit-serializer</groupId>
-            <artifactId>api</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>bson</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-serializer-api</artifactId>
         </dependency>
     </dependencies>
 

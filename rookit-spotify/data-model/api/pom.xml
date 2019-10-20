@@ -7,7 +7,7 @@
 
     <parent>
         <artifactId>data-model</artifactId>
-        <groupId>com.github.JPDSousa.rookit-spotify</groupId>
+        <groupId>com.github.JPDSousa</groupId>
         <version>-SNAPSHOT</version>
     </parent>
 

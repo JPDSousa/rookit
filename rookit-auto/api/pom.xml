@@ -6,31 +6,31 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.github.JPDSousa.rookit-auto</groupId>
+        <groupId>com.github.JPDSousa</groupId>
         <artifactId>rookit-auto</artifactId>
         <version>-SNAPSHOT</version>
     </parent>
 
-    <artifactId>api</artifactId>
+    <artifactId>rookit-auto-api</artifactId>
 
     <name>Rookit Auto Api</name>
 
     <dependencies>
         <dependency>
-            <groupId>${rookit.group}.rookit-io</groupId>
-            <artifactId>path-api</artifactId>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-io-path-api</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.auto.service</groupId>
             <artifactId>auto-service</artifactId>
         </dependency>
         <dependency>
-            <groupId>${rookit.group}.rookit-auto</groupId>
-            <artifactId>source-javapoet-api</artifactId>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-auto-source-javapoet-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>${rookit.group}.rookit-auto</groupId>
-            <artifactId>javax-api</artifactId>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-auto-javax-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.immutables</groupId>

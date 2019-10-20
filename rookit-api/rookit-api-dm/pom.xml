@@ -8,7 +8,7 @@
         <version>-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>rookit-api-dm</artifactId>
+    <artifactId>api-dm</artifactId>
     <name>Rookit Data Model API</name>
 
     <build>
@@ -30,14 +30,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>${rookit.group}.rookit-utils</groupId>
-            <artifactId>api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${rookit.group}.rookit-storage</groupId>
-            <artifactId>api</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.github.Andy671</groupId>
             <artifactId>MusicTheory</artifactId>
         </dependency>
@@ -47,47 +39,42 @@
         </dependency>
         <!-- Code Generators -->
         <dependency>
-            <groupId>${rookit.group}.rookit-convention</groupId>
-            <artifactId>auto-guice</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>${rookit.group}.rookit-convention</groupId>
-            <artifactId>auto-metatype-api-generator</artifactId>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-convention-auto-metatype-api-generator</artifactId>
             <scope>provided</scope>
         </dependency>
 <!--        <dependency>-->
-<!--            <groupId>${rookit.group}.rookit-convention</groupId>-->
+<!--            <groupId>${rookit.group}</groupId>-->
 <!--            <artifactId>auto-metatype-type</artifactId>-->
 <!--            <scope>provided</scope>-->
 <!--        </dependency>-->
 <!--        <dependency>-->
-<!--            <groupId>${rookit.group}.rookit-convention</groupId>-->
+<!--            <groupId>${rookit.group}</groupId>-->
 <!--            <artifactId>auto-metatype-property</artifactId>-->
 <!--            <scope>provided</scope>-->
 <!--        </dependency>-->
 <!--        <dependency>-->
-<!--            <groupId>${rookit.group}.rookit-convention</groupId>-->
+<!--            <groupId>${rookit.group}</groupId>-->
 <!--            <artifactId>auto-module</artifactId>-->
 <!--            <scope>provided</scope>-->
 <!--        </dependency>-->
         <!--<dependency>-->
-            <!--<groupId>${rookit.group}.rookit-storage</groupId>-->
-            <!--<artifactId>auto-filter</artifactId>-->
+            <!--<groupId>${rookit.group}</groupId>-->
+            <!--<artifactId>rookit-storage-auto-filter</artifactId>-->
             <!--<scope>provided</scope>-->
         <!--</dependency>-->
         <!--<dependency>-->
-            <!--<groupId>${rookit.group}.rookit-storage</groupId>-->
-            <!--<artifactId>auto-query</artifactId>-->
+            <!--<groupId>${rookit.group}</groupId>-->
+            <!--<artifactId>rookit-storage-auto-query</artifactId>-->
             <!--<scope>provided</scope>-->
         <!--</dependency>-->
         <!--<dependency>-->
-            <!--<groupId>${rookit.group}.rookit-storage</groupId>-->
-            <!--<artifactId>auto-update-filter</artifactId>-->
+            <!--<groupId>${rookit.group}</groupId>-->
+            <!--<artifactId>rookit-storage-auto-update-filter</artifactId>-->
             <!--<scope>provided</scope>-->
         <!--</dependency>-->
         <!--<dependency>-->
-            <!--<groupId>${rookit.group}.rookit-storage</groupId>-->
+            <!--<groupId>${rookit.group}</groupId>-->
             <!--<artifactId>auto-update</artifactId>-->
             <!--<scope>provided</scope>-->
         <!--</dependency>-->

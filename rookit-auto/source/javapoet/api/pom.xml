@@ -4,14 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <parent>
-        <artifactId>source-javapoet</artifactId>
-        <groupId>com.github.JPDSousa.rookit-auto</groupId>
+        <groupId>com.github.JPDSousa</groupId>
+        <artifactId>rookit-auto-source-javapoet</artifactId>
         <version>-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>source-javapoet-api</artifactId>
+    <artifactId>rookit-auto-source-javapoet-api</artifactId>
+
     <name>Rookit Auto Source JavaPoet API</name>
 
     <dependencies>
@@ -29,12 +30,12 @@
             <artifactId>javapoet</artifactId>
         </dependency>
         <dependency>
-            <groupId>${rookit.group}.rookit-auto</groupId>
-            <artifactId>javax-api</artifactId>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-auto-javax-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>${rookit.group}.rookit-auto</groupId>
-            <artifactId>source-api</artifactId>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-auto-source-api</artifactId>
         </dependency>
     </dependencies>
 

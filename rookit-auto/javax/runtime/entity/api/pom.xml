@@ -2,20 +2,23 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <parent>
-        <artifactId>javax-runtime-entity</artifactId>
-        <groupId>com.github.JPDSousa.rookit-auto</groupId>
+        <groupId>com.github.JPDSousa</groupId>
+        <artifactId>rookit-auto-javax-runtime-entity</artifactId>
         <version>-SNAPSHOT</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>javax-runtime-entity-api</artifactId>
+    <artifactId>rookit-auto-javax-runtime-entity-api</artifactId>
+
     <name>Rookit Auto Javax Runtime Entity API</name>
 
     <dependencies>
         <dependency>
-            <groupId>${rookit.group}.rookit-utils</groupId>
-            <artifactId>api</artifactId>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-utils-api</artifactId>
         </dependency>
     </dependencies>
 

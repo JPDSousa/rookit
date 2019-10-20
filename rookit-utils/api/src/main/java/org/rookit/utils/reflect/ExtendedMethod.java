@@ -26,6 +26,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 @SuppressWarnings("javadoc")
+// TODO this might be merged with the javax-runtime-entity-api stuff
 public interface ExtendedMethod<C, R> extends ExtendedClass<C> {
     
     boolean isAccessible();

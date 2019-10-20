@@ -13,19 +13,14 @@
     </modules>
 
     <parent>
+        <groupId>com.github.JPDSousa</groupId>
         <artifactId>rookit-io</artifactId>
-        <groupId>com.github.JPDSousa.rookit-io</groupId>
         <version>-SNAPSHOT</version>
     </parent>
 
-
-    <artifactId>http</artifactId>
+    <artifactId>rookit-io-http</artifactId>
 
     <name>Rookit IO HTTP</name>
-
-    <properties>
-        <retrofit.version>2.5.0</retrofit.version>
-    </properties>
 
 
 </project>
