@@ -1,4 +1,6 @@
 language: java
+jdk:
+  - openjdk8
 install: true
 notifications:
   email:
@@ -8,7 +10,7 @@ notifications:
     on_failure: always # default: always
 
 script: 
-  - mvn clean test -T 4 -N
+  - mvn clean test -T 4
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
