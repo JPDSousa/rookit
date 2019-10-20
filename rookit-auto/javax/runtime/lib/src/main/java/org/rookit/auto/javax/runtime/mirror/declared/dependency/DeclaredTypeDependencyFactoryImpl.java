@@ -19,32 +19,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.mirror.declared;
+package org.rookit.auto.javax.runtime.mirror.declared.dependency;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Module;
-import com.google.inject.Singleton;
-import com.google.inject.util.Modules;
-import org.rookit.auto.javax.runtime.mirror.declared.dependency.DependencyModule;
-import org.rookit.auto.javax.runtime.mirror.declared.node.NodeModule;
+import com.google.inject.Inject;
 
-public final class DeclaredModule extends AbstractModule {
+import javax.lang.model.type.TypeMirror;
 
-    private static final Module MODULE = Modules.combine(
-            new DeclaredModule(),
-            DependencyModule.getModule(),
-            NodeModule.getModule()
-    );
+final class DeclaredTypeDependencyFactoryImpl implements DeclaredTypeDependencyFactory {
 
-    public static Module getModule() {
-        return MODULE;
-    }
-
-    private DeclaredModule() {}
+    @Inject
+    private DeclaredTypeDependencyFactoryImpl() {}
 
     @Override
-    protected void configure() {
-        bind(DeclaredTypeFactory.class).to(DeclaredTypeFactoryImpl.class).in(Singleton.class);
+    public EnclosingTypeDependency createEnclosingTypeDependency(final TypeMirror dependency) {
+        return () -> dependency;
+    }
+
+    @Override
+    public TypeArgumentDependency createTypeArgumentDependency(final TypeMirror dependency) {
+        return () -> dependency;
     }
 
 }

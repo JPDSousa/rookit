@@ -19,32 +19,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.mirror.declared;
+package org.rookit.auto.javax.runtime.mirror.declared.dependency;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
-import com.google.inject.util.Modules;
-import org.rookit.auto.javax.runtime.mirror.declared.dependency.DependencyModule;
-import org.rookit.auto.javax.runtime.mirror.declared.node.NodeModule;
 
-public final class DeclaredModule extends AbstractModule {
+public final class DependencyModule extends AbstractModule {
 
-    private static final Module MODULE = Modules.combine(
-            new DeclaredModule(),
-            DependencyModule.getModule(),
-            NodeModule.getModule()
-    );
+    private static final Module MODULE = new DependencyModule();
 
     public static Module getModule() {
         return MODULE;
     }
 
-    private DeclaredModule() {}
+    private DependencyModule() {}
 
     @Override
     protected void configure() {
-        bind(DeclaredTypeFactory.class).to(DeclaredTypeFactoryImpl.class).in(Singleton.class);
+        bind(DeclaredTypeDependencyFactory.class).to(DeclaredTypeDependencyFactoryImpl.class).in(Singleton.class);
     }
 
 }

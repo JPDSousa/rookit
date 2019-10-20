@@ -19,8 +19,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.mirror;
+package org.rookit.auto.javax.runtime.mirror.declared.dependency;
 
-public interface NodeTypeMirrorFactory extends GenericNodeFactory<NodeTypeMirror, MutableNodeTypeMirror> {
+import javax.lang.model.type.TypeMirror;
+
+public interface DeclaredTypeDependencyFactory {
+
+    EnclosingTypeDependency createEnclosingTypeDependency(TypeMirror dependency);
+
+    TypeArgumentDependency createTypeArgumentDependency(TypeMirror dependency);
 
 }
