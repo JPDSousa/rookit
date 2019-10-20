@@ -27,6 +27,8 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
+import io.reactivex.Single;
+import org.rookit.auto.javax.runtime.element.node.dependency.ElementDependencyVisitor;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntityVisitor;
 
 import javax.lang.model.element.Element;
@@ -50,6 +52,8 @@ public final class NodeModule extends AbstractModule {
                 .in(Singleton.class);
         bind(new TypeLiteral<RuntimeEntityVisitor<Observable<? extends Element>, Void>>() {})
                 .to(EnclosedElementsVisitor.class).in(Singleton.class);
+        bind(new TypeLiteral<ElementDependencyVisitor<Single<MutableNodeElement>, MutableNodeElement>>() {})
+                .to(DependencySetter.class).in(Singleton.class);
     }
 
 }

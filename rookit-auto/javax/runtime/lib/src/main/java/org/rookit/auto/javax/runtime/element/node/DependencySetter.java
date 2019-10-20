@@ -31,16 +31,16 @@ import org.rookit.utils.graph.Dependency;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-final class ElementDependencySetter implements ElementDependencyVisitor<Single<MutableNodeElement>,
+final class DependencySetter implements ElementDependencyVisitor<Single<MutableNodeElement>,
         MutableNodeElement> {
 
     /**
      * Logger for this class.
      */
-    private static final Logger logger = LoggerFactory.getLogger(ElementDependencySetter.class);
+    private static final Logger logger = LoggerFactory.getLogger(DependencySetter.class);
 
     @Inject
-    private ElementDependencySetter() {}
+    private DependencySetter() {}
 
     @Override
     public Single<MutableNodeElement> visitEnclosedDependency(final EnclosedDependency dependency,
