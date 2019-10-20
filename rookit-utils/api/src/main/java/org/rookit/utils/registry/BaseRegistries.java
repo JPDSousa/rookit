@@ -37,7 +37,9 @@ public interface BaseRegistries {
 
     <K extends Node, V extends MutableNode> Registry<K, V> directedCyclicGraphRegistry(
             Registry<K, V> delegate,
-            MultiRegistry<K, Dependency> dependencyRegistry,
+            MultiRegistry<K, Dependency<?>> dependencyRegistry,
             Class<V> vClass);
+
+    <K, V> MultiRegistry<K, V> compositeRegistry(Iterable<? extends MultiRegistry<K, V>> registries);
 
 }

@@ -19,24 +19,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.entity;
+package org.rookit.auto.javax.runtime.variable.dependency;
 
-public interface RuntimeEntityVisitor<R, P> {
+import com.google.inject.AbstractModule;
+import com.google.inject.Module;
+import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
+import org.rookit.auto.javax.runtime.entity.RuntimeEnumEntity;
+import org.rookit.utils.graph.Dependency;
+import org.rookit.utils.registry.MultiRegistry;
 
-    R visitClass(RuntimeClassEntity clazz, P parameter);
+public final class DependencyModule extends AbstractModule {
 
-    R visitMethod(RuntimeMethodEntity method, P parameter);
+    private static final Module MODULE = new DependencyModule();
 
-    R visitConstructor(RuntimeConstructorEntity constructor, P parameter);
+    public static Module getModule() {
+        return MODULE;
+    }
 
-    R visitPackage(RuntimePackageEntity pack, P parameter);
+    private DependencyModule() {}
 
-    R visitTypeVariable(RuntimeTypeVariableEntity typeVariable, P parameter);
-
-    R visitParameter(RuntimeParameterEntity reflectParameter, P parameter);
-
-    R visitEnum(RuntimeEnumEntity enumeration, P parameter);
-
-    R visitField(RuntimeFieldEntity field, P parameter);
+    @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
+    @Override
+    protected void configure() {
+        bind(new TypeLiteral<MultiRegistry<RuntimeEnumEntity, Dependency<?>>>() {}).to(EnumRegistry.class)
+                .in(Singleton.class);
+    }
 
 }

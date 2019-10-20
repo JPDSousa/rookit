@@ -26,10 +26,10 @@ import java.lang.annotation.Annotation;
 final class EnumEntityImpl implements RuntimeEnumEntity {
 
     private final Enum<?> enumeration;
-    private final RuntimeTypeEntity declaringClass;
+    private final RuntimeClassEntity declaringClass;
 
     EnumEntityImpl(final Enum<?> enumeration,
-                   final RuntimeTypeEntity declaringClass) {
+                   final RuntimeClassEntity declaringClass) {
         this.enumeration = enumeration;
         this.declaringClass = declaringClass;
     }
@@ -40,7 +40,7 @@ final class EnumEntityImpl implements RuntimeEnumEntity {
     }
 
     @Override
-    public RuntimeTypeEntity declaringClass() {
+    public RuntimeClassEntity declaringClass() {
         return this.declaringClass;
     }
 

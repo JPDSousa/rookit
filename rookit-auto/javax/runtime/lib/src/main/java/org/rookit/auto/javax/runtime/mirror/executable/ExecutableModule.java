@@ -24,10 +24,15 @@ package org.rookit.auto.javax.runtime.mirror.executable;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
+import com.google.inject.util.Modules;
+import org.rookit.auto.javax.runtime.mirror.executable.dependency.DependencyModule;
 
 public final class ExecutableModule extends AbstractModule {
 
-    private static final Module MODULE = new ExecutableModule();
+    private static final Module MODULE = Modules.combine(
+            new ExecutableModule(),
+            DependencyModule.getModule()
+    );
 
     public static Module getModule() {
         return MODULE;

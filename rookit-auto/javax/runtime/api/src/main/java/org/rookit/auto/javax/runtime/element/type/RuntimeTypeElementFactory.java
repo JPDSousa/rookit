@@ -22,10 +22,10 @@
 package org.rookit.auto.javax.runtime.element.type;
 
 import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactory;
-import org.rookit.auto.javax.runtime.entity.RuntimeTypeEntity;
+import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
 
 @FunctionalInterface
-public interface RuntimeTypeElementFactory extends RuntimeGenericElementFactory<RuntimeTypeEntity,
+public interface RuntimeTypeElementFactory extends RuntimeGenericElementFactory<RuntimeClassEntity,
         RuntimeTypeElement> {
 
 }

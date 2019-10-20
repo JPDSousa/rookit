@@ -26,6 +26,7 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
+import com.google.inject.util.Modules;
 import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactories;
 import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactory;
 import org.rookit.auto.javax.runtime.element.variable.RuntimeVariableElementFactory;
@@ -33,6 +34,7 @@ import org.rookit.auto.javax.runtime.element.variable.RuntimeVariableElement;
 import org.rookit.auto.javax.runtime.entity.RuntimeEnumEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeFieldEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeParameterEntity;
+import org.rookit.auto.javax.runtime.variable.dependency.DependencyModule;
 import org.rookit.utils.graph.Dependency;
 import org.rookit.utils.registry.MultiRegistry;
 import org.rookit.utils.registry.Registry;
@@ -40,7 +42,10 @@ import org.rookit.utils.registry.Registry;
 @SuppressWarnings("MethodMayBeStatic")
 public final class VariableModule extends AbstractModule {
 
-    private static final Module MODULE = new VariableModule();
+    private static final Module MODULE = Modules.combine(
+            new VariableModule(),
+            DependencyModule.getModule()
+    );
 
     public static Module getModule() {
         return MODULE;
@@ -63,7 +68,7 @@ public final class VariableModule extends AbstractModule {
     RuntimeGenericElementFactory<RuntimeEnumEntity, RuntimeVariableElement> enumFactory(
             final RuntimeGenericElementFactories factories,
             final Registry<RuntimeEnumEntity, RuntimeVariableElement> registry,
-            final MultiRegistry<RuntimeEnumEntity, Dependency> dependenciesRegistry) {
+            final MultiRegistry<RuntimeEnumEntity, Dependency<?>> dependenciesRegistry) {
         return factories.factory(registry, dependenciesRegistry, RuntimeVariableElement.class);
     }
 
@@ -72,7 +77,7 @@ public final class VariableModule extends AbstractModule {
     RuntimeGenericElementFactory<RuntimeFieldEntity, RuntimeVariableElement> fieldFactory(
             final RuntimeGenericElementFactories factories,
             final Registry<RuntimeFieldEntity, RuntimeVariableElement> registry,
-            final MultiRegistry<RuntimeFieldEntity, Dependency> dependenciesRegistry) {
+            final MultiRegistry<RuntimeFieldEntity, Dependency<?>> dependenciesRegistry) {
         return factories.factory(registry, dependenciesRegistry, RuntimeVariableElement.class);
     }
 
@@ -81,7 +86,7 @@ public final class VariableModule extends AbstractModule {
     RuntimeGenericElementFactory<RuntimeParameterEntity, RuntimeVariableElement> parameterFactory(
             final RuntimeGenericElementFactories factories,
             final Registry<RuntimeParameterEntity, RuntimeVariableElement> registry,
-            final MultiRegistry<RuntimeParameterEntity, Dependency> dependenciesRegistry) {
+            final MultiRegistry<RuntimeParameterEntity, Dependency<?>> dependenciesRegistry) {
         return factories.factory(registry, dependenciesRegistry, RuntimeVariableElement.class);
     }
 

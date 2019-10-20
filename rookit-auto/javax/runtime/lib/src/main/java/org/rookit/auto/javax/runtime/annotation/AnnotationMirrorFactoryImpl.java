@@ -29,7 +29,7 @@ import org.rookit.auto.javax.runtime.element.executable.ExecutableElementFactory
 import org.rookit.auto.javax.runtime.element.executable.RuntimeExecutableElement;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntityFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeMethodEntity;
-import org.rookit.auto.javax.runtime.entity.RuntimeTypeEntity;
+import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
 import org.rookit.auto.javax.runtime.mirror.declared.DeclaredTypeFactory;
 import org.rookit.auto.javax.runtime.mirror.declared.RuntimeDeclaredType;
 
@@ -62,8 +62,8 @@ final class AnnotationMirrorFactoryImpl implements RuntimeAnnotationMirrorFactor
 
     @Override
     public Single<AnnotationMirror> fromAnnotation(final Annotation annotation) {
-        final RuntimeTypeEntity annotationEntity = this.entityFactory.fromClass(annotation.annotationType());
-        final Single<RuntimeDeclaredType> declaredTypeSingle = this.declaredFactory.createFromType(annotationEntity);
+        final RuntimeClassEntity annotationEntity = this.entityFactory.fromClass(annotation.annotationType());
+        final Single<RuntimeDeclaredType> declaredTypeSingle = this.declaredFactory.createFromClass(annotationEntity);
 
         return Single.zip(createElementValues(annotation), declaredTypeSingle,
                 (elementValues, declaredType) -> new RuntimeAnnotationMirror(elementValues, annotation, declaredType));

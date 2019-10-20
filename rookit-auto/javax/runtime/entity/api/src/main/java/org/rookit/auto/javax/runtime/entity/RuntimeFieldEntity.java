@@ -27,6 +27,6 @@ public interface RuntimeFieldEntity extends RuntimeEntity {
 
     Field field();
 
-    RuntimeTypeEntity declaringClass();
+    RuntimeClassEntity declaringClass();
 
 }

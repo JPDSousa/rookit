@@ -38,12 +38,12 @@ import javax.lang.model.element.TypeParameterElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeMirror;
 
-final class ExecutableDependencyFactoryImpl implements ExecutableDependencyFactory {
+final class FactoryImpl implements ExecutableDependencyFactory {
 
     private final DependencyFactory dependencyFactory;
 
     @Inject
-    private ExecutableDependencyFactoryImpl(final DependencyFactory dependencyFactory) {
+    private FactoryImpl(final DependencyFactory dependencyFactory) {
         this.dependencyFactory = dependencyFactory;
     }
 
@@ -89,7 +89,7 @@ final class ExecutableDependencyFactoryImpl implements ExecutableDependencyFacto
 
     @Override
     public String toString() {
-        return "ExecutableDependencyFactoryImpl{" +
+        return "FactoryImpl{" +
                 "dependencyFactory=" + this.dependencyFactory +
                 "}";
     }

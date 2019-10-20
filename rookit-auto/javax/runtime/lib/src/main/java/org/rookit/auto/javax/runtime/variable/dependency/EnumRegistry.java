@@ -19,39 +19,53 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.element.type;
+package org.rookit.auto.javax.runtime.variable.dependency;
 
 import com.google.inject.Inject;
-import io.reactivex.Single;
-import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactory;
-import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
+import io.reactivex.Observable;
+import org.rookit.auto.javax.runtime.element.node.dependency.DependencyFactory;
+import org.rookit.auto.javax.runtime.element.type.RuntimeTypeElementFactory;
+import org.rookit.auto.javax.runtime.entity.RuntimeEnumEntity;
+import org.rookit.utils.graph.Dependency;
+import org.rookit.utils.registry.MultiRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-final class DelegateFactory implements RuntimeTypeElementFactory {
+final class EnumRegistry implements MultiRegistry<RuntimeEnumEntity, Dependency<?>> {
 
     /**
      * Logger for this class.
      */
-    private static final Logger logger = LoggerFactory.getLogger(DelegateFactory.class);
+    private static final Logger logger = LoggerFactory.getLogger(EnumRegistry.class);
 
-    private final RuntimeGenericElementFactory<RuntimeClassEntity, RuntimeTypeElement> delegate;
+    private final DependencyFactory dependencyFactory;
+    private final RuntimeTypeElementFactory elementFactory;
 
     @Inject
-    private DelegateFactory(final RuntimeGenericElementFactory<RuntimeClassEntity, RuntimeTypeElement> delegate) {
-        this.delegate = delegate;
+    private EnumRegistry(
+            final DependencyFactory dependencyFactory,
+            final RuntimeTypeElementFactory elementFactory) {
+        this.dependencyFactory = dependencyFactory;
+        this.elementFactory = elementFactory;
     }
 
     @Override
-    public Single<RuntimeTypeElement> createElement(final RuntimeClassEntity entity) {
-        logger.trace("Delegating to '{}'", this.delegate);
-        return this.delegate.createElement(entity);
+    public Observable<Dependency<?>> fetch(final RuntimeEnumEntity key) {
+        return this.elementFactory.createElement(key.declaringClass())
+                .<Dependency<?>>map(this.dependencyFactory::enclosingDependency)
+                .toObservable();
+    }
+
+    @Override
+    public void close() {
+        logger.debug("Nothing to close");
     }
 
     @Override
     public String toString() {
-        return "DelegateFactory{" +
-                "delegate=" + this.delegate +
+        return "EnumRegistry{" +
+                "dependencyFactory=" + this.dependencyFactory +
+                ", elementFactory=" + this.elementFactory +
                 "}";
     }
 

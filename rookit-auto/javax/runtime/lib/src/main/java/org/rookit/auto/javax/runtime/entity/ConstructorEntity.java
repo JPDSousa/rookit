@@ -39,12 +39,12 @@ final class ConstructorEntity implements RuntimeConstructorEntity {
 
     private final Constructor<?> constructor;
     private final RuntimeEntityFactory entityFactory;
-    private final RuntimeTypeEntity declaringClass;
+    private final RuntimeClassEntity declaringClass;
 
     ConstructorEntity(
             final Constructor<?> constructor,
             final RuntimeEntityFactory entityFactory,
-            final RuntimeTypeEntity declaringClass) {
+            final RuntimeClassEntity declaringClass) {
         this.constructor = constructor;
         this.entityFactory = entityFactory;
         this.declaringClass = declaringClass;
@@ -118,7 +118,15 @@ final class ConstructorEntity implements RuntimeConstructorEntity {
     }
 
     @Override
-    public RuntimeTypeEntity declaringClass() {
+    public List<RuntimeTypeVariableEntity> typeParameters() {
+        logger.trace("Computing type parameters");
+        return Arrays.stream(this.constructor.getTypeParameters())
+                .map(this.entityFactory::fromTypeVariable)
+                .collect(ImmutableList.toImmutableList());
+    }
+
+    @Override
+    public RuntimeClassEntity declaringClass() {
         return this.declaringClass;
     }
 

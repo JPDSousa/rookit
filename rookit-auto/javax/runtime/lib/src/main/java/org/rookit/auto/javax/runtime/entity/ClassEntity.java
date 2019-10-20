@@ -33,19 +33,19 @@ import java.util.List;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
-final class TypeEntity implements RuntimeTypeEntity {
+final class ClassEntity implements RuntimeClassEntity {
 
     /**
      * Logger for this class.
      */
-    private static final Logger logger = LoggerFactory.getLogger(TypeEntity.class);
+    private static final Logger logger = LoggerFactory.getLogger(ClassEntity.class);
 
     private final Class<?> clazz;
     private final ElementKind kind;
     private final RuntimeEntityFactory entityFactory;
     private final OptionalFactory optionalFactory;
 
-    TypeEntity(
+    ClassEntity(
             final Class<?> clazz,
             final ElementKind kind,
             final RuntimeEntityFactory entityFactory,
@@ -92,7 +92,7 @@ final class TypeEntity implements RuntimeTypeEntity {
     }
 
     @Override
-    public Class<?> clazz() {
+    public Class<?> type() {
         return this.clazz;
     }
 
@@ -121,7 +121,7 @@ final class TypeEntity implements RuntimeTypeEntity {
     }
 
     @Override
-    public List<RuntimeTypeEntity> declaredClasses() {
+    public List<RuntimeClassEntity> declaredClasses() {
         logger.trace("Computing declared classes");
         return Arrays.stream(this.clazz.getDeclaredClasses())
                 .map(this.entityFactory::fromClass)
@@ -141,7 +141,7 @@ final class TypeEntity implements RuntimeTypeEntity {
     }
 
     @Override
-    public Optional<RuntimeTypeEntity> enclosingClass() {
+    public Optional<RuntimeClassEntity> enclosingClass() {
         return this.optionalFactory.ofNullable(this.clazz.getEnclosingClass())
                 .map(this.entityFactory::fromClass);
     }
@@ -153,8 +153,8 @@ final class TypeEntity implements RuntimeTypeEntity {
 
     @Override
     public String toString() {
-        return "TypeEntity{" +
-                "clazz=" + this.clazz +
+        return "ClassEntity{" +
+                "type=" + this.clazz +
                 ", kind=" + this.kind +
                 ", entityFactory=" + this.entityFactory +
                 ", optionalFactory=" + this.optionalFactory +

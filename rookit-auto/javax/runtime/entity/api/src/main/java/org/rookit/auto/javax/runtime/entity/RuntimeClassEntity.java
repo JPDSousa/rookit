@@ -21,22 +21,34 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.entity;
 
-public interface RuntimeEntityVisitor<R, P> {
+import org.rookit.utils.optional.Optional;
 
-    R visitClass(RuntimeClassEntity clazz, P parameter);
+import java.util.List;
 
-    R visitMethod(RuntimeMethodEntity method, P parameter);
+public interface RuntimeClassEntity extends RuntimeTypeEntity {
 
-    R visitConstructor(RuntimeConstructorEntity constructor, P parameter);
+    @Override
+    Class<?> type();
 
-    R visitPackage(RuntimePackageEntity pack, P parameter);
+    @Override
+    default <R, P> R accept(final RuntimeEntityVisitor<R, P> visitor, final P parameter) {
+        return visitor.visitClass(this, parameter);
+    }
 
-    R visitTypeVariable(RuntimeTypeVariableEntity typeVariable, P parameter);
+    List<RuntimeMethodEntity> declaredMethods();
 
-    R visitParameter(RuntimeParameterEntity reflectParameter, P parameter);
+    List<RuntimeConstructorEntity> declaredConstructors();
 
-    R visitEnum(RuntimeEnumEntity enumeration, P parameter);
+    List<RuntimeFieldEntity> declaredFields();
 
-    R visitField(RuntimeFieldEntity field, P parameter);
+    List<RuntimeClassEntity> declaredClasses();
+
+    Optional<RuntimeConstructorEntity> enclosingConstructor();
+
+    Optional<RuntimeMethodEntity> enclosingMethod();
+
+    Optional<RuntimeClassEntity> enclosingClass();
+
+    RuntimePackageEntity packageEntity();
 
 }

@@ -30,13 +30,14 @@ import com.google.inject.util.Modules;
 import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactories;
 import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactory;
 import org.rookit.auto.javax.runtime.element.type.dependency.DependencyModule;
-import org.rookit.auto.javax.runtime.entity.RuntimeTypeEntity;
+import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
 import org.rookit.auto.javax.runtime.element.type.node.NodeModule;
 import org.rookit.auto.javax.runtime.element.type.parameter.ParameterModule;
 import org.rookit.utils.graph.Dependency;
 import org.rookit.utils.registry.MultiRegistry;
 import org.rookit.utils.registry.Registry;
 
+@SuppressWarnings("MethodMayBeStatic")
 public final class TypeModule extends AbstractModule {
 
     private static final Module MODULE = Modules.combine(
@@ -56,16 +57,16 @@ public final class TypeModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(RuntimeTypeElementFactory.class).to(DelegateFactory.class).in(Singleton.class);
-        bind(new TypeLiteral<Registry<RuntimeTypeEntity, RuntimeTypeElement>>() {})
+        bind(new TypeLiteral<Registry<RuntimeClassEntity, RuntimeTypeElement>>() {})
                 .to(RuntimeTypeElementFactoryImpl.class).in(Singleton.class);
     }
 
     @Provides
     @Singleton
-    RuntimeGenericElementFactory<RuntimeTypeEntity, RuntimeTypeElement> typeFactory(
+    RuntimeGenericElementFactory<RuntimeClassEntity, RuntimeTypeElement> typeFactory(
             final RuntimeGenericElementFactories factories,
-            final Registry<RuntimeTypeEntity, RuntimeTypeElement> registry,
-            final MultiRegistry<RuntimeTypeEntity, Dependency> dependenciesRegistry) {
+            final Registry<RuntimeClassEntity, RuntimeTypeElement> registry,
+            final MultiRegistry<RuntimeClassEntity, Dependency<?>> dependenciesRegistry) {
         return factories.factory(registry, dependenciesRegistry, RuntimeTypeElement.class);
     }
 

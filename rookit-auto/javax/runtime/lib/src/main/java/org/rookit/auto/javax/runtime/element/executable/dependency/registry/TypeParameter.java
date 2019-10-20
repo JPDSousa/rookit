@@ -19,50 +19,53 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.element;
+package org.rookit.auto.javax.runtime.element.executable.dependency.registry;
 
 import com.google.inject.Inject;
-import org.rookit.auto.javax.runtime.element.node.MutableNodeElement;
-import org.rookit.auto.javax.runtime.entity.RuntimeEntity;
+import io.reactivex.Observable;
+import org.rookit.auto.javax.runtime.element.executable.node.dependency.ExecutableDependencyFactory;
+import org.rookit.auto.javax.runtime.element.type.parameter.RuntimeTypeParameterElementFactory;
+import org.rookit.auto.javax.runtime.entity.RuntimeExecutableEntity;
 import org.rookit.utils.graph.Dependency;
-import org.rookit.utils.registry.BaseRegistries;
 import org.rookit.utils.registry.MultiRegistry;
-import org.rookit.utils.registry.Registry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.lang.model.element.Element;
-
-final class RuntimeGenericElementFactoriesImpl implements RuntimeGenericElementFactories {
+final class TypeParameter implements MultiRegistry<RuntimeExecutableEntity, Dependency<?>> {
 
     /**
      * Logger for this class.
      */
-    private static final Logger logger = LoggerFactory.getLogger(RuntimeGenericElementFactoriesImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(TypeParameter.class);
 
-    private final BaseRegistries registries;
+    private final ExecutableDependencyFactory dependencyFactory;
+    private final RuntimeTypeParameterElementFactory typeParameterFactory;
 
     @Inject
-    private RuntimeGenericElementFactoriesImpl(final BaseRegistries registries) {
-        this.registries = registries;
+    private TypeParameter(
+            final ExecutableDependencyFactory dependencyFactory,
+            final RuntimeTypeParameterElementFactory typeParameterFactory) {
+        this.dependencyFactory = dependencyFactory;
+        this.typeParameterFactory = typeParameterFactory;
     }
 
     @Override
-    public <I extends RuntimeEntity, O extends Element & MutableNodeElement> RuntimeGenericElementFactory<I, O> factory(
-            final Registry<I, O> registry,
-            final MultiRegistry<I, Dependency<?>> dependenciesRegistry,
-            final Class<O> outputClass) {
-        logger.trace("Creating cyclic registry");
-        final Registry<I, O> cyclicRegistry = this.registries
-                .directedCyclicGraphRegistry(registry, dependenciesRegistry, outputClass);
+    public Observable<Dependency<?>> fetch(final RuntimeExecutableEntity key) {
+        return Observable.fromIterable(key.typeParameters())
+                .flatMapSingle(this.typeParameterFactory::createElement)
+                .map(this.dependencyFactory::createTypeParametersDependency);
+    }
 
-        return new ElementConnectorDecorator<>(cyclicRegistry);
+    @Override
+    public void close() {
+        logger.debug("Nothing to close");
     }
 
     @Override
     public String toString() {
-        return "RuntimeGenericElementFactoriesImpl{" +
-                "registries=" + this.registries +
+        return "TypeParameter{" +
+                "dependencyFactory=" + this.dependencyFactory +
+                ", typeParameterFactory=" + this.typeParameterFactory +
                 "}";
     }
 

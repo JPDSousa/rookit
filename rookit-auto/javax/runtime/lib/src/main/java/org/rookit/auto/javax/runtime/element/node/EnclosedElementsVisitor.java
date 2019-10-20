@@ -27,6 +27,7 @@ import org.reflections.Reflections;
 import org.rookit.auto.javax.runtime.element.executable.ExecutableElementFactory;
 import org.rookit.auto.javax.runtime.element.type.RuntimeTypeElementFactory;
 import org.rookit.auto.javax.runtime.element.variable.RuntimeVariableElementFactory;
+import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeConstructorEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntityFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntityVisitor;
@@ -36,7 +37,6 @@ import org.rookit.auto.javax.runtime.entity.RuntimeFieldEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeMethodEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimePackageEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeParameterEntity;
-import org.rookit.auto.javax.runtime.entity.RuntimeTypeEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeTypeVariableEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,21 +67,21 @@ final class EnclosedElementsVisitor implements RuntimeEntityVisitor<Observable<?
         this.entityFactory = entityFactory;
     }
 
-    private Observable<? extends Element> createEnclosedMethods(final RuntimeTypeEntity clazz) {
+    private Observable<? extends Element> createEnclosedMethods(final RuntimeClassEntity clazz) {
         return Observable.fromIterable(clazz.declaredMethods())
                 .doOnNext(method -> logger.trace("Creating runtime element for method '{}'", method))
                 .flatMapSingle(this.executableFactory::createElement)
                 .doOnNext(method -> logger.trace("Created runtime executable element '{}'", method.getSimpleName()));
     }
 
-    private Observable<? extends Element> createEnclosedFields(final RuntimeTypeEntity clazz) {
+    private Observable<? extends Element> createEnclosedFields(final RuntimeClassEntity clazz) {
         return Observable.fromIterable(clazz.declaredFields())
                 .doOnNext(field -> logger.trace("Creating runtime element for field '{}'", field))
                 .flatMapSingle(this.variableFactory::createFromField)
                 .doOnNext(field -> logger.trace("Created runtime variable element '{}'", field.getSimpleName()));
     }
 
-    private Observable<? extends Element> createEnclosedConstructors(final RuntimeTypeEntity clazz) {
+    private Observable<? extends Element> createEnclosedConstructors(final RuntimeClassEntity clazz) {
         return Observable.fromIterable(clazz.declaredConstructors())
                 .doOnNext(constructor -> logger.trace("Creating runtime element for constructor '{}'", constructor))
                 .flatMapSingle(this.executableFactory::createElement)
@@ -89,7 +89,7 @@ final class EnclosedElementsVisitor implements RuntimeEntityVisitor<Observable<?
                                                   constructor.getSimpleName()));
     }
 
-    private Observable<? extends Element> createEnclosedClasses(final RuntimeTypeEntity clazz) {
+    private Observable<? extends Element> createEnclosedClasses(final RuntimeClassEntity clazz) {
         return Observable.fromIterable(clazz.declaredClasses())
                 .doOnNext(enclosedClass -> logger.trace("Creating runtime element for enclosed class '{}'",
                                                     enclosedClass))
@@ -98,7 +98,7 @@ final class EnclosedElementsVisitor implements RuntimeEntityVisitor<Observable<?
     }
 
     @Override
-    public Observable<? extends Element> visitClass(final RuntimeTypeEntity entity, final Void parameter) {
+    public Observable<? extends Element> visitClass(final RuntimeClassEntity entity, final Void parameter) {
         return Observable.concatArray(
                 createEnclosedClasses(entity),
                 createEnclosedConstructors(entity),

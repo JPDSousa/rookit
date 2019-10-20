@@ -19,50 +19,55 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.pack;
+package org.rookit.auto.javax.runtime.element.executable.dependency.registry;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
-import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactories;
-import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactory;
-import org.rookit.auto.javax.runtime.element.pack.RuntimePackageElement;
-import org.rookit.auto.javax.runtime.element.pack.RuntimePackageElementFactory;
-import org.rookit.auto.javax.runtime.entity.RuntimePackageEntity;
+import com.google.inject.multibindings.Multibinder;
+import org.rookit.auto.javax.runtime.entity.RuntimeExecutableEntity;
 import org.rookit.utils.graph.Dependency;
+import org.rookit.utils.registry.BaseRegistries;
 import org.rookit.utils.registry.MultiRegistry;
-import org.rookit.utils.registry.Registry;
+
+import java.util.Set;
+
+import static com.google.inject.multibindings.Multibinder.newSetBinder;
 
 @SuppressWarnings("MethodMayBeStatic")
-public final class PackageModule extends AbstractModule {
+public final class RegistryModule extends AbstractModule {
 
-    private static final Module MODULE = new PackageModule();
+    private static final Module MODULE = new RegistryModule();
 
     public static Module getModule() {
         return MODULE;
     }
 
-    private PackageModule() {}
+    private RegistryModule() {}
 
     @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
     @Override
     protected void configure() {
-        bind(RuntimePackageElementFactory.class).to(DelegateFactory.class).in(Singleton.class);
-        bind(new TypeLiteral<MultiRegistry<RuntimePackageEntity, Dependency<?>>>() {}).to(DependencyRegistry.class)
-                .in(Singleton.class);
-        bind(new TypeLiteral<Registry<RuntimePackageEntity, RuntimePackageElement>>() {})
-                .to(PackageElementFactory.class).in(Singleton.class);
+        final Multibinder<MultiRegistry<RuntimeExecutableEntity, Dependency<?>>> mBinder
+                = newSetBinder(binder(),
+                               new TypeLiteral<MultiRegistry<RuntimeExecutableEntity, Dependency<?>>>() {});
+
+        mBinder.addBinding().to(Parameter.class).in(Singleton.class);
+        mBinder.addBinding().to(ReceiverType.class).in(Singleton.class);
+        mBinder.addBinding().to(ReturnType.class).in(Singleton.class);
+        mBinder.addBinding().to(ThrownType.class).in(Singleton.class);
+        mBinder.addBinding().to(TypeParameter.class).in(Singleton.class);
+        mBinder.addBinding().to(Executable2Entity.class).in(Singleton.class);
     }
 
     @Provides
     @Singleton
-    RuntimeGenericElementFactory<RuntimePackageEntity, RuntimePackageElement> packageFactory(
-            final RuntimeGenericElementFactories factories,
-            final Registry<RuntimePackageEntity, RuntimePackageElement> registry,
-            final MultiRegistry<RuntimePackageEntity, Dependency<?>> dependenciesRegistry) {
-        return factories.factory(registry, dependenciesRegistry, RuntimePackageElement.class);
+    MultiRegistry<RuntimeExecutableEntity, Dependency<?>> executableRegistry(
+            final BaseRegistries baseRegistries,
+            final Set<MultiRegistry<RuntimeExecutableEntity, Dependency<?>>> registries) {
+        return baseRegistries.compositeRegistry(registries);
     }
 
 }

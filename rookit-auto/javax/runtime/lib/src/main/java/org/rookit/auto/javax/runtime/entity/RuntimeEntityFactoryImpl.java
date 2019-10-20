@@ -46,8 +46,8 @@ final class RuntimeEntityFactoryImpl implements RuntimeEntityFactory {
     }
 
     @Override
-    public RuntimeTypeEntity fromClass(final Class<?> clazz) {
-        return new TypeEntity(clazz, this.elementKindFactory.createFromClass(clazz), this, this.optionalFactory);
+    public RuntimeClassEntity fromClass(final Class<?> clazz) {
+        return new ClassEntity(clazz, this.elementKindFactory.createFromClass(clazz), this, this.optionalFactory);
     }
 
     @Override

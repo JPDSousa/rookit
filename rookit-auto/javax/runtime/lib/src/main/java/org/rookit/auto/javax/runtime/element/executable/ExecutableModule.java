@@ -64,7 +64,7 @@ public final class ExecutableModule extends AbstractModule {
     RuntimeGenericElementFactory<RuntimeExecutableEntity, RuntimeExecutableElement> parameterFactory(
             final RuntimeGenericElementFactories factories,
             final Registry<RuntimeExecutableEntity, RuntimeExecutableElement> registry,
-            final MultiRegistry<RuntimeExecutableEntity, Dependency> dependenciesRegistry) {
+            final MultiRegistry<RuntimeExecutableEntity, Dependency<?>> dependenciesRegistry) {
         return factories.factory(registry, dependenciesRegistry, RuntimeExecutableElement.class);
     }
 

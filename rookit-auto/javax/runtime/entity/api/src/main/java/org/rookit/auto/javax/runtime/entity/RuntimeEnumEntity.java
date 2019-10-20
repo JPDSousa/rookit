@@ -27,7 +27,7 @@ public interface RuntimeEnumEntity extends RuntimeEntity {
 
     Enum<?> enumeration();
 
-    RuntimeTypeEntity declaringClass();
+    RuntimeClassEntity declaringClass();
 
     @Override
     default ElementKind kind() {

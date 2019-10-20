@@ -38,7 +38,7 @@ public final class DependencyModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(ExecutableDependencyFactory.class).to(ExecutableDependencyFactoryImpl.class).in(Singleton.class);
+        bind(ExecutableDependencyFactory.class).to(FactoryImpl.class).in(Singleton.class);
     }
 
 }

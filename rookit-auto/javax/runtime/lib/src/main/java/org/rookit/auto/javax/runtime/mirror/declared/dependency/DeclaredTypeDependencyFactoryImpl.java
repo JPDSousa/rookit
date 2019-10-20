@@ -42,7 +42,7 @@ final class DeclaredTypeDependencyFactoryImpl implements DeclaredTypeDependencyF
     }
 
     @Override
-    public ElementDependency createElementDependency(Element element) {
+    public ElementDependency createElementDependency(final Element element) {
         return () -> element;
     }
 

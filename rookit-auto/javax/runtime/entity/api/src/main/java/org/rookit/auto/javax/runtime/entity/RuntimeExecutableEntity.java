@@ -30,6 +30,8 @@ public interface RuntimeExecutableEntity extends RuntimeEntity {
 
     List<RuntimeParameterEntity> parameters();
 
-    RuntimeTypeEntity declaringClass();
+    List<RuntimeTypeVariableEntity> typeParameters();
+
+    RuntimeClassEntity declaringClass();
 
 }

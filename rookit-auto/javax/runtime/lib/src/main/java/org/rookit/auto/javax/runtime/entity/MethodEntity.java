@@ -39,12 +39,12 @@ final class MethodEntity implements RuntimeMethodEntity {
 
     private final Method method;
     private final RuntimeEntityFactory entityFactory;
-    private final RuntimeTypeEntity declaringClass;
+    private final RuntimeClassEntity declaringClass;
 
     MethodEntity(
             final Method method,
             final RuntimeEntityFactory entityFactory,
-            final RuntimeTypeEntity declaringClass) {
+            final RuntimeClassEntity declaringClass) {
         this.method = method;
         this.entityFactory = entityFactory;
         this.declaringClass = declaringClass;
@@ -118,7 +118,15 @@ final class MethodEntity implements RuntimeMethodEntity {
     }
 
     @Override
-    public RuntimeTypeEntity declaringClass() {
+    public List<RuntimeTypeVariableEntity> typeParameters() {
+        logger.trace("Computing type parameters");
+        return Arrays.stream(this.method.getTypeParameters())
+                .map(this.entityFactory::fromTypeVariable)
+                .collect(ImmutableList.toImmutableList());
+    }
+
+    @Override
+    public RuntimeClassEntity declaringClass() {
         return this.declaringClass;
     }
 
@@ -127,6 +135,7 @@ final class MethodEntity implements RuntimeMethodEntity {
         return "MethodEntity{" +
                 "method=" + this.method +
                 ", entityFactory=" + this.entityFactory +
+                ", declaringClass=" + this.declaringClass +
                 "}";
     }
 

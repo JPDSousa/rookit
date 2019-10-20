@@ -19,24 +19,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.entity;
+package org.rookit.auto.javax.runtime.element.executable.dependency.registry;
 
-public interface RuntimeEntityVisitor<R, P> {
+import com.google.inject.Inject;
+import io.reactivex.Observable;
+import org.rookit.auto.javax.runtime.entity.RuntimeEntity;
+import org.rookit.auto.javax.runtime.entity.RuntimeExecutableEntity;
+import org.rookit.utils.graph.Dependency;
+import org.rookit.utils.registry.MultiRegistry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-    R visitClass(RuntimeClassEntity clazz, P parameter);
+final class Executable2Entity implements MultiRegistry<RuntimeExecutableEntity, Dependency<?>> {
 
-    R visitMethod(RuntimeMethodEntity method, P parameter);
+    /**
+     * Logger for this class.
+     */
+    private static final Logger logger = LoggerFactory.getLogger(Executable2Entity.class);
 
-    R visitConstructor(RuntimeConstructorEntity constructor, P parameter);
+    private final MultiRegistry<RuntimeEntity, Dependency<?>> delegate;
 
-    R visitPackage(RuntimePackageEntity pack, P parameter);
+    @Inject
+    private Executable2Entity(final MultiRegistry<RuntimeEntity, Dependency<?>> delegate) {
+        this.delegate = delegate;
+    }
 
-    R visitTypeVariable(RuntimeTypeVariableEntity typeVariable, P parameter);
+    @Override
+    public Observable<Dependency<?>> fetch(final RuntimeExecutableEntity key) {
+        return this.delegate.fetch(key);
+    }
 
-    R visitParameter(RuntimeParameterEntity reflectParameter, P parameter);
+    @Override
+    public void close() {
+        logger.debug("Nothing to close");
+    }
 
-    R visitEnum(RuntimeEnumEntity enumeration, P parameter);
-
-    R visitField(RuntimeFieldEntity field, P parameter);
+    @Override
+    public String toString() {
+        return "Executable2Entity{" +
+                "delegate=" + this.delegate +
+                "}";
+    }
 
 }

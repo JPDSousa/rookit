@@ -23,7 +23,7 @@ package org.rookit.auto.javax.runtime.mirror.declared;
 
 import com.google.inject.Inject;
 import io.reactivex.Single;
-import org.rookit.auto.javax.runtime.entity.RuntimeTypeEntity;
+import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
 import org.rookit.auto.javax.runtime.mirror.declared.node.NodeDeclaredTypeFactory;
 
 final class DeclaredTypeFactoryImpl implements DeclaredTypeFactory {
@@ -36,7 +36,7 @@ final class DeclaredTypeFactoryImpl implements DeclaredTypeFactory {
     }
 
     @Override
-    public Single<RuntimeDeclaredType> createFromType(final RuntimeTypeEntity typeEntity) {
+    public Single<RuntimeDeclaredType> createFromClass(final RuntimeClassEntity typeEntity) {
         return this.nodeFactory.createMutableFromEntity(typeEntity)
                 .map(RuntimeDeclaredTypeImpl::new);
     }

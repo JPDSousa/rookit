@@ -33,6 +33,6 @@ public interface RuntimeGenericElementFactories {
 
     <I extends RuntimeEntity, O extends Element & MutableNodeElement> RuntimeGenericElementFactory<I, O> factory(
             Registry<I, O> registry,
-            MultiRegistry<I, Dependency> dependenciesRegistry, Class<O> outputClass);
+            MultiRegistry<I, Dependency<?>> dependenciesRegistry, Class<O> outputClass);
 
 }

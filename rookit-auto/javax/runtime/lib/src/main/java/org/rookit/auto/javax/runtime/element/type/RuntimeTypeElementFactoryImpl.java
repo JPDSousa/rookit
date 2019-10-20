@@ -27,7 +27,7 @@ import io.reactivex.Single;
 import org.rookit.auto.javax.runtime.NameFactory;
 import org.rookit.auto.javax.runtime.ModifierFactory;
 import org.rookit.auto.javax.runtime.element.type.node.RuntimeTypeNodeElementFactory;
-import org.rookit.auto.javax.runtime.entity.RuntimeTypeEntity;
+import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
 import org.rookit.utils.registry.Registry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +36,7 @@ import javax.lang.model.element.NestingKind;
 
 import static java.util.Objects.nonNull;
 
-final class RuntimeTypeElementFactoryImpl implements Registry<RuntimeTypeEntity, RuntimeTypeElement> {
+final class RuntimeTypeElementFactoryImpl implements Registry<RuntimeClassEntity, RuntimeTypeElement> {
 
     /**
      * Logger for this class.
@@ -59,13 +59,13 @@ final class RuntimeTypeElementFactoryImpl implements Registry<RuntimeTypeEntity,
 
 
     @Override
-    public Maybe<RuntimeTypeElement> get(final RuntimeTypeEntity key) {
+    public Maybe<RuntimeTypeElement> get(final RuntimeClassEntity key) {
         return fetch(key).toMaybe();
     }
 
     @Override
-    public Single<RuntimeTypeElement> fetch(final RuntimeTypeEntity entity) {
-        final Class<?> entityClass = entity.clazz();
+    public Single<RuntimeTypeElement> fetch(final RuntimeClassEntity entity) {
+        final Class<?> entityClass = entity.type();
 
         return this.nodeFactory.createMutableFromEntity(entity)
                 .map(node -> new RuntimeTypeElementImpl(

@@ -19,53 +19,55 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.pack;
+package org.rookit.auto.javax.runtime.element.executable.dependency.registry;
 
 import com.google.inject.Inject;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
-import org.reflections.Reflections;
-import org.rookit.auto.javax.runtime.element.type.RuntimeTypeElementFactory;
+import org.rookit.auto.javax.runtime.element.executable.node.dependency.ExecutableDependencyFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntityFactory;
-import org.rookit.auto.javax.runtime.entity.RuntimePackageEntity;
-import org.rookit.auto.javax.runtime.element.node.dependency.DependencyFactory;
+import org.rookit.auto.javax.runtime.entity.RuntimeExecutableEntity;
+import org.rookit.auto.javax.runtime.mirror.declared.DeclaredTypeFactory;
 import org.rookit.utils.graph.Dependency;
 import org.rookit.utils.registry.MultiRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-final class DependencyRegistry implements MultiRegistry<RuntimePackageEntity, Dependency<?>> {
+import java.lang.reflect.AnnotatedType;
+import java.util.Objects;
+
+final class ReceiverType implements MultiRegistry<RuntimeExecutableEntity, Dependency<?>> {
 
     /**
      * Logger for this class.
      */
-    private static final Logger logger = LoggerFactory.getLogger(DependencyRegistry.class);
+    private static final Logger logger = LoggerFactory.getLogger(ReceiverType.class);
 
-    private final RuntimeTypeElementFactory typeFactory;
+    private final ExecutableDependencyFactory dependencyFactory;
+    private final DeclaredTypeFactory declaredTypeFactory;
     private final RuntimeEntityFactory entityFactory;
-    private final DependencyFactory dependencyFactory;
 
     @Inject
-    private DependencyRegistry(
-            final RuntimeTypeElementFactory typeFactory,
-            final RuntimeEntityFactory entityFactory,
-            final DependencyFactory dependencyFactory) {
-        this.typeFactory = typeFactory;
-        this.entityFactory = entityFactory;
+    private ReceiverType(
+            final ExecutableDependencyFactory dependencyFactory,
+            final DeclaredTypeFactory declaredTypeFactory,
+            final RuntimeEntityFactory entityFactory) {
         this.dependencyFactory = dependencyFactory;
+        this.declaredTypeFactory = declaredTypeFactory;
+        this.entityFactory = entityFactory;
     }
 
     @Override
-    public Observable<Dependency<?>> fetch(final RuntimePackageEntity key) {
-        final Package pack = key.pack();
-        logger.debug("Creating reflections object");
-        final Reflections reflections = new Reflections(pack.getName());
-
-        logger.debug("Fetching all types in package '{}'", key.name());
-        // TODO confirm that this does not include inner classes.
-        return Observable.fromIterable(reflections.getSubTypesOf(Object.class))
+    public Observable<Dependency<?>> fetch(final RuntimeExecutableEntity key) {
+        return Maybe.just(key.executable().getAnnotatedReceiverType())
+                .filter(Objects::nonNull)
+                .map(AnnotatedType::getType)
+                .filter(Class.class::isInstance)
+                .cast(Class.class)
                 .map(this.entityFactory::fromClass)
-                .flatMapSingle(this.typeFactory::createElement)
-                .map(this.dependencyFactory::enclosedDependency);
+                .flatMapSingle(this.declaredTypeFactory::createFromClass)
+                .<Dependency<?>>map(this.dependencyFactory::createReceiverTypeDependency)
+                .toObservable();
     }
 
     @Override
@@ -75,10 +77,10 @@ final class DependencyRegistry implements MultiRegistry<RuntimePackageEntity, De
 
     @Override
     public String toString() {
-        return "DependencyRegistry{" +
-                "typeFactory=" + this.typeFactory +
+        return "ReceiverType{" +
+                "dependencyFactory=" + this.dependencyFactory +
+                ", declaredTypeFactory=" + this.declaredTypeFactory +
                 ", entityFactory=" + this.entityFactory +
-                ", dependencyFactory=" + this.dependencyFactory +
                 "}";
     }
 

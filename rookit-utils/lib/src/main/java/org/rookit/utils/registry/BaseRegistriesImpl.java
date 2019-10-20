@@ -67,9 +67,15 @@ final class BaseRegistriesImpl implements BaseRegistries {
     @Override
     public <K extends Node, V extends MutableNode> Registry<K, V> directedCyclicGraphRegistry(
             final Registry<K, V> delegate,
-            final MultiRegistry<K, Dependency> dependencyRegistry,
+            final MultiRegistry<K, Dependency<?>> dependencyRegistry,
             final Class<V> vClass) {
         logger.trace("Creating a directed cyclic graph registry");
         return new DirectedCyclicGraph<>(memoizeRegistry(delegate), dependencyRegistry, vClass);
     }
+
+    @Override
+    public <K, V> MultiRegistry<K, V> compositeRegistry(final Iterable<? extends MultiRegistry<K, V>> multiRegistries) {
+        return new CompositeMultiRegistry<>(multiRegistries);
+    }
+
 }

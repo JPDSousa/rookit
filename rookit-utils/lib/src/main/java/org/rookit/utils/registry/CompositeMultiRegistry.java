@@ -19,24 +19,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.entity;
+package org.rookit.utils.registry;
 
-public interface RuntimeEntityVisitor<R, P> {
+import com.google.common.collect.ImmutableList;
+import io.reactivex.Observable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-    R visitClass(RuntimeClassEntity clazz, P parameter);
+import java.util.stream.Collectors;
 
-    R visitMethod(RuntimeMethodEntity method, P parameter);
+import static java.util.stream.StreamSupport.stream;
 
-    R visitConstructor(RuntimeConstructorEntity constructor, P parameter);
+final class CompositeMultiRegistry<K, V> implements MultiRegistry<K, V> {
 
-    R visitPackage(RuntimePackageEntity pack, P parameter);
+    /**
+     * Logger for this class.
+     */
+    private static final Logger logger = LoggerFactory.getLogger(CompositeMultiRegistry.class);
 
-    R visitTypeVariable(RuntimeTypeVariableEntity typeVariable, P parameter);
+    private final Iterable<? extends MultiRegistry<K, V>> registries;
 
-    R visitParameter(RuntimeParameterEntity reflectParameter, P parameter);
+    CompositeMultiRegistry(final Iterable<? extends MultiRegistry<K, V>> registries) {
+        this.registries = registries;
+    }
 
-    R visitEnum(RuntimeEnumEntity enumeration, P parameter);
+    @Override
+    public Observable<V> fetch(final K key) {
+        return stream(this.registries.spliterator(), false)
+                .map(registry -> registry.fetch(key))
+                .collect(Collectors.collectingAndThen(
+                        ImmutableList.toImmutableList(),
+                        Observable::concat
+                ));
+    }
 
-    R visitField(RuntimeFieldEntity field, P parameter);
+    @Override
+    public void close() {
+        logger.debug("Nothing to close");
+    }
 
 }

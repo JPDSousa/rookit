@@ -22,8 +22,8 @@
 package org.rookit.auto.javax.runtime.annotation;
 
 import com.google.common.collect.ImmutableList;
+import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntityFactory;
-import org.rookit.auto.javax.runtime.entity.RuntimeTypeEntity;
 import org.rookit.auto.javax.runtime.mirror.declared.DeclaredTypeFactory;
 import org.rookit.auto.javax.runtime.element.variable.RuntimeVariableElementFactory;
 
@@ -82,8 +82,8 @@ final class RuntimeAnnotationValue implements AnnotationValue {
         } else if (this.value instanceof String) {
             return v.visitString(((String) this.value), p);
         } else if (this.value instanceof Class) {
-            final RuntimeTypeEntity typeEntity = this.entityFactory.fromClass((Class<?>) this.value);
-            return this.declaredFactory.createFromType(typeEntity)
+            final RuntimeClassEntity typeEntity = this.entityFactory.fromClass((Class<?>) this.value);
+            return this.declaredFactory.createFromClass(typeEntity)
                     .map(declaredType -> v.visitType(declaredType, p))
                     // TODO have some sort of timeout/warning
                     .blockingGet();

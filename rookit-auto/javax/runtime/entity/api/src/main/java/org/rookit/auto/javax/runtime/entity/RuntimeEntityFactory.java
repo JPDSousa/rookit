@@ -29,7 +29,7 @@ import java.lang.reflect.TypeVariable;
 
 public interface RuntimeEntityFactory {
 
-    RuntimeTypeEntity fromClass(Class<?> clazz);
+    RuntimeClassEntity fromClass(Class<?> clazz);
 
     RuntimeMethodEntity fromMethod(Method method);
 

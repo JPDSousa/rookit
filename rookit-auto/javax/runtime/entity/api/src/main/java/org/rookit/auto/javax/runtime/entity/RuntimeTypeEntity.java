@@ -21,33 +21,10 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.entity;
 
-import org.rookit.utils.optional.Optional;
-
-import java.util.List;
+import java.lang.reflect.Type;
 
 public interface RuntimeTypeEntity extends RuntimeEntity {
 
-    Class<?> clazz();
-
-    @Override
-    default <R, P> R accept(final RuntimeEntityVisitor<R, P> visitor, final P parameter) {
-        return visitor.visitClass(this, parameter);
-    }
-
-    List<RuntimeMethodEntity> declaredMethods();
-
-    List<RuntimeConstructorEntity> declaredConstructors();
-
-    List<RuntimeFieldEntity> declaredFields();
-
-    List<RuntimeTypeEntity> declaredClasses();
-
-    Optional<RuntimeConstructorEntity> enclosingConstructor();
-
-    Optional<RuntimeMethodEntity> enclosingMethod();
-
-    Optional<RuntimeTypeEntity> enclosingClass();
-
-    RuntimePackageEntity packageEntity();
+    Type type();
 
 }

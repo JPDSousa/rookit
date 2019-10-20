@@ -27,6 +27,7 @@ import io.reactivex.Single;
 import org.rookit.auto.javax.runtime.element.executable.ExecutableElementFactory;
 import org.rookit.auto.javax.runtime.element.pack.RuntimePackageElementFactory;
 import org.rookit.auto.javax.runtime.element.type.RuntimeTypeElementFactory;
+import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeConstructorEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntityVisitor;
 import org.rookit.auto.javax.runtime.entity.RuntimeEnumEntity;
@@ -35,7 +36,6 @@ import org.rookit.auto.javax.runtime.entity.RuntimeFieldEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeMethodEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimePackageEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeParameterEntity;
-import org.rookit.auto.javax.runtime.entity.RuntimeTypeEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeTypeVariableEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,7 +63,7 @@ final class EnclosingElementVisitor implements RuntimeEntityVisitor<Maybe<Elemen
         this.packageFactory = packageFactory;
     }
 
-    private Maybe<Element> createFromEnclosingConstructor(final RuntimeTypeEntity clazz) {
+    private Maybe<Element> createFromEnclosingConstructor(final RuntimeClassEntity clazz) {
         return clazz.enclosingConstructor()
                 .map(Maybe::just)
                 .orElse(Maybe.empty())
@@ -71,7 +71,7 @@ final class EnclosingElementVisitor implements RuntimeEntityVisitor<Maybe<Elemen
                 .flatMapSingleElement(this.executableFactory::createElement);
     }
 
-    private Maybe<Element> createFromEnclosingMethod(final RuntimeTypeEntity clazz) {
+    private Maybe<Element> createFromEnclosingMethod(final RuntimeClassEntity clazz) {
         return clazz.enclosingMethod()
                 .map(Maybe::just)
                 .orElse(Maybe.empty())
@@ -79,7 +79,7 @@ final class EnclosingElementVisitor implements RuntimeEntityVisitor<Maybe<Elemen
                 .flatMapSingleElement(this.executableFactory::createElement);
     }
 
-    private Maybe<Element> createFromEnclosingClass(final RuntimeTypeEntity clazz) {
+    private Maybe<Element> createFromEnclosingClass(final RuntimeClassEntity clazz) {
         // TODO handle security exception
         return clazz.enclosingClass()
                 .map(Maybe::just)
@@ -88,7 +88,7 @@ final class EnclosingElementVisitor implements RuntimeEntityVisitor<Maybe<Elemen
                 .flatMapSingleElement(this.typeElementFactory::createElement);
     }
 
-    private Single<Element> createFromPackage(final RuntimeTypeEntity clazz) {
+    private Single<Element> createFromPackage(final RuntimeClassEntity clazz) {
 
         return Single.just(clazz.packageEntity())
                 .doOnSuccess(enclosing -> logger.trace("Enclosing element of '{}' is package '{}'", clazz, enclosing))
@@ -96,7 +96,7 @@ final class EnclosingElementVisitor implements RuntimeEntityVisitor<Maybe<Elemen
     }
 
     @Override
-    public Maybe<Element> visitClass(final RuntimeTypeEntity clazz, final Void parameter) {
+    public Maybe<Element> visitClass(final RuntimeClassEntity clazz, final Void parameter) {
         return createFromEnclosingConstructor(clazz)
                 .doOnDispose(() -> logger.trace("Enclosing element is not a constructor"))
                 .switchIfEmpty(createFromEnclosingMethod(clazz))

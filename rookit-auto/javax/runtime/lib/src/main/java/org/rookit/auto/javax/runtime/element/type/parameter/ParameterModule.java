@@ -61,7 +61,7 @@ public final class ParameterModule extends AbstractModule {
     RuntimeGenericElementFactory<RuntimeTypeVariableEntity, RuntimeTypeParameterElement> parameterFactory(
             final RuntimeGenericElementFactories factories,
             final Registry<RuntimeTypeVariableEntity, RuntimeTypeParameterElement> registry,
-            final MultiRegistry<RuntimeTypeVariableEntity, Dependency> dependenciesRegistry) {
+            final MultiRegistry<RuntimeTypeVariableEntity, Dependency<?>> dependenciesRegistry) {
         return factories.factory(registry, dependenciesRegistry, RuntimeTypeParameterElement.class);
     }
 

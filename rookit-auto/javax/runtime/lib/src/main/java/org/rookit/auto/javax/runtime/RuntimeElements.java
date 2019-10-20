@@ -25,9 +25,9 @@ import com.google.inject.Inject;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.runtime.element.pack.RuntimePackageElementFactory;
 import org.rookit.auto.javax.runtime.element.type.RuntimeTypeElementFactory;
+import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntityFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimePackageEntity;
-import org.rookit.auto.javax.runtime.entity.RuntimeTypeEntity;
 import org.rookit.failsafe.Failsafe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,7 +90,7 @@ final class RuntimeElements implements Elements {
     @Override
     public TypeElement getTypeElement(final CharSequence name) {
         try {
-            final RuntimeTypeEntity entity = this.entityFactory.fromClass(Class.forName(name.toString()));
+            final RuntimeClassEntity entity = this.entityFactory.fromClass(Class.forName(name.toString()));
             return this.typeFactory.createElement(entity)
                     .blockingGet();
         } catch (final ClassNotFoundException e) {

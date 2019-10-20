@@ -28,10 +28,10 @@ import java.lang.reflect.Field;
 final class FieldEntityImpl implements RuntimeFieldEntity {
 
     private final Field field;
-    private final RuntimeTypeEntity declaringClass;
+    private final RuntimeClassEntity declaringClass;
 
     FieldEntityImpl(final Field field,
-                    final RuntimeTypeEntity declaringClass) {
+                    final RuntimeClassEntity declaringClass) {
         this.field = field;
         this.declaringClass = declaringClass;
     }
@@ -42,7 +42,7 @@ final class FieldEntityImpl implements RuntimeFieldEntity {
     }
 
     @Override
-    public RuntimeTypeEntity declaringClass() {
+    public RuntimeClassEntity declaringClass() {
         return this.declaringClass;
     }
 

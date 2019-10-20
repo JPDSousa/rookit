@@ -37,12 +37,12 @@ final class DirectedCyclicGraph<K extends Node, V extends MutableNode> implement
     private static final Logger logger = LoggerFactory.getLogger(DirectedCyclicGraph.class);
 
     private final Registry<K, V> detachedRegistry;
-    private final MultiRegistry<K, Dependency> dependencyRegistry;
+    private final MultiRegistry<K, Dependency<?>> dependencyRegistry;
     private final Class<V> vClass;
 
     DirectedCyclicGraph(
             final Registry<K, V> detachedRegistry,
-            final MultiRegistry<K, Dependency> dependencyRegistry,
+            final MultiRegistry<K, Dependency<?>> dependencyRegistry,
             final Class<V> vClass) {
         this.detachedRegistry = detachedRegistry;
         this.dependencyRegistry = dependencyRegistry;

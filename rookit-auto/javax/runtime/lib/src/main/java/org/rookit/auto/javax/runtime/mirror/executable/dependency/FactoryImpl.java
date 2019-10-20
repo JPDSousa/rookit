@@ -19,24 +19,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.entity;
+package org.rookit.auto.javax.runtime.mirror.executable.dependency;
 
-public interface RuntimeEntityVisitor<R, P> {
+import com.google.inject.Inject;
 
-    R visitClass(RuntimeClassEntity clazz, P parameter);
+import javax.lang.model.type.TypeMirror;
+import javax.lang.model.type.TypeVariable;
 
-    R visitMethod(RuntimeMethodEntity method, P parameter);
+final class FactoryImpl implements ExecutableDependencyFactory {
 
-    R visitConstructor(RuntimeConstructorEntity constructor, P parameter);
+    @Inject
+    private FactoryImpl() {}
 
-    R visitPackage(RuntimePackageEntity pack, P parameter);
+    @Override
+    public TypeVariableDependency createTypeVariableDependency(final TypeVariable dependency) {
+        return () -> dependency;
+    }
 
-    R visitTypeVariable(RuntimeTypeVariableEntity typeVariable, P parameter);
+    @Override
+    public ParameterTypeDependency createParameterTypeDependency(final TypeMirror dependency) {
+        return () -> dependency;
+    }
 
-    R visitParameter(RuntimeParameterEntity reflectParameter, P parameter);
+    @Override
+    public ThrownTypeDependency createThrownTypeDependency(final TypeMirror dependency) {
+        return () -> dependency;
+    }
 
-    R visitEnum(RuntimeEnumEntity enumeration, P parameter);
+    @Override
+    public ReturnTypeDependency createReturnTypeDependency(final TypeMirror dependency) {
+        return () -> dependency;
+    }
 
-    R visitField(RuntimeFieldEntity field, P parameter);
+    @Override
+    public ReceiverTypeDependency createReceiverTypeDependency(final TypeMirror dependency) {
+        return () -> dependency;
+    }
 
 }
