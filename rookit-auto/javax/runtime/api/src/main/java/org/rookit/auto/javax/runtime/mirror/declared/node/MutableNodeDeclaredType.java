@@ -24,6 +24,7 @@ package org.rookit.auto.javax.runtime.mirror.declared.node;
 import io.reactivex.Completable;
 import org.rookit.auto.javax.runtime.mirror.MutableNodeTypeMirror;
 
+import javax.lang.model.element.Element;
 import javax.lang.model.type.TypeMirror;
 import java.util.List;
 
@@ -32,5 +33,7 @@ public interface MutableNodeDeclaredType extends NodeDeclaredType, MutableNodeTy
     Completable enclosingType(TypeMirror enclosingType);
 
     Completable typeArguments(List<? extends TypeMirror> typeArguments);
+
+    Completable element(Element element);
 
 }

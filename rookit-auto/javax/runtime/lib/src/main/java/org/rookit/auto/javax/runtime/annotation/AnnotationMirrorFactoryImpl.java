@@ -63,9 +63,10 @@ final class AnnotationMirrorFactoryImpl implements RuntimeAnnotationMirrorFactor
     @Override
     public Single<AnnotationMirror> fromAnnotation(final Annotation annotation) {
         final RuntimeTypeEntity annotationEntity = this.entityFactory.fromClass(annotation.annotationType());
-        final RuntimeDeclaredType declaredType = this.declaredFactory.createFromType(annotationEntity);
-        return createElementValues(annotation)
-                .map(elementValues -> new RuntimeAnnotationMirror(elementValues, annotation, declaredType));
+        final Single<RuntimeDeclaredType> declaredTypeSingle = this.declaredFactory.createFromType(annotationEntity);
+
+        return Single.zip(createElementValues(annotation), declaredTypeSingle,
+                (elementValues, declaredType) -> new RuntimeAnnotationMirror(elementValues, annotation, declaredType));
     }
 
     @Override

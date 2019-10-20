@@ -19,33 +19,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.mirror.declared;
+package org.rookit.auto.javax.runtime.mirror.declared.dependency;
 
-import com.google.inject.Inject;
-import io.reactivex.Single;
-import org.rookit.auto.javax.runtime.entity.RuntimeTypeEntity;
-import org.rookit.auto.javax.runtime.mirror.declared.node.NodeDeclaredTypeFactory;
+import org.rookit.utils.graph.Dependency;
+import org.rookit.utils.graph.DependencyVisitor;
 
-final class DeclaredTypeFactoryImpl implements DeclaredTypeFactory {
+import javax.lang.model.element.Element;
 
-    private final NodeDeclaredTypeFactory nodeFactory;
-
-    @Inject
-    private DeclaredTypeFactoryImpl(final NodeDeclaredTypeFactory nodeFactory) {
-        this.nodeFactory = nodeFactory;
-    }
+public interface ElementDependency extends Dependency<Element> {
 
     @Override
-    public Single<RuntimeDeclaredType> createFromType(final RuntimeTypeEntity typeEntity) {
-        return this.nodeFactory.createMutableFromEntity(typeEntity)
-                .map(RuntimeDeclaredTypeImpl::new);
-    }
-
-    @Override
-    public String toString() {
-        return "DeclaredTypeFactoryImpl{" +
-                "nodeFactory=" + this.nodeFactory +
-                "}";
+    default <R, P> R accept(final DependencyVisitor<R, P> visitor, final P parameter) {
+        if (visitor instanceof DeclaredTypeDependencyVisitor) {
+            return ((DeclaredTypeDependencyVisitor<R, P>) visitor).visitElement(this, parameter);
+        }
+        return visitor.visitUnknown(this, parameter);
     }
 
 }

@@ -26,22 +26,31 @@ import io.reactivex.Single;
 import org.rookit.auto.javax.runtime.annotation.RuntimeAnnotatedConstructFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntity;
 import org.rookit.auto.javax.runtime.mirror.declared.dependency.DeclaredTypeDependencyFactory;
+import org.rookit.auto.javax.runtime.mirror.no.NoTypeFactory;
+import org.rookit.utils.graph.DependencyWrapper;
 import org.rookit.utils.graph.DependencyWrapperFactory;
+import org.rookit.utils.graph.MultiDependencyWrapper;
+
+import javax.lang.model.element.Element;
+import javax.lang.model.type.TypeMirror;
 
 final class NodeDeclaredTypeFactoryImpl implements NodeDeclaredTypeFactory {
 
     private final RuntimeAnnotatedConstructFactory annotatedFactory;
     private final DependencyWrapperFactory wrapperFactory;
     private final DeclaredTypeDependencyFactory dependencyFactory;
+    private final NoTypeFactory noTypeFactory;
 
     @Inject
     private NodeDeclaredTypeFactoryImpl(
             final RuntimeAnnotatedConstructFactory annotatedFactory,
             final DependencyWrapperFactory wrapperFactory,
-            final DeclaredTypeDependencyFactory dependencyFactory) {
+            final DeclaredTypeDependencyFactory dependencyFactory,
+            final NoTypeFactory noTypeFactory) {
         this.annotatedFactory = annotatedFactory;
         this.wrapperFactory = wrapperFactory;
         this.dependencyFactory = dependencyFactory;
+        this.noTypeFactory = noTypeFactory;
     }
 
     @Override
@@ -55,13 +64,27 @@ final class NodeDeclaredTypeFactoryImpl implements NodeDeclaredTypeFactory {
         return this.annotatedFactory.createFromEntity(entity)
                 .map(construct -> new MutableNodeDeclaredTypeImpl(
                         construct,
-                        this.wrapperFactory
-                                .createSingle("Enclosed Type",
-                                              this.dependencyFactory::createEnclosingTypeDependency),
-                        this.wrapperFactory
-                                .createMulti("Type Arguments",
-                                             this.dependencyFactory::createTypeArgumentDependency)
-                ));
+                        createEnclosedType(),
+                        createTypeArgumentsDependency(),
+                        createElementDependency()));
+    }
+
+    private DependencyWrapper<Element> createElementDependency() {
+        return this.wrapperFactory.createSingle("Element",
+                                                this.dependencyFactory::createElementDependency);
+    }
+
+    private MultiDependencyWrapper<TypeMirror> createTypeArgumentsDependency() {
+        return this.wrapperFactory
+                .createMulti("Type Arguments",
+                             this.dependencyFactory::createTypeArgumentDependency);
+    }
+
+    private DependencyWrapper<TypeMirror> createEnclosedType() {
+        final DependencyWrapper<TypeMirror> enclosedType = this.wrapperFactory
+                .createSingle("Enclosed Type", this.dependencyFactory::createEnclosingTypeDependency);
+        enclosedType.set(this.noTypeFactory.noType());
+        return enclosedType;
     }
 
     @Override
@@ -70,6 +93,7 @@ final class NodeDeclaredTypeFactoryImpl implements NodeDeclaredTypeFactory {
                 "annotatedFactory=" + this.annotatedFactory +
                 ", wrapperFactory=" + this.wrapperFactory +
                 ", dependencyFactory=" + this.dependencyFactory +
+                ", noTypeFactory=" + this.noTypeFactory +
                 "}";
     }
 

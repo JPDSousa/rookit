@@ -29,4 +29,6 @@ public interface DeclaredTypeDependencyVisitor<R, P> extends DependencyVisitor<R
 
     R visitTypeArgument(TypeArgumentDependency dependency, P parameter);
 
+    R visitElement(ElementDependency dependency, P parameter);
+
 }

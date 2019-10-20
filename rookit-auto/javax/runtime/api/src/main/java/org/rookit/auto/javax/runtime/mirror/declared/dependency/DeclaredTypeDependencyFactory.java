@@ -21,6 +21,7 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.mirror.declared.dependency;
 
+import javax.lang.model.element.Element;
 import javax.lang.model.type.TypeMirror;
 
 public interface DeclaredTypeDependencyFactory {
@@ -28,5 +29,7 @@ public interface DeclaredTypeDependencyFactory {
     EnclosingTypeDependency createEnclosingTypeDependency(TypeMirror dependency);
 
     TypeArgumentDependency createTypeArgumentDependency(TypeMirror dependency);
+
+    ElementDependency createElementDependency(Element element);
 
 }

@@ -83,7 +83,10 @@ final class RuntimeAnnotationValue implements AnnotationValue {
             return v.visitString(((String) this.value), p);
         } else if (this.value instanceof Class) {
             final RuntimeTypeEntity typeEntity = this.entityFactory.fromClass((Class<?>) this.value);
-            return v.visitType(this.declaredFactory.createFromType(typeEntity), p);
+            return this.declaredFactory.createFromType(typeEntity)
+                    .map(declaredType -> v.visitType(declaredType, p))
+                    // TODO have some sort of timeout/warning
+                    .blockingGet();
         } else if (this.value.getClass().isEnum()) {
             return this.variableElementFactory.createEnum(this.entityFactory.fromEnum((Enum<?>) this.value))
                     .map(element -> v.visitEnumConstant(element, p))

@@ -21,10 +21,11 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.mirror.declared;
 
+import io.reactivex.Single;
 import org.rookit.auto.javax.runtime.entity.RuntimeTypeEntity;
 
 public interface DeclaredTypeFactory {
 
-    RuntimeDeclaredType createFromType(RuntimeTypeEntity typeEntity);
+    Single<RuntimeDeclaredType> createFromType(RuntimeTypeEntity typeEntity);
 
 }

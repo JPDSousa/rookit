@@ -23,6 +23,7 @@ package org.rookit.auto.javax.runtime.mirror.declared.node;
 
 import org.rookit.auto.javax.runtime.mirror.NodeTypeMirror;
 
+import javax.lang.model.element.Element;
 import javax.lang.model.type.TypeMirror;
 import java.util.List;
 
@@ -31,5 +32,7 @@ public interface NodeDeclaredType extends NodeTypeMirror {
     TypeMirror enclosingType();
 
     List<? extends TypeMirror> typeArguments();
+
+    Element element();
 
 }

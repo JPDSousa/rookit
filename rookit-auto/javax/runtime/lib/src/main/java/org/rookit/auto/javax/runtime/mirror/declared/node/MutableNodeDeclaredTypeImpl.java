@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.lang.model.AnnotatedConstruct;
 import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.Element;
 import javax.lang.model.type.TypeMirror;
 import java.lang.annotation.Annotation;
 import java.util.List;
@@ -43,14 +44,17 @@ final class MutableNodeDeclaredTypeImpl implements MutableNodeDeclaredType {
     private final AnnotatedConstruct annotatedConstruct;
     private final DependencyWrapper<TypeMirror> enclosingType;
     private final MultiDependencyWrapper<TypeMirror> typeArguments;
+    private final DependencyWrapper<Element> element;
 
     MutableNodeDeclaredTypeImpl(
             final AnnotatedConstruct annotatedConstruct,
             final DependencyWrapper<TypeMirror> enclosingType,
-            final MultiDependencyWrapper<TypeMirror> typeArguments) {
+            final MultiDependencyWrapper<TypeMirror> typeArguments,
+            final DependencyWrapper<Element> element) {
         this.annotatedConstruct = annotatedConstruct;
         this.enclosingType = enclosingType;
         this.typeArguments = typeArguments;
+        this.element = element;
     }
 
     @Override
@@ -64,6 +68,11 @@ final class MutableNodeDeclaredTypeImpl implements MutableNodeDeclaredType {
     }
 
     @Override
+    public Completable element(final Element element) {
+        return this.element.set(element);
+    }
+
+    @Override
     public TypeMirror enclosingType() {
         return this.enclosingType.fetch();
     }
@@ -71,6 +80,11 @@ final class MutableNodeDeclaredTypeImpl implements MutableNodeDeclaredType {
     @Override
     public List<? extends TypeMirror> typeArguments() {
         return this.typeArguments.get();
+    }
+
+    @Override
+    public Element element() {
+        return this.element.fetch();
     }
 
     @Override
@@ -97,6 +111,7 @@ final class MutableNodeDeclaredTypeImpl implements MutableNodeDeclaredType {
                 "annotatedConstruct=" + this.annotatedConstruct +
                 ", enclosingType=" + this.enclosingType +
                 ", typeArguments=" + this.typeArguments +
+                ", element=" + this.element +
                 "}";
     }
 

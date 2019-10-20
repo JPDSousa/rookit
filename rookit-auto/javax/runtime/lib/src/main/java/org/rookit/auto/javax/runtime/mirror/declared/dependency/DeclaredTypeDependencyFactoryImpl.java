@@ -23,6 +23,7 @@ package org.rookit.auto.javax.runtime.mirror.declared.dependency;
 
 import com.google.inject.Inject;
 
+import javax.lang.model.element.Element;
 import javax.lang.model.type.TypeMirror;
 
 final class DeclaredTypeDependencyFactoryImpl implements DeclaredTypeDependencyFactory {
@@ -38,6 +39,11 @@ final class DeclaredTypeDependencyFactoryImpl implements DeclaredTypeDependencyF
     @Override
     public TypeArgumentDependency createTypeArgumentDependency(final TypeMirror dependency) {
         return () -> dependency;
+    }
+
+    @Override
+    public ElementDependency createElementDependency(Element element) {
+        return () -> element;
     }
 
 }

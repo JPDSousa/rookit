@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.Element;
 import javax.lang.model.type.TypeMirror;
 import java.lang.annotation.Annotation;
 import java.util.List;
@@ -75,6 +76,12 @@ final class RuntimeDeclaredTypeImpl implements RuntimeDeclaredType {
     }
 
     @Override
+    public Completable element(final Element element) {
+        logger.trace("Delegating to node declared type");
+        return this.node.element(element);
+    }
+
+    @Override
     public TypeMirror enclosingType() {
         logger.trace("Delegating to node declared type");
         return this.node.enclosingType();
@@ -84,6 +91,12 @@ final class RuntimeDeclaredTypeImpl implements RuntimeDeclaredType {
     public List<? extends TypeMirror> typeArguments() {
         logger.trace("Delegating to node declared type");
         return this.node.typeArguments();
+    }
+
+    @Override
+    public Element element() {
+        logger.trace("Delegating to node declared type");
+        return this.node.element();
     }
 
     @Override
