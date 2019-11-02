@@ -31,13 +31,12 @@ import com.squareup.javapoet.TypeVariableName;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.javapoet.method.EntityMethodFactory;
 import org.rookit.auto.javapoet.naming.JavaPoetNamingFactory;
-import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.source.spec.SpecFactories;
 import org.rookit.auto.source.spec.SpecFactory;
-import org.rookit.convention.auto.metatype.guice.MetaTypeAPI;
 import org.rookit.convention.auto.javapoet.naming.JavaPoetPropertyNamingFactories;
 import org.rookit.convention.auto.javapoet.naming.JavaPoetPropertyNamingFactory;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.auto.metatype.guice.MetaTypeAPI;
 
 @SuppressWarnings("MethodMayBeStatic")
 public final class MethodModule extends AbstractModule {
@@ -72,7 +71,7 @@ public final class MethodModule extends AbstractModule {
     @Provides
     @Singleton
     SpecFactory<MethodSpec> specFactory(final SpecFactories specFactories,
-                                        final ExtendedElementVisitor<StreamEx<MethodSpec>, Void> visitor) {
+                                        final ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void> visitor) {
         return specFactories.fromVisitor(visitor);
     }
 }
