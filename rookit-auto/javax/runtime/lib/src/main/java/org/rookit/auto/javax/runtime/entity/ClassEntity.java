@@ -28,10 +28,10 @@ import org.slf4j.LoggerFactory;
 
 import javax.lang.model.element.ElementKind;
 import java.lang.annotation.Annotation;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static java.util.Arrays.stream;
 
 final class ClassEntity implements RuntimeClassEntity {
 
@@ -97,9 +97,17 @@ final class ClassEntity implements RuntimeClassEntity {
     }
 
     @Override
+    public List<RuntimeClassEntity> interfaces() {
+        logger.trace("Computing interfaces");
+        return stream(this.clazz.getInterfaces())
+                .map(this.entityFactory::fromClass)
+                .collect(toImmutableList());
+    }
+
+    @Override
     public List<RuntimeMethodEntity> declaredMethods() {
         logger.trace("Computing declared methods");
-        return Arrays.stream(this.clazz.getDeclaredMethods())
+        return stream(this.clazz.getDeclaredMethods())
                 .map(this.entityFactory::fromMethod)
                 .collect(toImmutableList());
     }
@@ -107,7 +115,7 @@ final class ClassEntity implements RuntimeClassEntity {
     @Override
     public List<RuntimeConstructorEntity> declaredConstructors() {
         logger.trace("Computing declared constructors");
-        return Arrays.stream(this.clazz.getDeclaredConstructors())
+        return stream(this.clazz.getDeclaredConstructors())
                 .map(this.entityFactory::fromConstructor)
                 .collect(toImmutableList());
     }
@@ -115,7 +123,7 @@ final class ClassEntity implements RuntimeClassEntity {
     @Override
     public List<RuntimeFieldEntity> declaredFields() {
         logger.trace("Computing declared fields");
-        return Arrays.stream(this.clazz.getDeclaredFields())
+        return stream(this.clazz.getDeclaredFields())
                 .map(this.entityFactory::fromField)
                 .collect(toImmutableList());
     }
@@ -123,25 +131,28 @@ final class ClassEntity implements RuntimeClassEntity {
     @Override
     public List<RuntimeClassEntity> declaredClasses() {
         logger.trace("Computing declared classes");
-        return Arrays.stream(this.clazz.getDeclaredClasses())
+        return stream(this.clazz.getDeclaredClasses())
                 .map(this.entityFactory::fromClass)
                 .collect(toImmutableList());
     }
 
     @Override
     public Optional<RuntimeConstructorEntity> enclosingConstructor() {
+        logger.trace("Computing enclosing constructor");
         return this.optionalFactory.ofNullable(this.clazz.getEnclosingConstructor())
                 .map(this.entityFactory::fromConstructor);
     }
 
     @Override
     public Optional<RuntimeMethodEntity> enclosingMethod() {
+        logger.trace("Computing enclosing method");
         return this.optionalFactory.ofNullable(this.clazz.getEnclosingMethod())
                 .map(this.entityFactory::fromMethod);
     }
 
     @Override
     public Optional<RuntimeClassEntity> enclosingClass() {
+        logger.trace("Computing enclosing class");
         return this.optionalFactory.ofNullable(this.clazz.getEnclosingClass())
                 .map(this.entityFactory::fromClass);
     }
@@ -149,6 +160,14 @@ final class ClassEntity implements RuntimeClassEntity {
     @Override
     public RuntimePackageEntity packageEntity() {
         return this.entityFactory.fromPackage(this.clazz.getPackage());
+    }
+
+    @Override
+    public List<RuntimeTypeVariableEntity> typeParameters() {
+        logger.trace("Computing type parameters");
+        return stream(this.clazz.getTypeParameters())
+                .map(this.entityFactory::fromTypeVariable)
+                .collect(toImmutableList());
     }
 
     @Override

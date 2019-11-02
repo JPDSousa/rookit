@@ -35,6 +35,8 @@ public interface RuntimeClassEntity extends RuntimeTypeEntity {
         return visitor.visitClass(this, parameter);
     }
 
+    List<RuntimeClassEntity> interfaces();
+
     List<RuntimeMethodEntity> declaredMethods();
 
     List<RuntimeConstructorEntity> declaredConstructors();
@@ -50,5 +52,9 @@ public interface RuntimeClassEntity extends RuntimeTypeEntity {
     Optional<RuntimeClassEntity> enclosingClass();
 
     RuntimePackageEntity packageEntity();
+
+    List<RuntimeTypeVariableEntity> typeParameters();
+
+    Optional<RuntimeClassEntity> superClass();
 
 }
