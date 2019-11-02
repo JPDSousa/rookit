@@ -28,12 +28,14 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.multibindings.Multibinder;
+import com.google.inject.util.Modules;
 import com.squareup.javapoet.AnnotationSpec;
 import org.rookit.auto.guice.GuiceBindAnnotation;
 import org.rookit.auto.javapoet.naming.JavaPoetNamingFactories;
 import org.rookit.auto.javapoet.naming.JavaPoetNamingFactory;
 import org.rookit.auto.javax.naming.NamingFactory;
 import org.rookit.guice.auto.annotation.Guice;
+import org.rookit.guice.auto.config.ConfigModule;
 import org.rookit.guice.auto.config.GuiceConfig;
 import org.rookit.utils.guice.Self;
 import org.rookit.utils.string.template.Template1;
@@ -51,7 +53,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @SuppressWarnings("MethodMayBeStatic")
 public final class GuiceAutoLibModule extends AbstractModule {
 
-    private static final Module MODULE = new GuiceAutoLibModule();
+    private static final Module MODULE = Modules.combine(
+            new GuiceAutoLibModule(),
+            ConfigModule.getModule()
+    );
 
     public static Module getModule() {
         return MODULE;

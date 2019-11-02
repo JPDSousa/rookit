@@ -19,31 +19,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.guice.auto.annotation.config;
+package org.rookit.guice.auto.config;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
+import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.google.inject.util.Modules;
-import org.rookit.auto.config.ProcessorConfig;
-import org.rookit.guice.auto.config.GuiceConfig;
+import org.rookit.auto.config.AutoConfig;
+import org.rookit.auto.javax.pack.ExtendedPackageElementFactory;
 
-public final class ConfigurationModule extends AbstractModule {
+public final class ConfigModule extends AbstractModule {
 
-    private static final Module MODULE = Modules.combine(
-            new ConfigurationModule(),
-            org.rookit.auto.config.ConfigurationModule.getModule()
-    );
+    private static final Module MODULE = new ConfigModule();
 
     public static Module getModule() {
         return MODULE;
     }
 
-    private ConfigurationModule() {}
+    private ConfigModule() {}
 
-    @Override
-    protected void configure() {
-        bind(ProcessorConfig.class).to(GuiceConfig.class).in(Singleton.class);
+    @Provides
+    @Singleton
+    GuiceConfig config(final AutoConfig config,
+                       final ExtendedPackageElementFactory packageFactory) {
+        final String name = "guice";
+        return new GuiceConfigImpl(config.getProcessorConfig(name), packageFactory, name);
     }
 
 }

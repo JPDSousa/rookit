@@ -19,12 +19,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.guice.auto.annotation.config;
+package org.rookit.guice.auto.config;
 
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
 import org.rookit.auto.javax.pack.ExtendedPackageElementFactory;
 import org.rookit.utils.object.DynamicObject;
-import org.rookit.guice.auto.config.GuiceConfig;
 
 final class GuiceConfigImpl implements GuiceConfig {
 
