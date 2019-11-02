@@ -21,54 +21,52 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.element.type.dependency;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Module;
-import com.google.inject.Provides;
-import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
-import com.google.inject.multibindings.Multibinder;
+import com.google.inject.Inject;
+import io.reactivex.Observable;
 import org.rookit.auto.javax.runtime.element.type.node.TypeDependencyFactory;
+import org.rookit.auto.javax.runtime.element.type.parameter.RuntimeTypeParameterElementFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
 import org.rookit.utils.graph.Dependency;
-import org.rookit.utils.registry.BaseRegistries;
 import org.rookit.utils.registry.MultiRegistry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.Set;
+final class TypeParameter implements MultiRegistry<RuntimeClassEntity, Dependency<?>> {
 
-import static com.google.inject.multibindings.Multibinder.newSetBinder;
+    /**
+     * Logger for this class.
+     */
+    private static final Logger logger = LoggerFactory.getLogger(TypeParameter.class);
 
-@SuppressWarnings("MethodMayBeStatic")
-public final class DependencyModule extends AbstractModule {
+    private final TypeDependencyFactory dependencyFactory;
+    private final RuntimeTypeParameterElementFactory factory;
 
-    private static final Module MODULE = new DependencyModule();
-
-    public static Module getModule() {
-        return MODULE;
+    @Inject
+    private TypeParameter(
+            final TypeDependencyFactory dependencyFactory,
+            final RuntimeTypeParameterElementFactory factory) {
+        this.dependencyFactory = dependencyFactory;
+        this.factory = factory;
     }
-
-    private DependencyModule() {}
 
     @Override
-    protected void configure() {
-        bind(TypeDependencyFactory.class).to(TypeDependencyFactoryImpl.class).in(Singleton.class);
-
-
-        final Multibinder<MultiRegistry<RuntimeClassEntity, Dependency<?>>> mBinder
-                = newSetBinder(binder(),
-                               new TypeLiteral<MultiRegistry<RuntimeClassEntity, Dependency<?>>>() {});
-
-        mBinder.addBinding().to(Class2Entity.class).in(Singleton.class);
-        mBinder.addBinding().to(Interface.class).in(Singleton.class);
-        mBinder.addBinding().to(TypeParameter.class).in(Singleton.class);
-        mBinder.addBinding().to(SuperClass.class).in(Singleton.class);
+    public Observable<Dependency<?>> fetch(final RuntimeClassEntity key) {
+        return Observable.fromIterable(key.typeParameters())
+                .flatMapSingle(this.factory::createElement)
+                .map(this.dependencyFactory::createTypeParameterDependency);
     }
 
-    @Provides
-    @Singleton
-    MultiRegistry<RuntimeClassEntity, Dependency<?>> registry(
-            final BaseRegistries factory,
-            final Set<MultiRegistry<RuntimeClassEntity, Dependency<?>>> registries) {
-        return factory.compositeRegistry(registries);
+    @Override
+    public void close() {
+        logger.debug("Nothing to close");
+    }
+
+    @Override
+    public String toString() {
+        return "TypeParameter{" +
+                "dependencyFactory=" + this.dependencyFactory +
+                ", factory=" + this.factory +
+                "}";
     }
 
 }

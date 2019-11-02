@@ -19,31 +19,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.element.executable.dependency;
+package org.rookit.auto.javax.runtime.element.type.dependency;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Module;
-import com.google.inject.Singleton;
-import com.google.inject.util.Modules;
-import org.rookit.auto.javax.runtime.element.executable.dependency.registry.RegistryModule;
-import org.rookit.auto.javax.runtime.element.executable.node.dependency.ExecutableDependencyFactory;
+import com.google.inject.Inject;
+import io.reactivex.Observable;
+import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
+import org.rookit.auto.javax.runtime.entity.RuntimeEntity;
+import org.rookit.utils.graph.Dependency;
+import org.rookit.utils.registry.MultiRegistry;
 
-public final class DependencyModule extends AbstractModule {
+import java.io.IOException;
 
-    private static final Module MODULE = Modules.combine(
-            new DependencyModule(),
-            RegistryModule.getModule()
-    );
+final class Class2Entity implements MultiRegistry<RuntimeClassEntity, Dependency<?>> {
 
-    public static Module getModule() {
-        return MODULE;
+    private final MultiRegistry<RuntimeEntity, Dependency<?>> entityRegistry;
+
+    @Inject
+    private Class2Entity(final MultiRegistry<RuntimeEntity, Dependency<?>> entityRegistry) {
+        this.entityRegistry = entityRegistry;
     }
 
-    private DependencyModule() {}
+    @Override
+    public Observable<Dependency<?>> fetch(final RuntimeClassEntity key) {
+        return this.entityRegistry.fetch(key);
+    }
 
     @Override
-    protected void configure() {
-        bind(ExecutableDependencyFactory.class).to(FactoryImpl.class).in(Singleton.class);
+    public void close() throws IOException {
+
     }
 
 }
