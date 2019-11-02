@@ -154,6 +154,7 @@
                             <goal>analyze-only</goal>
                         </goals>
                         <configuration>
+                            <skip>true</skip>
                             <failOnWarning>false</failOnWarning>
                         </configuration>
                     </execution>
