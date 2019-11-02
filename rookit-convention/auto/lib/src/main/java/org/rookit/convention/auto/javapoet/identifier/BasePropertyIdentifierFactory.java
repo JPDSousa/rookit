@@ -33,15 +33,10 @@ import static org.apache.commons.text.WordUtils.capitalize;
 
 public final class BasePropertyIdentifierFactory implements PropertyIdentifierFactory {
 
-    public static PropertyIdentifierFactory create(final NamingFactory namingFactory,
-                                                   final ExtendedPackageElement defaultPackage) {
-        return new BasePropertyIdentifierFactory(namingFactory, defaultPackage);
-    }
-
     private final NamingFactory namingFactory;
     private final ExtendedPackageElement defaultPackage;
 
-    private BasePropertyIdentifierFactory(final NamingFactory namingFactory,
+    BasePropertyIdentifierFactory(final NamingFactory namingFactory,
                                           final ExtendedPackageElement defaultPackage) {
         this.namingFactory = namingFactory;
         this.defaultPackage = defaultPackage;

@@ -19,45 +19,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.convention.guice.source.naming;
+package org.rookit.convention.auto.javapoet.identifier;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Key;
-import com.google.inject.Module;
-import com.google.inject.Provides;
-import com.google.inject.Singleton;
-import org.rookit.auto.javapoet.naming.JavaPoetNamingFactory;
+import com.google.inject.Inject;
 import org.rookit.auto.javax.naming.NamingFactory;
+import org.rookit.auto.javax.pack.ExtendedPackageElement;
 import org.rookit.convention.auto.javax.naming.PropertyIdentifierFactories;
 import org.rookit.convention.auto.javax.naming.PropertyIdentifierFactory;
-import org.rookit.convention.guice.source.config.GuiceConventionConfig;
-import org.rookit.guice.auto.annotation.Guice;
 
-@SuppressWarnings("MethodMayBeStatic")
-public final class NamingModule extends AbstractModule {
+final class PropertyIdentifierFactoriesImpl implements PropertyIdentifierFactories {
 
-    private static final Module MODULE = new NamingModule();
-
-    public static Module getModule() {
-        return MODULE;
-    }
-
-    private NamingModule() {}
+    @Inject
+    private PropertyIdentifierFactoriesImpl() {}
 
     @Override
-    protected void configure() {
-        bind(PropertyIdentifierFactory.class).to(Key.get(PropertyIdentifierFactory.class, Guice.class))
-                .in(Singleton.class);
-        bind(JavaPoetNamingFactory.class).to(Key.get(JavaPoetNamingFactory.class, Guice.class));
-    }
-
-    @Provides
-    @Singleton
-    @Guice
-    PropertyIdentifierFactory propertyIdentifierFactory(final PropertyIdentifierFactories factories,
-                                                        final NamingFactory namingFactory,
-                                                        final GuiceConventionConfig config) {
-        return factories.baseFactory(namingFactory, config.propertyPackage());
+    public PropertyIdentifierFactory baseFactory(final NamingFactory namingFactory,
+                                                 final ExtendedPackageElement defaultPackage) {
+        return new BasePropertyIdentifierFactory(namingFactory, defaultPackage);
     }
 
 }

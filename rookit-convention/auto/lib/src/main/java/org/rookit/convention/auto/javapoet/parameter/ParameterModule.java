@@ -45,6 +45,7 @@ import org.rookit.guice.auto.annotation.Guice;
 import java.util.Set;
 import java.util.function.BiFunction;
 
+@SuppressWarnings("MethodMayBeStatic")
 public final class ParameterModule extends AbstractModule {
 
     private static final Module MODULE = new ParameterModule();

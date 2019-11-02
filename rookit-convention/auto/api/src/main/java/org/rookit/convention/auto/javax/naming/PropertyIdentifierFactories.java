@@ -19,38 +19,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.convention.auto.javapoet;
+package org.rookit.convention.auto.javax.naming;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Module;
-import com.google.inject.Singleton;
-import com.google.inject.util.Modules;
-import org.rookit.convention.auto.javapoet.identifier.IdentifierModule;
-import org.rookit.convention.auto.javapoet.method.MethodModule;
-import org.rookit.convention.auto.javapoet.naming.NamingModule;
-import org.rookit.convention.auto.javapoet.parameter.ParameterModule;
-import org.rookit.convention.auto.javapoet.type.TypeModule;
+import org.rookit.auto.javax.naming.NamingFactory;
+import org.rookit.auto.javax.pack.ExtendedPackageElement;
 
-public final class JavaPoetModule extends AbstractModule {
+public interface PropertyIdentifierFactories {
 
-    private static final Module MODULE = Modules.combine(
-            new JavaPoetModule(),
-            IdentifierModule.getModule(),
-            MethodModule.getModule(),
-            NamingModule.getModule(),
-            ParameterModule.getModule(),
-            TypeModule.getModule()
-    );
-
-    public static Module getModule() {
-        return MODULE;
-    }
-
-    private JavaPoetModule() {}
-
-    @Override
-    protected void configure() {
-        bind(ConventionAutoFactories.class).to(ConventionAutoFactoriesImpl.class).in(Singleton.class);
-    }
+    PropertyIdentifierFactory baseFactory(NamingFactory namingFactory, ExtendedPackageElement defaultPackage);
 
 }
