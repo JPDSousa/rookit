@@ -39,14 +39,14 @@ final class DependencyWrapperFactoryImpl implements DependencyWrapperFactory {
     @Override
     public <D> DependencyWrapper<D> createSingle(
             final String dependencyName,
-            final Function<D, Dependency> dependencyFactory) {
+            final Function<D, Dependency<?>> dependencyFactory) {
         return new DependencyWrapperImpl<>(this.optionalFactory, dependencyFactory, dependencyName);
     }
 
     @Override
     public <D> MultiDependencyWrapper<D> createMulti(
             final String dependencyName,
-            final Function<D, Dependency> dependencyFactory) {
+            final Function<D, Dependency<?>> dependencyFactory) {
         return new MultiDependencyWrapperImpl<>(ImmutableList.of(), dependencyFactory, dependencyName);
     }
 

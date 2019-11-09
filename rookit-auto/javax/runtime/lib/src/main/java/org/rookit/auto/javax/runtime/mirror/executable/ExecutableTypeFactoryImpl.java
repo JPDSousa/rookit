@@ -23,7 +23,7 @@ package org.rookit.auto.javax.runtime.mirror.executable;
 
 import com.google.inject.Inject;
 import io.reactivex.Single;
-import org.rookit.auto.javax.runtime.annotation.RuntimeAnnotatedConstructFactory;
+import org.rookit.auto.javax.runtime.annotation.AnnotatedConstructFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeExecutableEntity;
 import org.rookit.auto.javax.runtime.mirror.executable.dependency.ExecutableDependencyFactory;
 import org.rookit.auto.javax.runtime.mirror.no.NoTypeFactory;
@@ -36,14 +36,14 @@ final class ExecutableTypeFactoryImpl implements ExecutableTypeFactory {
     private final DependencyWrapperFactory wrapperFactory;
     private final ExecutableDependencyFactory dependencyFactory;
     private final NoTypeFactory noTypeFactory;
-    private final RuntimeAnnotatedConstructFactory annotatedFactory;
+    private final AnnotatedConstructFactory annotatedFactory;
 
     @Inject
     private ExecutableTypeFactoryImpl(
             final DependencyWrapperFactory wrapperFactory,
             final ExecutableDependencyFactory dependencyFactory,
             final NoTypeFactory noTypeFactory,
-            final RuntimeAnnotatedConstructFactory annotatedFactory) {
+            final AnnotatedConstructFactory annotatedFactory) {
         this.wrapperFactory = wrapperFactory;
         this.dependencyFactory = dependencyFactory;
         this.noTypeFactory = noTypeFactory;

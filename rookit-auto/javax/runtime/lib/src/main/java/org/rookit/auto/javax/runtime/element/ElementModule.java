@@ -27,9 +27,11 @@ import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
 import org.rookit.auto.javax.runtime.element.dependency.DependencyModule;
 import org.rookit.auto.javax.runtime.element.executable.ExecutableModule;
-import org.rookit.auto.javax.runtime.element.kind.RuntimeElementKindFactory;
+import org.rookit.auto.javax.runtime.entity.kind.RuntimeElementKindFactory;
 import org.rookit.auto.javax.runtime.element.node.NodeModule;
 import org.rookit.auto.javax.runtime.element.type.TypeModule;
+import org.rookit.auto.javax.runtime.element.variable.VariableModule;
+import org.rookit.javax.runtime.element.Registries;
 
 public final class ElementModule extends AbstractModule {
 
@@ -38,7 +40,8 @@ public final class ElementModule extends AbstractModule {
             DependencyModule.getModule(),
             ExecutableModule.getModule(),
             NodeModule.getModule(),
-            TypeModule.getModule()
+            TypeModule.getModule(),
+            VariableModule.getModule()
     );
 
     public static Module getModule() {
@@ -51,6 +54,8 @@ public final class ElementModule extends AbstractModule {
     protected void configure() {
         bind(RuntimeElementKindFactory.class).to(RuntimeElementKindFactoryImpl.class).in(Singleton.class);
         bind(RuntimeGenericElementFactories.class).to(RuntimeGenericElementFactoriesImpl.class).in(Singleton.class);
+        bind(Registries.class).to(RegistriesImpl.class).in(Singleton.class);
+        bind(RuntimeElementFactory.class).to(RuntimeElementFactoryImpl.class).in(Singleton.class);
     }
 
 }

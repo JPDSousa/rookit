@@ -24,6 +24,7 @@ package org.rookit.auto.javax.runtime.element.type.parameter.node;
 import com.google.inject.Inject;
 import io.reactivex.Single;
 import org.rookit.auto.javax.runtime.element.node.NodeElementFactory;
+import org.rookit.auto.javax.runtime.element.type.parameter.dependency.TypeParameterDependencyFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntity;
 import org.rookit.utils.graph.DependencyWrapperFactory;
 

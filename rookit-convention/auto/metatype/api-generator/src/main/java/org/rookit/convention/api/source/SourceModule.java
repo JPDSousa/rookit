@@ -35,7 +35,6 @@ import org.rookit.convention.api.guice.Container;
 import org.rookit.convention.api.source.config.ConfigurationModule;
 import org.rookit.convention.api.source.entity.EntityModule;
 import org.rookit.convention.api.source.identifier.IdentifierModule;
-import org.rookit.convention.api.source.javapoet.JavaPoetModule;
 import org.rookit.convention.api.source.method.MethodModule;
 import org.rookit.convention.api.source.naming.NamingModule;
 import org.rookit.convention.api.source.type.TypeSpecModule;
@@ -65,7 +64,6 @@ public final class SourceModule extends AbstractModule {
             GuiceAutoLibModule.getModule(),
             IdentifierModule.getModule(),
             IOLibModule.getModule(),
-            JavaPoetModule.getModule(),
             MethodModule.getModule(),
             NamingModule.getModule(),
             PathModule.getModule(),

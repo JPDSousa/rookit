@@ -21,6 +21,7 @@
         <module>api</module>
         <module>lib</module>
         <module>entity</module>
+        <module>bootstrap</module>
     </modules>
 
 

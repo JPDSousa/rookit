@@ -33,6 +33,7 @@ import javax.lang.model.type.TypeVisitor;
 import java.lang.annotation.Annotation;
 import java.util.List;
 
+@Deprecated
 final class PackageTypeMirror implements TypeMirror {
 
     /**

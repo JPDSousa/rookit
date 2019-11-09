@@ -29,7 +29,7 @@ import org.rookit.auto.javax.runtime.ModifierFactory;
 import org.rookit.auto.javax.runtime.annotation.AnnotationValueFactory;
 import org.rookit.auto.javax.runtime.element.executable.node.ExecutableNodeElementFactory;
 import org.rookit.auto.javax.runtime.element.executable.node.MutableExecutableNodeElement;
-import org.rookit.auto.javax.runtime.element.kind.RuntimeElementKindFactory;
+import org.rookit.auto.javax.runtime.entity.kind.RuntimeElementKindFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeExecutableEntity;
 import org.rookit.utils.registry.Registry;
 import org.slf4j.Logger;

@@ -23,7 +23,7 @@ package org.rookit.auto.javax.runtime.mirror.declared.node;
 
 import com.google.inject.Inject;
 import io.reactivex.Single;
-import org.rookit.auto.javax.runtime.annotation.RuntimeAnnotatedConstructFactory;
+import org.rookit.auto.javax.runtime.annotation.AnnotatedConstructFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntity;
 import org.rookit.auto.javax.runtime.mirror.declared.dependency.DeclaredTypeDependencyFactory;
 import org.rookit.auto.javax.runtime.mirror.no.NoTypeFactory;
@@ -36,14 +36,14 @@ import javax.lang.model.type.TypeMirror;
 
 final class NodeDeclaredTypeFactoryImpl implements NodeDeclaredTypeFactory {
 
-    private final RuntimeAnnotatedConstructFactory annotatedFactory;
+    private final AnnotatedConstructFactory annotatedFactory;
     private final DependencyWrapperFactory wrapperFactory;
     private final DeclaredTypeDependencyFactory dependencyFactory;
     private final NoTypeFactory noTypeFactory;
 
     @Inject
     private NodeDeclaredTypeFactoryImpl(
-            final RuntimeAnnotatedConstructFactory annotatedFactory,
+            final AnnotatedConstructFactory annotatedFactory,
             final DependencyWrapperFactory wrapperFactory,
             final DeclaredTypeDependencyFactory dependencyFactory,
             final NoTypeFactory noTypeFactory) {

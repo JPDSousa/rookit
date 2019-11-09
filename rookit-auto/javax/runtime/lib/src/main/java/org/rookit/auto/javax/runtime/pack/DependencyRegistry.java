@@ -24,7 +24,7 @@ package org.rookit.auto.javax.runtime.pack;
 import com.google.inject.Inject;
 import io.reactivex.Observable;
 import org.reflections.Reflections;
-import org.rookit.auto.javax.runtime.element.type.RuntimeTypeElementFactory;
+import org.rookit.auto.javax.runtime.element.type.TypeElementFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntityFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimePackageEntity;
 import org.rookit.auto.javax.runtime.element.node.dependency.DependencyFactory;
@@ -40,13 +40,13 @@ final class DependencyRegistry implements MultiRegistry<RuntimePackageEntity, De
      */
     private static final Logger logger = LoggerFactory.getLogger(DependencyRegistry.class);
 
-    private final RuntimeTypeElementFactory typeFactory;
+    private final TypeElementFactory typeFactory;
     private final RuntimeEntityFactory entityFactory;
     private final DependencyFactory dependencyFactory;
 
     @Inject
     private DependencyRegistry(
-            final RuntimeTypeElementFactory typeFactory,
+            final TypeElementFactory typeFactory,
             final RuntimeEntityFactory entityFactory,
             final DependencyFactory dependencyFactory) {
         this.typeFactory = typeFactory;

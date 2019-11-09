@@ -26,8 +26,6 @@ import org.rookit.auto.javax.runtime.element.node.dependency.DependencyFactory;
 import org.rookit.auto.javax.runtime.element.node.dependency.EnclosedDependency;
 import org.rookit.auto.javax.runtime.element.node.dependency.EnclosingDependency;
 import org.rookit.auto.javax.runtime.element.node.dependency.TypeMirrorDependency;
-import org.rookit.auto.javax.runtime.element.type.parameter.node.BoundDependency;
-import org.rookit.auto.javax.runtime.element.type.parameter.node.TypeParameterDependencyFactory;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.type.TypeMirror;
@@ -43,6 +41,11 @@ final class TypeParameterDependencyFactoryImpl implements TypeParameterDependenc
 
     @Override
     public BoundDependency createBoundDependency(final TypeMirror dependency) {
+        return () -> dependency;
+    }
+
+    @Override
+    public GenericElementDependency createGenericElementDependency(final Element dependency) {
         return () -> dependency;
     }
 

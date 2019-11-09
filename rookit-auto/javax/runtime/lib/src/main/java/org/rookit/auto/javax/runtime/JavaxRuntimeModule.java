@@ -27,29 +27,28 @@ import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
 import org.rookit.auto.javax.runtime.annotation.AnnotationModule;
 import org.rookit.auto.javax.runtime.element.ElementModule;
-import org.rookit.auto.javax.runtime.entity.EntityModule;
 import org.rookit.auto.javax.runtime.mirror.MirrorModule;
 import org.rookit.auto.javax.runtime.modifier.ModifierModule;
 import org.rookit.auto.javax.runtime.name.NameModule;
 import org.rookit.auto.javax.runtime.pack.PackageModule;
-import org.rookit.auto.javax.runtime.element.type.TypeModule;
-import org.rookit.auto.javax.runtime.variable.VariableModule;
 
+import javax.annotation.processing.ProcessingEnvironment;
+import javax.lang.model.SourceVersion;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
+
+import static javax.lang.model.SourceVersion.latestSupported;
 
 public final class JavaxRuntimeModule extends AbstractModule {
 
     private static final Module MODULE = Modules.combine(
             new JavaxRuntimeModule(),
             AnnotationModule.getModule(),
-            EntityModule.getModule(),
             ElementModule.getModule(),
             NameModule.getModule(),
             MirrorModule.getModule(),
             ModifierModule.getModule(),
-            PackageModule.getModule(),
-            VariableModule.getModule()
+            PackageModule.getModule()
     );
 
     public static Module getModule() {
@@ -62,6 +61,8 @@ public final class JavaxRuntimeModule extends AbstractModule {
     protected void configure() {
         bind(Elements.class).to(RuntimeElements.class).in(Singleton.class);
         bind(Types.class).to(RuntimeTypes.class).in(Singleton.class);
+        bind(ProcessingEnvironment.class).to(RuntimeProcessingEnvironment.class).in(Singleton.class);
+        bind(SourceVersion.class).toInstance(latestSupported());
     }
 
 }

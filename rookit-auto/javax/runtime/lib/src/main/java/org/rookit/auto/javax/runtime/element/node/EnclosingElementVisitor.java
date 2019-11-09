@@ -25,8 +25,8 @@ import com.google.inject.Inject;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import org.rookit.auto.javax.runtime.element.executable.ExecutableElementFactory;
-import org.rookit.auto.javax.runtime.element.pack.RuntimePackageElementFactory;
-import org.rookit.auto.javax.runtime.element.type.RuntimeTypeElementFactory;
+import org.rookit.auto.javax.runtime.element.pack.PackageElementFactory;
+import org.rookit.auto.javax.runtime.element.type.TypeElementFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeConstructorEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntityVisitor;
@@ -49,15 +49,15 @@ final class EnclosingElementVisitor implements RuntimeEntityVisitor<Maybe<Elemen
      */
     private static final Logger logger = LoggerFactory.getLogger(EnclosingElementVisitor.class);
 
-    private final RuntimeTypeElementFactory typeElementFactory;
+    private final TypeElementFactory typeElementFactory;
     private final ExecutableElementFactory executableFactory;
-    private final RuntimePackageElementFactory packageFactory;
+    private final PackageElementFactory packageFactory;
 
     @Inject
     private EnclosingElementVisitor(
-            final RuntimeTypeElementFactory typeElementFactory,
+            final TypeElementFactory typeElementFactory,
             final ExecutableElementFactory executableFactory,
-            final RuntimePackageElementFactory packageFactory) {
+            final PackageElementFactory packageFactory) {
         this.typeElementFactory = typeElementFactory;
         this.executableFactory = executableFactory;
         this.packageFactory = packageFactory;

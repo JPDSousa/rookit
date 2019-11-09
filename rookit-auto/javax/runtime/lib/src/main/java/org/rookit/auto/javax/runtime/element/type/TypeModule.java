@@ -25,14 +25,14 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
 import com.google.inject.util.Modules;
 import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactories;
 import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactory;
 import org.rookit.auto.javax.runtime.element.type.dependency.DependencyModule;
-import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
 import org.rookit.auto.javax.runtime.element.type.node.NodeModule;
 import org.rookit.auto.javax.runtime.element.type.parameter.ParameterModule;
+import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
+import org.rookit.javax.runtime.element.Registries;
 import org.rookit.utils.graph.Dependency;
 import org.rookit.utils.registry.MultiRegistry;
 import org.rookit.utils.registry.Registry;
@@ -53,12 +53,17 @@ public final class TypeModule extends AbstractModule {
 
     private TypeModule() {}
 
-    @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
     @Override
     protected void configure() {
-        bind(RuntimeTypeElementFactory.class).to(DelegateFactory.class).in(Singleton.class);
-        bind(new TypeLiteral<Registry<RuntimeClassEntity, RuntimeTypeElement>>() {})
-                .to(RuntimeTypeElementFactoryImpl.class).in(Singleton.class);
+        bind(TypeElementFactory.class)
+                .to(TypeElementFactoryImpl.class).in(Singleton.class);
+    }
+
+    @Provides
+    @Singleton
+    Registry<RuntimeClassEntity, RuntimeTypeElement> typeRegistry(final Registries registries,
+                                                                  final TypeElementFactory factory) {
+        return registries.fromFactory(factory);
     }
 
     @Provides

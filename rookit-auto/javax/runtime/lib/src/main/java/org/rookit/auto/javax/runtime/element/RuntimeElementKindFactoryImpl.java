@@ -22,7 +22,7 @@
 package org.rookit.auto.javax.runtime.element;
 
 import com.google.inject.Inject;
-import org.rookit.auto.javax.runtime.element.kind.RuntimeElementKindFactory;
+import org.rookit.auto.javax.runtime.entity.kind.RuntimeElementKindFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

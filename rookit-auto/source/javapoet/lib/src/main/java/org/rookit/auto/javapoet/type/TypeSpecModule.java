@@ -24,9 +24,6 @@ package org.rookit.auto.javapoet.type;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
-import org.rookit.auto.source.spec.SpecFactory;
-import org.rookit.auto.source.type.TypeSource;
 
 public final class TypeSpecModule extends AbstractModule {
 
@@ -38,10 +35,9 @@ public final class TypeSpecModule extends AbstractModule {
 
     private TypeSpecModule() {}
 
-    @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
     @Override
     protected void configure() {
         bind(ExtendedElementTypeSpecVisitors.class).to(ExtendedElementTypeSpecVisitorsImpl.class).in(Singleton.class);
-        bind(new TypeLiteral<SpecFactory<TypeSource>>(){}).to(TypeSpecFactory.class).in(Singleton.class);
+//        bind(new TypeLiteral<SpecFactory<TypeSource>>(){}).to(TypeSpecFactory.class).in(Singleton.class);
     }
 }

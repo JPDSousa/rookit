@@ -24,7 +24,6 @@ package org.rookit.auto.javax.runtime.element.type.parameter.dependency;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
-import org.rookit.auto.javax.runtime.element.type.parameter.node.TypeParameterDependencyFactory;
 
 public final class DependencyModule extends AbstractModule {
 

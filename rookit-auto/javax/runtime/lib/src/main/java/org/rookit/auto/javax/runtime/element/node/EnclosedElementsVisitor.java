@@ -25,8 +25,8 @@ import com.google.inject.Inject;
 import io.reactivex.Observable;
 import org.reflections.Reflections;
 import org.rookit.auto.javax.runtime.element.executable.ExecutableElementFactory;
-import org.rookit.auto.javax.runtime.element.type.RuntimeTypeElementFactory;
-import org.rookit.auto.javax.runtime.element.variable.RuntimeVariableElementFactory;
+import org.rookit.auto.javax.runtime.element.type.TypeElementFactory;
+import org.rookit.auto.javax.runtime.element.variable.VariableElementFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeConstructorEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntityFactory;
@@ -51,15 +51,15 @@ final class EnclosedElementsVisitor implements RuntimeEntityVisitor<Observable<?
     private static final Logger logger = LoggerFactory.getLogger(EnclosedElementsVisitor.class);
 
     private final ExecutableElementFactory executableFactory;
-    private final RuntimeVariableElementFactory variableFactory;
-    private final RuntimeTypeElementFactory typeElementFactory;
+    private final VariableElementFactory variableFactory;
+    private final TypeElementFactory typeElementFactory;
     private final RuntimeEntityFactory entityFactory;
 
     @Inject
     private EnclosedElementsVisitor(
             final ExecutableElementFactory executableFactory,
-            final RuntimeVariableElementFactory variableFactory,
-            final RuntimeTypeElementFactory typeElementFactory,
+            final VariableElementFactory variableFactory,
+            final TypeElementFactory typeElementFactory,
             final RuntimeEntityFactory entityFactory) {
         this.executableFactory = executableFactory;
         this.variableFactory = variableFactory;

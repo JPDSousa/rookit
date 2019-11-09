@@ -25,7 +25,7 @@ import com.google.common.collect.ImmutableList;
 import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntityFactory;
 import org.rookit.auto.javax.runtime.mirror.declared.DeclaredTypeFactory;
-import org.rookit.auto.javax.runtime.element.variable.RuntimeVariableElementFactory;
+import org.rookit.auto.javax.runtime.element.variable.VariableElementFactory;
 
 import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.AnnotationValueVisitor;
@@ -38,14 +38,14 @@ final class RuntimeAnnotationValue implements AnnotationValue {
 
     private final RuntimeEntityFactory entityFactory;
     private final DeclaredTypeFactory declaredFactory;
-    private final RuntimeVariableElementFactory variableElementFactory;
+    private final VariableElementFactory variableElementFactory;
     private final RuntimeAnnotationMirrorFactory annotationFactory;
     private final Object value;
 
     RuntimeAnnotationValue(
             final RuntimeEntityFactory entityFactory,
             final DeclaredTypeFactory declaredFactory,
-            final RuntimeVariableElementFactory variableFactory,
+            final VariableElementFactory variableFactory,
             final RuntimeAnnotationMirrorFactory annotationFactory,
             final Object value) {
         this.entityFactory = entityFactory;
@@ -88,7 +88,7 @@ final class RuntimeAnnotationValue implements AnnotationValue {
                     // TODO have some sort of timeout/warning
                     .blockingGet();
         } else if (this.value.getClass().isEnum()) {
-            return this.variableElementFactory.createEnum(this.entityFactory.fromEnum((Enum<?>) this.value))
+            return this.variableElementFactory.createFromEnum(this.entityFactory.fromEnum((Enum<?>) this.value))
                     .map(element -> v.visitEnumConstant(element, p))
                     // TODO have some sort of timeout/warning
                     .blockingGet();

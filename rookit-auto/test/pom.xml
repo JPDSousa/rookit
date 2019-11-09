@@ -49,6 +49,11 @@
 
         <dependency>
             <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-auto-javax-runtime-entity-lib</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
             <artifactId>rookit-utils-lib</artifactId>
         </dependency>
 

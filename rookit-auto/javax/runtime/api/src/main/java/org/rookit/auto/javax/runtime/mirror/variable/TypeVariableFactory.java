@@ -21,10 +21,12 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.mirror.variable;
 
-import javax.lang.model.type.TypeVariable;
+import io.reactivex.Single;
+import org.rookit.auto.javax.runtime.entity.RuntimeTypeVariableEntity;
 
+@FunctionalInterface
 public interface TypeVariableFactory {
 
-    TypeVariable createFromTypeVariable(java.lang.reflect.TypeVariable<?> typeVariable);
+    Single<RuntimeTypeVariable> createFromTypeVariable(RuntimeTypeVariableEntity typeVariable);
 
 }

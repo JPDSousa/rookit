@@ -37,7 +37,7 @@ public final class AnnotationModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(RuntimeAnnotatedConstructFactory.class).to(RuntimeAnnotatedConstructFactoryImpl.class).in(Singleton.class);
+        bind(AnnotatedConstructFactory.class).to(AnnotatedConstructFactoryImpl.class).in(Singleton.class);
         bind(RuntimeAnnotationMirrorFactory.class).to(AnnotationMirrorFactoryImpl.class).in(Singleton.class);
         bind(AnnotationValueFactory.class).to(AnnotationValueFactoryImpl.class).in(Singleton.class);
     }

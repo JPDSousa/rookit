@@ -32,6 +32,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.rookit.auto.javax.runtime.JavaxRuntimeModule;
+import org.rookit.auto.javax.runtime.entity.JavaxRuntimeEntityModule;
 import org.rookit.utils.guice.Proxied;
 
 import javax.annotation.processing.Filer;
@@ -59,6 +60,7 @@ public interface ExtendedProcessorTest {
         final Injector injector = Guice.createInjector(
                 sourceModule(),
                 JavaxRuntimeModule.getModule(),
+                JavaxRuntimeEntityModule.getModule(),
                 new AbstractModule() {
                     @Override
                     protected void configure() {

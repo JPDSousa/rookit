@@ -38,13 +38,10 @@ import org.rookit.auto.javapoet.type.EmptyInterfaceTypeSourceFactory;
 import org.rookit.auto.javapoet.type.JavaPoetTypeSourceFactory;
 import org.rookit.auto.javax.naming.IdentifierFactory;
 import org.rookit.auto.javax.naming.NamingFactory;
-import org.rookit.auto.source.CodeSourceContainerFactory;
 import org.rookit.auto.source.CodeSourceFactory;
 import org.rookit.auto.source.spec.SpecFactory;
 import org.rookit.auto.source.type.SingleTypeSourceFactory;
 import org.rookit.convention.auto.entity.BaseEntityFactory;
-import org.rookit.convention.auto.entity.BasePartialEntityFactory;
-import org.rookit.convention.auto.entity.parent.ParentExtractor;
 import org.rookit.convention.auto.javapoet.type.ConventionSingleTypeSourceFactories;
 import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
 import org.rookit.storage.api.config.FilterConfig;
@@ -55,7 +52,6 @@ import org.rookit.storage.guice.TopFilter;
 import org.rookit.storage.guice.filter.Filter;
 import org.rookit.storage.guice.filter.FilterBase;
 import org.rookit.storage.guice.filter.PartialFilter;
-import org.rookit.utils.optional.OptionalFactory;
 
 import java.util.concurrent.Executor;
 
@@ -78,10 +74,6 @@ public final class SourceModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(CodeSourceFactory.class).to(Key.get(CodeSourceFactory.class, FilterBase.class)).in(Singleton.class);
-        bind(CodeSourceFactory.class).to(Key.get(CodeSourceFactory.class, PartialFilter.class))
-                .in(Singleton.class);
-        bind(CodeSourceFactory.class).annotatedWith(PartialFilter.class)
-                .to(Key.get(CodeSourceFactory.class, FilterBase.class)).in(Singleton.class);
     }
 
     @Provides
@@ -98,19 +90,6 @@ public final class SourceModule extends AbstractModule {
                                           @Filter final IdentifierFactory identifierFactory,
                                           @Filter final SingleTypeSourceFactory typeSpecFactory) {
         return BaseEntityFactory.create(codeSourceFactory, identifierFactory, typeSpecFactory);
-    }
-
-    @Provides
-    @Singleton
-    @FilterBase
-    CodeSourceFactory filterPartialEntityFactory(@PartialFilter final IdentifierFactory identifierFactory,
-                                                 @PartialFilter final SingleTypeSourceFactory typeSpecFactory,
-                                                 final OptionalFactory optionalFactory,
-                                                 final ParentExtractor extractor,
-                                                 final CodeSourceContainerFactory containerFactory,
-                                                 final ConventionTypeElementFactory elementFactory) {
-        return BasePartialEntityFactory.create(identifierFactory, typeSpecFactory, optionalFactory,
-                extractor, containerFactory, elementFactory);
     }
 
     @Provides

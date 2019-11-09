@@ -23,7 +23,7 @@ package org.rookit.auto.javax.runtime.element.node;
 
 import com.google.inject.Inject;
 import io.reactivex.Single;
-import org.rookit.auto.javax.runtime.annotation.RuntimeAnnotatedConstructFactory;
+import org.rookit.auto.javax.runtime.annotation.AnnotatedConstructFactory;
 import org.rookit.auto.javax.runtime.element.node.dependency.DependencyFactory;
 import org.rookit.auto.javax.runtime.element.node.dependency.ElementDependencyVisitor;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntity;
@@ -31,14 +31,14 @@ import org.rookit.utils.graph.DependencyWrapperFactory;
 
 final class NodeElementFactoryImpl implements NodeElementFactory {
 
-    private final RuntimeAnnotatedConstructFactory annotatedFactory;
+    private final AnnotatedConstructFactory annotatedFactory;
     private final DependencyWrapperFactory wrapperFactory;
     private final DependencyFactory dependencyFactory;
     private final ElementDependencyVisitor<Single<MutableNodeElement>, MutableNodeElement> visitor;
 
     @Inject
     private NodeElementFactoryImpl(
-            final RuntimeAnnotatedConstructFactory annotatedFactory,
+            final AnnotatedConstructFactory annotatedFactory,
             final DependencyWrapperFactory wrapperFactory,
             final DependencyFactory dependencyFactory,
             final ElementDependencyVisitor<Single<MutableNodeElement>, MutableNodeElement> visitor) {

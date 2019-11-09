@@ -24,7 +24,7 @@ package org.rookit.auto.javax.runtime.element.executable.dependency.registry;
 import com.google.inject.Inject;
 import io.reactivex.Observable;
 import org.rookit.auto.javax.runtime.element.executable.node.dependency.ExecutableDependencyFactory;
-import org.rookit.auto.javax.runtime.element.variable.RuntimeVariableElementFactory;
+import org.rookit.auto.javax.runtime.element.variable.VariableElementFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeExecutableEntity;
 import org.rookit.utils.graph.Dependency;
 import org.rookit.utils.registry.MultiRegistry;
@@ -39,11 +39,11 @@ final class Parameter implements MultiRegistry<RuntimeExecutableEntity, Dependen
     private static final Logger logger = LoggerFactory.getLogger(Parameter.class);
 
     private final ExecutableDependencyFactory dependencyFactory;
-    private final RuntimeVariableElementFactory variableFactory;
+    private final VariableElementFactory variableFactory;
 
     @Inject
     private Parameter(final ExecutableDependencyFactory dependencyFactory,
-                      final RuntimeVariableElementFactory variableFactory) {
+                      final VariableElementFactory variableFactory) {
         this.dependencyFactory = dependencyFactory;
         this.variableFactory = variableFactory;
     }

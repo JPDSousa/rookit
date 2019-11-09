@@ -32,15 +32,8 @@ import org.rookit.auto.javapoet.naming.JavaPoetParameterResolver;
 import org.rookit.auto.javapoet.naming.LeafSingleSingleParameterResolver;
 import org.rookit.auto.javapoet.type.EmptyLeafTypeSourceFactory;
 import org.rookit.auto.javapoet.type.JavaPoetTypeSourceFactory;
-import org.rookit.auto.javax.naming.IdentifierFactory;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.auto.source.CodeSourceContainerFactory;
-import org.rookit.auto.source.CodeSourceFactory;
 import org.rookit.auto.source.type.SingleTypeSourceFactory;
-import org.rookit.convention.auto.entity.BaseEntityFactory;
-import org.rookit.convention.auto.entity.BasePartialEntityFactory;
-import org.rookit.convention.auto.entity.parent.ParentExtractor;
-import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
 import org.rookit.storage.api.config.UpdateConfig;
 import org.rookit.storage.guice.PartialUpdate;
 import org.rookit.storage.guice.Update;
@@ -49,7 +42,6 @@ import org.rookit.storage.update.source.config.ConfigurationModule;
 import org.rookit.storage.update.source.identifier.IdentifierModule;
 import org.rookit.storage.update.source.method.MethodModule;
 import org.rookit.storage.update.source.naming.NamingModule;
-import org.rookit.utils.optional.OptionalFactory;
 
 @SuppressWarnings("MethodMayBeStatic")
 public final class SourceModule extends AbstractModule {
@@ -76,26 +68,6 @@ public final class SourceModule extends AbstractModule {
                 .to(PartialUpdateParameterResolver.class).in(Singleton.class);
         bind(SingleTypeSourceFactory.class).annotatedWith(PartialUpdate.class)
                 .to(PartialUpdateTypeSourceFactory.class).in(Singleton.class);
-    }
-
-    @Provides
-    @Singleton
-    CodeSourceFactory updatePartialEntityFactory(@PartialUpdate final IdentifierFactory identifierFactory,
-                                                 @PartialUpdate final SingleTypeSourceFactory typeSourceFactory,
-                                                 final OptionalFactory optionalFactory,
-                                                 final ParentExtractor extractor,
-                                                 final CodeSourceContainerFactory containerFactory,
-                                                 final ConventionTypeElementFactory elementFactory) {
-        return BasePartialEntityFactory.create(identifierFactory, typeSourceFactory, optionalFactory,
-                extractor, containerFactory, elementFactory);
-    }
-
-    @Provides
-    @Singleton
-    CodeSourceFactory updateEntityFactory(final CodeSourceFactory codeSourceFactory,
-                                          @Update final IdentifierFactory identifierFactory,
-                                          @Update final SingleTypeSourceFactory typeSpecFactory) {
-        return BaseEntityFactory.create(codeSourceFactory, identifierFactory, typeSpecFactory);
     }
 
     @Provides

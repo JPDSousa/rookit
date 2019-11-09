@@ -24,7 +24,11 @@ package org.rookit.auto.javax.runtime.element.dependency;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
 import org.rookit.auto.javax.runtime.element.node.dependency.DependencyFactory;
+import org.rookit.auto.javax.runtime.entity.RuntimeEntity;
+import org.rookit.utils.graph.Dependency;
+import org.rookit.utils.registry.MultiRegistry;
 
 public final class DependencyModule extends AbstractModule {
 
@@ -36,9 +40,12 @@ public final class DependencyModule extends AbstractModule {
 
     private DependencyModule() {}
 
+    @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
     @Override
     protected void configure() {
         bind(DependencyFactory.class).to(DependencyFactoryImpl.class).in(Singleton.class);
+        bind(new TypeLiteral<MultiRegistry<RuntimeEntity, Dependency<?>>>() {}).to(TypeMirrorRegistry.class)
+                .in(Singleton.class);
     }
 
 }

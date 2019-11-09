@@ -21,6 +21,7 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.element.executable.dependency.registry;
 
+import com.google.inject.Inject;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import org.rookit.auto.javax.runtime.element.executable.node.dependency.ExecutableDependencyFactory;
@@ -46,6 +47,7 @@ final class ReturnType implements MultiRegistry<RuntimeExecutableEntity, Depende
     private final RuntimeEntityFactory entityFactory;
     private final DeclaredTypeFactory declaredTypeFactory;
 
+    @Inject
     ReturnType(
             final ExecutableDependencyFactory dependencyFactory,
             final RuntimeEntityFactory entityFactory,

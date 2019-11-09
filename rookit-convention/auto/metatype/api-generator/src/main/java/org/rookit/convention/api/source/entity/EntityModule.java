@@ -27,19 +27,12 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import org.rookit.auto.javax.naming.IdentifierFactory;
-import org.rookit.auto.source.CodeSourceContainerFactory;
 import org.rookit.auto.source.CodeSourceFactory;
 import org.rookit.auto.source.type.SingleTypeSourceFactory;
 import org.rookit.convention.api.guice.Container;
 import org.rookit.convention.api.guice.Inner;
 import org.rookit.convention.auto.entity.BaseEntityFactory;
-import org.rookit.convention.auto.entity.BasePartialEntityFactory;
-import org.rookit.convention.auto.entity.parent.NoOpParentExtractor;
-import org.rookit.convention.auto.entity.parent.ParentExtractor;
 import org.rookit.convention.auto.metatype.guice.MetaTypeAPI;
-import org.rookit.convention.auto.metatype.guice.PartialMetaTypeAPI;
-import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
-import org.rookit.utils.optional.OptionalFactory;
 
 @SuppressWarnings("MethodMayBeStatic")
 public final class EntityModule extends AbstractModule {
@@ -57,31 +50,10 @@ public final class EntityModule extends AbstractModule {
         bind(CodeSourceFactory.class).to(Key.get(CodeSourceFactory.class, MetaTypeAPI.class)).in(Singleton.class);
 
         bind(CodeSourceFactory.class).annotatedWith(MetaTypeAPI.class)
-                .to(MetaTypePartialEntityFactory.class).in(Singleton.class);
+                .to(MetaTypeCodeSourceFactory.class).in(Singleton.class);
 
         bind(CodeSourceFactory.class).annotatedWith(Container.class)
                 .to(PropertyEntityFactory.class).in(Singleton.class);
-    }
-
-    @Provides
-    @Singleton
-    @Inner
-    CodeSourceFactory innerPartialEntityFactory(@PartialMetaTypeAPI final IdentifierFactory identifierFactory,
-                                                @PartialMetaTypeAPI final SingleTypeSourceFactory typeSpecFactory,
-                                                final OptionalFactory optionalFactory,
-                                                final ParentExtractor extractor,
-                                                final CodeSourceContainerFactory containerFactory,
-                                                final ConventionTypeElementFactory elementFactory) {
-        return BasePartialEntityFactory.create(identifierFactory, typeSpecFactory, optionalFactory,
-                extractor, containerFactory, elementFactory);
-    }
-
-    @Provides
-    @Singleton
-    CodeSourceFactory entityFactory(final CodeSourceFactory codeSourceFactory,
-                                    @MetaTypeAPI final IdentifierFactory identifierFactory,
-                                    @MetaTypeAPI final SingleTypeSourceFactory typeSpecFactory) {
-        return BaseEntityFactory.create(codeSourceFactory, identifierFactory, typeSpecFactory);
     }
 
     @Provides
@@ -91,18 +63,5 @@ public final class EntityModule extends AbstractModule {
                                          @MetaTypeAPI final IdentifierFactory identifierFactory,
                                          @Container final SingleTypeSourceFactory typeSpecFactory) {
         return BaseEntityFactory.create(codeSourceFactory, identifierFactory, typeSpecFactory);
-    }
-
-    @Provides
-    @Singleton
-    @Container
-    CodeSourceFactory containerPartialEntityFactory(@MetaTypeAPI final IdentifierFactory identifierFactory,
-                                                    @Container final SingleTypeSourceFactory typeSpecFactory,
-                                                    final OptionalFactory optionalFactory,
-                                                    final CodeSourceContainerFactory containerFactory,
-                                                    final ConventionTypeElementFactory elementFactory) {
-        return BasePartialEntityFactory.create(identifierFactory, typeSpecFactory, optionalFactory,
-                // FIXME and inject me
-                NoOpParentExtractor.create(), containerFactory, elementFactory);
     }
 }

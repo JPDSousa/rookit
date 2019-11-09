@@ -23,10 +23,15 @@ package org.rookit.auto.javax.runtime.entity;
 
 import javax.lang.model.element.ElementKind;
 import java.lang.reflect.TypeVariable;
+import java.util.List;
 
 public interface RuntimeTypeVariableEntity extends RuntimeEntity {
 
     TypeVariable<?> typeVariable();
+
+    List<? extends RuntimeTypeEntity> bounds();
+
+    RuntimeEntity genericDeclaration();
 
     @Override
     default <R, P> R accept(final RuntimeEntityVisitor<R, P> visitor, final P parameter) {

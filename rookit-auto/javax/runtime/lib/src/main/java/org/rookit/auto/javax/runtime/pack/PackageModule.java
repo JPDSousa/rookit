@@ -29,7 +29,7 @@ import com.google.inject.TypeLiteral;
 import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactories;
 import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactory;
 import org.rookit.auto.javax.runtime.element.pack.RuntimePackageElement;
-import org.rookit.auto.javax.runtime.element.pack.RuntimePackageElementFactory;
+import org.rookit.auto.javax.runtime.element.pack.PackageElementFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimePackageEntity;
 import org.rookit.utils.graph.Dependency;
 import org.rookit.utils.registry.MultiRegistry;
@@ -49,11 +49,11 @@ public final class PackageModule extends AbstractModule {
     @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
     @Override
     protected void configure() {
-        bind(RuntimePackageElementFactory.class).to(DelegateFactory.class).in(Singleton.class);
+        bind(PackageElementFactory.class).to(DelegateFactory.class).in(Singleton.class);
         bind(new TypeLiteral<MultiRegistry<RuntimePackageEntity, Dependency<?>>>() {}).to(DependencyRegistry.class)
                 .in(Singleton.class);
         bind(new TypeLiteral<Registry<RuntimePackageEntity, RuntimePackageElement>>() {})
-                .to(PackageElementFactory.class).in(Singleton.class);
+                .to(org.rookit.auto.javax.runtime.pack.PackageElementFactory.class).in(Singleton.class);
     }
 
     @Provides

@@ -34,7 +34,6 @@ import org.rookit.convention.api.guice.Container;
 import org.rookit.convention.auto.config.MetatypeApiConfig;
 import org.rookit.convention.auto.metatype.guice.MetaTypeAPI;
 import org.rookit.convention.auto.metatype.guice.PartialMetaTypeAPI;
-import org.rookit.convention.guice.MetaType;
 import org.rookit.utils.guice.Self;
 
 import static org.rookit.auto.guice.RookitAutoModuleTools.bindNaming;
@@ -63,7 +62,7 @@ public final class NamingModule extends AbstractModule {
         bind(JavaPoetParameterResolver.class).annotatedWith(Container.class)
                 .to(PropertyParameterResolver.class).in(Singleton.class);
 
-        bind(JavaPoetNamingFactory.class).to(Key.get(JavaPoetNamingFactory.class, MetaType.class));
+        bind(JavaPoetNamingFactory.class).to(Key.get(JavaPoetNamingFactory.class, MetaTypeAPI.class));
     }
 
     @Provides

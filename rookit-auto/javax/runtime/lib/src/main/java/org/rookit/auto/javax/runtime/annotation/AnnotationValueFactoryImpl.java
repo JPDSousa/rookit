@@ -23,7 +23,7 @@ package org.rookit.auto.javax.runtime.annotation;
 
 import com.google.inject.Inject;
 import io.reactivex.Single;
-import org.rookit.auto.javax.runtime.element.variable.RuntimeVariableElementFactory;
+import org.rookit.auto.javax.runtime.element.variable.VariableElementFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntityFactory;
 import org.rookit.auto.javax.runtime.mirror.declared.DeclaredTypeFactory;
 
@@ -33,14 +33,14 @@ final class AnnotationValueFactoryImpl implements AnnotationValueFactory {
 
     private final RuntimeEntityFactory entityFactory;
     private final DeclaredTypeFactory declaredFactory;
-    private final RuntimeVariableElementFactory variableFactory;
+    private final VariableElementFactory variableFactory;
     private final RuntimeAnnotationMirrorFactory annotationFactory;
 
     @Inject
     private AnnotationValueFactoryImpl(
             final RuntimeEntityFactory entityFactory,
             final DeclaredTypeFactory declaredFactory,
-            final RuntimeVariableElementFactory variableFactory,
+            final VariableElementFactory variableFactory,
             final RuntimeAnnotationMirrorFactory annotationFactory) {
         this.entityFactory = entityFactory;
         this.declaredFactory = declaredFactory;

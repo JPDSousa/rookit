@@ -25,12 +25,12 @@ import com.google.inject.Inject;
 import io.reactivex.Single;
 import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactory;
 import org.rookit.auto.javax.runtime.element.pack.RuntimePackageElement;
-import org.rookit.auto.javax.runtime.element.pack.RuntimePackageElementFactory;
+import org.rookit.auto.javax.runtime.element.pack.PackageElementFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimePackageEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-final class DelegateFactory implements RuntimePackageElementFactory {
+final class DelegateFactory implements PackageElementFactory {
 
     /**
      * Logger for this class.

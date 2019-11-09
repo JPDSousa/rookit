@@ -27,10 +27,10 @@ public interface DependencyWrapperFactory {
 
     <D> DependencyWrapper<D> createSingle(
             String dependencyName,
-            Function<D, Dependency> dependencyFactory);
+            Function<D, Dependency<?>> dependencyFactory);
 
     <D> MultiDependencyWrapper<D> createMulti(
             String dependencyName,
-            Function<D, Dependency> dependencyFactory);
+            Function<D, Dependency<?>> dependencyFactory);
 
 }

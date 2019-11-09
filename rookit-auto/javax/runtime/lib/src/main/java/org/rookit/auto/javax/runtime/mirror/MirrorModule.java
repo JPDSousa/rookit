@@ -23,10 +23,17 @@ package org.rookit.auto.javax.runtime.mirror;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
+import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
 import com.google.inject.util.Modules;
+import io.reactivex.Single;
+import org.rookit.auto.javax.runtime.entity.RuntimeEntityVisitor;
 import org.rookit.auto.javax.runtime.mirror.declared.DeclaredModule;
 import org.rookit.auto.javax.runtime.mirror.executable.ExecutableModule;
 import org.rookit.auto.javax.runtime.mirror.no.NoModule;
+import org.rookit.auto.javax.runtime.mirror.variable.VariableModule;
+
+import javax.lang.model.type.TypeMirror;
 
 public final class MirrorModule extends AbstractModule {
 
@@ -34,7 +41,8 @@ public final class MirrorModule extends AbstractModule {
             new MirrorModule(),
             DeclaredModule.getModule(),
             ExecutableModule.getModule(),
-            NoModule.getModule()
+            NoModule.getModule(),
+            VariableModule.getModule()
     );
 
     public static Module getModule() {
@@ -43,9 +51,12 @@ public final class MirrorModule extends AbstractModule {
 
     private MirrorModule() {}
 
+    @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
     @Override
     protected void configure() {
-
+        bind(new TypeLiteral<RuntimeEntityVisitor<Single<TypeMirror>, Void>>() {}).to(TypeMirrorVisitor.class)
+                .in(Singleton.class);
+        bind(TypeMirrorFactory.class).to(TypeMirrorFactoryImpl.class).in(Singleton.class);
     }
 
 }

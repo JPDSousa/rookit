@@ -63,7 +63,7 @@ public final class TypeSpecModule extends AbstractModule {
                                                   @Container final JavaPoetParameterResolver resolver,
                                                   @MetaTypeAPI final TypeVariableName typeVariableName,
                                                   final ConventionTypeElementFactory elementFactory) {
-        return new org.rookit.convention.api.source.type.BaseTypeSourceFactory(
+        return new BaseTypeSourceFactory(
                 specFactory,
                 entityMethodFactory,
                 adapter,
@@ -81,7 +81,7 @@ public final class TypeSpecModule extends AbstractModule {
             @PartialMetaTypeAPI final JavaPoetParameterResolver resolver,
             @MetaTypeAPI final TypeVariableName typeVariableName,
             final ConventionTypeElementFactory elementFactory) {
-        return new org.rookit.convention.api.source.type.BaseTypeSourceFactory(
+        return new BaseTypeSourceFactory(
                 specFactory,
                 entityMethodFactory,
                 adapter,

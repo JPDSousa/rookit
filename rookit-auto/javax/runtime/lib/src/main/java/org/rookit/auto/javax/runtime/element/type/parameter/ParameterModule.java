@@ -31,6 +31,7 @@ import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactory;
 import org.rookit.auto.javax.runtime.element.type.parameter.dependency.DependencyModule;
 import org.rookit.auto.javax.runtime.entity.RuntimeTypeVariableEntity;
 import org.rookit.auto.javax.runtime.element.type.parameter.node.NodeModule;
+import org.rookit.javax.runtime.element.Registries;
 import org.rookit.utils.graph.Dependency;
 import org.rookit.utils.registry.MultiRegistry;
 import org.rookit.utils.registry.Registry;
@@ -52,7 +53,7 @@ public final class ParameterModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(RuntimeTypeParameterElementFactory.class).to(RuntimeTypeParameterElementFactoryImpl.class)
+        bind(TypeParameterElementFactory.class).to(TypeParameterElementFactoryImpl.class)
                 .in(Singleton.class);
     }
 
@@ -63,6 +64,14 @@ public final class ParameterModule extends AbstractModule {
             final Registry<RuntimeTypeVariableEntity, RuntimeTypeParameterElement> registry,
             final MultiRegistry<RuntimeTypeVariableEntity, Dependency<?>> dependenciesRegistry) {
         return factories.factory(registry, dependenciesRegistry, RuntimeTypeParameterElement.class);
+    }
+
+    @Provides
+    @Singleton
+    Registry<RuntimeTypeVariableEntity, RuntimeTypeParameterElement> TypeVariableRegistry(
+            final Registries registries,
+            final TypeParameterElementFactory factory) {
+        return registries.fromFactory(factory);
     }
 
 }
