@@ -22,8 +22,10 @@
 
 package org.rookit.utils.collection;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -38,6 +40,17 @@ final class MapUtilsImpl implements MapUtils {
     public <K, V> V getOrDefault(final Map<K, V> map, final K key, final Supplier<V> supplier) {
         return Optional.ofNullable(map.get(key))
                 .orElseGet(supplier);
+    }
+
+    @Override
+    public <K, V> Map<K, V> mapByIndex(final List<K> keys, final List<V> values) {
+        final ImmutableMap.Builder<K, V> builder = ImmutableMap.builder();
+
+        for (int i = 0; i < keys.size(); i++) {
+            builder.put(keys.get(i), values.get(i));
+        }
+
+        return builder.build();
     }
 
 }
