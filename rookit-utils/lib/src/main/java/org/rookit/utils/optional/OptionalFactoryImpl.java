@@ -22,15 +22,25 @@
 package org.rookit.utils.optional;
 
 import com.google.inject.Inject;
+import org.rookit.failsafe.Failsafe;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 final class OptionalFactoryImpl implements OptionalFactory {
 
+    /**
+     * Logger for this class.
+     */
+    private static final Logger logger = LoggerFactory.getLogger(OptionalFactoryImpl.class);
+
+    private final Failsafe failsafe;
     private final Optional<?> empty;
     private final OptionalShort emptyShort;
     private final OptionalBoolean emptyBoolean;
 
     @Inject
-    private OptionalFactoryImpl() {
+    private OptionalFactoryImpl(final Failsafe failsafe) {
+        this.failsafe = failsafe;
         this.emptyShort = new EmptyShort();
         this.emptyBoolean = new EmptyBoolean();
         // TODO this is not a perfect solution, but it is a performance and memory optimization.
@@ -47,6 +57,7 @@ final class OptionalFactoryImpl implements OptionalFactory {
 
     @Override
     public <T> Optional<T> of(final T value) {
+        this.failsafe.checkArgument().isNotNull(logger, value, "value");
         return new Present<>(this, value);
     }
 
