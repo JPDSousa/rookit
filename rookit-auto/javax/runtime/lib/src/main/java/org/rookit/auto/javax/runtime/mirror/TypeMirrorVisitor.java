@@ -34,7 +34,7 @@ import org.rookit.auto.javax.runtime.entity.RuntimeParameterEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeTypeVariableEntity;
 import org.rookit.auto.javax.runtime.mirror.declared.DeclaredTypeFactory;
 import org.rookit.auto.javax.runtime.mirror.executable.ExecutableTypeFactory;
-import org.rookit.auto.javax.runtime.mirror.no.NoTypeFactory;
+import org.rookit.auto.javax.mirror.no.NoTypeFactory;
 import org.rookit.auto.javax.runtime.mirror.variable.TypeVariableFactory;
 
 import javax.lang.model.type.TypeMirror;

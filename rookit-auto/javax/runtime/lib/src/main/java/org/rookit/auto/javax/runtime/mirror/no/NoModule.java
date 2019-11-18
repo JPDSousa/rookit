@@ -24,6 +24,7 @@ package org.rookit.auto.javax.runtime.mirror.no;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
+import org.rookit.auto.javax.mirror.no.NoTypeFactory;
 
 public final class NoModule extends AbstractModule {
 

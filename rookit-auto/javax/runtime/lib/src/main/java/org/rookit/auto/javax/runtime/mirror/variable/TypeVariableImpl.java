@@ -23,8 +23,9 @@ package org.rookit.auto.javax.runtime.mirror.variable;
 
 import com.google.common.base.Objects;
 import io.reactivex.Completable;
+import org.rookit.auto.javax.mirror.variable.ExtendedTypeVariable;
 import org.rookit.auto.javax.runtime.entity.RuntimeTypeVariableEntity;
-import org.rookit.auto.javax.runtime.mirror.variable.node.MutableNodeTypeVariable;
+import org.rookit.auto.javax.mirror.variable.node.MutableNodeTypeVariable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +36,7 @@ import javax.lang.model.type.TypeMirror;
 import java.lang.annotation.Annotation;
 import java.util.List;
 
-final class TypeVariableImpl implements RuntimeTypeVariable {
+final class TypeVariableImpl implements ExtendedTypeVariable {
 
     /**
      * Logger for this class.

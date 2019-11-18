@@ -470,6 +470,12 @@
 
             <dependency>
                 <groupId>${rookit.group}</groupId>
+                <artifactId>rookit-auto-javax-mirror-api</artifactId>
+                <version>${rookit.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${rookit.group}</groupId>
                 <artifactId>rookit-auto-javax-runtime-api</artifactId>
                 <version>${rookit.version}</version>
             </dependency>
@@ -496,6 +502,12 @@
             <dependency>
                 <groupId>${rookit.group}</groupId>
                 <artifactId>rookit-auto-javax-runtime-lib</artifactId>
+                <version>${rookit.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${rookit.group}</groupId>
+                <artifactId>rookit-auto-javax-runtime-mirror-api</artifactId>
                 <version>${rookit.version}</version>
             </dependency>
 

@@ -36,6 +36,6 @@ public interface MultiDependencyWrapper<D> {
 
     Completable add(D value);
 
-    Collection<Dependency> asDependency();
+    Collection<Dependency<?>> asDependency();
 
 }

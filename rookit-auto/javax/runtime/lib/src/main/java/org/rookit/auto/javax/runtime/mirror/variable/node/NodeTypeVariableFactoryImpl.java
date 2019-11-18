@@ -23,6 +23,8 @@ package org.rookit.auto.javax.runtime.mirror.variable.node;
 
 import com.google.inject.Inject;
 import io.reactivex.Single;
+import org.rookit.auto.javax.mirror.variable.node.MutableNodeTypeVariable;
+import org.rookit.auto.javax.mirror.variable.node.NodeTypeVariable;
 import org.rookit.auto.javax.runtime.annotation.AnnotatedConstructFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntity;
 import org.rookit.auto.javax.runtime.mirror.variable.dependency.TypeVariableDependencyFactory;

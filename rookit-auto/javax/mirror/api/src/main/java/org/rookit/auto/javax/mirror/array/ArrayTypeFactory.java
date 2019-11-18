@@ -19,20 +19,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.utils.graph;
+package org.rookit.auto.javax.mirror.array;
 
-import io.reactivex.Completable;
-import org.rookit.utils.optional.Optional;
+import io.reactivex.Single;
 
-// TODO improve the name
-public interface DependencyWrapper<D> {
+import javax.lang.model.type.ArrayType;
+import javax.lang.model.type.TypeMirror;
 
-    Optional<D> get();
+public interface ArrayTypeFactory {
 
-    D fetch() throws IllegalStateException;
-
-    Completable set(D value);
-
-    Optional<Dependency<?>> asDependency();
+    Single<ArrayType> createFromComponent(TypeMirror componentType);
 
 }

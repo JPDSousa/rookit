@@ -22,6 +22,7 @@
 package org.rookit.auto.javax.runtime.mirror.variable.node;
 
 import io.reactivex.Completable;
+import org.rookit.auto.javax.mirror.variable.node.MutableNodeTypeVariable;
 import org.rookit.utils.graph.DependencyWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

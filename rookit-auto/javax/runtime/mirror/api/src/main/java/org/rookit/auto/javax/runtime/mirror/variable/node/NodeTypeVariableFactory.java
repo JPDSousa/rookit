@@ -19,20 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.utils.graph;
+package org.rookit.auto.javax.runtime.mirror.variable.node;
 
-import io.reactivex.Completable;
-import org.rookit.utils.optional.Optional;
+import org.rookit.auto.javax.mirror.variable.node.MutableNodeTypeVariable;
+import org.rookit.auto.javax.mirror.variable.node.NodeTypeVariable;
+import org.rookit.auto.javax.runtime.mirror.GenericNodeFactory;
 
-// TODO improve the name
-public interface DependencyWrapper<D> {
-
-    Optional<D> get();
-
-    D fetch() throws IllegalStateException;
-
-    Completable set(D value);
-
-    Optional<Dependency<?>> asDependency();
+public interface NodeTypeVariableFactory extends GenericNodeFactory<NodeTypeVariable, MutableNodeTypeVariable> {
 
 }

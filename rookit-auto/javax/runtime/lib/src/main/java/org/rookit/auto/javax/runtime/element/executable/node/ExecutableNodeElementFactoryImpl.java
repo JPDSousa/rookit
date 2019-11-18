@@ -26,7 +26,7 @@ import io.reactivex.Single;
 import org.rookit.auto.javax.runtime.element.executable.node.dependency.ExecutableDependencyFactory;
 import org.rookit.auto.javax.runtime.element.node.NodeElementFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntity;
-import org.rookit.auto.javax.runtime.mirror.no.NoTypeFactory;
+import org.rookit.auto.javax.mirror.no.NoTypeFactory;
 import org.rookit.utils.graph.DependencyWrapperFactory;
 
 final class ExecutableNodeElementFactoryImpl implements ExecutableNodeElementFactory {

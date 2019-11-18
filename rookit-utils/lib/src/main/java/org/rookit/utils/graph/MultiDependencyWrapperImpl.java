@@ -40,12 +40,12 @@ final class MultiDependencyWrapperImpl<D> implements MultiDependencyWrapper<D> {
     private static final Logger logger = LoggerFactory.getLogger(MultiDependencyWrapperImpl.class);
 
     private List<D> values;
-    private final Function<D, Dependency> dependencyFactory;
+    private final Function<D, Dependency<?>> dependencyFactory;
     private final String dependencyName;
 
     MultiDependencyWrapperImpl(
             final List<D> values,
-            final Function<D, Dependency> dependencyFactory,
+            final Function<D, Dependency<?>> dependencyFactory,
             final String dependencyName) {
         this.values = new ArrayList<>(values);
         this.dependencyFactory = dependencyFactory;
@@ -79,7 +79,7 @@ final class MultiDependencyWrapperImpl<D> implements MultiDependencyWrapper<D> {
     }
 
     @Override
-    public Collection<Dependency> asDependency() {
+    public Collection<Dependency<?>> asDependency() {
         return get().stream()
                 .map(this.dependencyFactory)
                 .collect(ImmutableList.toImmutableList());

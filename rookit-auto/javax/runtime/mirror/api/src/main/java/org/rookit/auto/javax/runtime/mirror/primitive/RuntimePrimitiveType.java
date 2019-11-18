@@ -19,20 +19,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.utils.graph;
+package org.rookit.auto.javax.runtime.mirror.primitive;
 
-import io.reactivex.Completable;
-import org.rookit.utils.optional.Optional;
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.PrimitiveType;
 
-// TODO improve the name
-public interface DependencyWrapper<D> {
+public interface RuntimePrimitiveType extends PrimitiveType {
 
-    Optional<D> get();
-
-    D fetch() throws IllegalStateException;
-
-    Completable set(D value);
-
-    Optional<Dependency<?>> asDependency();
+    TypeElement boxedClass();
 
 }

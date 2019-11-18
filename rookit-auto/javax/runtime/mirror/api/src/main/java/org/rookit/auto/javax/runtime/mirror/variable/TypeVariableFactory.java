@@ -19,20 +19,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.utils.graph;
+package org.rookit.auto.javax.runtime.mirror.variable;
 
-import io.reactivex.Completable;
-import org.rookit.utils.optional.Optional;
+import io.reactivex.Single;
+import org.rookit.auto.javax.mirror.variable.ExtendedTypeVariable;
+import org.rookit.auto.javax.runtime.entity.RuntimeTypeVariableEntity;
 
-// TODO improve the name
-public interface DependencyWrapper<D> {
+@FunctionalInterface
+public interface TypeVariableFactory {
 
-    Optional<D> get();
-
-    D fetch() throws IllegalStateException;
-
-    Completable set(D value);
-
-    Optional<Dependency<?>> asDependency();
+    Single<ExtendedTypeVariable> createFromTypeVariable(RuntimeTypeVariableEntity typeVariable);
 
 }

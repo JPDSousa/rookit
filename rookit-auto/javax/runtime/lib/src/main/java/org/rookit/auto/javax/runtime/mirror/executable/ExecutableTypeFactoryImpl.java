@@ -26,7 +26,7 @@ import io.reactivex.Single;
 import org.rookit.auto.javax.runtime.annotation.AnnotatedConstructFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeExecutableEntity;
 import org.rookit.auto.javax.runtime.mirror.executable.dependency.ExecutableDependencyFactory;
-import org.rookit.auto.javax.runtime.mirror.no.NoTypeFactory;
+import org.rookit.auto.javax.mirror.no.NoTypeFactory;
 import org.rookit.utils.graph.DependencyWrapperFactory;
 
 import javax.lang.model.type.ExecutableType;

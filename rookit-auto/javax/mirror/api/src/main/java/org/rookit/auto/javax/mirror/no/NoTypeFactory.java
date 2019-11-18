@@ -19,20 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.utils.graph;
+package org.rookit.auto.javax.mirror.no;
 
-import io.reactivex.Completable;
-import org.rookit.utils.optional.Optional;
+import javax.lang.model.type.NoType;
 
-// TODO improve the name
-public interface DependencyWrapper<D> {
+public interface NoTypeFactory {
 
-    Optional<D> get();
-
-    D fetch() throws IllegalStateException;
-
-    Completable set(D value);
-
-    Optional<Dependency<?>> asDependency();
+    NoType noType();
 
 }

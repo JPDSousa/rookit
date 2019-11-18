@@ -41,11 +41,11 @@ final class DependencyWrapperImpl<D> implements DependencyWrapper<D> {
     @Nullable
     private D value;
     private final OptionalFactory optionalFactory;
-    private final Function<D, Dependency> dependencyFactory;
+    private final Function<D, Dependency<?>> dependencyFactory;
     private final String dependencyName;
 
     DependencyWrapperImpl(final OptionalFactory optionalFactory,
-                          final Function<D, Dependency> dependencyFactory,
+                          final Function<D, Dependency<?>> dependencyFactory,
                           final String dependencyName) {
         this(null, optionalFactory, dependencyFactory, dependencyName);
     }
@@ -53,7 +53,7 @@ final class DependencyWrapperImpl<D> implements DependencyWrapper<D> {
     DependencyWrapperImpl(
             @Nullable final D value,
             final OptionalFactory optionalFactory,
-            final Function<D, Dependency> dependencyFactory,
+            final Function<D, Dependency<?>> dependencyFactory,
             final String dependencyName) {
         this.value = value;
         this.optionalFactory = optionalFactory;
@@ -85,9 +85,19 @@ final class DependencyWrapperImpl<D> implements DependencyWrapper<D> {
     }
 
     @Override
-    public Optional<Dependency> asDependency() {
+    public Optional<Dependency<?>> asDependency() {
         return get()
                 .map(this.dependencyFactory);
+    }
+
+    @Override
+    public String toString() {
+        return "DependencyWrapperImpl{" +
+                "value=" + this.value +
+                ", optionalFactory=" + this.optionalFactory +
+                ", dependencyFactory=" + this.dependencyFactory +
+                ", dependencyName='" + this.dependencyName + '\'' +
+                "}";
     }
 
 }

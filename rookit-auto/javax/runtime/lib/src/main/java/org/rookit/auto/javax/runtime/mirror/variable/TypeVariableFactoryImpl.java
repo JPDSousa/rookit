@@ -23,6 +23,7 @@ package org.rookit.auto.javax.runtime.mirror.variable;
 
 import com.google.inject.Inject;
 import io.reactivex.Single;
+import org.rookit.auto.javax.mirror.variable.ExtendedTypeVariable;
 import org.rookit.auto.javax.runtime.entity.RuntimeTypeVariableEntity;
 import org.rookit.auto.javax.runtime.mirror.variable.node.NodeTypeVariableFactory;
 
@@ -36,7 +37,7 @@ final class TypeVariableFactoryImpl implements TypeVariableFactory {
     }
 
     @Override
-    public Single<RuntimeTypeVariable> createFromTypeVariable(final RuntimeTypeVariableEntity typeVariable) {
+    public Single<ExtendedTypeVariable> createFromTypeVariable(final RuntimeTypeVariableEntity typeVariable) {
         return this.nodeFactory.createMutableFromEntity(typeVariable)
                 .map(node -> new TypeVariableImpl(entity, node));
     }

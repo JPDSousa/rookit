@@ -27,6 +27,12 @@
             <artifactId>rookit-auto-javax-runtime-entity-api</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-auto-javax-runtime-mirror-api</artifactId>
+            <version>${rookit.version}</version>
+        </dependency>
+
     </dependencies>
 
 </project>

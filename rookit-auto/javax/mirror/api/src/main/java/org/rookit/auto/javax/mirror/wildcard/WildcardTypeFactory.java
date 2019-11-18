@@ -19,20 +19,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.utils.graph;
+package org.rookit.auto.javax.mirror.wildcard;
 
-import io.reactivex.Completable;
-import org.rookit.utils.optional.Optional;
+import io.reactivex.Single;
 
-// TODO improve the name
-public interface DependencyWrapper<D> {
+import javax.lang.model.type.TypeMirror;
+import javax.lang.model.type.WildcardType;
 
-    Optional<D> get();
+public interface WildcardTypeFactory {
 
-    D fetch() throws IllegalStateException;
+    Single<WildcardType> createFromExtends(TypeMirror bound);
 
-    Completable set(D value);
+    Single<WildcardType> createFromSuper(TypeMirror bound);
 
-    Optional<Dependency<?>> asDependency();
+    Single<WildcardType> createWildcard();
 
 }
