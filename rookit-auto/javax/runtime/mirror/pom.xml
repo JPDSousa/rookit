@@ -2,28 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
     <parent>
+        <artifactId>rookit-auto-javax-runtime</artifactId>
         <groupId>com.github.JPDSousa</groupId>
-        <artifactId>rookit-auto-javax</artifactId>
         <version>-SNAPSHOT</version>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>rookit-auto-javax-runtime</artifactId>
-
-    <packaging>pom</packaging>
-
-    <name>Rookit Auto Javax Runtime</name>
-
-    <modules>
-        <module>api</module>
-        <module>lib</module>
-        <module>entity</module>
-        <module>bootstrap</module>
-        <module>mirror</module>
-    </modules>
+    <artifactId>rookit-auto-javax-runtime-mirror</artifactId>
 
 
 </project>
