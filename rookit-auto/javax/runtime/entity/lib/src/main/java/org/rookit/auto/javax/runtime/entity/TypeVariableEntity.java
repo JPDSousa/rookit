@@ -21,6 +21,7 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.entity;
 
+import com.google.common.base.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -113,6 +114,23 @@ final class TypeVariableEntity implements RuntimeTypeVariableEntity {
     public Annotation[] getDeclaredAnnotations() {
         logger.trace("Delegating to type variable '{}'", this.typeVariable.getName());
         return this.typeVariable.getDeclaredAnnotations();
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if ((o == null) || (getClass() != o.getClass())) {
+            return false;
+        }
+        final TypeVariableEntity other = (TypeVariableEntity) o;
+        return Objects.equal(this.typeVariable, other.typeVariable);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.typeVariable);
     }
 
     @Override

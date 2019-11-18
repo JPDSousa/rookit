@@ -21,6 +21,8 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.entity;
 
+import com.google.common.base.Objects;
+
 import java.lang.annotation.Annotation;
 
 final class EnumEntityImpl implements RuntimeEnumEntity {
@@ -67,6 +69,31 @@ final class EnumEntityImpl implements RuntimeEnumEntity {
     @Override
     public Annotation[] getDeclaredAnnotations() {
         return this.declaringClass.getDeclaredAnnotations();
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if ((o == null) || (getClass() != o.getClass())) {
+            return false;
+        }
+        final EnumEntityImpl other = (EnumEntityImpl) o;
+        return this.enumeration == other.enumeration;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.enumeration);
+    }
+
+    @Override
+    public String toString() {
+        return "EnumEntityImpl{" +
+                "enumeration=" + this.enumeration +
+                ", declaringClass=" + this.declaringClass +
+                "}";
     }
 
 }

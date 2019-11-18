@@ -38,7 +38,7 @@ final class TypeVariableFactoryImpl implements TypeVariableFactory {
     @Override
     public Single<RuntimeTypeVariable> createFromTypeVariable(final RuntimeTypeVariableEntity typeVariable) {
         return this.nodeFactory.createMutableFromEntity(typeVariable)
-                .map(TypeVariableImpl::new);
+                .map(node -> new TypeVariableImpl(entity, node));
     }
 
     @Override

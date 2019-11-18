@@ -38,7 +38,7 @@ final class DeclaredTypeFactoryImpl implements DeclaredTypeFactory {
     @Override
     public Single<RuntimeDeclaredType> createFromClass(final RuntimeClassEntity typeEntity) {
         return this.nodeFactory.createMutableFromEntity(typeEntity)
-                .map(RuntimeDeclaredTypeImpl::new);
+                .map(node -> new RuntimeDeclaredTypeImpl(typeEntity, node));
     }
 
     @Override

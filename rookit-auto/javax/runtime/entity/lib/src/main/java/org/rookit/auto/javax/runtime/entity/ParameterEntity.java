@@ -21,6 +21,7 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.entity;
 
+import com.google.common.base.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -106,6 +107,23 @@ final class ParameterEntity implements RuntimeParameterEntity {
     public Annotation[] getDeclaredAnnotations() {
         logger.trace("Delegating to parameter '{}'", this.parameter.getName());
         return this.parameter.getDeclaredAnnotations();
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if ((o == null) || (getClass() != o.getClass())) {
+            return false;
+        }
+        final ParameterEntity other = (ParameterEntity) o;
+        return Objects.equal(this.parameter, other.parameter);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.parameter);
     }
 
     @Override

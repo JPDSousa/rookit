@@ -21,7 +21,9 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.mirror.declared;
 
+import com.google.common.base.Objects;
 import io.reactivex.Completable;
+import org.rookit.auto.javax.runtime.entity.RuntimeTypeEntity;
 import org.rookit.auto.javax.runtime.mirror.declared.node.MutableNodeDeclaredType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,9 +41,13 @@ final class RuntimeDeclaredTypeImpl implements RuntimeDeclaredType {
      */
     private static final Logger logger = LoggerFactory.getLogger(RuntimeDeclaredTypeImpl.class);
 
+    private final RuntimeTypeEntity entity;
     private final MutableNodeDeclaredType node;
 
-    RuntimeDeclaredTypeImpl(final MutableNodeDeclaredType node) {
+    RuntimeDeclaredTypeImpl(
+            final RuntimeTypeEntity entity,
+            final MutableNodeDeclaredType node) {
+        this.entity = entity;
         this.node = node;
     }
 
@@ -100,9 +106,42 @@ final class RuntimeDeclaredTypeImpl implements RuntimeDeclaredType {
     }
 
     @Override
+    public boolean isSubTypeOf(final RuntimeDeclaredType other) {
+        return this.entity.isSubTypeOf(other.entity());
+    }
+
+    @Override
+    public boolean isAssignableFrom(final RuntimeDeclaredType other) {
+        return this.entity.isAssignableFrom(other.entity());
+    }
+
+    @Override
+    public RuntimeTypeEntity entity() {
+        return this.entity;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if ((o == null) || (getClass() != o.getClass())) {
+            return false;
+        }
+        final RuntimeDeclaredTypeImpl other = (RuntimeDeclaredTypeImpl) o;
+        return Objects.equal(this.entity, other.entity);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.entity);
+    }
+
+    @Override
     public String toString() {
         return "RuntimeDeclaredTypeImpl{" +
-                "node=" + this.node +
+                "entity=" + this.entity +
+                ", node=" + this.node +
                 "}";
     }
 

@@ -21,7 +21,9 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.mirror.variable;
 
+import com.google.common.base.Objects;
 import io.reactivex.Completable;
+import org.rookit.auto.javax.runtime.entity.RuntimeTypeVariableEntity;
 import org.rookit.auto.javax.runtime.mirror.variable.node.MutableNodeTypeVariable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,9 +42,13 @@ final class TypeVariableImpl implements RuntimeTypeVariable {
      */
     private static final Logger logger = LoggerFactory.getLogger(TypeVariableImpl.class);
 
+    private final RuntimeTypeVariableEntity entity;
     private final MutableNodeTypeVariable node;
 
-    TypeVariableImpl(final MutableNodeTypeVariable node) {
+    TypeVariableImpl(
+            final RuntimeTypeVariableEntity entity,
+            final MutableNodeTypeVariable node) {
+        this.entity = entity;
         this.node = node;
     }
 
@@ -103,6 +109,23 @@ final class TypeVariableImpl implements RuntimeTypeVariable {
     public TypeMirror lowerBound() {
         logger.debug("Delegating to node");
         return this.node.lowerBound();
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if ((o == null) || (getClass() != o.getClass())) {
+            return false;
+        }
+        final TypeVariableImpl other = (TypeVariableImpl) o;
+        return Objects.equal(this.entity, other.entity);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.entity);
     }
 
     @Override

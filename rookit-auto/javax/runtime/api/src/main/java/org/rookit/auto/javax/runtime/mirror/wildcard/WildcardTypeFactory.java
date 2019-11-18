@@ -19,16 +19,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.entity;
+package org.rookit.auto.javax.runtime.mirror.wildcard;
 
-import java.lang.reflect.Type;
+import io.reactivex.Single;
 
-public interface RuntimeTypeEntity extends RuntimeEntity {
+import javax.lang.model.type.TypeMirror;
+import javax.lang.model.type.WildcardType;
 
-    Type type();
+public interface WildcardTypeFactory {
 
-    boolean isSubTypeOf(RuntimeTypeEntity other);
+    Single<WildcardType> createFromExtends(TypeMirror bound);
 
-    boolean isAssignableFrom(RuntimeTypeEntity other);
+    Single<WildcardType> createFromSuper(TypeMirror bound);
+
+    Single<WildcardType> createWildcard();
 
 }

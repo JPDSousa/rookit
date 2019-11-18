@@ -32,8 +32,11 @@ import org.rookit.auto.javax.runtime.mirror.declared.DeclaredModule;
 import org.rookit.auto.javax.runtime.mirror.executable.ExecutableModule;
 import org.rookit.auto.javax.runtime.mirror.no.NoModule;
 import org.rookit.auto.javax.runtime.mirror.variable.VariableModule;
+import org.rookit.utils.optional.Optional;
 
+import javax.lang.model.element.Element;
 import javax.lang.model.type.TypeMirror;
+import javax.lang.model.type.TypeVisitor;
 
 public final class MirrorModule extends AbstractModule {
 
@@ -57,6 +60,7 @@ public final class MirrorModule extends AbstractModule {
         bind(new TypeLiteral<RuntimeEntityVisitor<Single<TypeMirror>, Void>>() {}).to(TypeMirrorVisitor.class)
                 .in(Singleton.class);
         bind(TypeMirrorFactory.class).to(TypeMirrorFactoryImpl.class).in(Singleton.class);
+        bind(new TypeLiteral<TypeVisitor<Optional<Element>, Void>>() {}).to(AsElementVisitor.class).in(Singleton.class);
     }
 
 }

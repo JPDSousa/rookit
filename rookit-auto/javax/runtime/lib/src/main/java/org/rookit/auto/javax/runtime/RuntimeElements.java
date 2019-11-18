@@ -23,8 +23,9 @@ package org.rookit.auto.javax.runtime;
 
 import com.google.inject.Inject;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javax.runtime.element.pack.PackageElementFactory;
-import org.rookit.auto.javax.runtime.element.type.TypeElementFactory;
+import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactory;
+import org.rookit.auto.javax.runtime.element.pack.RuntimePackageElement;
+import org.rookit.auto.javax.runtime.element.type.RuntimeTypeElement;
 import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntityFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimePackageEntity;
@@ -58,8 +59,8 @@ final class RuntimeElements implements Elements {
     private static final Logger logger = LoggerFactory.getLogger(RuntimeElements.class);
 
     private final Types types;
-    private final PackageElementFactory packageFactory;
-    private final TypeElementFactory typeFactory;
+    private final RuntimeGenericElementFactory<RuntimePackageEntity, RuntimePackageElement> packageFactory;
+    private final RuntimeGenericElementFactory<RuntimeClassEntity, RuntimeTypeElement> typeFactory;
     private final Failsafe failsafe;
     private final RuntimeEntityFactory entityFactory;
     private final NameFactory nameFactory;
@@ -67,8 +68,8 @@ final class RuntimeElements implements Elements {
     @Inject
     private RuntimeElements(
             final Types types,
-            final PackageElementFactory packageFactory,
-            final TypeElementFactory typeFactory,
+            final RuntimeGenericElementFactory<RuntimePackageEntity, RuntimePackageElement> packageFactory,
+            final RuntimeGenericElementFactory<RuntimeClassEntity, RuntimeTypeElement> typeFactory,
             final Failsafe failsafe,
             final RuntimeEntityFactory entityFactory,
             final NameFactory nameFactory) {

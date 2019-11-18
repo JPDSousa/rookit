@@ -54,6 +54,7 @@ final class ExecutableTypeFactoryImpl implements ExecutableTypeFactory {
     public Single<ExecutableType> createFromExecutable(final RuntimeExecutableEntity executable) {
         return this.annotatedFactory.createFromEntity(executable)
                 .map(annotated -> new ExecutableTypeImpl(
+                        executable,
                         annotated,
                         this.wrapperFactory.createMulti("Type Variable",
                                                         this.dependencyFactory::createTypeVariableDependency),

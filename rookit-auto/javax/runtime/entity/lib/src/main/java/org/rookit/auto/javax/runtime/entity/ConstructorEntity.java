@@ -21,6 +21,7 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.entity;
 
+import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -128,6 +129,23 @@ final class ConstructorEntity implements RuntimeConstructorEntity {
     @Override
     public RuntimeClassEntity declaringClass() {
         return this.declaringClass;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if ((o == null) || (getClass() != o.getClass())) {
+            return false;
+        }
+        final ConstructorEntity other = (ConstructorEntity) o;
+        return Objects.equal(this.constructor, other.constructor);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.constructor);
     }
 
     @Override

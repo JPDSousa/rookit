@@ -21,8 +21,10 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.pack;
 
+import com.google.common.base.Objects;
 import io.reactivex.Observable;
 import org.rookit.auto.javax.runtime.annotation.RuntimeAnnotationMirrorFactory;
+import org.rookit.auto.javax.runtime.entity.RuntimePackageEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,13 +43,13 @@ final class PackageTypeMirror implements TypeMirror {
      */
     private static final Logger logger = LoggerFactory.getLogger(PackageTypeMirror.class);
 
-    private final Package packageReference;
+    private final RuntimePackageEntity entity;
     private final RuntimeAnnotationMirrorFactory annotationFactory;
 
     PackageTypeMirror(
-            final Package packageReference,
+            final RuntimePackageEntity entity,
             final RuntimeAnnotationMirrorFactory annotationFactory) {
-        this.packageReference = packageReference;
+        this.entity = entity;
         this.annotationFactory = annotationFactory;
     }
 
@@ -64,8 +66,8 @@ final class PackageTypeMirror implements TypeMirror {
 
     @Override
     public List<? extends AnnotationMirror> getAnnotationMirrors() {
-        logger.trace("Delegating to reflect package: {}", this.packageReference);
-        return Observable.fromArray(this.packageReference.getAnnotations())
+        logger.trace("Delegating to reflect package: {}", this.entity);
+        return Observable.fromArray(this.entity.getAnnotations())
                 .flatMapSingle(this.annotationFactory::fromAnnotation)
                 .toList()
                 .blockingGet();
@@ -73,20 +75,37 @@ final class PackageTypeMirror implements TypeMirror {
 
     @Override
     public <A extends Annotation> A getAnnotation(final Class<A> annotationType) {
-        logger.trace("Delegating to reflect package: {}", this.packageReference);
-        return this.packageReference.getAnnotation(annotationType);
+        logger.trace("Delegating to reflect package: {}", this.entity);
+        return this.entity.getAnnotation(annotationType);
     }
 
     @Override
     public <A extends Annotation> A[] getAnnotationsByType(final Class<A> annotationType) {
-        logger.trace("Delegating to reflect package: {}", this.packageReference);
-        return this.packageReference.getAnnotationsByType(annotationType);
+        logger.trace("Delegating to reflect package: {}", this.entity);
+        return this.entity.getAnnotationsByType(annotationType);
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if ((o == null) || (getClass() != o.getClass())) {
+            return false;
+        }
+        final PackageTypeMirror other = (PackageTypeMirror) o;
+        return Objects.equal(this.entity, other.entity);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.entity);
     }
 
     @Override
     public String toString() {
         return "PackageTypeMirror{" +
-                "packageReference=" + this.packageReference +
+                "entity=" + this.entity +
                 ", annotationFactory=" + this.annotationFactory +
                 "}";
     }

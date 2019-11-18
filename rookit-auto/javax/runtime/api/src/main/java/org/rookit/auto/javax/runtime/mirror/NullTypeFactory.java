@@ -19,16 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.entity;
+package org.rookit.auto.javax.runtime.mirror;
 
-import java.lang.reflect.Type;
+import javax.lang.model.type.NullType;
 
-public interface RuntimeTypeEntity extends RuntimeEntity {
+public interface NullTypeFactory {
 
-    Type type();
-
-    boolean isSubTypeOf(RuntimeTypeEntity other);
-
-    boolean isAssignableFrom(RuntimeTypeEntity other);
+    NullType nullType();
 
 }

@@ -21,6 +21,7 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.entity;
 
+import com.google.common.base.Objects;
 import org.rookit.utils.optional.Optional;
 import org.rookit.utils.optional.OptionalFactory;
 import org.slf4j.Logger;
@@ -94,6 +95,24 @@ final class ClassEntity implements RuntimeClassEntity {
     @Override
     public Class<?> type() {
         return this.clazz;
+    }
+
+    @Override
+    public boolean isSubTypeOf(final RuntimeTypeEntity other) {
+        if (other instanceof RuntimeClassEntity) {
+            return ((RuntimeClassEntity) other).type().isAssignableFrom(this.clazz);
+        }
+        logger.debug("{} is not of type {}. There's no subtype relation", other, getClass());
+        return false;
+    }
+
+    @Override
+    public boolean isAssignableFrom(final RuntimeTypeEntity other) {
+        if (other instanceof RuntimeClassEntity) {
+            return this.clazz.isAssignableFrom(((RuntimeClassEntity) other).type());
+        }
+        logger.debug("{} is not of type {}. There's no subtype relation", other, getClass());
+        return false;
     }
 
     @Override
@@ -175,6 +194,23 @@ final class ClassEntity implements RuntimeClassEntity {
         logger.trace("Computing super class");
         return this.optionalFactory.ofNullable(this.clazz.getSuperclass())
                 .map(this.entityFactory::fromClass);
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if ((o == null) || (getClass() != o.getClass())) {
+            return false;
+        }
+        final ClassEntity other = (ClassEntity) o;
+        return Objects.equal(this.clazz, other.clazz);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.clazz);
     }
 
     @Override

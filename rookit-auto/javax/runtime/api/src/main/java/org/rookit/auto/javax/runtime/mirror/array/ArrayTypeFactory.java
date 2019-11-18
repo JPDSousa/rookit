@@ -19,16 +19,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.entity;
+package org.rookit.auto.javax.runtime.mirror.array;
 
-import java.lang.reflect.Type;
+import io.reactivex.Single;
 
-public interface RuntimeTypeEntity extends RuntimeEntity {
+import javax.lang.model.type.ArrayType;
+import javax.lang.model.type.TypeMirror;
 
-    Type type();
+public interface ArrayTypeFactory {
 
-    boolean isSubTypeOf(RuntimeTypeEntity other);
-
-    boolean isAssignableFrom(RuntimeTypeEntity other);
+    Single<ArrayType> createFromComponent(TypeMirror componentType);
 
 }

@@ -19,16 +19,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.entity;
+package org.rookit.auto.javax.runtime.mirror.primitive;
 
-import java.lang.reflect.Type;
+import org.rookit.auto.javax.runtime.element.type.RuntimeTypeElement;
 
-public interface RuntimeTypeEntity extends RuntimeEntity {
+import javax.lang.model.type.PrimitiveType;
 
-    Type type();
+public interface RuntimePrimitiveType extends PrimitiveType {
 
-    boolean isSubTypeOf(RuntimeTypeEntity other);
-
-    boolean isAssignableFrom(RuntimeTypeEntity other);
+    RuntimeTypeElement boxedClass();
 
 }

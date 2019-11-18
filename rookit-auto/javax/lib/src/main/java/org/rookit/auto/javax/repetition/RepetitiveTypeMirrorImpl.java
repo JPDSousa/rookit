@@ -21,6 +21,7 @@
  ******************************************************************************/
 package org.rookit.auto.javax.repetition;
 
+import com.google.common.base.Objects;
 import org.rookit.auto.javax.type.ExtendedTypeMirror;
 import org.rookit.utils.optional.Optional;
 import org.rookit.utils.repetition.Repetition;
@@ -83,6 +84,24 @@ final class RepetitiveTypeMirrorImpl implements RepetitiveTypeMirror {
     @Override
     public ExtendedTypeMirror boxIfPrimitive() {
         return new RepetitiveTypeMirrorImpl(this.delegate.boxIfPrimitive(), this.value);
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if ((o == null) || (getClass() != o.getClass())) {
+            return false;
+        }
+        final RepetitiveTypeMirrorImpl other = (RepetitiveTypeMirrorImpl) o;
+        return Objects.equal(this.delegate, other.delegate) &&
+                Objects.equal(this.value, other.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.delegate, this.value);
     }
 
     @Override

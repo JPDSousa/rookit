@@ -21,6 +21,7 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.mirror.declared;
 
+import org.rookit.auto.javax.runtime.entity.RuntimeTypeEntity;
 import org.rookit.auto.javax.runtime.mirror.declared.node.MutableNodeDeclaredType;
 
 import javax.lang.model.element.Element;
@@ -56,5 +57,15 @@ public interface RuntimeDeclaredType extends DeclaredType, MutableNodeDeclaredTy
     default Element asElement() {
         return element();
     }
+
+    boolean isSubTypeOf(RuntimeDeclaredType other);
+
+    boolean isAssignableFrom(RuntimeDeclaredType other);
+
+    RuntimeTypeEntity entity();
+
+    List<? extends TypeMirror> directSubtypes();
+
+    RuntimeDeclaredType erasure();
 
 }

@@ -62,12 +62,12 @@ final class TypeElementFactoryImpl implements TypeElementFactory {
         return this.nodeFactory.createMutableFromEntity(entity)
                 .map(node -> new RuntimeTypeElementImpl(
                         node,
-                        this.nameFactory.create(entityClass.getTypeName()),
+                        typeFactory, this.nameFactory.createFromEntity(entity),
                         this.modifierFactory.create(entity.modifiers()),
                         this.nameFactory.create(entityClass.getName()),
                         createNestingKind(entityClass),
-                        entity.kind()
-                ));
+                        entity.kind(),
+                        mapUtils));
     }
 
     private NestingKind createNestingKind(final Class<?> clazz) {

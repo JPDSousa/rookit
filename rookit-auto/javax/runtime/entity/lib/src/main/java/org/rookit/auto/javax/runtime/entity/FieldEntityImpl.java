@@ -21,6 +21,8 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.entity;
 
+import com.google.common.base.Objects;
+
 import javax.lang.model.element.ElementKind;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -79,6 +81,23 @@ final class FieldEntityImpl implements RuntimeFieldEntity {
     @Override
     public Annotation[] getDeclaredAnnotations() {
         return this.field.getDeclaredAnnotations();
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if ((o == null) || (getClass() != o.getClass())) {
+            return false;
+        }
+        final FieldEntityImpl other = (FieldEntityImpl) o;
+        return Objects.equal(this.field, other.field);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.field);
     }
 
     @Override

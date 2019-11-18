@@ -23,8 +23,10 @@ package org.rookit.auto.javax.runtime.pack;
 
 import com.google.common.collect.ImmutableSet;
 import io.reactivex.Completable;
+import io.reactivex.Single;
 import org.rookit.auto.javax.runtime.element.node.MutableNodeElement;
 import org.rookit.auto.javax.runtime.element.pack.RuntimePackageElement;
+import org.rookit.auto.javax.runtime.mirror.declared.RuntimeDeclaredType;
 import org.rookit.utils.graph.Dependency;
 import org.rookit.utils.optional.Optional;
 import org.slf4j.Logger;
@@ -41,6 +43,8 @@ import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+
+import static java.lang.String.format;
 
 final class NamedPackageElement implements RuntimePackageElement {
 
@@ -74,24 +78,36 @@ final class NamedPackageElement implements RuntimePackageElement {
     }
 
     @Override
+    public Single<TypeMirror> asMemberOf(final RuntimeDeclaredType enclosing) {
+
+        final String errMsg = format("Package has no enclosing element, so %s is not valid", enclosing);
+        throw new IllegalArgumentException(errMsg);
+    }
+
+    @Override
     public List<? extends Element> getEnclosedElements() {
         return enclosedElements();
     }
 
     @Override
     public List<? extends Element> enclosedElements() {
+
         logger.trace("Delegating to node element");
         return this.nodeElement.enclosedElements();
     }
 
     @Override
     public Optional<Element> enclosingElement() {
-        return null;
+
+        logger.trace("Delegating to node element");
+        return this.nodeElement.enclosingElement();
     }
 
     @Override
     public TypeMirror typeMirror() {
-        return null;
+
+        logger.trace("Delegating to node element");
+        return this.nodeElement.typeMirror();
     }
 
     @Override

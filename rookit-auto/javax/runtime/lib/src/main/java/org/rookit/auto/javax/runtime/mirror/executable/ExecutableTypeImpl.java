@@ -21,7 +21,9 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.mirror.executable;
 
+import com.google.common.base.Objects;
 import io.reactivex.Completable;
+import org.rookit.auto.javax.runtime.entity.RuntimeExecutableEntity;
 import org.rookit.utils.graph.DependencyWrapper;
 import org.rookit.utils.graph.MultiDependencyWrapper;
 import org.slf4j.Logger;
@@ -42,6 +44,7 @@ final class ExecutableTypeImpl implements RuntimeExecutableType {
      */
     private static final Logger logger = LoggerFactory.getLogger(ExecutableTypeImpl.class);
 
+    private final RuntimeExecutableEntity entity;
     private final AnnotatedConstruct annotatedConstruct;
     private final MultiDependencyWrapper<TypeVariable> typeVariables;
     private final DependencyWrapper<TypeMirror> returnType;
@@ -50,8 +53,8 @@ final class ExecutableTypeImpl implements RuntimeExecutableType {
     private final MultiDependencyWrapper<TypeMirror> thrownTypes;
     private final NoType noType;
 
-
     ExecutableTypeImpl(
+            final RuntimeExecutableEntity entity,
             final AnnotatedConstruct annotatedConstruct,
             final MultiDependencyWrapper<TypeVariable> typeVariables,
             final DependencyWrapper<TypeMirror> returnType,
@@ -59,6 +62,7 @@ final class ExecutableTypeImpl implements RuntimeExecutableType {
             final DependencyWrapper<TypeMirror> receiverType,
             final MultiDependencyWrapper<TypeMirror> thrownTypes,
             final NoType noType) {
+        this.entity = entity;
         this.annotatedConstruct = annotatedConstruct;
         this.typeVariables = typeVariables;
         this.returnType = returnType;
@@ -148,9 +152,27 @@ final class ExecutableTypeImpl implements RuntimeExecutableType {
     }
 
     @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if ((o == null) || (getClass() != o.getClass())) {
+            return false;
+        }
+        final ExecutableTypeImpl other = (ExecutableTypeImpl) o;
+        return Objects.equal(this.entity, other.entity);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.entity);
+    }
+
+    @Override
     public String toString() {
         return "ExecutableTypeImpl{" +
-                "annotatedConstruct=" + this.annotatedConstruct +
+                "entity=" + this.entity +
+                ", annotatedConstruct=" + this.annotatedConstruct +
                 ", typeVariables=" + this.typeVariables +
                 ", returnType=" + this.returnType +
                 ", parameterTypes=" + this.parameterTypes +

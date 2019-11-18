@@ -21,7 +21,9 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.element;
 
+import io.reactivex.Single;
 import org.rookit.auto.javax.runtime.element.node.MutableNodeElement;
+import org.rookit.auto.javax.runtime.mirror.declared.RuntimeDeclaredType;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.type.TypeMirror;
@@ -35,5 +37,7 @@ public interface RuntimeElement extends Element, MutableNodeElement {
     default TypeMirror asType() {
         return typeMirror();
     }
+
+    Single<TypeMirror> asMemberOf(RuntimeDeclaredType enclosing);
 
 }
