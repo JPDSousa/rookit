@@ -59,6 +59,11 @@ public class DelegateObjectFailsafe implements ObjectFailsafe {
     }
 
     @Override
+    public <T> T isInstanceOf(final Logger logger, final Object obj, final Class<T> clazz) {
+        return this.delegate.isInstanceOf(logger, obj, clazz);
+    }
+
+    @Override
     public String toString() {
         return "DelegateObjectFailsafe{" +
                 "delegate=" + this.delegate +

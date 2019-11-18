@@ -33,4 +33,7 @@ public interface ObjectFailsafe {
     <T> T isNotNull(Logger logger, Object object, String name);
 
     <T> T isNull(Logger logger, Object object, String name);
+
+    <T> T isInstanceOf(Logger logger, Object obj, Class<T> clazz);
+
 }

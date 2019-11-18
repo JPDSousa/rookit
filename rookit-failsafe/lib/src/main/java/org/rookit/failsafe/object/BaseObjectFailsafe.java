@@ -46,7 +46,6 @@ final class BaseObjectFailsafe implements ObjectFailsafe {
         return null;
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
     public <T> T isEquals(final Logger logger, final Object expected, final Object actual, final String name) {
         isNotNull(logger, actual, "actual object");
@@ -55,7 +54,6 @@ final class BaseObjectFailsafe implements ObjectFailsafe {
                 actual, name, expected);
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
     public <T> T isNotEquals(final Logger logger,
                              final Object actual,
@@ -74,6 +72,11 @@ final class BaseObjectFailsafe implements ObjectFailsafe {
     @Override
     public <T> T isNull(final Logger logger, final Object object, final String name) {
         return is(logger, Objects.isNull(object), "The %s must be null", name);
+    }
+
+    @Override
+    public <T> T isInstanceOf(final Logger logger, final Object obj, final Class<T> clazz) {
+        return is(logger, clazz.isInstance(obj), "%s is not of type %s", obj, clazz);
     }
 
     @Override
