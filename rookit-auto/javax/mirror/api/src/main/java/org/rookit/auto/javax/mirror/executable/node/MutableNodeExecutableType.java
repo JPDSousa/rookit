@@ -19,12 +19,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.mirror.primitive;
+package org.rookit.auto.javax.mirror.executable.node;
 
-import javax.lang.model.type.TypeKind;
+import io.reactivex.Completable;
+import org.rookit.auto.javax.mirror.node.MutableNodeTypeMirror;
 
-public interface PrimitiveTypeFactory {
+import javax.lang.model.type.TypeMirror;
+import javax.lang.model.type.TypeVariable;
+import java.util.List;
 
-    RuntimePrimitiveType createFromKind(TypeKind kind);
+public interface MutableNodeExecutableType extends NodeExecutableType, MutableNodeTypeMirror {
+
+    Completable typeVariables(List<? extends TypeVariable> typeVariables);
+
+    Completable returnType(TypeMirror returnType);
+
+    Completable parameterTypes(List<? extends TypeMirror> parameterTypes);
+
+    Completable receiverType(TypeMirror receiverType);
+
+    Completable thrownTypes(List<? extends TypeMirror> thrownTypes);
 
 }

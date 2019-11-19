@@ -32,7 +32,7 @@ import org.rookit.auto.javax.runtime.entity.RuntimeMethodEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimePackageEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeParameterEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeTypeVariableEntity;
-import org.rookit.auto.javax.runtime.mirror.declared.DeclaredTypeFactory;
+import org.rookit.auto.javax.runtime.mirror.declared.RuntimeDeclaredTypeFactory;
 import org.rookit.auto.javax.runtime.mirror.executable.ExecutableTypeFactory;
 import org.rookit.auto.javax.mirror.no.NoTypeFactory;
 import org.rookit.auto.javax.runtime.mirror.variable.TypeVariableFactory;
@@ -41,14 +41,14 @@ import javax.lang.model.type.TypeMirror;
 
 final class TypeMirrorVisitor implements RuntimeEntityVisitor<Single<TypeMirror>, Void> {
 
-    private final DeclaredTypeFactory declaredTypeFactory;
+    private final RuntimeDeclaredTypeFactory declaredTypeFactory;
     private final ExecutableTypeFactory executableTypeFactory;
     private final NoTypeFactory noTypeFactory;
     private final TypeVariableFactory typeVariableFactory;
 
     @Inject
     private TypeMirrorVisitor(
-            final DeclaredTypeFactory declaredFactory,
+            final RuntimeDeclaredTypeFactory declaredFactory,
             final ExecutableTypeFactory executableFactory,
             final NoTypeFactory noTypeFactory,
             final TypeVariableFactory typeVariableFactory) {

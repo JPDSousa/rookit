@@ -24,7 +24,7 @@ package org.rookit.auto.javax.runtime.mirror.declared;
 import com.google.common.base.Objects;
 import io.reactivex.Completable;
 import org.rookit.auto.javax.runtime.entity.RuntimeTypeEntity;
-import org.rookit.auto.javax.runtime.mirror.declared.node.MutableNodeDeclaredType;
+import org.rookit.auto.javax.mirror.declared.node.MutableNodeDeclaredType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

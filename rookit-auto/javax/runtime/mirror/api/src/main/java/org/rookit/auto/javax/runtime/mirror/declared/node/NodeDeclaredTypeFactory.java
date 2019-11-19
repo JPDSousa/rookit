@@ -21,6 +21,8 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.mirror.declared.node;
 
+import org.rookit.auto.javax.mirror.declared.node.MutableNodeDeclaredType;
+import org.rookit.auto.javax.mirror.declared.node.NodeDeclaredType;
 import org.rookit.auto.javax.runtime.mirror.GenericNodeFactory;
 
 public interface NodeDeclaredTypeFactory extends GenericNodeFactory<NodeDeclaredType, MutableNodeDeclaredType> {

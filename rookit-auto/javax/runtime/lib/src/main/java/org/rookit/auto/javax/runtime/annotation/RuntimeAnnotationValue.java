@@ -24,7 +24,7 @@ package org.rookit.auto.javax.runtime.annotation;
 import com.google.common.collect.ImmutableList;
 import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntityFactory;
-import org.rookit.auto.javax.runtime.mirror.declared.DeclaredTypeFactory;
+import org.rookit.auto.javax.runtime.mirror.declared.RuntimeDeclaredTypeFactory;
 import org.rookit.auto.javax.runtime.element.variable.VariableElementFactory;
 
 import javax.lang.model.element.AnnotationValue;
@@ -37,14 +37,14 @@ final class RuntimeAnnotationValue implements AnnotationValue {
 
 
     private final RuntimeEntityFactory entityFactory;
-    private final DeclaredTypeFactory declaredFactory;
+    private final RuntimeDeclaredTypeFactory declaredFactory;
     private final VariableElementFactory variableElementFactory;
     private final RuntimeAnnotationMirrorFactory annotationFactory;
     private final Object value;
 
     RuntimeAnnotationValue(
             final RuntimeEntityFactory entityFactory,
-            final DeclaredTypeFactory declaredFactory,
+            final RuntimeDeclaredTypeFactory declaredFactory,
             final VariableElementFactory variableFactory,
             final RuntimeAnnotationMirrorFactory annotationFactory,
             final Object value) {

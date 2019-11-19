@@ -19,17 +19,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.mirror.variable.dependency;
+package org.rookit.auto.javax.mirror.declared.node;
+
+import org.rookit.auto.javax.mirror.node.NodeTypeMirror;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.type.TypeMirror;
+import java.util.List;
 
-public interface TypeVariableDependencyFactory {
+public interface NodeDeclaredType extends NodeTypeMirror {
 
-    ElementDependency createElementDependency(Element dependency);
+    TypeMirror enclosingType();
 
-    UpperBoundDependency createUpperBoundDependency(TypeMirror dependency);
+    List<? extends TypeMirror> typeArguments();
 
-    LowerBoundDependency createLowerBoundDependency(TypeMirror dependency);
+    Element element();
 
 }

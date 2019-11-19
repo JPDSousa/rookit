@@ -19,21 +19,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.mirror.declared.node;
+package org.rookit.auto.javax.mirror.wildcard.dependency;
 
-import io.reactivex.Completable;
-import org.rookit.auto.javax.mirror.node.MutableNodeTypeMirror;
+import org.rookit.utils.graph.Dependency;
+import org.rookit.utils.graph.DependencyVisitor;
 
-import javax.lang.model.element.Element;
 import javax.lang.model.type.TypeMirror;
-import java.util.List;
 
-public interface MutableNodeDeclaredType extends NodeDeclaredType, MutableNodeTypeMirror {
+public interface UpperBoundDependency extends Dependency<TypeMirror> {
 
-    Completable enclosingType(TypeMirror enclosingType);
-
-    Completable typeArguments(List<? extends TypeMirror> typeArguments);
-
-    Completable element(Element element);
+    @Override
+    default <R, P> R accept(final DependencyVisitor<R, P> visitor, final P parameter) {
+        if (visitor instanceof TypeVariableDependencyVisitor) {
+            return ((TypeVariableDependencyVisitor<R, P>) visitor).visitUpperBound(this, parameter);
+        }
+        return visitor.visitUnknown(this, parameter);
+    }
 
 }

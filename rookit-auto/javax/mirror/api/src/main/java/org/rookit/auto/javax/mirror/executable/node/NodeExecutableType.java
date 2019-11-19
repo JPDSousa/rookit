@@ -19,12 +19,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.mirror.executable.node;
+package org.rookit.auto.javax.mirror.executable.node;
 
-import org.rookit.auto.javax.mirror.executable.node.MutableNodeExecutableType;
-import org.rookit.auto.javax.mirror.executable.node.NodeExecutableType;
-import org.rookit.auto.javax.runtime.mirror.GenericNodeFactory;
+import org.rookit.auto.javax.mirror.node.NodeTypeMirror;
 
-public interface NodeExecutableTypeFactory extends GenericNodeFactory<NodeExecutableType, MutableNodeExecutableType> {
+import javax.lang.model.type.TypeMirror;
+import javax.lang.model.type.TypeVariable;
+import java.util.List;
+
+public interface NodeExecutableType extends NodeTypeMirror {
+
+    List<? extends TypeVariable> typeVariables();
+
+    TypeMirror returnType();
+
+    List<? extends TypeMirror> parameterTypes();
+
+    TypeMirror receiverType();
+
+    List<? extends TypeMirror> thrownTypes();
 
 }

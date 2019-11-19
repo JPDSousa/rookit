@@ -27,7 +27,7 @@ import io.reactivex.Observable;
 import org.rookit.auto.javax.runtime.element.executable.node.dependency.ExecutableDependencyFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntityFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeExecutableEntity;
-import org.rookit.auto.javax.runtime.mirror.declared.DeclaredTypeFactory;
+import org.rookit.auto.javax.runtime.mirror.declared.RuntimeDeclaredTypeFactory;
 import org.rookit.utils.graph.Dependency;
 import org.rookit.utils.registry.MultiRegistry;
 import org.slf4j.Logger;
@@ -44,13 +44,13 @@ final class ReceiverType implements MultiRegistry<RuntimeExecutableEntity, Depen
     private static final Logger logger = LoggerFactory.getLogger(ReceiverType.class);
 
     private final ExecutableDependencyFactory dependencyFactory;
-    private final DeclaredTypeFactory declaredTypeFactory;
+    private final RuntimeDeclaredTypeFactory declaredTypeFactory;
     private final RuntimeEntityFactory entityFactory;
 
     @Inject
     private ReceiverType(
             final ExecutableDependencyFactory dependencyFactory,
-            final DeclaredTypeFactory declaredTypeFactory,
+            final RuntimeDeclaredTypeFactory declaredTypeFactory,
             final RuntimeEntityFactory entityFactory) {
         this.dependencyFactory = dependencyFactory;
         this.declaredTypeFactory = declaredTypeFactory;

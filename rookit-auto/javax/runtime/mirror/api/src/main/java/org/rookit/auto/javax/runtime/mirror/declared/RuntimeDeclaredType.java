@@ -21,42 +21,13 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.mirror.declared;
 
+import org.rookit.auto.javax.mirror.declared.ExtendedDeclaredType;
 import org.rookit.auto.javax.runtime.entity.RuntimeTypeEntity;
-import org.rookit.auto.javax.runtime.mirror.declared.node.MutableNodeDeclaredType;
 
-import javax.lang.model.element.Element;
-import javax.lang.model.type.DeclaredType;
-import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
-import javax.lang.model.type.TypeVisitor;
 import java.util.List;
 
-public interface RuntimeDeclaredType extends DeclaredType, MutableNodeDeclaredType {
-
-    @Override
-    default  <R, P> R accept(final TypeVisitor<R, P> v, final P p) {
-        return v.visitDeclared(this, p);
-    }
-
-    @Override
-    default TypeKind getKind() {
-        return TypeKind.DECLARED;
-    }
-
-    @Override
-    default TypeMirror getEnclosingType() {
-        return enclosingType();
-    }
-
-    @Override
-    default List<? extends TypeMirror> getTypeArguments() {
-        return typeArguments();
-    }
-
-    @Override
-    default Element asElement() {
-        return element();
-    }
+public interface RuntimeDeclaredType extends ExtendedDeclaredType {
 
     boolean isSubTypeOf(RuntimeDeclaredType other);
 

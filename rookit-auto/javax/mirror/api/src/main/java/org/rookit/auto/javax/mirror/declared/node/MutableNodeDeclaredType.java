@@ -19,24 +19,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.mirror.executable.node;
+package org.rookit.auto.javax.mirror.declared.node;
 
-import org.rookit.auto.javax.mirror.node.NodeTypeMirror;
+import io.reactivex.Completable;
+import org.rookit.auto.javax.mirror.node.MutableNodeTypeMirror;
 
+import javax.lang.model.element.Element;
 import javax.lang.model.type.TypeMirror;
-import javax.lang.model.type.TypeVariable;
 import java.util.List;
 
-public interface NodeExecutableType extends NodeTypeMirror {
+public interface MutableNodeDeclaredType extends NodeDeclaredType, MutableNodeTypeMirror {
 
-    List<? extends TypeVariable> typeVariables();
+    Completable enclosingType(TypeMirror enclosingType);
 
-    TypeMirror returnType();
+    Completable typeArguments(List<? extends TypeMirror> typeArguments);
 
-    List<? extends TypeMirror> parameterTypes();
-
-    TypeMirror receiverType();
-
-    List<? extends TypeMirror> thrownTypes();
+    Completable element(Element element);
 
 }

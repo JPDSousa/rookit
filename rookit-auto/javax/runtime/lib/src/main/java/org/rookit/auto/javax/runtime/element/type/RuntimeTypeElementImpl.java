@@ -25,7 +25,7 @@ import com.google.common.collect.ImmutableSet;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import org.rookit.auto.javax.runtime.element.type.node.MutableTypeNodeElement;
-import org.rookit.auto.javax.runtime.mirror.declared.DeclaredTypeFactory;
+import org.rookit.auto.javax.runtime.mirror.declared.RuntimeDeclaredTypeFactory;
 import org.rookit.auto.javax.runtime.mirror.declared.RuntimeDeclaredType;
 import org.rookit.utils.collection.MapUtils;
 import org.rookit.utils.graph.Dependency;
@@ -60,7 +60,7 @@ final class RuntimeTypeElementImpl implements RuntimeTypeElement {
     private static final Logger logger = LoggerFactory.getLogger(RuntimeTypeElementImpl.class);
 
     private final MutableTypeNodeElement nodeElement;
-    private final DeclaredTypeFactory typeFactory;
+    private final RuntimeDeclaredTypeFactory typeFactory;
     private final Name simpleName;
     private final Set<Modifier> modifiers;
     private final Name fqdn;
@@ -70,7 +70,7 @@ final class RuntimeTypeElementImpl implements RuntimeTypeElement {
 
     RuntimeTypeElementImpl(
             final MutableTypeNodeElement nodeElement,
-            final DeclaredTypeFactory typeFactory,
+            final RuntimeDeclaredTypeFactory typeFactory,
             final Name simpleName,
             final Collection<Modifier> modifiers,
             final Name fqdn,

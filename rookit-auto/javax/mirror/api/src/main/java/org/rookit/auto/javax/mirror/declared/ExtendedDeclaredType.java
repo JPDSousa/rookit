@@ -19,21 +19,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.mirror.variable.dependency;
+package org.rookit.auto.javax.mirror.declared;
 
-import org.rookit.utils.graph.Dependency;
-import org.rookit.utils.graph.DependencyVisitor;
+import org.rookit.auto.javax.mirror.declared.node.MutableNodeDeclaredType;
 
+import javax.lang.model.element.Element;
+import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
+import javax.lang.model.type.TypeVisitor;
+import java.util.List;
 
-public interface UpperBoundDependency extends Dependency<TypeMirror> {
+public interface ExtendedDeclaredType extends DeclaredType, MutableNodeDeclaredType {
 
     @Override
-    default <R, P> R accept(final DependencyVisitor<R, P> visitor, final P parameter) {
-        if (visitor instanceof TypeVariableDependencyVisitor) {
-            return ((TypeVariableDependencyVisitor<R, P>) visitor).visitUpperBound(this, parameter);
-        }
-        return visitor.visitUnknown(this, parameter);
+    default  <R, P> R accept(final TypeVisitor<R, P> v, final P p) {
+        return v.visitDeclared(this, p);
+    }
+
+    @Override
+    default TypeKind getKind() {
+        return TypeKind.DECLARED;
+    }
+
+    @Override
+    default TypeMirror getEnclosingType() {
+        return enclosingType();
+    }
+
+    @Override
+    default List<? extends TypeMirror> getTypeArguments() {
+        return typeArguments();
+    }
+
+    @Override
+    default Element asElement() {
+        return element();
     }
 
 }

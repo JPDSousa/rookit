@@ -30,7 +30,7 @@ import org.rookit.auto.javax.runtime.element.executable.RuntimeExecutableElement
 import org.rookit.auto.javax.runtime.entity.RuntimeEntityFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeMethodEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
-import org.rookit.auto.javax.runtime.mirror.declared.DeclaredTypeFactory;
+import org.rookit.auto.javax.runtime.mirror.declared.RuntimeDeclaredTypeFactory;
 import org.rookit.auto.javax.runtime.mirror.declared.RuntimeDeclaredType;
 
 import javax.lang.model.element.AnnotationMirror;
@@ -44,14 +44,14 @@ import java.util.Map;
 final class AnnotationMirrorFactoryImpl implements RuntimeAnnotationMirrorFactory {
 
     private final RuntimeEntityFactory entityFactory;
-    private final DeclaredTypeFactory declaredFactory;
+    private final RuntimeDeclaredTypeFactory declaredFactory;
     private final AnnotationValueFactory valueFactory;
     private final ExecutableElementFactory executableElementFactory;
 
     @Inject
     private AnnotationMirrorFactoryImpl(
             final RuntimeEntityFactory entityFactory,
-            final DeclaredTypeFactory declaredFactory,
+            final RuntimeDeclaredTypeFactory declaredFactory,
             final AnnotationValueFactory valueFactory,
             final ExecutableElementFactory executableFactory) {
         this.entityFactory = entityFactory;

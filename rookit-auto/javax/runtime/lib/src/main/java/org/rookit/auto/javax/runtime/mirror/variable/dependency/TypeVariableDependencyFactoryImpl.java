@@ -22,6 +22,10 @@
 package org.rookit.auto.javax.runtime.mirror.variable.dependency;
 
 import com.google.inject.Inject;
+import org.rookit.auto.javax.mirror.wildcard.dependency.ElementDependency;
+import org.rookit.auto.javax.mirror.wildcard.dependency.LowerBoundDependency;
+import org.rookit.auto.javax.mirror.wildcard.dependency.TypeVariableDependencyFactory;
+import org.rookit.auto.javax.mirror.wildcard.dependency.UpperBoundDependency;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.type.TypeMirror;

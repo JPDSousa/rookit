@@ -23,6 +23,7 @@ package org.rookit.auto.javax.runtime.mirror.executable;
 
 import com.google.common.base.Objects;
 import io.reactivex.Completable;
+import org.rookit.auto.javax.mirror.executable.ExtendedExecutableType;
 import org.rookit.auto.javax.runtime.entity.RuntimeExecutableEntity;
 import org.rookit.utils.graph.DependencyWrapper;
 import org.rookit.utils.graph.MultiDependencyWrapper;
@@ -37,7 +38,7 @@ import javax.lang.model.type.TypeVariable;
 import java.lang.annotation.Annotation;
 import java.util.List;
 
-final class ExecutableTypeImpl implements RuntimeExecutableType {
+final class ExecutableTypeImpl implements ExtendedExecutableType {
 
     /**
      * Logger for this class.

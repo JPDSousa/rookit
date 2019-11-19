@@ -22,6 +22,12 @@
 package org.rookit.auto.javax.runtime.mirror.executable.dependency;
 
 import com.google.inject.Inject;
+import org.rookit.auto.javax.mirror.executable.dependency.ExecutableDependencyFactory;
+import org.rookit.auto.javax.mirror.executable.dependency.ParameterTypeDependency;
+import org.rookit.auto.javax.mirror.executable.dependency.ReceiverTypeDependency;
+import org.rookit.auto.javax.mirror.executable.dependency.ReturnTypeDependency;
+import org.rookit.auto.javax.mirror.executable.dependency.ThrownTypeDependency;
+import org.rookit.auto.javax.mirror.executable.dependency.TypeVariableDependency;
 
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.type.TypeVariable;

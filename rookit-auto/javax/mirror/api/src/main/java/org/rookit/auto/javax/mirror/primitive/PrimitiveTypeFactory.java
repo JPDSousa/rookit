@@ -19,52 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.mirror.executable;
+package org.rookit.auto.javax.mirror.primitive;
 
-import org.rookit.auto.javax.runtime.mirror.executable.node.MutableNodeExecutableType;
-
-import javax.lang.model.type.ExecutableType;
 import javax.lang.model.type.TypeKind;
-import javax.lang.model.type.TypeMirror;
-import javax.lang.model.type.TypeVariable;
-import javax.lang.model.type.TypeVisitor;
-import java.util.List;
 
-public interface RuntimeExecutableType extends ExecutableType, MutableNodeExecutableType {
+public interface PrimitiveTypeFactory {
 
-    @Override
-    default List<? extends TypeVariable> getTypeVariables() {
-        return typeVariables();
-    }
-
-    @Override
-    default TypeMirror getReturnType() {
-        return returnType();
-    }
-
-    @Override
-    default List<? extends TypeMirror> getParameterTypes() {
-        return parameterTypes();
-    }
-
-    @Override
-    default TypeMirror getReceiverType() {
-        return receiverType();
-    }
-
-    @Override
-    default List<? extends TypeMirror> getThrownTypes() {
-        return thrownTypes();
-    }
-
-    @Override
-    default <R, P> R accept(final TypeVisitor<R, P> v, final P p) {
-        return v.visitExecutable(this, p);
-    }
-
-    @Override
-    default TypeKind getKind() {
-        return TypeKind.EXECUTABLE;
-    }
+    ExtendedPrimitiveType createFromKind(TypeKind kind);
 
 }

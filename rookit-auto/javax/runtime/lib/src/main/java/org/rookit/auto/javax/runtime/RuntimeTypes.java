@@ -26,11 +26,11 @@ import com.google.inject.Inject;
 import org.rookit.auto.javax.runtime.element.RuntimeElement;
 import org.rookit.auto.javax.mirror.NullTypeFactory;
 import org.rookit.auto.javax.mirror.array.ArrayTypeFactory;
-import org.rookit.auto.javax.runtime.mirror.declared.DeclaredTypeFactory;
+import org.rookit.auto.javax.runtime.mirror.declared.RuntimeDeclaredTypeFactory;
 import org.rookit.auto.javax.runtime.mirror.declared.RuntimeDeclaredType;
 import org.rookit.auto.javax.mirror.no.NoTypeFactory;
-import org.rookit.auto.javax.runtime.mirror.primitive.PrimitiveTypeFactory;
-import org.rookit.auto.javax.runtime.mirror.primitive.RuntimePrimitiveType;
+import org.rookit.auto.javax.mirror.primitive.PrimitiveTypeFactory;
+import org.rookit.auto.javax.mirror.primitive.ExtendedPrimitiveType;
 import org.rookit.auto.javax.mirror.wildcard.WildcardTypeFactory;
 import org.rookit.failsafe.Failsafe;
 import org.rookit.utils.optional.Optional;
@@ -72,7 +72,7 @@ final class RuntimeTypes implements Types {
     private final ArrayTypeFactory arrayTypeFactory;
     private final WildcardTypeFactory wildcardTypeFactory;
     private final VoidUtils voidUtils;
-    private final DeclaredTypeFactory declaredTypeFactory;
+    private final RuntimeDeclaredTypeFactory declaredTypeFactory;
 
     @Inject
     private RuntimeTypes(
@@ -84,7 +84,7 @@ final class RuntimeTypes implements Types {
             final ArrayTypeFactory arrayTypeFactory,
             final WildcardTypeFactory wildcardTypeFactory,
             final VoidUtils voidUtils,
-            final DeclaredTypeFactory declaredTypeFactory) {
+            final RuntimeDeclaredTypeFactory declaredTypeFactory) {
         this.failsafe = failsafe;
         this.noTypeFactory = noTypeFactory;
         this.primitiveTypeFactory = primitiveTypeFactory;
@@ -138,8 +138,8 @@ final class RuntimeTypes implements Types {
         throw new IllegalArgumentException("This method only supports types of " + RuntimeDeclaredType.class);
     }
 
-    private RuntimePrimitiveType checkPrimitiveType(final TypeMirror t) {
-        return this.failsafe.checkArgument().isInstanceOf(logger, t, RuntimePrimitiveType.class);
+    private ExtendedPrimitiveType checkPrimitiveType(final TypeMirror t) {
+        return this.failsafe.checkArgument().isInstanceOf(logger, t, ExtendedPrimitiveType.class);
     }
 
     @Override

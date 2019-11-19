@@ -25,7 +25,7 @@ import com.google.inject.Inject;
 import io.reactivex.Observable;
 import org.rookit.auto.javax.runtime.element.type.node.TypeDependencyFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
-import org.rookit.auto.javax.runtime.mirror.declared.DeclaredTypeFactory;
+import org.rookit.auto.javax.runtime.mirror.declared.RuntimeDeclaredTypeFactory;
 import org.rookit.utils.graph.Dependency;
 import org.rookit.utils.registry.MultiRegistry;
 import org.slf4j.Logger;
@@ -39,11 +39,11 @@ final class Interface implements MultiRegistry<RuntimeClassEntity, Dependency<?>
     private static final Logger logger = LoggerFactory.getLogger(Interface.class);
 
     private final TypeDependencyFactory dependencyFactory;
-    private final DeclaredTypeFactory typeFactory;
+    private final RuntimeDeclaredTypeFactory typeFactory;
 
     @Inject
     private Interface(final TypeDependencyFactory dependencyFactory,
-                      final DeclaredTypeFactory typeFactory) {
+                      final RuntimeDeclaredTypeFactory typeFactory) {
         this.dependencyFactory = dependencyFactory;
         this.typeFactory = typeFactory;
     }

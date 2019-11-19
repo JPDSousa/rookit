@@ -19,21 +19,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.mirror.variable.dependency;
+package org.rookit.auto.javax.runtime.mirror.declared;
 
-import org.rookit.utils.graph.Dependency;
-import org.rookit.utils.graph.DependencyVisitor;
+import io.reactivex.Single;
+import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
 
-import javax.lang.model.element.Element;
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.TypeMirror;
+import java.util.Collection;
 
-public interface ElementDependency extends Dependency<Element> {
+public interface RuntimeDeclaredTypeFactory {
 
-    @Override
-    default <R, P> R accept(final DependencyVisitor<R, P> visitor, final P parameter) {
-        if (visitor instanceof TypeVariableDependencyVisitor) {
-            return ((TypeVariableDependencyVisitor<R, P>) visitor).visitElement(this, parameter);
-        }
-        return visitor.visitUnknown(this, parameter);
-    }
+    Single<RuntimeDeclaredType> createFromClass(RuntimeClassEntity typeEntity);
+
+    Single<RuntimeDeclaredType> createFromElement(TypeElement element, Collection<TypeMirror> args);
+
+    Single<RuntimeDeclaredType> createFromElement(DeclaredType containing,
+                                                  TypeElement element,
+                                                  Collection<TypeMirror> args);
 
 }

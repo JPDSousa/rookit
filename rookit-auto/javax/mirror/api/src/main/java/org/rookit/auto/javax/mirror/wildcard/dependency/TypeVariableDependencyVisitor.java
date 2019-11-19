@@ -19,20 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.mirror.declared.node;
+package org.rookit.auto.javax.mirror.wildcard.dependency;
 
-import org.rookit.auto.javax.mirror.node.NodeTypeMirror;
+import org.rookit.utils.graph.DependencyVisitor;
 
-import javax.lang.model.element.Element;
-import javax.lang.model.type.TypeMirror;
-import java.util.List;
+public interface TypeVariableDependencyVisitor<R, P> extends DependencyVisitor<R, P> {
 
-public interface NodeDeclaredType extends NodeTypeMirror {
+    R visitElement(ElementDependency dependency, P parameter);
 
-    TypeMirror enclosingType();
+    R visitUpperBound(UpperBoundDependency dependency, P parameter);
 
-    List<? extends TypeMirror> typeArguments();
-
-    Element element();
+    R visitLowerBound(LowerBoundDependency dependency, P parameter);
 
 }

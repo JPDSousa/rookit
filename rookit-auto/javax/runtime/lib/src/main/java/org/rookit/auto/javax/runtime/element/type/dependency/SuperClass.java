@@ -26,7 +26,7 @@ import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import org.rookit.auto.javax.runtime.element.type.node.TypeDependencyFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
-import org.rookit.auto.javax.runtime.mirror.declared.DeclaredTypeFactory;
+import org.rookit.auto.javax.runtime.mirror.declared.RuntimeDeclaredTypeFactory;
 import org.rookit.utils.graph.Dependency;
 import org.rookit.utils.optional.Optional;
 import org.rookit.utils.registry.MultiRegistry;
@@ -41,11 +41,11 @@ final class SuperClass implements MultiRegistry<RuntimeClassEntity, Dependency<?
     private static final Logger logger = LoggerFactory.getLogger(SuperClass.class);
 
     private final TypeDependencyFactory dependencyFactory;
-    private final DeclaredTypeFactory typeFactory;
+    private final RuntimeDeclaredTypeFactory typeFactory;
 
     @Inject
     private SuperClass(final TypeDependencyFactory dependencyFactory,
-                       final DeclaredTypeFactory typeFactory) {
+                       final RuntimeDeclaredTypeFactory typeFactory) {
         this.dependencyFactory = dependencyFactory;
         this.typeFactory = typeFactory;
     }

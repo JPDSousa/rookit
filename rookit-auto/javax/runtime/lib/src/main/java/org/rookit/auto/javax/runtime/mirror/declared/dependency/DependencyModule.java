@@ -24,6 +24,7 @@ package org.rookit.auto.javax.runtime.mirror.declared.dependency;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
+import org.rookit.auto.javax.mirror.declared.dependency.DeclaredTypeDependencyFactory;
 
 public final class DependencyModule extends AbstractModule {
 

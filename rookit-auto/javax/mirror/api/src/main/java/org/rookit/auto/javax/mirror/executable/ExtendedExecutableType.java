@@ -19,25 +19,52 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.mirror.executable.node;
+package org.rookit.auto.javax.mirror.executable;
 
-import io.reactivex.Completable;
-import org.rookit.auto.javax.mirror.node.MutableNodeTypeMirror;
+import org.rookit.auto.javax.mirror.executable.node.MutableNodeExecutableType;
 
+import javax.lang.model.type.ExecutableType;
+import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.type.TypeVariable;
+import javax.lang.model.type.TypeVisitor;
 import java.util.List;
 
-public interface MutableNodeExecutableType extends NodeExecutableType, MutableNodeTypeMirror {
+public interface ExtendedExecutableType extends ExecutableType, MutableNodeExecutableType {
 
-    Completable typeVariables(List<? extends TypeVariable> typeVariables);
+    @Override
+    default List<? extends TypeVariable> getTypeVariables() {
+        return typeVariables();
+    }
 
-    Completable returnType(TypeMirror returnType);
+    @Override
+    default TypeMirror getReturnType() {
+        return returnType();
+    }
 
-    Completable parameterTypes(List<? extends TypeMirror> parameterTypes);
+    @Override
+    default List<? extends TypeMirror> getParameterTypes() {
+        return parameterTypes();
+    }
 
-    Completable receiverType(TypeMirror receiverType);
+    @Override
+    default TypeMirror getReceiverType() {
+        return receiverType();
+    }
 
-    Completable thrownTypes(List<? extends TypeMirror> thrownTypes);
+    @Override
+    default List<? extends TypeMirror> getThrownTypes() {
+        return thrownTypes();
+    }
+
+    @Override
+    default <R, P> R accept(final TypeVisitor<R, P> v, final P p) {
+        return v.visitExecutable(this, p);
+    }
+
+    @Override
+    default TypeKind getKind() {
+        return TypeKind.EXECUTABLE;
+    }
 
 }

@@ -19,6 +19,11 @@
             <artifactId>rxjava</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-utils-api</artifactId>
+        </dependency>
+
     </dependencies>
 
 

@@ -19,16 +19,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.mirror.variable.dependency;
+package org.rookit.auto.javax.mirror.primitive;
 
-import org.rookit.utils.graph.DependencyVisitor;
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.PrimitiveType;
 
-public interface TypeVariableDependencyVisitor<R, P> extends DependencyVisitor<R, P> {
+public interface ExtendedPrimitiveType extends PrimitiveType {
 
-    R visitElement(ElementDependency dependency, P parameter);
-
-    R visitUpperBound(UpperBoundDependency dependency, P parameter);
-
-    R visitLowerBound(LowerBoundDependency dependency, P parameter);
+    TypeElement boxedClass();
 
 }

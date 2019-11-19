@@ -44,7 +44,7 @@ public final class DeclaredModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(DeclaredTypeFactory.class).to(DeclaredTypeFactoryImpl.class).in(Singleton.class);
+        bind(RuntimeDeclaredTypeFactory.class).to(RuntimeDeclaredTypeFactoryImpl.class).in(Singleton.class);
     }
 
 }

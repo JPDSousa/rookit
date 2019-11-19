@@ -21,22 +21,31 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.mirror.declared;
 
+import com.google.inject.Inject;
 import io.reactivex.Single;
 import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
+import org.rookit.auto.javax.runtime.mirror.declared.node.NodeDeclaredTypeFactory;
 
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.DeclaredType;
-import javax.lang.model.type.TypeMirror;
-import java.util.Collection;
+final class RuntimeDeclaredTypeFactoryImpl implements RuntimeDeclaredTypeFactory {
 
-public interface DeclaredTypeFactory {
+    private final NodeDeclaredTypeFactory nodeFactory;
 
-    Single<RuntimeDeclaredType> createFromClass(RuntimeClassEntity typeEntity);
+    @Inject
+    private RuntimeDeclaredTypeFactoryImpl(final NodeDeclaredTypeFactory nodeFactory) {
+        this.nodeFactory = nodeFactory;
+    }
 
-    Single<RuntimeDeclaredType> createFromElement(TypeElement element, Collection<TypeMirror> args);
+    @Override
+    public Single<RuntimeDeclaredType> createFromClass(final RuntimeClassEntity typeEntity) {
+        return this.nodeFactory.createMutableFromEntity(typeEntity)
+                .map(node -> new RuntimeDeclaredTypeImpl(typeEntity, node));
+    }
 
-    Single<RuntimeDeclaredType> createFromElement(DeclaredType containing,
-                                                  TypeElement element,
-                                                  Collection<TypeMirror> args);
+    @Override
+    public String toString() {
+        return "RuntimeDeclaredTypeFactoryImpl{" +
+                "nodeFactory=" + this.nodeFactory +
+                "}";
+    }
 
 }

@@ -19,33 +19,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.mirror.declared;
+package org.rookit.auto.javax.mirror.wildcard.dependency;
 
-import com.google.inject.Inject;
-import io.reactivex.Single;
-import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
-import org.rookit.auto.javax.runtime.mirror.declared.node.NodeDeclaredTypeFactory;
+import javax.lang.model.element.Element;
+import javax.lang.model.type.TypeMirror;
 
-final class DeclaredTypeFactoryImpl implements DeclaredTypeFactory {
+public interface TypeVariableDependencyFactory {
 
-    private final NodeDeclaredTypeFactory nodeFactory;
+    ElementDependency createElementDependency(Element dependency);
 
-    @Inject
-    private DeclaredTypeFactoryImpl(final NodeDeclaredTypeFactory nodeFactory) {
-        this.nodeFactory = nodeFactory;
-    }
+    UpperBoundDependency createUpperBoundDependency(TypeMirror dependency);
 
-    @Override
-    public Single<RuntimeDeclaredType> createFromClass(final RuntimeClassEntity typeEntity) {
-        return this.nodeFactory.createMutableFromEntity(typeEntity)
-                .map(node -> new RuntimeDeclaredTypeImpl(typeEntity, node));
-    }
-
-    @Override
-    public String toString() {
-        return "DeclaredTypeFactoryImpl{" +
-                "nodeFactory=" + this.nodeFactory +
-                "}";
-    }
+    LowerBoundDependency createLowerBoundDependency(TypeMirror dependency);
 
 }

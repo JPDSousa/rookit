@@ -22,6 +22,7 @@
 package org.rookit.auto.javax.runtime.mirror.declared.node;
 
 import io.reactivex.Completable;
+import org.rookit.auto.javax.mirror.declared.node.MutableNodeDeclaredType;
 import org.rookit.utils.graph.DependencyWrapper;
 import org.rookit.utils.graph.MultiDependencyWrapper;
 import org.slf4j.Logger;
