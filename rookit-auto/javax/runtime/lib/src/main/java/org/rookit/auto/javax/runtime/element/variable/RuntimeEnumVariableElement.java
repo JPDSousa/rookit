@@ -23,7 +23,9 @@ package org.rookit.auto.javax.runtime.element.variable;
 
 import com.google.common.collect.ImmutableSet;
 import io.reactivex.Completable;
+import io.reactivex.Single;
 import org.rookit.auto.javax.runtime.element.node.MutableNodeElement;
+import org.rookit.auto.javax.runtime.mirror.declared.RuntimeDeclaredType;
 import org.rookit.utils.graph.Dependency;
 import org.rookit.utils.optional.Optional;
 import org.slf4j.Logger;
@@ -41,6 +43,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import static java.lang.String.format;
+
 
 // TODO Improve logging
 final class RuntimeEnumVariableElement implements RuntimeVariableElement {
@@ -50,7 +54,6 @@ final class RuntimeEnumVariableElement implements RuntimeVariableElement {
      */
     private static final Logger logger = LoggerFactory.getLogger(RuntimeEnumVariableElement.class);
 
-    //private final Element enumElement;
     private final Enum<?> enumValue;
     private final MutableNodeElement node;
     private final Set<Modifier> modifiers;
@@ -77,6 +80,11 @@ final class RuntimeEnumVariableElement implements RuntimeVariableElement {
     public TypeMirror asType() {
         logger.trace("Delegating to node element");
         return this.node.typeMirror();
+    }
+
+    @Override
+    public Single<TypeMirror> asMemberOf(final RuntimeDeclaredType enclosing) {
+        throw new IllegalArgumentException(format("%s is not a member of %s", this, enclosing));
     }
 
     @Override

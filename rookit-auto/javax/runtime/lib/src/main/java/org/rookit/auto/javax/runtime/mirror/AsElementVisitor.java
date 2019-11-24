@@ -21,6 +21,7 @@
  ******************************************************************************/
 package org.rookit.auto.javax.runtime.mirror;
 
+import com.google.inject.Inject;
 import org.rookit.utils.optional.Optional;
 import org.rookit.utils.optional.OptionalFactory;
 import org.slf4j.Logger;
@@ -50,7 +51,8 @@ final class AsElementVisitor implements TypeVisitor<Optional<Element>, Void> {
 
     private final OptionalFactory optionalFactory;
 
-    AsElementVisitor(final OptionalFactory optionalFactory) {
+    @Inject
+    private AsElementVisitor(final OptionalFactory optionalFactory) {
         this.optionalFactory = optionalFactory;
     }
 

@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.mirror.declared.dependency;
+package org.rookit.auto.javax.mirror.declared.dependency;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.type.TypeMirror;
@@ -30,6 +30,8 @@ public interface DeclaredTypeDependencyFactory {
 
     TypeArgumentDependency createTypeArgumentDependency(TypeMirror dependency);
 
-    ElementDependency createElementDependency(Element element);
+    ElementDependency createElementDependency(Element dependency);
+
+    DirectSubTypeDependency createDirectSubTypesDependency(TypeMirror dependency);
 
 }

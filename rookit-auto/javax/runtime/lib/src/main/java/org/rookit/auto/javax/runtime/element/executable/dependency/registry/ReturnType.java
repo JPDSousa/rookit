@@ -65,7 +65,7 @@ final class ReturnType implements MultiRegistry<RuntimeExecutableEntity, Depende
                 .filter(Class.class::isInstance)
                 .cast(Class.class)
                 .map(this.entityFactory::fromClass)
-                .flatMapSingle(this.declaredTypeFactory::createFromClass)
+                .flatMapSingleElement(this.declaredTypeFactory::createFromClass)
                 .<Dependency<?>>map(this.dependencyFactory::createReturnTypeDependency)
                 .toObservable();
     }

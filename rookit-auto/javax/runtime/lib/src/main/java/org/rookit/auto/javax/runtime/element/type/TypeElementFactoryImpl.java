@@ -27,12 +27,10 @@ import org.rookit.auto.javax.runtime.ModifierFactory;
 import org.rookit.auto.javax.runtime.NameFactory;
 import org.rookit.auto.javax.runtime.element.type.node.RuntimeTypeNodeElementFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
+import org.rookit.auto.javax.runtime.mirror.declared.RuntimeDeclaredTypeFactory;
+import org.rookit.utils.collection.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.lang.model.element.NestingKind;
-
-import static java.util.Objects.nonNull;
 
 final class TypeElementFactoryImpl implements TypeElementFactory {
 
@@ -44,47 +42,37 @@ final class TypeElementFactoryImpl implements TypeElementFactory {
     private final RuntimeTypeNodeElementFactory nodeFactory;
     private final NameFactory nameFactory;
     private final ModifierFactory modifierFactory;
+    private final MapUtils mapUtils;
+    private final RuntimeDeclaredTypeFactory typeFactory;
 
     @Inject
     private TypeElementFactoryImpl(
             final RuntimeTypeNodeElementFactory nodeFactory,
             final NameFactory nameFactory,
-            final ModifierFactory modifierFactory) {
+            final ModifierFactory modifierFactory,
+            final MapUtils mapUtils,
+            final RuntimeDeclaredTypeFactory typeFactory) {
         this.nodeFactory = nodeFactory;
         this.nameFactory = nameFactory;
         this.modifierFactory = modifierFactory;
+        this.mapUtils = mapUtils;
+        this.typeFactory = typeFactory;
     }
 
     @Override
     public Single<RuntimeTypeElement> createElement(final RuntimeClassEntity entity) {
-        final Class<?> entityClass = entity.type();
 
+        logger.trace("Creating mutable node");
         return this.nodeFactory.createMutableFromEntity(entity)
+                .doOnSuccess(mutableNode -> logger.trace("Mutable node created"))
                 .map(node -> new RuntimeTypeElementImpl(
                         node,
-                        typeFactory, this.nameFactory.createFromEntity(entity),
+                        this.typeFactory,
+                        this.nameFactory.createFromEntity(entity),
                         this.modifierFactory.create(entity.modifiers()),
-                        this.nameFactory.create(entityClass.getName()),
-                        createNestingKind(entityClass),
-                        entity.kind(),
-                        mapUtils));
-    }
-
-    private NestingKind createNestingKind(final Class<?> clazz) {
-        // TODO this will never return annonymous
-        if (nonNull(clazz.getEnclosingConstructor()) || nonNull(clazz.getEnclosingMethod())) {
-            logger.debug("'{}' is contained either inside a constructor or a method. Returning '{}'", clazz,
-                         NestingKind.LOCAL);
-            return NestingKind.LOCAL;
-        }
-        if (nonNull(clazz.getEnclosingClass())) {
-            logger.debug("'{}' is contained inside another class. Returning '{}'", clazz,
-                         NestingKind.MEMBER);
-            return NestingKind.MEMBER;
-        }
-        logger.debug("No enclosing constructor, method or class for '{}'. Returning '{}'", clazz,
-                     NestingKind.TOP_LEVEL);
-        return NestingKind.TOP_LEVEL;
+                        this.nameFactory.createFromEntity(entity),
+                        entity,
+                        this.mapUtils));
     }
 
     @Override
@@ -93,6 +81,8 @@ final class TypeElementFactoryImpl implements TypeElementFactory {
                 "nodeFactory=" + this.nodeFactory +
                 ", nameFactory=" + this.nameFactory +
                 ", modifierFactory=" + this.modifierFactory +
+                ", mapUtils=" + this.mapUtils +
+                ", typeFactory=" + this.typeFactory +
                 "}";
     }
 

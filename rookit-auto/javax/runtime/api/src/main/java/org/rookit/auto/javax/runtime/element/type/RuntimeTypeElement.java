@@ -24,6 +24,7 @@ package org.rookit.auto.javax.runtime.element.type;
 import org.rookit.auto.javax.runtime.element.RuntimeElement;
 import org.rookit.auto.javax.runtime.element.type.node.MutableTypeNodeElement;
 
+import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementVisitor;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.TypeParameterElement;
@@ -50,6 +51,19 @@ public interface RuntimeTypeElement extends RuntimeElement, TypeElement, Mutable
     @Override
     default List<? extends TypeParameterElement> getTypeParameters() {
         return typeParameters();
+    }
+
+    @Override
+    default List<? extends Element> getEnclosedElements() {
+        return enclosedElements();
+    }
+
+
+    @Override
+    default Element getEnclosingElement() {
+        return enclosingElement()
+                .orElseThrow(() -> new IllegalStateException("No enclosing element found for class: "
+                                                                     + getSimpleName()));
     }
 
 }

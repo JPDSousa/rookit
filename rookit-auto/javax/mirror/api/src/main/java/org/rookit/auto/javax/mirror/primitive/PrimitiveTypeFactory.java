@@ -21,10 +21,12 @@
  ******************************************************************************/
 package org.rookit.auto.javax.mirror.primitive;
 
+import io.reactivex.Single;
+
 import javax.lang.model.type.TypeKind;
 
 public interface PrimitiveTypeFactory {
 
-    ExtendedPrimitiveType createFromKind(TypeKind kind);
+    Single<ExtendedPrimitiveType> createFromKind(TypeKind kind);
 
 }

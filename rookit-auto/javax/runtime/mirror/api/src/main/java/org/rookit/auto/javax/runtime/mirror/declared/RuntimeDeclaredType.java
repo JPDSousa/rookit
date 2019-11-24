@@ -24,9 +24,6 @@ package org.rookit.auto.javax.runtime.mirror.declared;
 import org.rookit.auto.javax.mirror.declared.ExtendedDeclaredType;
 import org.rookit.auto.javax.runtime.entity.RuntimeTypeEntity;
 
-import javax.lang.model.type.TypeMirror;
-import java.util.List;
-
 public interface RuntimeDeclaredType extends ExtendedDeclaredType {
 
     boolean isSubTypeOf(RuntimeDeclaredType other);
@@ -34,8 +31,6 @@ public interface RuntimeDeclaredType extends ExtendedDeclaredType {
     boolean isAssignableFrom(RuntimeDeclaredType other);
 
     RuntimeTypeEntity entity();
-
-    List<? extends TypeMirror> directSubtypes();
 
     RuntimeDeclaredType erasure();
 

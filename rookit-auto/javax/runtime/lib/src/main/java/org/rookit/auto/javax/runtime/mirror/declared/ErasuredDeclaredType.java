@@ -22,9 +22,10 @@
 package org.rookit.auto.javax.runtime.mirror.declared;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.ImmutableList;
 import io.reactivex.Completable;
-import org.rookit.auto.javax.runtime.entity.RuntimeTypeEntity;
 import org.rookit.auto.javax.mirror.declared.node.MutableNodeDeclaredType;
+import org.rookit.auto.javax.runtime.entity.RuntimeTypeEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,17 +35,17 @@ import javax.lang.model.type.TypeMirror;
 import java.lang.annotation.Annotation;
 import java.util.List;
 
-final class RuntimeDeclaredTypeImpl implements RuntimeDeclaredType {
+final class ErasuredDeclaredType implements RuntimeDeclaredType {
 
     /**
      * Logger for this class.
      */
-    private static final Logger logger = LoggerFactory.getLogger(RuntimeDeclaredTypeImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(ErasuredDeclaredType.class);
 
     private final RuntimeTypeEntity entity;
     private final MutableNodeDeclaredType node;
 
-    RuntimeDeclaredTypeImpl(
+    ErasuredDeclaredType(
             final RuntimeTypeEntity entity,
             final MutableNodeDeclaredType node) {
         this.entity = entity;
@@ -77,14 +78,20 @@ final class RuntimeDeclaredTypeImpl implements RuntimeDeclaredType {
 
     @Override
     public Completable typeArguments(final List<? extends TypeMirror> typeArguments) {
-        logger.trace("Delegating to node declared type");
-        return this.node.typeArguments(typeArguments);
+        logger.debug("Setting type arguments to an erasured instance has no effect");
+        return Completable.complete();
     }
 
     @Override
     public Completable element(final Element element) {
         logger.trace("Delegating to node declared type");
         return this.node.element(element);
+    }
+
+    @Override
+    public Completable directSubTypes(final List<? extends TypeMirror> directSubTypes) {
+        logger.trace("Delegating to node declared type");
+        return this.node.directSubTypes(directSubTypes);
     }
 
     @Override
@@ -95,14 +102,19 @@ final class RuntimeDeclaredTypeImpl implements RuntimeDeclaredType {
 
     @Override
     public List<? extends TypeMirror> typeArguments() {
-        logger.trace("Delegating to node declared type");
-        return this.node.typeArguments();
+        return ImmutableList.of();
     }
 
     @Override
     public Element element() {
         logger.trace("Delegating to node declared type");
         return this.node.element();
+    }
+
+    @Override
+    public List<? extends TypeMirror> directSubTypes() {
+        logger.trace("Delegating to node declared type");
+        return this.node.directSubTypes();
     }
 
     @Override
@@ -121,6 +133,11 @@ final class RuntimeDeclaredTypeImpl implements RuntimeDeclaredType {
     }
 
     @Override
+    public RuntimeDeclaredType erasure() {
+        return this;
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
@@ -128,7 +145,7 @@ final class RuntimeDeclaredTypeImpl implements RuntimeDeclaredType {
         if ((o == null) || (getClass() != o.getClass())) {
             return false;
         }
-        final RuntimeDeclaredTypeImpl other = (RuntimeDeclaredTypeImpl) o;
+        final ErasuredDeclaredType other = (ErasuredDeclaredType) o;
         return Objects.equal(this.entity, other.entity);
     }
 
@@ -139,7 +156,7 @@ final class RuntimeDeclaredTypeImpl implements RuntimeDeclaredType {
 
     @Override
     public String toString() {
-        return "RuntimeDeclaredTypeImpl{" +
+        return "ErasuredDeclaredType{" +
                 "entity=" + this.entity +
                 ", node=" + this.node +
                 "}";

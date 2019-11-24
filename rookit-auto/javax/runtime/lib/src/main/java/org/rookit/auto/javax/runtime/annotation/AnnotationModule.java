@@ -24,10 +24,15 @@ package org.rookit.auto.javax.runtime.annotation;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
+import com.google.inject.util.Modules;
+import org.rookit.auto.javax.runtime.annotation.node.NodeModule;
 
 public final class AnnotationModule extends AbstractModule {
 
-    private static final Module MODULE = new AnnotationModule();
+    private static final Module MODULE = Modules.combine(
+            new AnnotationModule(),
+            NodeModule.getModule()
+    );
 
     public static Module getModule() {
         return MODULE;

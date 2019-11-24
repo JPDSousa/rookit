@@ -25,13 +25,13 @@ import com.google.inject.Inject;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import org.apache.commons.lang3.tuple.Pair;
+import org.rookit.auto.javax.mirror.annotation.node.MutableNodeAnnotation;
 import org.rookit.auto.javax.runtime.element.executable.ExecutableElementFactory;
 import org.rookit.auto.javax.runtime.element.executable.RuntimeExecutableElement;
+import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
 import org.rookit.auto.javax.runtime.entity.RuntimeEntityFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeMethodEntity;
-import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
-import org.rookit.auto.javax.runtime.mirror.declared.RuntimeDeclaredTypeFactory;
-import org.rookit.auto.javax.runtime.mirror.declared.RuntimeDeclaredType;
+import org.rookit.auto.javax.runtime.mirror.annotation.node.AnnotationNodeFactory;
 
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
@@ -44,29 +44,30 @@ import java.util.Map;
 final class AnnotationMirrorFactoryImpl implements RuntimeAnnotationMirrorFactory {
 
     private final RuntimeEntityFactory entityFactory;
-    private final RuntimeDeclaredTypeFactory declaredFactory;
     private final AnnotationValueFactory valueFactory;
     private final ExecutableElementFactory executableElementFactory;
+    private final AnnotationNodeFactory nodeFactory;
 
     @Inject
     private AnnotationMirrorFactoryImpl(
             final RuntimeEntityFactory entityFactory,
-            final RuntimeDeclaredTypeFactory declaredFactory,
             final AnnotationValueFactory valueFactory,
-            final ExecutableElementFactory executableFactory) {
+            final ExecutableElementFactory executableFactory,
+            final AnnotationNodeFactory nodeFactory) {
         this.entityFactory = entityFactory;
-        this.declaredFactory = declaredFactory;
         this.valueFactory = valueFactory;
         this.executableElementFactory = executableFactory;
+        this.nodeFactory = nodeFactory;
     }
 
     @Override
     public Single<AnnotationMirror> fromAnnotation(final Annotation annotation) {
         final RuntimeClassEntity annotationEntity = this.entityFactory.fromClass(annotation.annotationType());
-        final Single<RuntimeDeclaredType> declaredTypeSingle = this.declaredFactory.createFromClass(annotationEntity);
+        final Single<MutableNodeAnnotation> nodeSingle = this.nodeFactory.createMutableFromEntity(
+                annotationEntity);
 
-        return Single.zip(createElementValues(annotation), declaredTypeSingle,
-                (elementValues, declaredType) -> new RuntimeAnnotationMirror(elementValues, annotation, declaredType));
+        return Single.zip(createElementValues(annotation), nodeSingle,
+                (elementValues, node) -> new RuntimeAnnotationMirror(elementValues, annotation, node));
     }
 
     @Override
@@ -78,7 +79,7 @@ final class AnnotationMirrorFactoryImpl implements RuntimeAnnotationMirrorFactor
     private Single<Map<RuntimeExecutableElement, AnnotationValue>> createElementValues(
             final Annotation annotation) {
         final Method[] methods = annotation.annotationType()
-                .getMethods();
+                .getDeclaredMethods();
         return Observable.fromArray(methods)
                 .flatMapSingle(method -> createMapEntry(annotation, method))
                 .reduce(new HashMap<>(methods.length), (map, entry) -> {
@@ -98,14 +99,13 @@ final class AnnotationMirrorFactoryImpl implements RuntimeAnnotationMirrorFactor
         return Single.zip(elementSingle, valueSingle, Pair::of);
     }
 
-
     @Override
     public String toString() {
         return "AnnotationMirrorFactoryImpl{" +
                 "entityFactory=" + this.entityFactory +
-                ", declaredFactory=" + this.declaredFactory +
                 ", valueFactory=" + this.valueFactory +
                 ", executableElementFactory=" + this.executableElementFactory +
+                ", nodeFactory=" + this.nodeFactory +
                 "}";
     }
 

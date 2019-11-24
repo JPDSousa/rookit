@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.rookit.auto.javax.mirror.JavaxMirrorLibModule;
 import org.rookit.auto.javax.runtime.JavaxRuntimeModule;
 import org.rookit.auto.javax.runtime.entity.JavaxRuntimeEntityModule;
 import org.rookit.utils.guice.Proxied;
@@ -61,6 +62,7 @@ public interface ExtendedProcessorTest {
                 sourceModule(),
                 JavaxRuntimeModule.getModule(),
                 JavaxRuntimeEntityModule.getModule(),
+                JavaxMirrorLibModule.getModule(),
                 new AbstractModule() {
                     @Override
                     protected void configure() {

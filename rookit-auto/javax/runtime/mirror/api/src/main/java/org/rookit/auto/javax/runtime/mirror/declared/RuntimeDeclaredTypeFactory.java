@@ -22,21 +22,11 @@
 package org.rookit.auto.javax.runtime.mirror.declared;
 
 import io.reactivex.Single;
+import org.rookit.auto.javax.mirror.declared.DeclaredTypeFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
 
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.DeclaredType;
-import javax.lang.model.type.TypeMirror;
-import java.util.Collection;
-
-public interface RuntimeDeclaredTypeFactory {
+public interface RuntimeDeclaredTypeFactory extends DeclaredTypeFactory {
 
     Single<RuntimeDeclaredType> createFromClass(RuntimeClassEntity typeEntity);
-
-    Single<RuntimeDeclaredType> createFromElement(TypeElement element, Collection<TypeMirror> args);
-
-    Single<RuntimeDeclaredType> createFromElement(DeclaredType containing,
-                                                  TypeElement element,
-                                                  Collection<TypeMirror> args);
 
 }

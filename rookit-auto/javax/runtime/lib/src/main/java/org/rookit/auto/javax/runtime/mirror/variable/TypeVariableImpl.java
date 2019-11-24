@@ -132,7 +132,8 @@ final class TypeVariableImpl implements ExtendedTypeVariable {
     @Override
     public String toString() {
         return "TypeVariableImpl{" +
-                "node=" + this.node +
+                "entity=" + this.entity +
+                ", node=" + this.node +
                 "}";
     }
 

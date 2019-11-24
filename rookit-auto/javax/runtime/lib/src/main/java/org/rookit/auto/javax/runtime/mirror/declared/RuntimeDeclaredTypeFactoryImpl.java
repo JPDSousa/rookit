@@ -23,28 +23,58 @@ package org.rookit.auto.javax.runtime.mirror.declared;
 
 import com.google.inject.Inject;
 import io.reactivex.Single;
+import org.rookit.auto.javax.mirror.declared.DeclaredTypeFactory;
 import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
 import org.rookit.auto.javax.runtime.mirror.declared.node.NodeDeclaredTypeFactory;
+
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.TypeMirror;
+import java.util.Collection;
 
 final class RuntimeDeclaredTypeFactoryImpl implements RuntimeDeclaredTypeFactory {
 
     private final NodeDeclaredTypeFactory nodeFactory;
+    private final DeclaredTypeFactory delegate;
 
     @Inject
-    private RuntimeDeclaredTypeFactoryImpl(final NodeDeclaredTypeFactory nodeFactory) {
+    private RuntimeDeclaredTypeFactoryImpl(
+            final NodeDeclaredTypeFactory nodeFactory,
+            final DeclaredTypeFactory delegate) {
         this.nodeFactory = nodeFactory;
+        this.delegate = delegate;
     }
 
     @Override
     public Single<RuntimeDeclaredType> createFromClass(final RuntimeClassEntity typeEntity) {
         return this.nodeFactory.createMutableFromEntity(typeEntity)
-                .map(node -> new RuntimeDeclaredTypeImpl(typeEntity, node));
+                .map(node -> new DeclaredTypeImpl(
+                        new ErasuredDeclaredType(
+                                typeEntity,
+                                node
+                        ),
+                        node
+                     )
+                );
+    }
+
+    @Override
+    public Single<DeclaredType> createFromElement(
+            final TypeElement element, final Collection<TypeMirror> args) {
+        return this.delegate.createFromElement(element, args);
+    }
+
+    @Override
+    public Single<DeclaredType> createFromElement(
+            final DeclaredType containing, final TypeElement element, final Collection<TypeMirror> args) {
+        return this.delegate.createFromElement(containing, element, args);
     }
 
     @Override
     public String toString() {
         return "RuntimeDeclaredTypeFactoryImpl{" +
                 "nodeFactory=" + this.nodeFactory +
+                ", delegate=" + this.delegate +
                 "}";
     }
 

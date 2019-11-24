@@ -22,7 +22,10 @@
 package org.rookit.auto.javax.runtime.element.type.parameter;
 
 import io.reactivex.Completable;
+import io.reactivex.Single;
+import org.apache.commons.lang3.NotImplementedException;
 import org.rookit.auto.javax.runtime.element.type.parameter.node.MutableTypeParameterNodeElement;
+import org.rookit.auto.javax.runtime.mirror.declared.RuntimeDeclaredType;
 import org.rookit.utils.graph.Dependency;
 import org.rookit.utils.optional.Optional;
 import org.slf4j.Logger;
@@ -76,6 +79,12 @@ final class RuntimeTypeParameterElementImpl implements RuntimeTypeParameterEleme
     public TypeMirror asType() {
         logger.trace("Delegating to node element");
         return this.nodeElement.typeMirror();
+    }
+
+    @Override
+    public Single<TypeMirror> asMemberOf(final RuntimeDeclaredType enclosing) {
+        // TODO guess what :)
+        throw new NotImplementedException("Implement me");
     }
 
     @Override

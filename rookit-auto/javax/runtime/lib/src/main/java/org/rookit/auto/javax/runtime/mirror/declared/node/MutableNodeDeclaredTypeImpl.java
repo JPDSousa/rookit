@@ -46,16 +46,19 @@ final class MutableNodeDeclaredTypeImpl implements MutableNodeDeclaredType {
     private final DependencyWrapper<TypeMirror> enclosingType;
     private final MultiDependencyWrapper<TypeMirror> typeArguments;
     private final DependencyWrapper<Element> element;
+    private final MultiDependencyWrapper<TypeMirror> directSubTypes;
 
     MutableNodeDeclaredTypeImpl(
             final AnnotatedConstruct annotatedConstruct,
             final DependencyWrapper<TypeMirror> enclosingType,
             final MultiDependencyWrapper<TypeMirror> typeArguments,
-            final DependencyWrapper<Element> element) {
+            final DependencyWrapper<Element> element,
+            final MultiDependencyWrapper<TypeMirror> directSubTypes) {
         this.annotatedConstruct = annotatedConstruct;
         this.enclosingType = enclosingType;
         this.typeArguments = typeArguments;
         this.element = element;
+        this.directSubTypes = directSubTypes;
     }
 
     @Override
@@ -74,6 +77,11 @@ final class MutableNodeDeclaredTypeImpl implements MutableNodeDeclaredType {
     }
 
     @Override
+    public Completable directSubTypes(final List<? extends TypeMirror> directSubTypes) {
+        return this.directSubTypes.set(directSubTypes);
+    }
+
+    @Override
     public TypeMirror enclosingType() {
         return this.enclosingType.fetch();
     }
@@ -86,6 +94,11 @@ final class MutableNodeDeclaredTypeImpl implements MutableNodeDeclaredType {
     @Override
     public Element element() {
         return this.element.fetch();
+    }
+
+    @Override
+    public List<? extends TypeMirror> directSubTypes() {
+        return this.directSubTypes.get();
     }
 
     @Override
@@ -113,6 +126,7 @@ final class MutableNodeDeclaredTypeImpl implements MutableNodeDeclaredType {
                 ", enclosingType=" + this.enclosingType +
                 ", typeArguments=" + this.typeArguments +
                 ", element=" + this.element +
+                ", directSubTypes=" + this.directSubTypes +
                 "}";
     }
 

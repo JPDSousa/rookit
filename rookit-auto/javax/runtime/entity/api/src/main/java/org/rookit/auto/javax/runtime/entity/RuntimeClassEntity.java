@@ -23,9 +23,12 @@ package org.rookit.auto.javax.runtime.entity;
 
 import org.rookit.utils.optional.Optional;
 
+import javax.lang.model.element.NestingKind;
 import java.util.List;
 
 public interface RuntimeClassEntity extends RuntimeTypeEntity {
+
+    NestingKind nestingKind();
 
     @Override
     Class<?> type();

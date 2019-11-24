@@ -24,7 +24,10 @@ package org.rookit.auto.javax.runtime.element.variable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import io.reactivex.Completable;
+import io.reactivex.Single;
+import org.apache.commons.lang3.NotImplementedException;
 import org.rookit.auto.javax.runtime.element.node.MutableNodeElement;
+import org.rookit.auto.javax.runtime.mirror.declared.RuntimeDeclaredType;
 import org.rookit.utils.graph.Dependency;
 import org.rookit.utils.optional.Optional;
 import org.slf4j.Logger;
@@ -74,6 +77,12 @@ final class RuntimeFieldVariableElement implements RuntimeVariableElement {
     public TypeMirror asType() {
         logger.trace("Delegating to node element");
         return this.node.typeMirror();
+    }
+
+    @Override
+    public Single<TypeMirror> asMemberOf(final RuntimeDeclaredType enclosing) {
+        // TODO guess what :)
+        throw new NotImplementedException("Needs to be implemented");
     }
 
     @Override

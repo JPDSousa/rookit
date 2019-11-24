@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.mirror.executable.dependency;
+package org.rookit.auto.javax.mirror.executable.dependency;
 
 import org.rookit.utils.graph.DependencyVisitor;
 

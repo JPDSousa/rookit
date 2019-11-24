@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.runtime.mirror.declared.dependency;
+package org.rookit.auto.javax.mirror.declared.dependency;
 
 import org.rookit.utils.graph.DependencyVisitor;
 
@@ -30,5 +30,7 @@ public interface DeclaredTypeDependencyVisitor<R, P> extends DependencyVisitor<R
     R visitTypeArgument(TypeArgumentDependency dependency, P parameter);
 
     R visitElement(ElementDependency dependency, P parameter);
+
+    R visitDirectSubType(DirectSubTypeDependency dependency, P parameter);
 
 }

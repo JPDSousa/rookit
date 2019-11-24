@@ -44,6 +44,11 @@
 
         <dependency>
             <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-auto-javax-mirror-lib</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
             <artifactId>rookit-auto-javax-runtime-lib</artifactId>
         </dependency>
 

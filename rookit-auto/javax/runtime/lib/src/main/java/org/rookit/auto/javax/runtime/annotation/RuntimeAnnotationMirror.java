@@ -22,32 +22,38 @@
 package org.rookit.auto.javax.runtime.annotation;
 
 import com.google.common.collect.ImmutableMap;
+import io.reactivex.Completable;
+import org.rookit.auto.javax.mirror.annotation.ExtendedAnnotationMirror;
+import org.rookit.auto.javax.mirror.annotation.node.MutableNodeAnnotation;
+import org.rookit.auto.javax.mirror.declared.ExtendedDeclaredType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.ExecutableElement;
-import javax.lang.model.type.DeclaredType;
 import java.lang.annotation.Annotation;
+import java.util.List;
 import java.util.Map;
 
-final class RuntimeAnnotationMirror implements AnnotationMirror {
+final class RuntimeAnnotationMirror implements ExtendedAnnotationMirror {
+
+    /**
+     * Logger for this class.
+     */
+    private static final Logger logger = LoggerFactory.getLogger(RuntimeAnnotationMirror.class);
 
     private final Map<? extends ExecutableElement, ? extends AnnotationValue> elementValues;
     private final Annotation annotation;
-    private final DeclaredType declaredType;
+    private final MutableNodeAnnotation node;
 
     RuntimeAnnotationMirror(
             final Map<? extends ExecutableElement, ? extends AnnotationValue> elementValues,
             final Annotation annotation,
-            final DeclaredType declaredType) {
+            final MutableNodeAnnotation node) {
         this.elementValues = ImmutableMap.copyOf(elementValues);
         this.annotation = annotation;
-        this.declaredType = declaredType;
-    }
-
-    @Override
-    public DeclaredType getAnnotationType() {
-        return this.declaredType;
+        this.node = node;
     }
 
     @Override
@@ -56,12 +62,39 @@ final class RuntimeAnnotationMirror implements AnnotationMirror {
     }
 
     @Override
+    public Completable annotationType(final ExtendedDeclaredType declaredType) {
+        logger.trace("Delegating to node");
+        return this.node.annotationType(declaredType);
+    }
+
+    @Override
+    public ExtendedDeclaredType annotationType() {
+        logger.trace("Delegating to node");
+        return this.node.annotationType();
+    }
+
+    @Override
     public String toString() {
         return "RuntimeAnnotationMirror{" +
                 "elementValues=" + this.elementValues +
                 ", annotation=" + this.annotation +
-                ", declaredType=" + this.declaredType +
+                ", node=" + this.node +
                 "}";
+    }
+
+    @Override
+    public List<? extends AnnotationMirror> getAnnotationMirrors() {
+        throw new IllegalStateException("Annotation Mirror cannot be treated as TypeMirrors");
+    }
+
+    @Override
+    public <A extends Annotation> A getAnnotation(final Class<A> annotationType) {
+        throw new IllegalStateException("Annotation Mirror cannot be treated as TypeMirrors");
+    }
+
+    @Override
+    public <A extends Annotation> A[] getAnnotationsByType(final Class<A> annotationType) {
+        throw new IllegalStateException("Annotation Mirror cannot be treated as TypeMirrors");
     }
 
 }

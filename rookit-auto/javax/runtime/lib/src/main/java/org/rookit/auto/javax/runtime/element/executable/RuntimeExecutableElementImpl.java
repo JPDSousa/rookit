@@ -23,7 +23,10 @@ package org.rookit.auto.javax.runtime.element.executable;
 
 import com.google.common.collect.ImmutableSet;
 import io.reactivex.Completable;
+import io.reactivex.Single;
+import org.apache.commons.lang3.NotImplementedException;
 import org.rookit.auto.javax.runtime.element.executable.node.MutableExecutableNodeElement;
+import org.rookit.auto.javax.runtime.mirror.declared.RuntimeDeclaredType;
 import org.rookit.utils.graph.Dependency;
 import org.rookit.utils.optional.Optional;
 import org.slf4j.Logger;
@@ -260,6 +263,12 @@ final class RuntimeExecutableElementImpl implements RuntimeExecutableElement {
                 ", isVarArgs=" + this.isVarArgs +
                 ", defaultValue=" + this.defaultValue +
                 "}";
+    }
+
+    @Override
+    public Single<TypeMirror> asMemberOf(final RuntimeDeclaredType enclosing) {
+        // TODO guess what :)
+        throw new NotImplementedException("Implement me");
     }
 
 }

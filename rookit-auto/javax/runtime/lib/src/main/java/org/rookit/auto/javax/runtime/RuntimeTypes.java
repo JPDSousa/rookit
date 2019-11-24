@@ -164,7 +164,7 @@ final class RuntimeTypes implements Types {
     @Override
     public List<? extends TypeMirror> directSupertypes(final TypeMirror t) {
 
-        return checkNoPackageOrExecutableType(t).directSubtypes();
+        return checkNoPackageOrExecutableType(t).directSubTypes();
     }
 
     @Override
@@ -194,7 +194,8 @@ final class RuntimeTypes implements Types {
     @Override
     public PrimitiveType getPrimitiveType(final TypeKind kind) {
 
-        return this.primitiveTypeFactory.createFromKind(kind);
+        return this.primitiveTypeFactory.createFromKind(kind)
+                .blockingGet();
     }
 
     @Override
@@ -257,7 +258,8 @@ final class RuntimeTypes implements Types {
         final RuntimeDeclaredType runtimeContaining = this.failsafe.checkArgument()
                 .isInstanceOf(logger, containing, RuntimeDeclaredType.class);
         return this.failsafe.checkArgument().isInstanceOf(logger, element, RuntimeElement.class)
-                .asMemberOf(runtimeContaining);
+                .asMemberOf(runtimeContaining)
+                .blockingGet();
     }
 
     @Override

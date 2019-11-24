@@ -36,4 +36,6 @@ public interface MutableNodeDeclaredType extends NodeDeclaredType, MutableNodeTy
 
     Completable element(Element element);
 
+    Completable directSubTypes(List<? extends TypeMirror> directSubTypes);
+
 }

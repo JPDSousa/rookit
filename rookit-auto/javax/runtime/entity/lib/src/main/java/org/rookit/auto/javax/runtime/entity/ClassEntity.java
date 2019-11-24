@@ -28,11 +28,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.NestingKind;
 import java.lang.annotation.Annotation;
 import java.util.List;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.util.Arrays.stream;
+import static java.util.Objects.nonNull;
 
 final class ClassEntity implements RuntimeClassEntity {
 
@@ -90,6 +92,24 @@ final class ClassEntity implements RuntimeClassEntity {
     public Annotation[] getDeclaredAnnotations() {
         logger.trace("Delegating to class '{}'", this.clazz);
         return this.clazz.getDeclaredAnnotations();
+    }
+
+    @Override
+    public NestingKind nestingKind() {
+        // TODO this will never return annonymous
+        if (nonNull(this.clazz.getEnclosingConstructor()) || nonNull(this.clazz.getEnclosingMethod())) {
+            logger.debug("'{}' is contained either inside a constructor or a method. Returning '{}'", this.clazz,
+                         NestingKind.LOCAL);
+            return NestingKind.LOCAL;
+        }
+        if (nonNull(this.clazz.getEnclosingClass())) {
+            logger.debug("'{}' is contained inside another class. Returning '{}'", this.clazz,
+                         NestingKind.MEMBER);
+            return NestingKind.MEMBER;
+        }
+        logger.debug("No enclosing constructor, method or class for '{}'. Returning '{}'", this.clazz,
+                     NestingKind.TOP_LEVEL);
+        return NestingKind.TOP_LEVEL;
     }
 
     @Override

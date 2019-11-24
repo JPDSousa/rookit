@@ -23,6 +23,7 @@ package org.rookit.auto.javax.runtime.mirror.declared.dependency;
 
 import com.google.inject.Inject;
 import org.rookit.auto.javax.mirror.declared.dependency.DeclaredTypeDependencyFactory;
+import org.rookit.auto.javax.mirror.declared.dependency.DirectSubTypeDependency;
 import org.rookit.auto.javax.mirror.declared.dependency.ElementDependency;
 import org.rookit.auto.javax.mirror.declared.dependency.EnclosingTypeDependency;
 import org.rookit.auto.javax.mirror.declared.dependency.TypeArgumentDependency;
@@ -46,8 +47,13 @@ final class DeclaredTypeDependencyFactoryImpl implements DeclaredTypeDependencyF
     }
 
     @Override
-    public ElementDependency createElementDependency(final Element element) {
-        return () -> element;
+    public ElementDependency createElementDependency(final Element dependency) {
+        return () -> dependency;
+    }
+
+    @Override
+    public DirectSubTypeDependency createDirectSubTypesDependency(final TypeMirror dependency) {
+        return () -> dependency;
     }
 
 }

@@ -68,7 +68,13 @@ final class NodeDeclaredTypeFactoryImpl implements NodeDeclaredTypeFactory {
                         construct,
                         createEnclosedType(),
                         createTypeArgumentsDependency(),
-                        createElementDependency()));
+                        createElementDependency(),
+                        createDirectSubTypesDependency()));
+    }
+
+    private MultiDependencyWrapper<TypeMirror> createDirectSubTypesDependency() {
+        return this.wrapperFactory.createMulti("Direct SubTypes",
+                                               this.dependencyFactory::createDirectSubTypesDependency);
     }
 
     private DependencyWrapper<Element> createElementDependency() {

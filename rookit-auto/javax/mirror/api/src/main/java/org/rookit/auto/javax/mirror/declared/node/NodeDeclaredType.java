@@ -35,4 +35,6 @@ public interface NodeDeclaredType extends NodeTypeMirror {
 
     Element element();
 
+    List<? extends TypeMirror> directSubTypes();
+
 }

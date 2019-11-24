@@ -25,6 +25,7 @@ import com.google.common.collect.ImmutableSet;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import org.rookit.auto.javax.runtime.element.type.node.MutableTypeNodeElement;
+import org.rookit.auto.javax.runtime.entity.RuntimeClassEntity;
 import org.rookit.auto.javax.runtime.mirror.declared.RuntimeDeclaredTypeFactory;
 import org.rookit.auto.javax.runtime.mirror.declared.RuntimeDeclaredType;
 import org.rookit.utils.collection.MapUtils;
@@ -64,8 +65,7 @@ final class RuntimeTypeElementImpl implements RuntimeTypeElement {
     private final Name simpleName;
     private final Set<Modifier> modifiers;
     private final Name fqdn;
-    private final NestingKind nestingKind;
-    private final ElementKind kind;
+    private final RuntimeClassEntity entity;
     private final MapUtils mapUtils;
 
     RuntimeTypeElementImpl(
@@ -74,29 +74,15 @@ final class RuntimeTypeElementImpl implements RuntimeTypeElement {
             final Name simpleName,
             final Collection<Modifier> modifiers,
             final Name fqdn,
-            final NestingKind nestingKind,
-            final ElementKind kind,
+            final RuntimeClassEntity entity,
             final MapUtils mapUtils) {
         this.nodeElement = nodeElement;
         this.typeFactory = typeFactory;
         this.simpleName = simpleName;
         this.modifiers = ImmutableSet.copyOf(modifiers);
         this.fqdn = fqdn;
-        this.nestingKind = nestingKind;
-        this.kind = kind;
+        this.entity = entity;
         this.mapUtils = mapUtils;
-    }
-
-    @Override
-    public List<? extends Element> getEnclosedElements() {
-        return enclosedElements();
-    }
-
-    @Override
-    public Element getEnclosingElement() {
-        return enclosingElement()
-                .orElseThrow(() -> new IllegalStateException("No enclosing element found for class: "
-                                                                     + getSimpleName()));
     }
 
     @Override
@@ -119,7 +105,8 @@ final class RuntimeTypeElementImpl implements RuntimeTypeElement {
 
     @Override
     public NestingKind getNestingKind() {
-        return this.nestingKind;
+        logger.trace("Delegating to entity");
+        return this.entity.nestingKind();
     }
 
     @Override
@@ -129,7 +116,8 @@ final class RuntimeTypeElementImpl implements RuntimeTypeElement {
 
     @Override
     public ElementKind getKind() {
-        return this.kind;
+        logger.trace("Delegating to entity");
+        return this.entity.kind();
     }
 
     @Override
@@ -274,8 +262,8 @@ final class RuntimeTypeElementImpl implements RuntimeTypeElement {
                 ", simpleName=" + this.simpleName +
                 ", modifiers=" + this.modifiers +
                 ", fqdn=" + this.fqdn +
-                ", nestingKind=" + this.nestingKind +
-                ", kind=" + this.kind +
+                ", entity=" + this.entity +
+                ", mapUtils=" + this.mapUtils +
                 "}";
     }
 
