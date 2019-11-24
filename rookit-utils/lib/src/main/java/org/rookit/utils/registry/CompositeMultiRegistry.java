@@ -58,4 +58,11 @@ final class CompositeMultiRegistry<K, V> implements MultiRegistry<K, V> {
         logger.debug("Nothing to close");
     }
 
+    @Override
+    public String toString() {
+        return "CompositeMultiRegistry{" +
+                "registries=" + this.registries +
+                "}";
+    }
+
 }
