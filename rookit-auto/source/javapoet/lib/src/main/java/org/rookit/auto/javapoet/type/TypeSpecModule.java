@@ -38,6 +38,5 @@ public final class TypeSpecModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(ExtendedElementTypeSpecVisitors.class).to(ExtendedElementTypeSpecVisitorsImpl.class).in(Singleton.class);
-//        bind(new TypeLiteral<SpecFactory<TypeSource>>(){}).to(TypeSpecFactory.class).in(Singleton.class);
     }
 }
