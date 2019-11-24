@@ -32,6 +32,7 @@ import com.google.inject.multibindings.Multibinder;
 import com.google.inject.util.Modules;
 import org.apache.commons.collections4.Bag;
 import org.apache.commons.collections4.BoundedCollection;
+import org.rookit.utils.array.ArrayModule;
 import org.rookit.utils.collection.CollectionsModule;
 import org.rookit.utils.graph.GraphModule;
 import org.rookit.utils.io.DummyInputStream;
@@ -75,6 +76,7 @@ public final class UtilsModule extends AbstractModule {
 
     private static final Module MODULE = Modules.combine(
             new UtilsModule(),
+            ArrayModule.getModule(),
             CollectionsModule.getModule(),
             GraphModule.getModule(),
             ObjectModule.getModule(),
