@@ -24,6 +24,10 @@ package org.rookit.auto.javapoet.method;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
+import com.squareup.javapoet.MethodSpec;
+import org.rookit.auto.source.method.MethodSourceAdapter;
+import org.rookit.auto.source.method.MethodSourceFactory;
 
 public final class MethodModule extends AbstractModule {
 
@@ -35,8 +39,11 @@ public final class MethodModule extends AbstractModule {
 
     private MethodModule() {}
 
+    @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
     @Override
     protected void configure() {
-        bind(MethodSpecFactories.class).to(MethodSpecFactoriesImpl.class).in(Singleton.class);
+        bind(MethodSourceFactory.class).to(JavaPoetMethodFactory.class).in(Singleton.class);
+        bind(new TypeLiteral<MethodSourceAdapter<MethodSpec>>() {}).to(JavaPoetMethodAdapter.class).in(Singleton.class);
     }
+
 }

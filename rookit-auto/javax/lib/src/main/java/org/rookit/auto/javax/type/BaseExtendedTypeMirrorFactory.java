@@ -29,6 +29,9 @@ import org.rookit.auto.javax.repetition.GenericTypeMirrorRepetitionConfig;
 import org.rookit.auto.javax.repetition.JavaxRepetitionFactory;
 import org.rookit.auto.javax.repetition.RepetitiveTypeMirrorFactory;
 import org.rookit.auto.javax.repetition.TypeMirrorKeyedRepetitionConfig;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirrorFactory;
+import org.rookit.auto.javax.type.parameter.TypeParameterExtractor;
 import org.rookit.utils.optional.OptionalFactory;
 
 import javax.annotation.processing.Messager;
@@ -86,11 +89,11 @@ public final class BaseExtendedTypeMirrorFactory implements ExtendedTypeMirrorFa
 
     @Override
     public ExtendedTypeMirror createWithErasure(final TypeMirror typeMirror) {
-        return create(this.types.erasure(typeMirror));
+        return extend(this.types.erasure(typeMirror));
     }
 
     @Override
-    public ExtendedTypeMirror create(final TypeMirror typeMirror) {
+    public ExtendedTypeMirror extend(final TypeMirror typeMirror) {
         if (typeMirror.getKind() == TypeKind.ERROR) {
             final String errMsg = format("Type mirror is invalid: %s", typeMirror);
             this.messager.printMessage(Diagnostic.Kind.ERROR, errMsg);
@@ -112,7 +115,7 @@ public final class BaseExtendedTypeMirrorFactory implements ExtendedTypeMirrorFa
         if (typeConfig instanceof TypeMirrorKeyedRepetitionConfig) {
             final TypeMirrorKeyedRepetitionConfig keyedConfig = (TypeMirrorKeyedRepetitionConfig) typeConfig;
             final List<? extends ExtendedTypeMirror> params = extendedTypeMirror.typeParameters();
-            final ExtendedTypeMirror key = create(keyedConfig.extractKey(params));
+            final ExtendedTypeMirror key = extend(keyedConfig.extractKey(params));
             return this.repetitiveFactory.createKeyed(extendedTypeMirror, key, keyedConfig.valueIndex());
         }
         if (typeConfig instanceof GenericTypeMirrorRepetitionConfig) {
@@ -124,7 +127,7 @@ public final class BaseExtendedTypeMirrorFactory implements ExtendedTypeMirrorFa
 
     @Override
     public ExtendedTypeMirror createPrimitive(final TypeKind typeKind) {
-        return create(this.types.getPrimitiveType(typeKind));
+        return extend(this.types.getPrimitiveType(typeKind));
     }
 
     @Override

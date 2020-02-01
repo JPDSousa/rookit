@@ -22,7 +22,7 @@
 package org.rookit.auto.javax;
 
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 
 import javax.lang.model.element.Element;

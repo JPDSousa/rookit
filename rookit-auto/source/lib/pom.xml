@@ -15,14 +15,27 @@
     <name>Rookit Auto Source Lib</name>
 
     <dependencies>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-auto-guice</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>${rookit.group}</groupId>
             <artifactId>rookit-auto-source-api</artifactId>
         </dependency>
+
         <dependency>
             <groupId>${rookit.group}</groupId>
             <artifactId>rookit-io-path-api</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+         </dependency>
+
     </dependencies>
 
 

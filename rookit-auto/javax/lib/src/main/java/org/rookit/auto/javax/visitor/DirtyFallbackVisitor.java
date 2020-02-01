@@ -25,7 +25,7 @@ import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.auto.javax.parameter.ExtendedTypeParameterElement;
+import org.rookit.auto.javax.type.parameter.ExtendedTypeParameterElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.variable.ExtendedVariableElement;
 
@@ -43,38 +43,38 @@ final class DirtyFallbackVisitor<T, P> implements ExtendedElementVisitor<StreamE
 
     @Override
     public StreamEx<T> visitPackage(final ExtendedPackageElement packageElement, final P parameter) {
-        return this.primaryVisitor.visitPackage(packageElement, parameter)
-                .ifEmpty(this.secondaryVisitor.visitPackage(packageElement, parameter));
+        return packageElement.accept(this.primaryVisitor, parameter)
+                .ifEmpty(packageElement.accept(this.secondaryVisitor, parameter));
     }
 
     @Override
     public StreamEx<T> visitType(final ExtendedTypeElement extendedType, final P parameter) {
-        return this.primaryVisitor.visitType(extendedType, parameter)
-                .ifEmpty(this.secondaryVisitor.visitType(extendedType, parameter));
+        return extendedType.accept(this.primaryVisitor, parameter)
+                .ifEmpty(extendedType.accept(this.secondaryVisitor, parameter));
     }
 
     @Override
     public StreamEx<T> visitExecutable(final ExtendedExecutableElement extendedExecutable, final P parameter) {
-        return this.primaryVisitor.visitExecutable(extendedExecutable, parameter)
-                .ifEmpty(this.secondaryVisitor.visitExecutable(extendedExecutable, parameter));
+        return extendedExecutable.accept(this.primaryVisitor, parameter)
+                .ifEmpty(extendedExecutable.accept(this.secondaryVisitor, parameter));
     }
 
     @Override
     public StreamEx<T> visitTypeParameter(final ExtendedTypeParameterElement extendedParameter, final P parameter) {
-        return this.primaryVisitor.visitTypeParameter(extendedParameter, parameter)
-                .ifEmpty(this.secondaryVisitor.visitTypeParameter(extendedParameter, parameter));
+        return extendedParameter.accept(this.primaryVisitor, parameter)
+                .ifEmpty(extendedParameter.accept(this.secondaryVisitor, parameter));
     }
 
     @Override
     public StreamEx<T> visitVariable(final ExtendedVariableElement extendedElement, final P parameter) {
-        return this.primaryVisitor.visitVariable(extendedElement, parameter)
-                .ifEmpty(this.secondaryVisitor.visitVariable(extendedElement, parameter));
+        return extendedElement.accept(this.primaryVisitor, parameter)
+                .ifEmpty(extendedElement.accept(this.secondaryVisitor, parameter));
     }
 
     @Override
     public StreamEx<T> visitUnknown(final ExtendedElement extendedElement, final P parameter) {
-        return this.primaryVisitor.visitUnknown(extendedElement, parameter)
-                .ifEmpty(this.secondaryVisitor.visitUnknown(extendedElement, parameter));
+        return extendedElement.accept(this.primaryVisitor, parameter)
+                .ifEmpty(extendedElement.accept(this.secondaryVisitor, parameter));
     }
 
     @Override

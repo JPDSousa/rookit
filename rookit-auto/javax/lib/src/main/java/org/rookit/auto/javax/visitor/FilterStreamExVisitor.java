@@ -25,7 +25,7 @@ import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.auto.javax.parameter.ExtendedTypeParameterElement;
+import org.rookit.auto.javax.type.parameter.ExtendedTypeParameterElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.variable.ExtendedVariableElement;
 
@@ -46,7 +46,7 @@ final class FilterStreamExVisitor<R, P> implements ExtendedElementVisitor<Stream
     @Override
     public StreamEx<R> visitPackage(final ExtendedPackageElement packageElement, final P parameter) {
         if (this.annotationsFilter.test(packageElement)) {
-            return this.upstream.visitPackage(packageElement, parameter);
+            return packageElement.accept(this.upstream, parameter);
         }
 
         return StreamEx.empty();
@@ -55,7 +55,7 @@ final class FilterStreamExVisitor<R, P> implements ExtendedElementVisitor<Stream
     @Override
     public StreamEx<R> visitType(final ExtendedTypeElement extendedType, final P parameter) {
         if (this.annotationsFilter.test(extendedType)) {
-            return this.upstream.visitType(extendedType, parameter);
+            return extendedType.accept(this.upstream, parameter);
         }
 
         return StreamEx.empty();
@@ -64,7 +64,7 @@ final class FilterStreamExVisitor<R, P> implements ExtendedElementVisitor<Stream
     @Override
     public StreamEx<R> visitExecutable(final ExtendedExecutableElement extendedExecutable, final P parameter) {
         if (this.annotationsFilter.test(extendedExecutable)) {
-            return this.upstream.visitExecutable(extendedExecutable, parameter);
+            return extendedExecutable.accept(this.upstream, parameter);
         }
 
         return StreamEx.empty();
@@ -73,7 +73,7 @@ final class FilterStreamExVisitor<R, P> implements ExtendedElementVisitor<Stream
     @Override
     public StreamEx<R> visitTypeParameter(final ExtendedTypeParameterElement extendedParameter, final P parameter) {
         if (this.annotationsFilter.test(extendedParameter)) {
-            return this.upstream.visitTypeParameter(extendedParameter, parameter);
+            return extendedParameter.accept(this.upstream, parameter);
         }
 
         return StreamEx.empty();
@@ -82,7 +82,7 @@ final class FilterStreamExVisitor<R, P> implements ExtendedElementVisitor<Stream
     @Override
     public StreamEx<R> visitVariable(final ExtendedVariableElement extendedElement, final P parameter) {
         if (this.annotationsFilter.test(extendedElement)) {
-            return this.upstream.visitVariable(extendedElement, parameter);
+            return extendedElement.accept(this.upstream, parameter);
         }
 
         return StreamEx.empty();
@@ -91,7 +91,7 @@ final class FilterStreamExVisitor<R, P> implements ExtendedElementVisitor<Stream
     @Override
     public StreamEx<R> visitUnknown(final ExtendedElement extendedElement, final P parameter) {
         if (this.annotationsFilter.test(extendedElement)) {
-            return this.upstream.visitUnknown(extendedElement, parameter);
+            return extendedElement.accept(this.upstream, parameter);
         }
 
         return StreamEx.empty();

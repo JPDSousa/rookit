@@ -22,7 +22,7 @@
 package org.rookit.auto.javax.repetition;
 
 import com.google.inject.Inject;
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 
 public final class BaseRepetitiveTypeMirrorFactory implements RepetitiveTypeMirrorFactory {
 

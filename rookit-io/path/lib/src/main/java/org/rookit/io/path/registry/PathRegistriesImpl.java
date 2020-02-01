@@ -25,6 +25,7 @@ import com.google.inject.Inject;
 import org.rookit.io.data.DataBucketFactory;
 import org.rookit.io.data.DataSource;
 import org.rookit.io.object.DataBucketDynamicObjectFactory;
+import org.rookit.io.path.filesystem.ExtendedFileSystems;
 import org.rookit.utils.object.DynamicObject;
 import org.rookit.utils.registry.BaseRegistries;
 import org.rookit.utils.registry.Registry;
@@ -38,14 +39,18 @@ final class PathRegistriesImpl implements PathRegistries {
     private final DataBucketFactory<Path> bucketFactory;
     private final DataBucketDynamicObjectFactory dynamicObjectFactory;
     private final BaseRegistries registries;
+    private final ExtendedFileSystems fileSystems;
 
     @Inject
-    private PathRegistriesImpl(final DataBucketFactory<Path> bucketFactory,
-                               final DataBucketDynamicObjectFactory dynamicObjectFactory,
-                               final BaseRegistries registries) {
+    private PathRegistriesImpl(
+            final DataBucketFactory<Path> bucketFactory,
+            final DataBucketDynamicObjectFactory dynamicObjectFactory,
+            final BaseRegistries registries,
+            final ExtendedFileSystems fileSystems) {
         this.bucketFactory = bucketFactory;
         this.dynamicObjectFactory = dynamicObjectFactory;
         this.registries = registries;
+        this.fileSystems = fileSystems;
     }
 
     @Override
@@ -61,7 +66,7 @@ final class PathRegistriesImpl implements PathRegistries {
 
     @Override
     public Registry<URI, FileSystem> uriFileSystemRegistry() {
-        return new FileSystemRegistry();
+        return new FileSystemRegistry(this.fileSystems);
     }
 
     @Override
@@ -70,6 +75,8 @@ final class PathRegistriesImpl implements PathRegistries {
                 "bucketFactory=" + this.bucketFactory +
                 ", dynamicObjectFactory=" + this.dynamicObjectFactory +
                 ", registries=" + this.registries +
+                ", fileSystems=" + this.fileSystems +
                 "}";
     }
+
 }

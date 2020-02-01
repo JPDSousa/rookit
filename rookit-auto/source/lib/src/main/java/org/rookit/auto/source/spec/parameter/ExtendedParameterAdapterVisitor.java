@@ -25,32 +25,38 @@ import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.javax.visitor.StreamExtendedElementVisitor;
+import org.rookit.auto.source.parameter.ParameterSource;
+import org.rookit.auto.source.parameter.ParameterSourceFactory;
 
-final class ExtendedParameterAdapterVisitor<S, P> implements StreamExtendedElementVisitor<Parameter<S>, P> {
+final class ExtendedParameterAdapterVisitor<P> implements StreamExtendedElementVisitor<ParameterSource, P> {
 
-    private final ExtendedElementVisitor<StreamEx<S>, P> parameterFactory;
+    private final ParameterSourceFactory parameterFactory;
+    private final ExtendedElementVisitor<StreamEx<ParameterSource>, P> visitor;
     private final boolean isSuper;
 
-    ExtendedParameterAdapterVisitor(final ExtendedElementVisitor<StreamEx<S>, P> parameterFactory,
-                                    final boolean isSuper) {
+    ExtendedParameterAdapterVisitor(
+            final ParameterSourceFactory parameterFactory,
+            final ExtendedElementVisitor<StreamEx<ParameterSource>, P> visitor,
+            final boolean isSuper) {
         this.parameterFactory = parameterFactory;
+        this.visitor = visitor;
         this.isSuper = isSuper;
     }
 
     @Override
-    public StreamEx<Parameter<S>> visitType(final ExtendedTypeElement extendedType, final P parameter) {
-        return this.parameterFactory.visitType(extendedType, parameter)
-                .map(spec -> ImmutableParameter.<S>builder()
-                        .spec(spec)
-                        .isSuper(this.isSuper)
-                        .build());
+    public StreamEx<ParameterSource> visitType(final ExtendedTypeElement extendedType, final P parameter) {
+        return extendedType.accept(this.visitor, parameter)
+                .map(this.parameterFactory::makeMutable)
+                .map(param -> param.toBeUsedInSuperclass(this.isSuper));
     }
 
     @Override
     public String toString() {
         return "ExtendedParameterAdapterVisitor{" +
                 "parameterFactory=" + this.parameterFactory +
+                ", visitor=" + this.visitor +
                 ", isSuper=" + this.isSuper +
                 "}";
     }
+
 }

@@ -25,7 +25,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
-import org.rookit.io.data.FileModule;
 import org.rookit.io.path.pool.PathPoolModule;
 import org.rookit.io.path.registry.RegistryModule;
 
@@ -33,7 +32,6 @@ public final class PathModule extends AbstractModule {
 
     private static final Module MODULE = Modules.combine(
             new PathModule(),
-            FileModule.getModule(),
             PathPoolModule.getModule(),
             RegistryModule.getModule()
     );

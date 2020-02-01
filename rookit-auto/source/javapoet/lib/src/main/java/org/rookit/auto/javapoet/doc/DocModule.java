@@ -25,6 +25,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
+import org.rookit.auto.source.doc.JavadocTemplate1;
+import org.rookit.auto.source.doc.JavadocTemplate1Factory;
 import org.rookit.utils.registry.Registry;
 
 @SuppressWarnings("MethodMayBeStatic")
@@ -41,9 +43,9 @@ public final class DocModule extends AbstractModule {
     @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
     @Override
     protected void configure() {
-        bind(JavaPoetJavadocTemplate1Factory.class).to(JavaPoetJavadocTemplate1FactoryImpl.class).in(Singleton.class);
-        bind(new TypeLiteral<Registry<String, JavaPoetJavadocTemplate1>>() {})
-                .to(JavaPoetJavadocTemplate1Registry.class).in(Singleton.class);
+        bind(JavadocTemplate1Factory.class).to(JavadocTemplate1FactoryImpl.class).in(Singleton.class);
+        bind(new TypeLiteral<Registry<String, JavadocTemplate1>>() {})
+                .to(JavadocTemplate1Registry.class).in(Singleton.class);
     }
 
 }

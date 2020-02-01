@@ -38,6 +38,11 @@
         </dependency>
 
         <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-config-api</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>io.github.glytching</groupId>
             <artifactId>junit-extensions</artifactId>
         </dependency>

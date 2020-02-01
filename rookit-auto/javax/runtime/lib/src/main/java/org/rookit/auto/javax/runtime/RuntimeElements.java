@@ -22,6 +22,7 @@
 package org.rookit.auto.javax.runtime;
 
 import com.google.inject.Inject;
+import io.reactivex.Maybe;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.runtime.element.RuntimeGenericElementFactory;
 import org.rookit.auto.javax.runtime.element.pack.RuntimePackageElement;
@@ -49,6 +50,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 final class RuntimeElements implements Elements {
@@ -83,9 +85,16 @@ final class RuntimeElements implements Elements {
 
     @Override
     public PackageElement getPackageElement(final CharSequence fqdn) {
-        final RuntimePackageEntity entity = this.entityFactory.fromPackage(Package.getPackage(fqdn.toString()));
-        return this.packageFactory.createElement(entity)
+        return packageOfName(fqdn)
+                .map(this.entityFactory::fromPackage)
+                .flatMapSingleElement(this.packageFactory::createElement)
                 .blockingGet();
+    }
+
+    // TODO move to a proper place
+    private Maybe<Package> packageOfName(final CharSequence name) {
+        final Package pack = Package.getPackage(name.toString());
+        return isNull(pack) ? Maybe.empty() : Maybe.just(pack);
     }
 
     @Override

@@ -22,8 +22,9 @@
 package org.rookit.auto.source.identifier;
 
 import org.rookit.auto.javax.naming.Identifier;
+import org.rookit.auto.source.field.FieldSource;
 import org.rookit.utils.aggregate.Aggregator;
 
-public interface IdentifierFieldAggregator<F> extends Aggregator<Identifier, IdentifierFieldAggregator<F>, F> {
+public interface IdentifierFieldAggregator extends Aggregator<Identifier, IdentifierFieldAggregator, FieldSource> {
 
 }

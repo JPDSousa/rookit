@@ -24,6 +24,9 @@ package org.rookit.auto.javax.type;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import one.util.streamex.StreamEx;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirrorFactory;
+import org.rookit.auto.javax.type.parameter.TypeParameterExtractor;
 import org.rookit.failsafe.Failsafe;
 import org.rookit.utils.primitive.VoidUtils;
 import org.slf4j.Logger;
@@ -156,7 +159,7 @@ final class TypeVisitorParameterExtractor implements TypeVisitor<Collection<? ex
     public List<? extends ExtendedTypeMirror> extract(final TypeMirror type) {
         this.failsafe.checkArgument().isNotNull(logger, type, "type");
         return StreamEx.of(type.accept(this, this.voidUtils.returnVoid()))
-                .map(this.typeMirrorFactory::create)
+                .map(this.typeMirrorFactory::extend)
                 .toImmutableList();
     }
 

@@ -22,7 +22,7 @@
 package org.rookit.auto.javax.pack;
 
 import org.rookit.auto.javax.ExtendedElement;
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.utils.optional.OptionalFactory;
 import org.rookit.utils.string.join.JointString;
 
@@ -122,7 +122,7 @@ final class ImmutableParentExtendedPackageElement extends AbstractExtendedPackag
                     length, index));
         }
         if (index == (length - 1)) {
-            return this.factory.create(this.name);
+            return this.factory.fromFQDN(this.name);
         }
         return this.parent.packageAtIndex(index);
     }

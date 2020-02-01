@@ -47,6 +47,11 @@
             <artifactId>rookit-config-api</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-auto-source-api</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

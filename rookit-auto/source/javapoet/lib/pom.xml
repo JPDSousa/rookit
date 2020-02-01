@@ -28,12 +28,12 @@
 
         <dependency>
             <groupId>${rookit.group}</groupId>
-            <artifactId>rookit-auto-source-javapoet-api</artifactId>
+            <artifactId>rookit-auto-javax-api</artifactId>
         </dependency>
 
         <dependency>
             <groupId>${rookit.group}</groupId>
-            <artifactId>rookit-auto-javax-api</artifactId>
+            <artifactId>rookit-auto-javax-mirror-api</artifactId>
         </dependency>
 
         <dependency>
@@ -59,6 +59,11 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.squareup</groupId>
+            <artifactId>javapoet</artifactId>
         </dependency>
 
     </dependencies>

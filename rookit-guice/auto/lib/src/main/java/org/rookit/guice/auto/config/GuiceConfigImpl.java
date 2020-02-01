@@ -41,7 +41,7 @@ final class GuiceConfigImpl implements GuiceConfig {
 
     @Override
     public ExtendedPackageElement basePackage() {
-        return this.packageFactory.create(this.configuration.getString("basePackage"));
+        return this.packageFactory.fromFQDN(this.configuration.getString("basePackage"));
     }
 
     @Override

@@ -27,7 +27,7 @@ import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.auto.javax.parameter.ExtendedTypeParameterElement;
+import org.rookit.auto.javax.type.parameter.ExtendedTypeParameterElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.variable.ExtendedVariableElement;
 
@@ -51,32 +51,32 @@ final class MultiVisitor<T, P> implements ExtendedElementVisitor<StreamEx<T>, P>
 
     @Override
     public StreamEx<T> visitPackage(final ExtendedPackageElement packageElement, final P parameter) {
-        return visitMulti(factory -> factory.visitPackage(packageElement, parameter));
+        return visitMulti(factory -> packageElement.accept(factory, parameter));
     }
 
     @Override
     public StreamEx<T> visitType(final ExtendedTypeElement extendedType, final P parameter) {
-        return visitMulti(factory -> factory.visitType(extendedType, parameter));
+        return visitMulti(factory -> extendedType.accept(factory, parameter));
     }
 
     @Override
     public StreamEx<T> visitExecutable(final ExtendedExecutableElement extendedExecutable, final P parameter) {
-        return visitMulti(factory -> visitExecutable(extendedExecutable, parameter));
+        return visitMulti(factory -> extendedExecutable.accept(factory, parameter));
     }
 
     @Override
     public StreamEx<T> visitTypeParameter(final ExtendedTypeParameterElement extendedParameter, final P parameter) {
-        return visitMulti(factory -> factory.visitTypeParameter(extendedParameter, parameter));
+        return visitMulti(factory -> extendedParameter.accept(factory, parameter));
     }
 
     @Override
     public StreamEx<T> visitVariable(final ExtendedVariableElement extendedElement, final P parameter) {
-        return visitMulti(factory -> factory.visitVariable(extendedElement, parameter));
+        return visitMulti(factory -> extendedElement.accept(factory, parameter));
     }
 
     @Override
     public StreamEx<T> visitUnknown(final ExtendedElement extendedElement, final P parameter) {
-        return visitMulti(factory -> factory.visitUnknown(extendedElement, parameter));
+        return visitMulti(factory -> extendedElement.accept(factory, parameter));
     }
 
     @Override

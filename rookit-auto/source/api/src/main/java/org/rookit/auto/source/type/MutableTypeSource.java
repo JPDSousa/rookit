@@ -21,10 +21,55 @@
  ******************************************************************************/
 package org.rookit.auto.source.type;
 
-public interface MutableTypeSource<M, F> extends TypeSource {
+import org.rookit.auto.javax.type.ExtendedTypeElement;
+import org.rookit.auto.source.MutableAnnotatable;
+import org.rookit.auto.source.MutableModifiable;
+import org.rookit.auto.source.SupportsTypeVariable;
+import org.rookit.auto.source.field.FieldSource;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
+import org.rookit.auto.source.type.variable.TypeVariableSource;
 
-    void addMethod(M method);
+public interface MutableTypeSource extends TypeSource, MutableModifiable<MutableTypeSource>,
+        MutableAnnotatable<MutableTypeSource>,
+        SupportsTypeVariable<MutableTypeSource> {
 
-    void addField(F field);
+    MutableTypeSource addMethod(MethodSource method);
+
+    default MutableTypeSource addMethods(final Iterable<MethodSource> methods) {
+        methods.forEach(this::addMethod);
+        return this;
+    }
+
+    MutableTypeSource addField(FieldSource field);
+
+    default MutableTypeSource addFields(final Iterable<FieldSource> fields) {
+        fields.forEach(this::addField);
+        return this;
+    }
+
+    MutableTypeSource addJavadoc(String javadoc);
+
+    MutableTypeSource addTypeVariable(TypeVariableSource typeVariable);
+
+    default MutableTypeSource addTypeVariables(final Iterable<TypeVariableSource> typeVariables) {
+        typeVariables.forEach(this::addTypeVariable);
+        return this;
+    }
+
+    MutableTypeSource withSuperclass(TypeReferenceSource superclass);
+
+    MutableTypeSource withParameterizedSuperclass(Class<?> parameterized, ExtendedTypeElement parameter);
+
+    MutableTypeSource addParameterizedInterface(ExtendedTypeElement parameterized, TypeReferenceSource parameter);
+
+    MutableTypeSource addInterface(TypeReferenceSource interfaceSource);
+
+    default MutableTypeSource addInterfaces(final Iterable<TypeReferenceSource> interfaces) {
+        interfaces.forEach(this::addInterface);
+        return this;
+    }
+
+
 
 }

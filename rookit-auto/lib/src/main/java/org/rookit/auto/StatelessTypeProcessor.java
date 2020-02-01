@@ -22,31 +22,28 @@
 package org.rookit.auto;
 
 import com.google.inject.Inject;
+import one.util.streamex.StreamEx;
 import org.rookit.auto.config.ProcessorConfig;
-import org.rookit.auto.javax.ExtendedElementFactory;
-import org.rookit.auto.source.CodeSourceFactory;
+import org.rookit.auto.javax.type.ExtendedTypeElementFactory;
+import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
+import org.rookit.auto.source.TypeSourceContainerFactory;
+import org.rookit.auto.source.type.TypeSource;
+import org.rookit.utils.primitive.VoidUtils;
 
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
 
 public final class StatelessTypeProcessor extends AbstractTypeProcessor {
 
-    public static TypeProcessor create(final CodeSourceFactory codeSourceFactory,
-                                       final Filer filer,
-                                       final ExtendedElementFactory elementFactory,
-                                       final ProcessorConfig config,
-                                       final Messager messager) {
-        return new StatelessTypeProcessor(codeSourceFactory, filer, elementFactory, config, messager);
-    }
-
-    @SuppressWarnings("TypeMayBeWeakened") // due to guice
     @Inject
-    private StatelessTypeProcessor(final CodeSourceFactory codeSourceFactory,
+    private StatelessTypeProcessor(final TypeSourceContainerFactory containerFactory,
                                    final Filer filer,
-                                   final ExtendedElementFactory elementFactory,
+                                   final ExtendedTypeElementFactory typeFactory,
                                    final ProcessorConfig config,
-                                   final Messager messager) {
-        super(codeSourceFactory, filer, elementFactory, config, messager);
+                                   final Messager messager,
+                                   final ExtendedElementVisitor<StreamEx<TypeSource>, Void> generator,
+                                   final VoidUtils voidUtils) {
+        super(containerFactory, filer, typeFactory, config, messager, generator, voidUtils);
     }
 
     @Override

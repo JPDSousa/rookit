@@ -25,15 +25,18 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
-import org.rookit.auto.javax.type.adapter.TypeAdapterModule;
-import org.rookit.auto.javax.type.filter.TypeFilterModule;
+import org.rookit.auto.javax.type.adapter.AdapterModule;
+import org.rookit.auto.javax.type.filter.FilterModule;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirrorFactory;
+import org.rookit.auto.javax.type.parameter.ParameterModule;
+import org.rookit.auto.javax.type.parameter.TypeParameterExtractor;
 
-@SuppressWarnings("MethodMayBeStatic")
 public final class TypeModule extends AbstractModule {
 
     private static final Module MODULE = Modules.combine(
-            TypeAdapterModule.getModule(),
-            TypeFilterModule.getModule(),
+            AdapterModule.getModule(),
+            FilterModule.getModule(),
+            ParameterModule.getModule(),
             new TypeModule()
     );
 
@@ -43,11 +46,11 @@ public final class TypeModule extends AbstractModule {
 
     private TypeModule() {}
 
-    @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
     @Override
     protected void configure() {
         bind(TypeParameterExtractor.class).to(TypeVisitorParameterExtractor.class).in(Singleton.class);
         bind(ExtendedTypeMirrorFactory.class).to(BaseExtendedTypeMirrorFactory.class).in(Singleton.class);
+        bind(ExtendedTypeElementFactory.class).to(ExtendedTypeElementFactoryImpl.class).in(Singleton.class);
     }
 
 }

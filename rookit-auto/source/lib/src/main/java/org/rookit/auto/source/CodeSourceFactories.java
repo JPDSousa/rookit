@@ -21,16 +21,13 @@
  ******************************************************************************/
 package org.rookit.auto.source;
 
-import org.rookit.auto.javax.naming.IdentifierFactory;
-import org.rookit.auto.source.spec.SpecFactory;
-import org.rookit.auto.source.type.SingleTypeSourceFactory;
+import one.util.streamex.StreamEx;
+import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.source.type.TypeSource;
 
+@Deprecated
 public interface CodeSourceFactories {
 
-    CodeSourceFactory singleCodeSourceFactory(IdentifierFactory identifierFactory,
-                                              SingleTypeSourceFactory sourceFactory);
-
-    CodeSourceFactory specCodeSourceFactory(SpecFactory<TypeSource> specFactory);
+    CodeSourceFactory visitorCodeSourceFactory(ExtendedElementVisitor<StreamEx<TypeSource>, Void> visitor);
 
 }

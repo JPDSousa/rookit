@@ -25,7 +25,7 @@ import com.google.inject.Provider;
 import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.auto.javax.parameter.ExtendedTypeParameterElement;
+import org.rookit.auto.javax.type.parameter.ExtendedTypeParameterElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.variable.ExtendedVariableElement;
 
@@ -39,32 +39,32 @@ final class LazyVisitor<T, P> implements ExtendedElementVisitor<T, P> {
 
     @Override
     public T visitPackage(final ExtendedPackageElement packageElement, final P parameter) {
-        return this.provider.get().visitPackage(packageElement, parameter);
+        return packageElement.accept(this.provider.get(), parameter);
     }
 
     @Override
     public T visitType(final ExtendedTypeElement extendedType, final P parameter) {
-        return this.provider.get().visitType(extendedType, parameter);
+        return extendedType.accept(this.provider.get(), parameter);
     }
 
     @Override
     public T visitExecutable(final ExtendedExecutableElement extendedExecutable, final P parameter) {
-        return this.provider.get().visitExecutable(extendedExecutable, parameter);
+        return extendedExecutable.accept(this.provider.get(), parameter);
     }
 
     @Override
     public T visitTypeParameter(final ExtendedTypeParameterElement extendedParameter, final P parameter) {
-        return this.provider.get().visitTypeParameter(extendedParameter, parameter);
+        return extendedParameter.accept(this.provider.get(), parameter);
     }
 
     @Override
     public T visitVariable(final ExtendedVariableElement extendedElement, final P parameter) {
-        return this.provider.get().visitVariable(extendedElement, parameter);
+        return extendedElement.accept(this.provider.get(), parameter);
     }
 
     @Override
     public T visitUnknown(final ExtendedElement extendedElement, final P parameter) {
-        return this.provider.get().visitUnknown(extendedElement, parameter);
+        return extendedElement.accept(this.provider.get(), parameter);
     }
 
     @Override

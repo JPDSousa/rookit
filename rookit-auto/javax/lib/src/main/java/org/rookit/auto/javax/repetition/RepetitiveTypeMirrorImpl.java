@@ -22,7 +22,7 @@
 package org.rookit.auto.javax.repetition;
 
 import com.google.common.base.Objects;
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.utils.optional.Optional;
 import org.rookit.utils.repetition.Repetition;
 

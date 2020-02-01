@@ -23,6 +23,7 @@ package org.rookit.auto.source;
 
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 
+@Deprecated
 @FunctionalInterface
 public interface CodeSourceFactory {
 

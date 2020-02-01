@@ -23,7 +23,6 @@ package org.rookit.auto.source.spec;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
-import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
 import org.rookit.auto.source.spec.parameter.ParameterModule;
 
@@ -40,8 +39,4 @@ public final class SpecModule extends AbstractModule {
 
     private SpecModule() {}
 
-    @Override
-    protected void configure() {
-        bind(SpecFactories.class).to(SpecFactoriesImpl.class).in(Singleton.class);
-    }
 }

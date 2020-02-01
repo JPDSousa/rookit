@@ -33,12 +33,12 @@ abstract class AbstractExtendedPackageElement implements ExtendedPackageElement 
 
     @Override
     public ExtendedPackageElement resolve(final String name) {
-        return packageFactory().create(fullName().resolve(name).asString());
+        return packageFactory().fromFQDN(fullName().resolve(name).asString());
     }
 
     @Override
     public ExtendedPackageElement resolve(final ExtendedPackageElement packageElement) {
-        return packageFactory().create(fullName().resolve(packageElement.fullName()));
+        return packageFactory().fromFQDN(fullName().resolve(packageElement.fullName()));
     }
 
     @Override

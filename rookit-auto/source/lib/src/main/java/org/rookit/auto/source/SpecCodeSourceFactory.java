@@ -21,29 +21,36 @@
  ******************************************************************************/
 package org.rookit.auto.source;
 
-import com.google.common.collect.ImmutableList;
+import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
-import org.rookit.auto.source.spec.SpecFactory;
+import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.source.type.TypeSource;
+import org.rookit.utils.primitive.VoidUtils;
 
 import java.util.stream.Collectors;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
 final class SpecCodeSourceFactory implements CodeSourceFactory {
 
-    private final CodeSourceContainerFactory containerFactory;
-    private final SpecFactory<TypeSource> specFactory;
+    private final TypeSourceContainerFactory containerFactory;
+    private final ExtendedElementVisitor<StreamEx<TypeSource>, Void> visitor;
+    private final VoidUtils voidUtils;
 
-    SpecCodeSourceFactory(final CodeSourceContainerFactory containerFactory,
-                          final SpecFactory<TypeSource> specFactory) {
+    SpecCodeSourceFactory(
+            final TypeSourceContainerFactory containerFactory,
+            final ExtendedElementVisitor<StreamEx<TypeSource>, Void> visitor,
+            final VoidUtils voidUtils) {
         this.containerFactory = containerFactory;
-        this.specFactory = specFactory;
+        this.visitor = visitor;
+        this.voidUtils = voidUtils;
     }
 
     @Override
     public CodeSource create(final ExtendedTypeElement element) {
-        return this.specFactory.create(element)
+        return element.accept(this.visitor, this.voidUtils.returnVoid())
                 .collect(Collectors.collectingAndThen(
-                        ImmutableList.toImmutableList(),
+                        toImmutableList(),
                         this.containerFactory::create
                 ));
     }
@@ -52,7 +59,9 @@ final class SpecCodeSourceFactory implements CodeSourceFactory {
     public String toString() {
         return "SpecCodeSourceFactory{" +
                 "containerFactory=" + this.containerFactory +
-                ", specFactory=" + this.specFactory +
+                ", visitor=" + this.visitor +
+                ", voidUtils=" + this.voidUtils +
                 "}";
     }
+
 }

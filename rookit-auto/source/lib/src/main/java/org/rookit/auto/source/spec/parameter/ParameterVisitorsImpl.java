@@ -28,6 +28,8 @@ import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitors;
 import org.rookit.auto.javax.visitor.GenericBuilder;
 import org.rookit.auto.javax.visitor.StreamExBuilder;
+import org.rookit.auto.source.parameter.ParameterSource;
+import org.rookit.auto.source.parameter.ParameterSourceFactory;
 
 import javax.lang.model.element.Name;
 import java.lang.annotation.Annotation;
@@ -37,10 +39,14 @@ import java.util.function.Function;
 final class ParameterVisitorsImpl implements ParameterVisitors {
 
     private final ExtendedElementVisitors delegate;
+    private final ParameterSourceFactory parameterFactory;
 
     @Inject
-    private ParameterVisitorsImpl(final ExtendedElementVisitors delegate) {
+    private ParameterVisitorsImpl(
+            final ExtendedElementVisitors delegate,
+            final ParameterSourceFactory parameterFactory) {
         this.delegate = delegate;
+        this.parameterFactory = parameterFactory;
     }
 
     @Override
@@ -61,28 +67,28 @@ final class ParameterVisitorsImpl implements ParameterVisitors {
     @Override
     public <B extends GenericBuilder<B, V, R, P>, V extends ExtendedElementVisitor<R, P>, R, P> B builder(
             final V visitor,
-            Function<ExtendedElementVisitor<R, P>, V> downcastAdapter) {
+            final Function<ExtendedElementVisitor<R, P>, V> downcastAdapter) {
         return this.delegate.builder(visitor, downcastAdapter);
     }
 
     @Override
     public <B extends GenericBuilder<B, V, R, P>, V extends ExtendedElementVisitor<R, P>, R, P> B builder(
             final Provider<V> visitor,
-            Function<ExtendedElementVisitor<R, P>, V> downcastAdapter) {
+            final Function<ExtendedElementVisitor<R, P>, V> downcastAdapter) {
         return this.delegate.builder(visitor, downcastAdapter);
     }
 
     @Override
     public <V extends ExtendedElementVisitor<StreamEx<R>, P>, R, P> StreamExBuilder<V, R, P> streamExBuilder(
             final V visitor,
-            Function<ExtendedElementVisitor<StreamEx<R>, P>, V> downcastAdapter) {
+            final Function<ExtendedElementVisitor<StreamEx<R>, P>, V> downcastAdapter) {
         return this.delegate.streamExBuilder(visitor, downcastAdapter);
     }
 
     @Override
     public <V extends ExtendedElementVisitor<StreamEx<R>, P>, R, P> StreamExBuilder<V, R, P> streamExBuilder(
             final Iterable<? extends V> visitors,
-            Function<ExtendedElementVisitor<StreamEx<R>, P>, V> downcastAdapter) {
+            final Function<ExtendedElementVisitor<StreamEx<R>, P>, V> downcastAdapter) {
         return this.delegate.streamExBuilder(visitors, downcastAdapter);
     }
 
@@ -100,17 +106,22 @@ final class ParameterVisitorsImpl implements ParameterVisitors {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <B extends GenericParameterBuilder<B, V, R, P>, V extends ExtendedElementVisitor<StreamEx<R>, P>, R, P>
+    public <B extends GenericParameterBuilder<B, V, P>,
+            V extends ExtendedElementVisitor<StreamEx<ParameterSource>, P>, P>
     B parameterBuilder(
             final V visitor,
-            final Function<ExtendedElementVisitor<StreamEx<R>, P>, V> downcastAdapter) {
-        return (B) new ParameterBuilderImpl<>(builder(visitor, downcastAdapter), this);
+            final Function<ExtendedElementVisitor<StreamEx<ParameterSource>, P>, V> downcastAdapter) {
+        return (B) new ParameterSourceBuilderImpl<>(builder(visitor, downcastAdapter),
+                                                    this,
+                                                    this.parameterFactory);
     }
 
     @Override
     public String toString() {
         return "ParameterVisitorsImpl{" +
                 "delegate=" + this.delegate +
+                ", parameterFactory=" + this.parameterFactory +
                 "}";
     }
+
 }

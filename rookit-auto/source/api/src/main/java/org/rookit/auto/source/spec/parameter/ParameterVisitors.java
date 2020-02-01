@@ -24,16 +24,17 @@ package org.rookit.auto.source.spec.parameter;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitors;
+import org.rookit.auto.source.parameter.ParameterSource;
 
 import java.util.function.Function;
 
 public interface ParameterVisitors extends ExtendedElementVisitors {
 
-    <B extends GenericParameterBuilder<B, V, R, P>, V extends ExtendedElementVisitor<StreamEx<R>, P>, R, P>
-    B parameterBuilder(V visitor, Function<ExtendedElementVisitor<StreamEx<R>, P>, V> downcastAdapter);
+    <B extends GenericParameterBuilder<B, V, P>, V extends ExtendedElementVisitor<StreamEx<ParameterSource>, P>, P>
+    B parameterBuilder(V visitor, Function<ExtendedElementVisitor<StreamEx<ParameterSource>, P>, V> downcastAdapter);
 
-    default <B extends GenericParameterBuilder<B, ExtendedElementVisitor<StreamEx<R>, P>, R, P>, R, P>
-    B parameterBuilder(final ExtendedElementVisitor<StreamEx<R>, P> visitor) {
+    default <B extends GenericParameterBuilder<B, ExtendedElementVisitor<StreamEx<ParameterSource>, P>, P>, P>
+    B parameterBuilder(final ExtendedElementVisitor<StreamEx<ParameterSource>, P> visitor) {
         return parameterBuilder(visitor, element -> element);
     }
 

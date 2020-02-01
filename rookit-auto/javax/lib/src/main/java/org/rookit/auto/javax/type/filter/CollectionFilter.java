@@ -22,7 +22,7 @@
 package org.rookit.auto.javax.type.filter;
 
 import com.google.inject.Inject;
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.utils.repetition.Repetition;
 
 import java.util.function.Predicate;

@@ -21,12 +21,8 @@
  ******************************************************************************/
 package org.rookit.auto.source;
 
-import javax.annotation.processing.Filer;
-import java.util.concurrent.CompletableFuture;
-
-@FunctionalInterface
 public interface CodeSource {
 
-    CompletableFuture<Void> writeTo(Filer filer);
+    <R, P> R accept(CodeSourceVisitor<R, P> visitor, P parameter);
 
 }

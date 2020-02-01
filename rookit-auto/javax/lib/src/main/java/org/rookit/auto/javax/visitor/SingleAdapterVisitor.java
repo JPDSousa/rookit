@@ -25,52 +25,52 @@ import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.auto.javax.parameter.ExtendedTypeParameterElement;
+import org.rookit.auto.javax.type.parameter.ExtendedTypeParameterElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.variable.ExtendedVariableElement;
 
 final class SingleAdapterVisitor<T, P> implements ExtendedElementVisitor<StreamEx<T>, P> {
 
-    private final ExtendedElementVisitor<T, P> delegate;
+    private final ExtendedElementVisitor<T, P> upstream;
 
-    SingleAdapterVisitor(final ExtendedElementVisitor<T, P> delegate) {
-        this.delegate = delegate;
+    SingleAdapterVisitor(final ExtendedElementVisitor<T, P> upstream) {
+        this.upstream = upstream;
     }
 
     @Override
     public StreamEx<T> visitPackage(final ExtendedPackageElement packageElement, final P parameter) {
-        return StreamEx.of(this.delegate.visitPackage(packageElement, parameter));
+        return StreamEx.of(packageElement.accept(this.upstream, parameter));
     }
 
     @Override
     public StreamEx<T> visitType(final ExtendedTypeElement extendedType, final P parameter) {
-        return StreamEx.of(this.delegate.visitType(extendedType, parameter));
+        return StreamEx.of(extendedType.accept(this.upstream, parameter));
     }
 
     @Override
     public StreamEx<T> visitExecutable(final ExtendedExecutableElement extendedExecutable, final P parameter) {
-        return StreamEx.of(this.delegate.visitExecutable(extendedExecutable, parameter));
+        return StreamEx.of(extendedExecutable.accept(this.upstream, parameter));
     }
 
     @Override
     public StreamEx<T> visitTypeParameter(final ExtendedTypeParameterElement extendedParameter, final P parameter) {
-        return StreamEx.of(this.delegate.visitTypeParameter(extendedParameter, parameter));
+        return StreamEx.of(extendedParameter.accept(this.upstream, parameter));
     }
 
     @Override
     public StreamEx<T> visitVariable(final ExtendedVariableElement extendedElement, final P parameter) {
-        return StreamEx.of(this.delegate.visitVariable(extendedElement, parameter));
+        return StreamEx.of(extendedElement.accept(this.upstream, parameter));
     }
 
     @Override
     public StreamEx<T> visitUnknown(final ExtendedElement extendedElement, final P parameter) {
-        return StreamEx.of(this.delegate.visitUnknown(extendedElement, parameter));
+        return StreamEx.of(extendedElement.accept(this.upstream, parameter));
     }
 
     @Override
     public String toString() {
         return "SingleAdapterVisitor{" +
-                "delegate=" + this.delegate +
+                "upstream=" + this.upstream +
                 "}";
     }
 }

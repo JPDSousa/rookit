@@ -27,8 +27,14 @@ public interface TypeSourceFactory {
 
     TypeSource createClass(Identifier identifier);
 
+    MutableTypeSource createMutableClass(Identifier identifier);
+
     TypeSource createInterface(Identifier identifier);
 
-    TypeSource createAnnotation(Identifier identifier);
+    MutableTypeSource createMutableInterface(Identifier identifier);
+
+    MutableTypeSource createMutableAnnotation(Identifier identifier);
+
+    MutableTypeSource makeMutable(TypeSource typeSource);
 
 }

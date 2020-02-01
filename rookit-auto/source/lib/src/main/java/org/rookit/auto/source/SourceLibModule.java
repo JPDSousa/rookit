@@ -27,14 +27,16 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
 import io.reactivex.Maybe;
+import io.reactivex.Single;
 import org.rookit.auto.source.guice.JavadocTemplate;
 import org.rookit.auto.source.spec.SpecModule;
+import org.rookit.auto.source.visitor.VisitorModule;
 import org.rookit.io.path.registry.PathRegistries;
+import org.rookit.io.url.URLUtils;
 import org.rookit.utils.object.DynamicObject;
 import org.rookit.utils.registry.Registry;
 
 import java.net.URI;
-import java.net.URL;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
 
@@ -42,7 +44,8 @@ public final class SourceLibModule extends AbstractModule {
 
     private static final Module MODULE = Modules.combine(
             new SourceLibModule(),
-            SpecModule.getModule()
+            SpecModule.getModule(),
+            VisitorModule.getModule()
     );
 
     public static Module getModule() {
@@ -60,17 +63,18 @@ public final class SourceLibModule extends AbstractModule {
     @Singleton
     @JavadocTemplate
     Registry<String, DynamicObject> javadocs(final PathRegistries registries,
-                                             final Registry<URI, FileSystem> fileSystemRegistry) {
+                                             final Registry<URI, FileSystem> fileSystemRegistry,
+                                             final URLUtils urlUtils) {
         return Maybe.fromCallable(() -> getClass().getClassLoader().getResource("javadoc-template"))
-                .map(URL::toURI)
-                .flatMap(uri -> createPath(uri, fileSystemRegistry))
+                .map(urlUtils::toURI)
+                .flatMapSingle(uri -> createPath(uri, fileSystemRegistry))
                 .map(registries::serializedDirectoryRegistry)
                 .blockingGet();
     }
 
     // TODO this shouldn't be here
-    Maybe<Path> createPath(final URI uri, final Registry<URI, FileSystem> registry) {
-        return registry.get(uri)
+    Single<Path> createPath(final URI uri, final Registry<URI, FileSystem> registry) {
+        return registry.fetch(uri)
                 .map(FileSystem::provider)
                 .map(provider -> provider.getPath(uri));
     }

@@ -21,12 +21,14 @@
  ******************************************************************************/
 package org.rookit.auto.javapoet.doc;
 
+import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
-import com.squareup.javapoet.TypeName;
+import org.rookit.auto.javax.type.ExtendedTypeElement;
+import org.rookit.auto.source.doc.JavadocTemplate1;
 
 import java.lang.reflect.Type;
 
-final class JavaPoetJavadocTemplate1Impl implements JavaPoetJavadocTemplate1 {
+final class JavaPoetJavadocTemplate1Impl implements JavadocTemplate1 {
 
     private final String content;
 
@@ -35,13 +37,13 @@ final class JavaPoetJavadocTemplate1Impl implements JavaPoetJavadocTemplate1 {
     }
 
     @Override
-    public String build(final TypeName parameter) {
+    public String build(final Type parameter) {
         return CodeBlock.of(this.content, parameter).toString();
     }
 
     @Override
-    public String build(final Type parameter) {
-        return CodeBlock.of(this.content, parameter).toString();
+    public String build(final ExtendedTypeElement parameter) {
+        return CodeBlock.of(this.content, ClassName.get(parameter)).toString();
     }
 
     @Override

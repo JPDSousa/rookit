@@ -50,7 +50,7 @@
         <commons.io.version>2.5</commons.io.version>
         <commons.lang3.version>3.6</commons.lang3.version>
         <commons.text.version>1.1</commons.text.version>
-        <delegate.version>1.3.2</delegate.version>
+        <upstream.version>1.3.2</upstream.version>
         <errorprone.version>2.2.0</errorprone.version>
         <fastutil.version>8.1.1</fastutil.version>
         <findbugs.version>3.0.2</findbugs.version>
@@ -74,7 +74,7 @@
         <rxjava.version>2.2.2</rxjava.version>
         <streamex.version>0.6.8</streamex.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <typesafe.delegate.version>1.3.2</typesafe.delegate.version>
+        <typesafe.upstream.version>1.3.2</typesafe.upstream.version>
     </properties>
 
     <build>
@@ -314,11 +314,11 @@
                 <version>${retrofit.version}</version>
             </dependency>
 
-            <!-- Typesafe delegate -->
+            <!-- Typesafe upstream -->
             <dependency>
                 <groupId>com.typesafe</groupId>
-                <artifactId>delegate</artifactId>
-                <version>${typesafe.delegate.version}</version>
+                <artifactId>upstream</artifactId>
+                <version>${typesafe.upstream.version}</version>
             </dependency>
 
             <!-- Fast Util -->
@@ -526,12 +526,6 @@
             <dependency>
                 <groupId>${rookit.group}</groupId>
                 <artifactId>rookit-auto-source-api</artifactId>
-                <version>${rookit.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${rookit.group}</groupId>
-                <artifactId>rookit-auto-source-javapoet-api</artifactId>
                 <version>${rookit.version}</version>
             </dependency>
 

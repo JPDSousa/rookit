@@ -25,58 +25,58 @@ import com.google.inject.Inject;
 import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.auto.javax.parameter.ExtendedTypeParameterElement;
+import org.rookit.auto.javax.type.parameter.ExtendedTypeParameterElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.variable.ExtendedVariableElement;
 import org.rookit.utils.adapt.Adapter;
 
 final class TypeAdapterVisitor<T, P> implements ExtendedElementVisitor<T, P> {
 
-    private final ExtendedElementVisitor<T, P> delegate;
+    private final ExtendedElementVisitor<T, P> upstream;
     private final Adapter<ExtendedTypeElement> adapter;
 
     @Inject
-    TypeAdapterVisitor(final ExtendedElementVisitor<T, P> delegate,
+    TypeAdapterVisitor(final ExtendedElementVisitor<T, P> upstream,
                        final Adapter<ExtendedTypeElement> adapter) {
-        this.delegate = delegate;
+        this.upstream = upstream;
         this.adapter = adapter;
+    }
+
+    @Override
+    public T visitPackage(final ExtendedPackageElement packageElement, final P parameter) {
+        return packageElement.accept(this.upstream, parameter);
+    }
+
+    @Override
+    public T visitType(final ExtendedTypeElement extendedType, final P parameter) {
+        return extendedType.accept(this.upstream, parameter);
+    }
+
+    @Override
+    public T visitExecutable(final ExtendedExecutableElement extendedExecutable, final P parameter) {
+        return extendedExecutable.accept(this.upstream, parameter);
+    }
+
+    @Override
+    public T visitTypeParameter(final ExtendedTypeParameterElement extendedParameter, final P parameter) {
+        return extendedParameter.accept(this.upstream, parameter);
+    }
+
+    @Override
+    public T visitVariable(final ExtendedVariableElement extendedElement, final P parameter) {
+        return extendedElement.accept(this.upstream, parameter);
+    }
+
+    @Override
+    public T visitUnknown(final ExtendedElement extendedElement, final P parameter) {
+        return extendedElement.accept(this.upstream, parameter);
     }
 
     @Override
     public String toString() {
         return "TypeAdapterVisitor{" +
-                "delegate=" + this.delegate +
+                "upstream=" + this.upstream +
                 ", adapter=" + this.adapter +
                 "}";
-    }
-
-    @Override
-    public T visitPackage(final ExtendedPackageElement packageElement, final P parameter) {
-        return this.delegate.visitPackage(packageElement, parameter);
-    }
-
-    @Override
-    public T visitType(final ExtendedTypeElement extendedType, final P parameter) {
-        return this.delegate.visitType(this.adapter.adapt(extendedType), parameter);
-    }
-
-    @Override
-    public T visitExecutable(final ExtendedExecutableElement extendedExecutable, final P parameter) {
-        return this.delegate.visitExecutable(extendedExecutable, parameter);
-    }
-
-    @Override
-    public T visitTypeParameter(final ExtendedTypeParameterElement extendedParameter, final P parameter) {
-        return this.delegate.visitTypeParameter(extendedParameter, parameter);
-    }
-
-    @Override
-    public T visitVariable(final ExtendedVariableElement extendedElement, final P parameter) {
-        return this.delegate.visitVariable(extendedElement, parameter);
-    }
-
-    @Override
-    public T visitUnknown(final ExtendedElement extendedElement, final P parameter) {
-        return this.delegate.visitUnknown(extendedElement, parameter);
     }
 }

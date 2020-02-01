@@ -23,7 +23,9 @@ package org.rookit.auto.javax.type;
 
 import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
-import org.rookit.auto.javax.parameter.ExtendedTypeParameterElement;
+import org.rookit.auto.javax.naming.Identifier;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.parameter.ExtendedTypeParameterElement;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.utils.optional.Optional;
 
@@ -31,6 +33,8 @@ import javax.lang.model.element.TypeElement;
 import java.util.List;
 
 public interface ExtendedTypeElement extends ExtendedElement, TypeElement {
+
+    Identifier identifier();
 
     @Override
     List<? extends ExtendedTypeMirror> getInterfaces();

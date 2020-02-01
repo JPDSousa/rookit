@@ -22,10 +22,12 @@
 package org.rookit.auto.javax.naming;
 
 import org.rookit.auto.javax.ExtendedElement;
+import org.rookit.auto.javax.pack.ExtendedPackageElement;
 
-@FunctionalInterface
 public interface IdentifierFactory {
 
     Identifier create(ExtendedElement typeElement);
+
+    Identifier create(ExtendedPackageElement pckg, CharSequence typeName);
 
 }

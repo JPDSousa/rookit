@@ -21,10 +21,15 @@
  ******************************************************************************/
 package org.rookit.auto.javax;
 
+import com.google.inject.Provider;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
-import org.rookit.auto.javax.type.ExtendedTypeMirrorFactory;
+import org.rookit.auto.javax.pack.ExtendedPackageElementFactory;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirrorFactory;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
+import org.rookit.utils.primitive.VoidUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
@@ -36,33 +41,46 @@ import javax.lang.model.util.Elements;
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
+
+import static com.google.common.collect.ImmutableList.toImmutableList;
 
 final class ExtendedElementImpl implements ExtendedElement {
+
+    /**
+     * Logger for this class.
+     */
+    private static final Logger logger = LoggerFactory.getLogger(ExtendedElementImpl.class);
 
     private final Elements elements;
     private final Element element;
     private final ExtendedTypeMirrorFactory mirrorFactory;
-    private final ExtendedElementFactory elementFactory;
+    private final Provider<ElementVisitor<ExtendedElement, Void>> effectiveTypeVisitor;
+    private final VoidUtils voidUtils;
+    private final Provider<ExtendedPackageElementFactory> packageFactory;
 
-    ExtendedElementImpl(final Elements elements,
-                        final Element element,
-                        final ExtendedTypeMirrorFactory mirrorFactory,
-                        final ExtendedElementFactory elementFactory) {
+    ExtendedElementImpl(
+            final Elements elements,
+            final Element element,
+            final ExtendedTypeMirrorFactory mirrorFactory,
+            final Provider<ElementVisitor<ExtendedElement, Void>> effectiveTypeVisitor,
+            final VoidUtils voidUtils,
+            final Provider<ExtendedPackageElementFactory> packageFactory) {
         this.elements = elements;
         this.element = element;
         this.mirrorFactory = mirrorFactory;
-        this.elementFactory = elementFactory;
+        this.effectiveTypeVisitor = effectiveTypeVisitor;
+        this.voidUtils = voidUtils;
+        this.packageFactory = packageFactory;
     }
 
     @Override
     public ExtendedPackageElement packageInfo() {
-        return this.elementFactory.extendPackage(this.elements.getPackageOf(this.element));
+        return this.packageFactory.get().extend(this.elements.getPackageOf(this.element));
     }
 
     @Override
     public ExtendedTypeMirror asType() {
-        return this.mirrorFactory.create(this.element.asType());
+        return this.mirrorFactory.extend(this.element.asType());
     }
 
     @Override
@@ -80,20 +98,25 @@ final class ExtendedElementImpl implements ExtendedElement {
         return this.element.getSimpleName();
     }
 
+    private ExtendedElement effectiveType(final Element element) {
+        return element.accept(this.effectiveTypeVisitor.get(), this.voidUtils.returnVoid());
+    }
+
     @Override
     public ExtendedElement getEnclosingElement() {
-        return this.elementFactory.extendAsSubType(this.element.getEnclosingElement());
+        return effectiveType(this.element.getEnclosingElement());
     }
 
     @Override
     public List<? extends ExtendedElement> getEnclosedElements() {
         return this.element.getEnclosedElements().stream()
-                .map(this.elementFactory::extendAsSubType)
-                .collect(Collectors.toList());
+                .map(this::effectiveType)
+                .collect(toImmutableList());
     }
 
     @Override
     public <R, P> R accept(final ExtendedElementVisitor<R, P> visitor, final P parameter) {
+        logger.warn("Visiting unknown for {}", this);
         return visitor.visitUnknown(this, parameter);
     }
 
@@ -120,9 +143,13 @@ final class ExtendedElementImpl implements ExtendedElement {
     @Override
     public String toString() {
         return "ExtendedElementImpl{" +
-                "element=" + this.element +
+                "elements=" + this.elements +
+                ", element=" + this.element +
                 ", mirrorFactory=" + this.mirrorFactory +
-                ", elementFactory=" + this.elementFactory +
+                ", effectiveTypeVisitor=" + this.effectiveTypeVisitor +
+                ", voidUtils=" + this.voidUtils +
+                ", packageFactory=" + this.packageFactory +
                 "}";
     }
+
 }

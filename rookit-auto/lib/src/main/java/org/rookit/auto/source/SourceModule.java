@@ -37,7 +37,7 @@ public final class SourceModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(CodeSourceContainerFactory.class).to(BaseCodeSourceContainerFactory.class).in(Singleton.class);
+        bind(TypeSourceContainerFactory.class).to(BaseTypeSourceContainerFactory.class).in(Singleton.class);
     }
 
 }

@@ -21,10 +21,14 @@
  ******************************************************************************/
 package org.rookit.auto.source.doc;
 
+import org.rookit.auto.javax.type.ExtendedTypeElement;
+
 import java.lang.reflect.Type;
 
 public interface JavadocTemplate1 {
 
     String build(Type parameter);
+
+    String build(ExtendedTypeElement parameter);
 
 }

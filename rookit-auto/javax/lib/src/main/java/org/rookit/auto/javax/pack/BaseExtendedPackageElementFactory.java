@@ -23,6 +23,7 @@ package org.rookit.auto.javax.pack;
 
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import org.rookit.auto.javax.ExtendedElementFactory;
 import org.rookit.failsafe.Failsafe;
 import org.rookit.utils.collection.ListUtils;
@@ -47,7 +48,8 @@ final class BaseExtendedPackageElementFactory implements ExtendedPackageElementF
 
     private final OptionalFactory optionalFactory;
     private final JointStringFactory jointFactory;
-    private final ExtendedElementFactory extendedFactory;
+    // TODO refactor this class so that this provider is removed.
+    private final Provider<ExtendedElementFactory> extendedFactory;
     private final Map<JointString, ExtendedPackageElement> packagesMap;
     private final Registry<JointString, PackageElement> packageRegistry;
     private final ListUtils listUtils;
@@ -56,7 +58,7 @@ final class BaseExtendedPackageElementFactory implements ExtendedPackageElementF
     @Inject
     private BaseExtendedPackageElementFactory(final OptionalFactory optionalFactory,
                                               @Package final JointStringFactory jointFactory,
-                                              final ExtendedElementFactory extendedFactory,
+                                              final Provider<ExtendedElementFactory> extendedFactory,
                                               final Registry<JointString, PackageElement> packageRegistry,
                                               final ListUtils listUtils,
                                               final Failsafe failsafe) {
@@ -70,12 +72,12 @@ final class BaseExtendedPackageElementFactory implements ExtendedPackageElementF
     }
 
     @Override
-    public ExtendedPackageElement create(final String fqdn) {
-        return create(this.jointFactory.parse(fqdn));
+    public ExtendedPackageElement fromFQDN(final String fqdn) {
+        return fromFQDN(this.jointFactory.parse(fqdn));
     }
 
     @Override
-    public ExtendedPackageElement create(final JointString fullName) {
+    public ExtendedPackageElement fromFQDN(final JointString fullName) {
         this.failsafe.checkArgument().isNotNull(logger, fullName, "fullName");
         if (this.packagesMap.containsKey(fullName)) {
             return this.packagesMap.get(fullName);
@@ -87,7 +89,7 @@ final class BaseExtendedPackageElementFactory implements ExtendedPackageElementF
             final ExtendedPackageElement pkg = new ImmutableExtendedPackageElement(
                     this,
                     packageElement,
-                    this.extendedFactory.extend(packageElement),
+                    this.extendedFactory.get().extend(packageElement),
                     fullName,
                     this.optionalFactory
             );
@@ -97,11 +99,11 @@ final class BaseExtendedPackageElementFactory implements ExtendedPackageElementF
 
         final List<String> allItems = fullName.asList();
         final JointString parentFullName = this.jointFactory.create(this.listUtils.allButLast(allItems));
-        final ExtendedPackageElement parent = create(parentFullName);
+        final ExtendedPackageElement parent = fromFQDN(parentFullName);
         final PackageElement packageElement = fetchPackageElement(fullName);
         final ExtendedPackageElement pkg = new ImmutableParentExtendedPackageElement(
                 this,
-                this.extendedFactory.extend(packageElement),
+                this.extendedFactory.get().extend(packageElement),
                 this.listUtils.last(allItems),
                 parent,
                 packageElement,
@@ -113,12 +115,12 @@ final class BaseExtendedPackageElementFactory implements ExtendedPackageElementF
     }
 
     @Override
-    public ExtendedPackageElement create(final PackageElement element) {
+    public ExtendedPackageElement extend(final PackageElement element) {
         if (element instanceof ExtendedPackageElement) {
             return (ExtendedPackageElement) element;
         }
 
-        return create(element.getQualifiedName().toString());
+        return fromFQDN(element.getQualifiedName().toString());
     }
 
     private PackageElement fetchPackageElement(final JointString fullName) {

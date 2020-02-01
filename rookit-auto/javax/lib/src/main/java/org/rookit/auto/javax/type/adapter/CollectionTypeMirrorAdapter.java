@@ -22,7 +22,7 @@
 package org.rookit.auto.javax.type.adapter;
 
 import com.google.inject.Inject;
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.utils.adapt.Adapter;
 
 import static org.apache.commons.collections4.CollectionUtils.extractSingleton;

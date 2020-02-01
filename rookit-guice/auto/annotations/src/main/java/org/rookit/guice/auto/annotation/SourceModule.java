@@ -27,21 +27,22 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
+import one.util.streamex.StreamEx;
 import org.rookit.auto.SourceUtilsModule;
 import org.rookit.auto.javapoet.SourceJavaPoetLibModule;
 import org.rookit.auto.javax.JavaxLibModule;
 import org.rookit.auto.javax.naming.NamingFactory;
+import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.source.CodeSourceFactories;
 import org.rookit.auto.source.CodeSourceFactory;
 import org.rookit.auto.source.SourceLibModule;
-import org.rookit.auto.source.spec.SpecFactory;
 import org.rookit.auto.source.type.TypeSource;
 import org.rookit.failsafe.FailsafeModule;
 import org.rookit.guice.auto.GuiceAutoLibModule;
 import org.rookit.guice.auto.annotation.config.ConfigurationModule;
 import org.rookit.guice.auto.annotation.type.TypeModule;
 import org.rookit.io.IOLibModule;
-import org.rookit.io.path.PathModule;
+import org.rookit.io.PathLibModule;
 import org.rookit.serializer.SerializationBundleModule;
 import org.rookit.utils.guice.UtilsModule;
 
@@ -59,7 +60,7 @@ public final class SourceModule extends AbstractModule {
             GuiceAutoLibModule.getModule(),
             IOLibModule.getModule(),
             JavaxLibModule.getModule(),
-            PathModule.getModule(),
+            PathLibModule.getModule(),
             SerializationBundleModule.getModule(),
             SourceJavaPoetLibModule.getModule(),
             TypeModule.getModule(),
@@ -79,9 +80,9 @@ public final class SourceModule extends AbstractModule {
 
     @Provides
     @Singleton
-    CodeSourceFactory sourceFactory(final SpecFactory<TypeSource> specFactory,
+    CodeSourceFactory sourceFactory(final ExtendedElementVisitor<StreamEx<TypeSource>, Void> specFactory,
                                     final CodeSourceFactories factories) {
-        return factories.specCodeSourceFactory(specFactory);
+        return factories.visitorCodeSourceFactory(specFactory);
     }
 
 }

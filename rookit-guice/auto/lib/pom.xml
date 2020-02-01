@@ -13,14 +13,22 @@
     <name>Rookit Guice Auto Lib</name>
 
     <dependencies>
+
         <dependency>
             <groupId>${rookit.group}</groupId>
             <artifactId>rookit-guice-auto-api</artifactId>
         </dependency>
+
         <dependency>
             <groupId>${rookit.group}</groupId>
             <artifactId>rookit-auto-guice</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-auto-source-api</artifactId>
+        </dependency>
+
     </dependencies>
 
 

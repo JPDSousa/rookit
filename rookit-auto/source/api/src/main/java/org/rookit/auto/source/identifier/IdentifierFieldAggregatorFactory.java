@@ -23,10 +23,10 @@ package org.rookit.auto.source.identifier;
 
 import org.rookit.auto.javax.naming.Identifier;
 
-public interface IdentifierFieldAggregatorFactory<F> {
+public interface IdentifierFieldAggregatorFactory {
 
-    IdentifierFieldAggregator<F> create();
+    IdentifierFieldAggregator create();
 
-    IdentifierFieldAggregator<F> create(Identifier identifier);
+    IdentifierFieldAggregator create(Identifier identifier);
 
 }

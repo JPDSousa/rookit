@@ -22,28 +22,36 @@
 package org.rookit.auto.source;
 
 import com.google.inject.Inject;
-import org.rookit.auto.javax.naming.IdentifierFactory;
-import org.rookit.auto.source.spec.SpecFactory;
-import org.rookit.auto.source.type.SingleTypeSourceFactory;
+import one.util.streamex.StreamEx;
+import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.source.type.TypeSource;
+import org.rookit.utils.primitive.VoidUtils;
 
 final class CodeSourceFactoriesImpl implements CodeSourceFactories {
 
-    private final CodeSourceContainerFactory containerFactory;
+    private final TypeSourceContainerFactory containerFactory;
+    private final VoidUtils voidUtils;
 
     @Inject
-    private CodeSourceFactoriesImpl(final CodeSourceContainerFactory containerFactory) {
+    private CodeSourceFactoriesImpl(
+            final TypeSourceContainerFactory containerFactory,
+            final VoidUtils voidUtils) {
         this.containerFactory = containerFactory;
+        this.voidUtils = voidUtils;
     }
 
     @Override
-    public CodeSourceFactory singleCodeSourceFactory(final IdentifierFactory identifierFactory,
-                                                     final SingleTypeSourceFactory sourceFactory) {
-        return new SingleTypeCodeSourceFactory(sourceFactory, identifierFactory);
+    public CodeSourceFactory visitorCodeSourceFactory(
+            final ExtendedElementVisitor<StreamEx<TypeSource>, Void> visitor) {
+        return new SpecCodeSourceFactory(this.containerFactory, visitor, this.voidUtils);
     }
 
     @Override
-    public CodeSourceFactory specCodeSourceFactory(final SpecFactory<TypeSource> specFactory) {
-        return new SpecCodeSourceFactory(this.containerFactory, specFactory);
+    public String toString() {
+        return "CodeSourceFactoriesImpl{" +
+                "containerFactory=" + this.containerFactory +
+                ", voidUtils=" + this.voidUtils +
+                "}";
     }
+
 }

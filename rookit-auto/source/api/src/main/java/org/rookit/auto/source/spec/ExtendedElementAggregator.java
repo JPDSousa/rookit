@@ -22,10 +22,10 @@
 package org.rookit.auto.source.spec;
 
 import org.rookit.auto.javax.ExtendedElement;
-import org.rookit.auto.source.CodeSource;
+import org.rookit.auto.source.type.TypeSource;
 import org.rookit.utils.aggregate.Aggregator;
 
 public interface ExtendedElementAggregator<M> extends Aggregator<ExtendedElement,
-        ExtendedElementAggregator<M>, M>, CodeSource {
+        ExtendedElementAggregator<M>, M>, TypeSource {
 
 }

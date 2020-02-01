@@ -24,19 +24,28 @@ package org.rookit.auto.javax;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
 import com.google.inject.util.Modules;
+import org.rookit.auto.javax.executable.ExecutableModule;
+import org.rookit.auto.javax.naming.NamingModule;
 import org.rookit.auto.javax.pack.PackageModule;
 import org.rookit.auto.javax.repetition.RepetitionModule;
 import org.rookit.auto.javax.type.TypeModule;
+import org.rookit.auto.javax.variable.VariableModule;
 import org.rookit.auto.javax.visitor.VisitorModule;
+
+import javax.lang.model.element.ElementVisitor;
 
 public final class JavaxLibModule extends AbstractModule {
 
     private static final Module MODULE = Modules.combine(
             new JavaxLibModule(),
+            ExecutableModule.getModule(),
+            NamingModule.getModule(),
             PackageModule.getModule(),
             RepetitionModule.getModule(),
             TypeModule.getModule(),
+            VariableModule.getModule(),
             VisitorModule.getModule()
     );
 
@@ -46,10 +55,13 @@ public final class JavaxLibModule extends AbstractModule {
 
     private JavaxLibModule() {}
 
+    @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
     @Override
     protected void configure() {
         bind(ElementUtils.class).to(ElementUtilsImpl.class).in(Singleton.class);
         bind(ExtendedElementFactory.class).to(ExtendedElementFactoryImpl.class).in(Singleton.class);
+        bind(new TypeLiteral<ElementVisitor<ExtendedElement, Void>>() {}).to(EffectiveExtendedElementVisitor.class)
+                .in(Singleton.class);
     }
 
 }

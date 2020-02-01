@@ -25,6 +25,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import com.google.inject.util.Modules;
 import io.github.glytching.junit.extension.folder.TemporaryFolder;
 import io.github.glytching.junit.extension.folder.TemporaryFolderExtension;
 import org.junit.jupiter.api.Test;
@@ -34,6 +35,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.rookit.auto.javax.mirror.JavaxMirrorLibModule;
 import org.rookit.auto.javax.runtime.JavaxRuntimeModule;
 import org.rookit.auto.javax.runtime.entity.JavaxRuntimeEntityModule;
+import org.rookit.config.guice.Config;
 import org.rookit.utils.guice.Proxied;
 
 import javax.annotation.processing.Filer;
@@ -57,20 +59,25 @@ public interface ExtendedProcessorTest {
 
     @Test
     default void testInjector(@Mock final Filer filer,
-                              @Mock final Messager messager) {
+                              @Mock final Messager messager,
+                              final TemporaryFolder temporaryFolder) {
         final Injector injector = Guice.createInjector(
-                sourceModule(),
-                JavaxRuntimeModule.getModule(),
-                JavaxRuntimeEntityModule.getModule(),
-                JavaxMirrorLibModule.getModule(),
-                new AbstractModule() {
-                    @Override
-                    protected void configure() {
-                        bind(Filer.class).annotatedWith(Proxied.class).toInstance(filer);
-                        bind(Messager.class).toInstance(messager);
-                    }
+                Modules.override(
+                        sourceModule(),
+                        JavaxRuntimeModule.getModule(),
+                        JavaxRuntimeEntityModule.getModule(),
+                        JavaxMirrorLibModule.getModule()
+                ).with(
+                        new AbstractModule() {
+                            @Override
+                            protected void configure() {
+                                bind(Filer.class).annotatedWith(Proxied.class).toInstance(filer);
+                                bind(Messager.class).toInstance(messager);
+                                bind(URI.class).annotatedWith(Config.class).toInstance(createConfigFile(temporaryFolder));
+                            }
 
-                }
+                        }
+                )
         );
         final ExtendedProcessor processor = processor(injector);
         processor.init(injector.getInstance(ProcessingEnvironment.class));
@@ -81,12 +88,17 @@ public interface ExtendedProcessorTest {
                 .doesNotThrowAnyException();
     }
 
-    default URI createConfigFile(final TemporaryFolder temporaryFolder) throws IOException {
-        final Path tempPath = temporaryFolder.createFile("configFile.json").toPath();
-        // TODO can we inject the configured charset at this point?
-        Files.write(tempPath, jsonConfig().getBytes(Charset.defaultCharset()));
+    default URI createConfigFile(final TemporaryFolder temporaryFolder) {
+        try {
+            final Path tempPath = temporaryFolder.createFile("configFile.json").toPath();
 
-        return tempPath.toUri();
+            // TODO can we inject the configured charset at this point?
+            Files.write(tempPath, jsonConfig().getBytes(Charset.defaultCharset()));
+            return tempPath.toUri();
+        } catch (final IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     String jsonConfig();

@@ -28,12 +28,9 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
 import org.rookit.auto.config.ConfigurationModule;
-import org.rookit.auto.javapoet.JavaPoetModule;
-import org.rookit.auto.javapoet.naming.JavaPoetNamingFactories;
-import org.rookit.auto.javapoet.naming.JavaPoetNamingFactory;
-import org.rookit.auto.javapoet.type.JavaPoetTypeSourceFactory;
+import org.rookit.auto.javax.naming.NamingFactories;
+import org.rookit.auto.javax.naming.NamingFactory;
 import org.rookit.auto.source.SourceModule;
-import org.rookit.auto.source.type.TypeSourceFactory;
 import org.rookit.utils.guice.Dummy;
 import org.rookit.utils.guice.Self;
 
@@ -47,7 +44,6 @@ public final class SourceUtilsModule extends AbstractModule {
     private static final Module MODULE = Modules.combine(
             new SourceUtilsModule(),
             ConfigurationModule.getModule(),
-            JavaPoetModule.getModule(),
             SourceModule.getModule()
     );
 
@@ -63,7 +59,6 @@ public final class SourceUtilsModule extends AbstractModule {
         bind(JavaFileObject.class).annotatedWith(Dummy.class).to(DummyJavaFileObject.class).in(Singleton.class);
 
         bind(TypeProcessor.class).to(StatelessTypeProcessor.class).in(Singleton.class);
-        bind(TypeSourceFactory.class).to(JavaPoetTypeSourceFactory.class).in(Singleton.class);
 
         bind(Executor.class).toInstance(MoreExecutors.directExecutor());
     }
@@ -71,7 +66,7 @@ public final class SourceUtilsModule extends AbstractModule {
     @Singleton
     @Provides
     @Self
-    JavaPoetNamingFactory selfNamingFactory(final JavaPoetNamingFactories factories) {
+    NamingFactory selfNamingFactory(final NamingFactories factories) {
         return factories.selfFactory();
     }
 

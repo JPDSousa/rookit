@@ -21,32 +21,9 @@
  ******************************************************************************/
 package org.rookit.auto.javax;
 
-import org.rookit.auto.javax.executable.ExtendedExecutableElement;
-import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.auto.javax.parameter.ExtendedTypeParameterElement;
-import org.rookit.auto.javax.type.ExtendedTypeElement;
-import org.rookit.auto.javax.variable.ExtendedVariableElement;
-
 import javax.lang.model.element.Element;
-import javax.lang.model.element.ExecutableElement;
-import javax.lang.model.element.PackageElement;
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.element.TypeParameterElement;
-import javax.lang.model.element.VariableElement;
 
-public interface ExtendedElementFactory {
+@FunctionalInterface
+public interface ExtendedElementFactory extends GenericExtendedElementFactory<Element, ExtendedElement> {
 
-    ExtendedElement extend(Element element);
-
-    ExtendedElement extendAsSubType(Element element);
-
-    ExtendedTypeElement extendType(TypeElement element);
-
-    ExtendedExecutableElement extendExecutable(ExecutableElement element);
-
-    ExtendedTypeParameterElement extendParameter(TypeParameterElement element);
-
-    ExtendedVariableElement extendVariable(VariableElement element);
-
-    ExtendedPackageElement extendPackage(PackageElement packageElement);
 }

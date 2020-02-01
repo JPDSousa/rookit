@@ -26,20 +26,18 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
-import com.squareup.javapoet.TypeSpec;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.guice.GuiceBindAnnotation;
-import org.rookit.auto.javapoet.doc.JavaPoetJavadocTemplate1;
-import org.rookit.auto.javapoet.identifier.JavaPoetIdentifierFactory;
-import org.rookit.auto.javapoet.type.ExtendedElementTypeSpecVisitors;
 import org.rookit.auto.javax.ExtendedElement;
+import org.rookit.auto.javax.naming.IdentifierFactory;
+import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
-import org.rookit.auto.source.spec.SpecFactories;
-import org.rookit.auto.source.spec.SpecFactory;
+import org.rookit.auto.source.doc.JavadocTemplate1;
+import org.rookit.auto.source.type.ExtendedElementTypeSourceVisitors;
+import org.rookit.auto.source.type.TypeSource;
 import org.rookit.guice.auto.annotation.BindingAnnotationGenerator;
 import org.rookit.utils.registry.Registry;
 
-import javax.lang.model.type.TypeMirror;
 import java.util.function.Function;
 
 @SuppressWarnings("MethodMayBeStatic")
@@ -56,38 +54,30 @@ public final class TypeModule extends AbstractModule {
     @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
     @Override
     protected void configure() {
-        bind(new TypeLiteral<Function<ExtendedElement, TypeMirror>>() {}).to(AnnotationExtractionFunction.class)
-                .in(Singleton.class);
+        bind(new TypeLiteral<Function<ExtendedElement, ExtendedTypeElement>>() {})
+                .to(AnnotationExtractionFunction.class).in(Singleton.class);
     }
 
     @Provides
     @Singleton
-    ExtendedElementVisitor<StreamEx<TypeSpec>, Void> visitor(
-            final ExtendedElementTypeSpecVisitors visitors,
-            final JavaPoetIdentifierFactory idFactory,
-            final Function<ExtendedElement, TypeMirror> extractionFunction,
-            @GuiceBindAnnotation final JavaPoetJavadocTemplate1 javadoc) {
+    ExtendedElementVisitor<StreamEx<TypeSource>, Void> visitor(
+            final ExtendedElementTypeSourceVisitors visitors,
+            final IdentifierFactory idFactory,
+            final Function<ExtendedElement, ExtendedTypeElement> extractionFunction,
+            @GuiceBindAnnotation final JavadocTemplate1 javadoc) {
         return visitors.annotationBuilder(idFactory, Void.class)
                 .withRecursiveVisiting(StreamEx::append)
                 .filterIfAnnotationAbsent(BindingAnnotationGenerator.class)
                 .bindingAnnotation()
                 .withClassJavadoc(javadoc)
                 .copyBodyFrom(extractionFunction)
-                .buildTypeSpec()
                 .build();
     }
 
     @Provides
     @Singleton
-    SpecFactory<TypeSpec> typeSpecFactory(final SpecFactories factories,
-                                          final ExtendedElementVisitor<StreamEx<TypeSpec>, Void> visitor) {
-        return factories.fromVisitor(visitor);
-    }
-
-    @Provides
-    @Singleton
     @GuiceBindAnnotation
-    JavaPoetJavadocTemplate1 javadocTemplateRaw(final Registry<String, JavaPoetJavadocTemplate1> templates) {
+    JavadocTemplate1 javadocTemplateRaw(final Registry<String, JavadocTemplate1> templates) {
         return templates.fetch("bindingAnnotation.json").blockingGet();
     }
 

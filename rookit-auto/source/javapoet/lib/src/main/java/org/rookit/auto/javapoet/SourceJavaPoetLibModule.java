@@ -23,19 +23,27 @@ package org.rookit.auto.javapoet;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
+import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
 import com.google.inject.util.Modules;
+import com.squareup.javapoet.CodeBlock;
+import org.rookit.auto.javapoet.arbitrary.ArbitraryModule;
 import org.rookit.auto.javapoet.doc.DocModule;
-import org.rookit.auto.javapoet.identifier.IdentifierModule;
+import org.rookit.auto.javapoet.field.FieldModule;
 import org.rookit.auto.javapoet.method.MethodModule;
-import org.rookit.auto.javapoet.type.TypeSpecModule;
+import org.rookit.auto.javapoet.parameter.ParameterModule;
+import org.rookit.auto.javapoet.type.TypeModule;
+import org.rookit.auto.source.CodeSourceVisitor;
 
 public final class SourceJavaPoetLibModule extends AbstractModule {
 
     private static final Module MODULE = Modules.combine(
+            ArbitraryModule.getModule(),
             DocModule.getModule(),
-            IdentifierModule.getModule(),
+            FieldModule.getModule(),
             MethodModule.getModule(),
-            TypeSpecModule.getModule(),
+            ParameterModule.getModule(),
+            TypeModule.getModule(),
             new SourceJavaPoetLibModule()
     );
 
@@ -44,5 +52,13 @@ public final class SourceJavaPoetLibModule extends AbstractModule {
     }
 
     private SourceJavaPoetLibModule() {}
+
+    @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
+    @Override
+    protected void configure() {
+        bind(new TypeLiteral<CodeSourceVisitor<CodeBlock, Void>>() {}).to(CodeBlockAdapter.class).in(Singleton.class);
+        bind(JavaPoetMutableAnnotatableFactory.class).to(JavaPoetMutableAnnotatableFactoryImpl.class)
+                .in(Singleton.class);
+    }
 
 }

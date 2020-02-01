@@ -22,15 +22,27 @@
 package org.rookit.auto.javax.executable;
 
 import org.rookit.auto.javax.ExtendedElement;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.parameter.ExtendedTypeParameterElement;
+import org.rookit.auto.javax.variable.ExtendedVariableElement;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
 
 import javax.lang.model.element.ExecutableElement;
+import java.util.List;
 
 public interface ExtendedExecutableElement extends ExtendedElement, ExecutableElement {
 
     @Override
     ExtendedTypeMirror getReturnType();
+
+    @Override
+    List<? extends ExtendedTypeParameterElement> getTypeParameters();
+
+    @Override
+    List<? extends ExtendedVariableElement> getParameters();
+
+    @Override
+    List<? extends ExtendedTypeMirror> getThrownTypes();
 
     @Override
     default <R, P> R accept(final ExtendedElementVisitor<R, P> visitor, final P parameter) {

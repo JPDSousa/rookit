@@ -22,10 +22,22 @@
 package org.rookit.auto.source.type;
 
 import org.rookit.auto.javax.naming.Identifier;
-import org.rookit.auto.source.CodeSource;
+import org.rookit.auto.source.Annotatable;
+import org.rookit.auto.source.CodeSourceVisitor;
+import org.rookit.auto.source.Modifiable;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
 
-public interface TypeSource extends CodeSource {
+import javax.annotation.processing.Filer;
+import java.util.concurrent.CompletableFuture;
+
+public interface TypeSource extends TypeReferenceSource, Modifiable, Annotatable {
 
     Identifier identifier();
 
+    @Override
+    default <R, P> R accept(final CodeSourceVisitor<R, P> visitor, final P parameter) {
+        return visitor.visitType(this, parameter);
+    }
+
+    CompletableFuture<Void> writeTo(Filer filer);
 }

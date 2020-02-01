@@ -21,38 +21,56 @@
  ******************************************************************************/
 package org.rookit.auto;
 
+import one.util.streamex.StreamEx;
 import org.rookit.auto.config.ProcessorConfig;
-import org.rookit.auto.javax.ExtendedElementFactory;
-import org.rookit.auto.source.CodeSource;
-import org.rookit.auto.source.CodeSourceFactory;
+import org.rookit.auto.javax.type.ExtendedTypeElementFactory;
+import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
+import org.rookit.auto.source.TypeSourceContainer;
+import org.rookit.auto.source.TypeSourceContainerFactory;
+import org.rookit.auto.source.type.TypeSource;
+import org.rookit.utils.primitive.VoidUtils;
 
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
 import javax.lang.model.element.TypeElement;
 import java.util.concurrent.ExecutionException;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+import static java.util.stream.Collectors.collectingAndThen;
+
 public abstract class AbstractTypeProcessor extends AbstractConfigAwareTypeProcessor {
 
-    private final CodeSourceFactory codeSourceFactory;
+    private final TypeSourceContainerFactory containerFactory;
+    private final ExtendedElementVisitor<StreamEx<TypeSource>, Void> generator;
+    private final VoidUtils voidUtils;
     private final Filer filer;
-    private final ExtendedElementFactory elementFactory;
+    private final ExtendedTypeElementFactory typeFactory;
 
-    protected AbstractTypeProcessor(final CodeSourceFactory codeSourceFactory,
-                                    final Filer filer,
-                                    final ExtendedElementFactory elementFactory,
-                                    final ProcessorConfig config,
-                                    final Messager messager) {
+    protected AbstractTypeProcessor(
+            final TypeSourceContainerFactory containerFactory,
+            final Filer filer,
+            final ExtendedTypeElementFactory typeFactory,
+            final ProcessorConfig config,
+            final Messager messager,
+            final ExtendedElementVisitor<StreamEx<TypeSource>, Void> generator,
+            final VoidUtils voidUtils) {
         super(config, messager);
-        this.codeSourceFactory = codeSourceFactory;
+        this.containerFactory = containerFactory;
         this.filer = filer;
-        this.elementFactory = elementFactory;
+        this.typeFactory = typeFactory;
+        this.generator = generator;
+        this.voidUtils = voidUtils;
     }
 
     @Override
     protected void doProcessEntity(final TypeElement element) {
         try {
-            final CodeSource codeSource = this.codeSourceFactory.create(this.elementFactory.extendType(element));
-            codeSource.writeTo(this.filer).get();
+            final TypeSourceContainer<TypeSource> generatedSources = this.typeFactory.extend(element)
+                    .accept(this.generator, this.voidUtils.returnVoid())
+                    .collect(collectingAndThen(toImmutableList(),
+                                               this.containerFactory::create));
+
+            generatedSources.writeTo(this.filer).get();
         } catch (final InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
@@ -61,9 +79,12 @@ public abstract class AbstractTypeProcessor extends AbstractConfigAwareTypeProce
     @Override
     public String toString() {
         return "AbstractTypeProcessor{" +
-                "codeSourceFactory=" + this.codeSourceFactory +
+                "containerFactory=" + this.containerFactory +
+                ", generator=" + this.generator +
+                ", voidUtils=" + this.voidUtils +
                 ", filer=" + this.filer +
-                ", elementFactory=" + this.elementFactory +
-                "}";
+                ", typeFactory=" + this.typeFactory +
+                "} " + super.toString();
     }
+
 }

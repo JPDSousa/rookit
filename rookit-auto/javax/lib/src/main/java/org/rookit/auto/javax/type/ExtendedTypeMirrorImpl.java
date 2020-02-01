@@ -22,6 +22,9 @@
 package org.rookit.auto.javax.type;
 
 import com.google.common.collect.ImmutableList;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirrorFactory;
+import org.rookit.auto.javax.type.parameter.TypeParameterExtractor;
 import org.rookit.utils.optional.Optional;
 import org.rookit.utils.optional.OptionalFactory;
 import org.rookit.utils.repetition.Repetition;
@@ -88,13 +91,13 @@ final class ExtendedTypeMirrorImpl implements ExtendedTypeMirror {
 
     @Override
     public ExtendedTypeMirror erasure() {
-        return this.factory.create(this.types.erasure(this.delegate));
+        return this.factory.extend(this.types.erasure(this.delegate));
     }
 
     @Override
     public ExtendedTypeMirror boxIfPrimitive() {
         if (getKind().isPrimitive()) {
-            return this.factory.create(this.types.boxedClass((PrimitiveType) this.delegate).asType());
+            return this.factory.extend(this.types.boxedClass((PrimitiveType) this.delegate).asType());
         }
         return this;
     }

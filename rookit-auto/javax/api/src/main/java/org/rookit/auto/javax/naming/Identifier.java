@@ -21,8 +21,10 @@
  ******************************************************************************/
 package org.rookit.auto.javax.naming;
 
+import org.immutables.value.Value;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
 
+@Value.Immutable
 public interface Identifier {
 
     String name();

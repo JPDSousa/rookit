@@ -21,16 +21,16 @@
  ******************************************************************************/
 package org.rookit.auto.javax.pack;
 
+import org.rookit.auto.javax.GenericExtendedElementFactory;
 import org.rookit.utils.string.join.JointString;
 
 import javax.lang.model.element.PackageElement;
 
-public interface ExtendedPackageElementFactory {
+public interface ExtendedPackageElementFactory extends GenericExtendedElementFactory<PackageElement,
+        ExtendedPackageElement> {
 
-    ExtendedPackageElement create(String fqdn);
+    ExtendedPackageElement fromFQDN(String fqdn);
 
-    ExtendedPackageElement create(JointString fqdn);
-
-    ExtendedPackageElement create(final PackageElement element);
+    ExtendedPackageElement fromFQDN(JointString fqdn);
 
 }

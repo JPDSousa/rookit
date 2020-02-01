@@ -21,7 +21,7 @@
  ******************************************************************************/
 package org.rookit.auto.javax.repetition;
 
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 
 public interface RepetitiveTypeMirror extends ExtendedTypeMirror {
 

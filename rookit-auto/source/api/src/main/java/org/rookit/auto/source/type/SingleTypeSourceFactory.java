@@ -24,7 +24,6 @@ package org.rookit.auto.source.type;
 import org.rookit.auto.javax.naming.Identifier;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 
-// TODO merge me with TypeSourceFactory
 @FunctionalInterface
 public interface SingleTypeSourceFactory {
 

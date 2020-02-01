@@ -26,6 +26,7 @@ import com.google.common.collect.Lists;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import io.reactivex.SingleSource;
+import org.rookit.io.path.filesystem.ExtendedFileSystems;
 import org.rookit.utils.registry.Registry;
 
 import java.io.IOException;
@@ -37,16 +38,18 @@ import java.util.List;
 
 final class FileSystemRegistry implements Registry<URI, FileSystem> {
 
-    private final List<FileSystem> fileSystems;
+    private final ExtendedFileSystems fileSystems;
+    private final List<FileSystem> toBeClosed;
 
-    FileSystemRegistry() {
+    FileSystemRegistry(final ExtendedFileSystems fileSystems) {
+        this.fileSystems = fileSystems;
         // TODO this is not thread safe
-        this.fileSystems = Lists.newArrayList();
+        this.toBeClosed = Lists.newArrayList();
     }
 
     @Override
     public Maybe<FileSystem> get(final URI key) {
-        return fetch(key).toMaybe();
+        return this.fileSystems.fileSystemFor(key);
     }
 
     @Override
@@ -65,7 +68,7 @@ final class FileSystemRegistry implements Registry<URI, FileSystem> {
 
     private FileSystem createFileSystem(final URI key) throws IOException {
         final FileSystem fileSystem = FileSystems.newFileSystem(key, ImmutableMap.of());
-        this.fileSystems.add(fileSystem);
+        this.toBeClosed.add(fileSystem);
 
         return fileSystem;
     }
@@ -73,7 +76,7 @@ final class FileSystemRegistry implements Registry<URI, FileSystem> {
     @Override
     public void close() throws IOException {
         // TODO this needs some care
-        for (final FileSystem fileSystem : this.fileSystems) {
+        for (final FileSystem fileSystem : this.toBeClosed) {
             fileSystem.close();
         }
     }
@@ -81,7 +84,7 @@ final class FileSystemRegistry implements Registry<URI, FileSystem> {
     @Override
     public String toString() {
         return "FileSystemRegistry{" +
-                "fileSystems=" + this.fileSystems +
+                "toBeClosed=" + this.toBeClosed +
                 "}";
     }
 }

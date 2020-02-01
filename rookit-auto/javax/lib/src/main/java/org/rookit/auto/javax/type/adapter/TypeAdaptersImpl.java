@@ -22,8 +22,8 @@
 package org.rookit.auto.javax.type.adapter;
 
 import com.google.inject.Inject;
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
-import org.rookit.auto.javax.type.ExtendedTypeMirrorFactory;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirrorFactory;
 import org.rookit.utils.adapt.Adapter;
 import org.rookit.utils.optional.OptionalFactory;
 

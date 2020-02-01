@@ -24,36 +24,51 @@ package org.rookit.guice.auto.annotation.type;
 import com.google.inject.Inject;
 import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.guice.QualifiedName;
+import org.rookit.auto.javax.type.ExtendedTypeElement;
+import org.rookit.auto.javax.type.ExtendedTypeElementFactory;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.guice.auto.annotation.BindingAnnotationGenerator;
 import org.rookit.utils.primitive.VoidUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.lang.model.element.Name;
+import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.MirroredTypeException;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import java.util.Objects;
 import java.util.function.Function;
 
-final class AnnotationExtractionFunction implements Function<ExtendedElement, TypeMirror> {
+import static com.google.auto.common.MoreTypes.asTypeElement;
+
+final class AnnotationExtractionFunction implements Function<ExtendedElement, ExtendedTypeElement> {
+
+    /**
+     * Logger for this class.
+     */
+    private static final Logger logger = LoggerFactory.getLogger(AnnotationExtractionFunction.class);
 
     private final Elements elements;
     private final ExtendedElementVisitor<Name, Void> qualifiedNameVisitor;
     private final VoidUtils voidUtils;
+    private final ExtendedTypeElementFactory typeFactory;
 
     @Inject
     private AnnotationExtractionFunction(
             final Elements elements,
             @QualifiedName final ExtendedElementVisitor<Name, Void> qualifiedNameVisitor,
-            final VoidUtils voidUtils) {
+            final VoidUtils voidUtils,
+            final ExtendedTypeElementFactory typeFactory) {
         this.elements = elements;
         this.qualifiedNameVisitor = qualifiedNameVisitor;
         this.voidUtils = voidUtils;
+        this.typeFactory = typeFactory;
     }
 
 
     @Override
-    public TypeMirror apply(final ExtendedElement element) {
+    public ExtendedTypeElement apply(final ExtendedElement element) {
         final BindingAnnotationGenerator annotation = element.getAnnotation(BindingAnnotationGenerator.class);
         if (Objects.isNull(annotation)) {
             final Name elementName = element.accept(this.qualifiedNameVisitor, this.voidUtils.returnVoid());
@@ -62,10 +77,15 @@ final class AnnotationExtractionFunction implements Function<ExtendedElement, Ty
             throw new IllegalArgumentException(errMsg);
         }
 
+        return this.typeFactory.extend(typeElementFrom(annotation));
+    }
+
+    private TypeElement typeElementFrom(final BindingAnnotationGenerator annotation) {
         try {
-            return this.elements.getTypeElement(annotation.copyBodyFrom().getCanonicalName()).asType();
+            return this.elements.getTypeElement(annotation.copyBodyFrom().getCanonicalName());
         } catch (final MirroredTypeException e) {
-            return e.getTypeMirror();
+            logger.debug("Caught {}. Using embedded {}", e.getClass(), TypeMirror.class);
+            return asTypeElement(e.getTypeMirror());
         }
     }
 
@@ -75,6 +95,7 @@ final class AnnotationExtractionFunction implements Function<ExtendedElement, Ty
                 "elements=" + this.elements +
                 ", qualifiedNameVisitor=" + this.qualifiedNameVisitor +
                 ", voidUtils=" + this.voidUtils +
+                ", typeFactory=" + this.typeFactory +
                 "}";
     }
 

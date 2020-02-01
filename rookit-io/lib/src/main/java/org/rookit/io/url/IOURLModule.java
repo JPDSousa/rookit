@@ -43,5 +43,6 @@ public final class IOURLModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(new TypeLiteral<DataBucketFactory<URL>>() {}).to(URLDataBucketFactory.class).in(Singleton.class);
+        bind(URLUtils.class).to(URLUtilsImpl.class).in(Singleton.class);
     }
 }
