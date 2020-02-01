@@ -19,33 +19,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.convention.auto.javapoet.type;
+package org.rookit.auto.source.type.inter.face;
 
-import com.squareup.javapoet.TypeSpec;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javapoet.type.GenericTypeSpecBuilder;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
-import org.rookit.auto.javax.visitor.StreamExBuilder;
-import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
-import org.rookit.convention.auto.javax.visitor.StreamExConventionBuilder;
+import org.rookit.auto.source.type.GenericTypeSourceBuilder;
+import org.rookit.auto.source.type.TypeSource;
 
-import java.util.function.Function;
-
-public interface GenericConventionTypeSpecBuilder<B extends GenericConventionTypeSpecBuilder<B, V, P>,
-        V extends ConventionTypeElementVisitor<StreamEx<TypeSpec.Builder>, P>, P>
-        extends GenericTypeSpecBuilder<B, V, P> {
-
-    @Override
-    @Deprecated
-    <V1 extends ExtendedElementVisitor<StreamEx<TypeSpec>, P>> StreamExBuilder<V1, TypeSpec, P> buildTypeSpec(
-            Function<ExtendedElementVisitor<StreamEx<TypeSpec>, P>, V1> downcastAdapter);
-
-    <V1 extends ConventionTypeElementVisitor<StreamEx<TypeSpec>, P>> StreamExConventionBuilder<V1, TypeSpec, P>
-    buildConventionTypeSpec(Function<ConventionTypeElementVisitor<StreamEx<TypeSpec>, P>, V1> downcastAdapter);
-
-    default StreamExConventionBuilder<ConventionTypeElementVisitor<StreamEx<TypeSpec>, P>, TypeSpec, P>
-    buildConventionTypeSpec() {
-        return buildConventionTypeSpec(element -> element);
-    }
+public interface GenericInterfaceBuilder<B extends GenericInterfaceBuilder<B, V, P>,
+        V extends ExtendedElementVisitor<StreamEx<TypeSource>, P>, P>
+        extends GenericTypeSourceBuilder<B, V, P> {
 
 }

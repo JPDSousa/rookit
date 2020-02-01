@@ -26,6 +26,7 @@ import org.rookit.auto.javax.naming.IdentifierFactory;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitors;
 import org.rookit.auto.source.type.annotation.AnnotationBuilder;
+import org.rookit.auto.source.type.inter.face.InterfaceBuilder;
 
 import java.util.function.Function;
 
@@ -59,5 +60,16 @@ public interface ExtendedElementTypeSourceVisitors extends ExtendedElementVisito
             final Class<P> parameterClass) {
         return annotationBuilder(identifierFactory, element -> element, parameterClass);
     }
+
+    default <P> InterfaceBuilder<ExtendedElementVisitor<StreamEx<TypeSource>, P>, P> interfaceBuilder(
+            final IdentifierFactory identifierFactory,
+            final Class<P> parameterClass) {
+        return interfaceBuilder(identifierFactory, element -> element, parameterClass);
+    }
+
+    <V extends ExtendedElementVisitor<StreamEx<TypeSource>, P>, P> InterfaceBuilder<V, P> interfaceBuilder(
+            IdentifierFactory identifierFactory,
+            Function<ExtendedElementVisitor<StreamEx<TypeSource>, P>, V> downcastAdapter,
+            Class<P> parameterClass);
 
 }

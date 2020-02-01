@@ -19,16 +19,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.storage.update.source.method.type.optional;
+package org.rookit.auto.javax.visitor;
 
-import com.google.inject.Provider;
-import com.squareup.javapoet.MethodSpec;
-import org.rookit.auto.source.spec.SpecFactory;
+import javax.lang.model.AnnotatedConstruct;
+import java.lang.annotation.Annotation;
+import java.util.Objects;
+import java.util.function.Predicate;
 
-final class OptionalMethodFactoryProvider implements Provider<SpecFactory<MethodSpec>> {
+final class AnyAnnotationsPresentChecker implements Predicate<AnnotatedConstruct> {
+
+    private final Iterable<? extends Class<? extends Annotation>> annotationClasses;
+
+    AnyAnnotationsPresentChecker(final Iterable<? extends Class<? extends Annotation>> annotationClasses) {
+        this.annotationClasses = annotationClasses;
+    }
 
     @Override
-    public SpecFactory<MethodSpec> get() {
-        return null;
+    public boolean test(final AnnotatedConstruct construct) {
+        for (final Class<? extends Annotation> annotationClass : this.annotationClasses) {
+            if (Objects.nonNull(construct.getAnnotation(annotationClass))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "AnyAnnotationsPresentChecker{" +
+                "annotationClasses=" + this.annotationClasses +
+                "}";
     }
 }

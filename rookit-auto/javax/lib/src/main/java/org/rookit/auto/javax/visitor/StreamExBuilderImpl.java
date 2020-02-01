@@ -102,18 +102,18 @@ final class StreamExBuilderImpl<V extends ExtendedElementVisitor<StreamEx<R>, P>
     }
 
     @Override
-    public StreamExBuilder<V, R, P> filterIfAnnotationAbsent(
+    public StreamExBuilder<V, R, P> filterIfAnnotationPresent(
             final Class<? extends Annotation> annotationClass) {
-        return filterIfAllAnnotationsAbsent(ImmutableSet.of(annotationClass));
+        return filterIfAnyAnnotationPresent(ImmutableSet.of(annotationClass));
     }
 
     @Override
-    public StreamExBuilder<V, R, P> filterIfAllAnnotationsAbsent(
+    public StreamExBuilder<V, R, P> filterIfAnyAnnotationPresent(
             final Iterable<? extends Class<? extends Annotation>> annotationClasses) {
         return new StreamExBuilderImpl<>(this.downcastAdapter.apply(new FilterStreamExVisitor<>(
-                new PresentAnnotationsChecker(annotationClasses),
+                new AnyAnnotationsPresentChecker(annotationClasses),
                 build()
-        )), downcastAdapter);
+        )), this.downcastAdapter);
     }
 
     @Override

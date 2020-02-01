@@ -119,7 +119,7 @@ final class JavaPoetMethod implements MutableMethodSource {
 
     @Override
     public MutableMethodSource returnNewObject(
-            final TypeReferenceSource objectType, final Iterable<String> parameters) {
+            final TypeReferenceSource objectType, final Iterable<CharSequence> parameters) {
 
         final String paramString = Joiner.on(",")
                 .join(parameters);
@@ -131,7 +131,7 @@ final class JavaPoetMethod implements MutableMethodSource {
 
     @Override
     public MutableMethodSource returnNewObject(
-            final ExtendedTypeElement objectType, final Iterable<String> parameters) {
+            final ExtendedTypeElement objectType, final Iterable<CharSequence> parameters) {
 
         return returnNewObject(this.referenceFactory.create(objectType), parameters);
     }

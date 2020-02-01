@@ -19,35 +19,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.visitor;
+package org.rookit.auto.source.type.inter.face;
 
-import javax.lang.model.AnnotatedConstruct;
-import java.lang.annotation.Annotation;
-import java.util.Objects;
-import java.util.function.Predicate;
+import one.util.streamex.StreamEx;
+import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
+import org.rookit.auto.source.type.TypeSource;
 
-final class PresentAnnotationsChecker implements Predicate<AnnotatedConstruct> {
+public interface InterfaceBuilder<V extends ExtendedElementVisitor<StreamEx<TypeSource>, P>, P>
+        extends GenericInterfaceBuilder<InterfaceBuilder<V, P>, V, P> {
 
-    private final Iterable<? extends Class<? extends Annotation>> annotationClasses;
-
-    PresentAnnotationsChecker(final Iterable<? extends Class<? extends Annotation>> annotationClasses) {
-        this.annotationClasses = annotationClasses;
-    }
-
-    @Override
-    public boolean test(final AnnotatedConstruct construct) {
-        for (final Class<? extends Annotation> annotationClass : this.annotationClasses) {
-            if (Objects.nonNull(construct.getAnnotation(annotationClass))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public String toString() {
-        return "PresentAnnotationsChecker{" +
-                "annotationClasses=" + this.annotationClasses +
-                "}";
-    }
 }

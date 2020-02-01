@@ -93,15 +93,15 @@ final class ParameterSourceBuilderImpl<V extends ExtendedElementVisitor<StreamEx
     }
 
     @Override
-    public ParameterSourceBuilder<V, P> filterIfAnnotationAbsent(
+    public ParameterSourceBuilder<V, P> filterIfAnnotationPresent(
             final Class<? extends Annotation> annotationClass) {
-        return newBuilder(this.builder.filterIfAnnotationAbsent(annotationClass));
+        return newBuilder(this.builder.filterIfAnnotationPresent(annotationClass));
     }
 
     @Override
-    public ParameterSourceBuilder<V, P> filterIfAllAnnotationsAbsent(
+    public ParameterSourceBuilder<V, P> filterIfAnyAnnotationPresent(
             final Iterable<? extends Class<? extends Annotation>> annotationClasses) {
-        return newBuilder(this.builder.filterIfAllAnnotationsAbsent(annotationClasses));
+        return newBuilder(this.builder.filterIfAnyAnnotationPresent(annotationClasses));
     }
 
     @Override

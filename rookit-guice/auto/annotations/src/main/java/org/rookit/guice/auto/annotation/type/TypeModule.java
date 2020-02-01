@@ -67,7 +67,7 @@ public final class TypeModule extends AbstractModule {
             @GuiceBindAnnotation final JavadocTemplate1 javadoc) {
         return visitors.annotationBuilder(idFactory, Void.class)
                 .withRecursiveVisiting(StreamEx::append)
-                .filterIfAnnotationAbsent(BindingAnnotationGenerator.class)
+                .filterIfAnnotationPresent(BindingAnnotationGenerator.class)
                 .bindingAnnotation()
                 .withClassJavadoc(javadoc)
                 .copyBodyFrom(extractionFunction)

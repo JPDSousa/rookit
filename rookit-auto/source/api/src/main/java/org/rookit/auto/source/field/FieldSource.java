@@ -25,6 +25,7 @@ import org.rookit.auto.source.Annotatable;
 import org.rookit.auto.source.CodeSource;
 import org.rookit.auto.source.CodeSourceVisitor;
 import org.rookit.auto.source.Modifiable;
+import org.rookit.auto.source.arbitrary.ArbitraryCodeSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
 
 public interface FieldSource extends CodeSource, Modifiable, Annotatable {
@@ -32,6 +33,8 @@ public interface FieldSource extends CodeSource, Modifiable, Annotatable {
     TypeReferenceSource type();
 
     CharSequence name();
+
+    ArbitraryCodeSource initializer();
 
     @Override
     default <R, P> R accept(final CodeSourceVisitor<R, P> visitor, final P parameter) {

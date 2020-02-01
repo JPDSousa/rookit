@@ -123,15 +123,15 @@ final class AnnotationBuilderImpl<V extends ExtendedElementVisitor<StreamEx<Type
     }
 
     @Override
-    public AnnotationBuilder<V, P> filterIfAnnotationAbsent(
+    public AnnotationBuilder<V, P> filterIfAnnotationPresent(
             final Class<? extends Annotation> annotationClass) {
-        return newStage(this.builder.filterIfAnnotationAbsent(annotationClass));
+        return newStage(this.builder.filterIfAnnotationPresent(annotationClass));
     }
 
     @Override
-    public AnnotationBuilder<V, P> filterIfAllAnnotationsAbsent(
+    public AnnotationBuilder<V, P> filterIfAnyAnnotationPresent(
             final Iterable<? extends Class<? extends Annotation>> annotationClasses) {
-        return newStage(this.builder.filterIfAllAnnotationsAbsent(annotationClasses));
+        return newStage(this.builder.filterIfAnyAnnotationPresent(annotationClasses));
     }
 
     @Override

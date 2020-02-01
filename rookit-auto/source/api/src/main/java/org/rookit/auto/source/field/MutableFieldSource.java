@@ -24,7 +24,11 @@ package org.rookit.auto.source.field;
 import org.rookit.auto.source.MutableAnnotatable;
 import org.rookit.auto.source.MutableModifiable;
 
+import java.util.List;
+
 public interface MutableFieldSource extends FieldSource, MutableModifiable<MutableFieldSource>,
         MutableAnnotatable<MutableFieldSource> {
+
+    MutableFieldSource initializer(String format, List<Object> parameters);
 
 }

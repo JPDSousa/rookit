@@ -44,9 +44,9 @@ public interface GenericMutableMethodSource<S extends GenericMutableMethodSource
 
     S assignParametersToFields(Iterable<ParameterSource> parameters);
 
-    S returnNewObject(TypeReferenceSource objectType, Iterable<String> parameters);
+    S returnNewObject(TypeReferenceSource objectType, Iterable<CharSequence> parameters);
 
-    S returnNewObject(ExtendedTypeElement objectType, Iterable<String> parameters);
+    S returnNewObject(ExtendedTypeElement objectType, Iterable<CharSequence> parameters);
 
     S returnInstanceField(TypeReferenceSource fieldType, CharSequence fieldName);
 

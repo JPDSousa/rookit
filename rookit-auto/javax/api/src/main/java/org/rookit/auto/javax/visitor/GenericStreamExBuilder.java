@@ -40,8 +40,8 @@ public interface GenericStreamExBuilder<B extends GenericStreamExBuilder<B, V, R
     @Deprecated
     B withDirtyFallback(ExtendedElementVisitor<StreamEx<R>, P> visitor);
 
-    B filterIfAnnotationAbsent(Class<? extends Annotation> annotationClass);
+    B filterIfAnnotationPresent(Class<? extends Annotation> annotationClass);
 
-    B filterIfAllAnnotationsAbsent(Iterable<? extends Class<? extends Annotation>> annotationClasses);
+    B filterIfAnyAnnotationPresent(Iterable<? extends Class<? extends Annotation>> annotationClasses);
 
 }
