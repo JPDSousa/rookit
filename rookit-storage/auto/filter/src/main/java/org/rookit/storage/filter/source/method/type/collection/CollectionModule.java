@@ -25,8 +25,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.Multibinder;
-import com.squareup.javapoet.MethodSpec;
 import one.util.streamex.StreamEx;
+import org.rookit.auto.source.method.MethodSource;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.storage.guice.filter.Filter;
 
@@ -43,8 +43,9 @@ public final class CollectionModule extends AbstractModule {
     @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
     @Override
     protected void configure() {
-        final Multibinder<ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void>> multibinder = Multibinder
-                .newSetBinder(binder(), new TypeLiteral<ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void>>() {},
+        final Multibinder<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>> multibinder = Multibinder
+                .newSetBinder(binder(), new TypeLiteral<ConventionTypeElementVisitor<
+                                      StreamEx<MethodSource>, Void>>() {},
                         Filter.class);
         multibinder.addBinding().toProvider(CollectionMethodVisitor.class);
     }

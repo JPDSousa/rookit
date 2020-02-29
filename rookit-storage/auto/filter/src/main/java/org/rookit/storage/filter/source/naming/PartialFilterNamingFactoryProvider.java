@@ -23,19 +23,19 @@ package org.rookit.storage.filter.source.naming;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import org.rookit.auto.javapoet.naming.JavaPoetNamingFactories;
-import org.rookit.auto.javapoet.naming.JavaPoetNamingFactory;
+import org.rookit.auto.javax.naming.NamingFactories;
+import org.rookit.auto.javax.naming.NamingFactory;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
 import org.rookit.storage.api.config.FilterConfig;
 
-final class PartialFilterNamingFactoryProvider implements Provider<JavaPoetNamingFactory> {
+final class PartialFilterNamingFactoryProvider implements Provider<NamingFactory> {
 
-    private final JavaPoetNamingFactories factories;
+    private final NamingFactories factories;
     private final ExtendedPackageElement extendedPackageElement;
     private final FilterConfig config;
 
     @Inject
-    private PartialFilterNamingFactoryProvider(final JavaPoetNamingFactories factories,
+    private PartialFilterNamingFactoryProvider(final NamingFactories factories,
                                                final ExtendedPackageElement packageElement,
                                                final FilterConfig config) {
         this.factories = factories;
@@ -44,7 +44,7 @@ final class PartialFilterNamingFactoryProvider implements Provider<JavaPoetNamin
     }
 
     @Override
-    public JavaPoetNamingFactory get() {
+    public NamingFactory get() {
         return this.factories.create(this.extendedPackageElement,
                 this.config.entityTemplate(),
                 this.config.methodTemplate());

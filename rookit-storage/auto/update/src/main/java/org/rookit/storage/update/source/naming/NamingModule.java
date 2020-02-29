@@ -24,10 +24,9 @@ package org.rookit.storage.update.source.naming;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
+import org.rookit.auto.javax.naming.NamingFactory;
 import org.rookit.storage.guice.PartialUpdate;
 import org.rookit.storage.guice.Update;
-
-import static org.rookit.auto.guice.RookitAutoModuleTools.bindNaming;
 
 public final class NamingModule extends AbstractModule {
 
@@ -41,8 +40,10 @@ public final class NamingModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bindNaming(binder(), Update.class).toProvider(UpdateJavaPoetNamingFactoryProvider.class).in(Singleton.class);
-        bindNaming(binder(), PartialUpdate.class).toProvider(PartialUpdateJavaPoetNamingFactoryProvider.class)
+        bind(NamingFactory.class).annotatedWith(Update.class)
+                .toProvider(UpdateJavaPoetNamingFactoryProvider.class).in(Singleton.class);
+        bind(NamingFactory.class).annotatedWith(PartialUpdate.class)
+                .toProvider(PartialUpdateJavaPoetNamingFactoryProvider.class)
                 .in(Singleton.class);
     }
 }

@@ -23,65 +23,70 @@ package org.rookit.convention.property.source.javapoet;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.ParameterSpec;
-import com.squareup.javapoet.ParameterizedTypeName;
-import com.squareup.javapoet.TypeName;
-import com.squareup.javapoet.TypeVariableName;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.visitor.StreamExtendedElementVisitor;
-import org.rookit.auto.source.spec.parameter.ImmutableParameter;
-import org.rookit.auto.source.spec.parameter.Parameter;
+import org.rookit.auto.source.parameter.ParameterSource;
+import org.rookit.auto.source.parameter.ParameterSourceFactory;
+import org.rookit.auto.source.type.parameter.TypeParameterSource;
+import org.rookit.auto.source.type.parameter.TypeParameterSourceFactory;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
+import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
+import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.convention.auto.config.NamingConfig;
-import org.rookit.convention.guice.MetaType;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.guice.MetaType;
 import org.rookit.serialization.Serializer;
 
 import java.util.Collection;
 import java.util.function.Function;
 
-import static javax.lang.model.element.Modifier.FINAL;
-
 final class MetaTypePropertyJavaPoetParameterVisitor
-        implements ConventionTypeElementVisitor<StreamEx<Parameter<ParameterSpec>>, Void>,
-        StreamExtendedElementVisitor<Parameter<ParameterSpec>, Void> {
+        implements ConventionTypeElementVisitor<StreamEx<ParameterSource>, Void>,
+        StreamExtendedElementVisitor<ParameterSource, Void> {
 
-    private final ConventionTypeElementVisitor<StreamEx<ParameterSpec>, Void> metaTypeFactory;
-    private final TypeVariableName variableName;
+    private final ConventionTypeElementVisitor<StreamEx<ParameterSource>, Void> metaTypeFactory;
+    private final TypeReferenceSourceFactory referenceFactory;
+    private final TypeParameterSourceFactory typeParameterFactory;
+    private final ParameterSourceFactory parameterFactory;
+    private final TypeVariableSource variableSource;
     private final NamingConfig namingConfig;
-    private final Parameter<ParameterSpec> propertyName;
-    private final ClassName serializerName;
-    private final ClassName typeName;
+    private final ParameterSource propertyName;
+    private final TypeReferenceSource serializerName;
+    private final TypeReferenceSource typeName;
 
     @Inject
     MetaTypePropertyJavaPoetParameterVisitor(
-            @MetaType final ConventionTypeElementVisitor<StreamEx<ParameterSpec>, Void> metaTypeFactory,
-            @MetaType final TypeVariableName variableName,
+            final TypeReferenceSourceFactory referenceFactory,
+            final ParameterSourceFactory parameterFactory,
+            @MetaType final ConventionTypeElementVisitor<StreamEx<ParameterSource>, Void> metaTypeFactory,
+            final TypeParameterSourceFactory typeParameterFactory,
+            @MetaType final TypeVariableSource variableSource,
             final NamingConfig namingConfig) {
+        this.referenceFactory = referenceFactory;
         this.metaTypeFactory = metaTypeFactory;
-        this.variableName = variableName;
+        this.typeParameterFactory = typeParameterFactory;
+        this.parameterFactory = parameterFactory;
+        this.variableSource = variableSource;
         this.namingConfig = namingConfig;
-        this.serializerName = ClassName.get(Serializer.class);
-        this.typeName = ClassName.get(Class.class);
-        this.propertyName = ImmutableParameter.<ParameterSpec>builder()
-                .isSuper(false)
-                .spec(ParameterSpec.builder(String.class, namingConfig.propertyName(), FINAL).build())
-                .build();
+        this.serializerName = referenceFactory.fromClass(Serializer.class);
+        this.typeName = referenceFactory.fromClass(Class.class);
+        this.propertyName = parameterFactory.createMutable(namingConfig.propertyName(), String.class);
     }
 
-    private Collection<Parameter<ParameterSpec>> entityParameters(final ConventionTypeElement element) {
-        final TypeName param = element.isPartialEntity() ? this.variableName : ClassName.get(element);
-        final ParameterizedTypeName type = ParameterizedTypeName.get(this.typeName, param);
-        final ParameterizedTypeName serializer = ParameterizedTypeName.get(this.serializerName, param);
-        final ParameterizedTypeName function = ParameterizedTypeName.get(
-                ClassName.get(Function.class),
-                this.variableName,
-                ClassName.get(element)
+    private Collection<ParameterSource> entityParameters(final ConventionTypeElement element) {
+        final TypeReferenceSource param = element.isPartialEntity()
+                ? this.variableSource
+                : this.referenceFactory.create(element);
+        final TypeParameterSource type = this.typeParameterFactory.create(this.typeName, param);
+        final TypeParameterSource serializer = this.typeParameterFactory.create(this.serializerName, param);
+        final TypeParameterSource function = this.typeParameterFactory.create(Function.class,
+                this.variableSource,
+                this.referenceFactory.create(element)
         );
-        final Parameter<ParameterSpec> typeParam = createFromNaming(type, NamingConfig::type);
-        final Parameter<ParameterSpec> serializerParam = createFromNaming(serializer, NamingConfig::serializer);
-        final Parameter<ParameterSpec> functionParam = createFromNaming(function, NamingConfig::getter);
+        final ParameterSource typeParam = createFromNaming(type, NamingConfig::type);
+        final ParameterSource serializerParam = createFromNaming(serializer, NamingConfig::serializer);
+        final ParameterSource functionParam = createFromNaming(function, NamingConfig::getter);
 
         return ImmutableList.of(
                 typeParam,
@@ -91,37 +96,18 @@ final class MetaTypePropertyJavaPoetParameterVisitor
         );
     }
 
-    private Parameter<ParameterSpec> createFromNaming(final TypeName type,
+    private ParameterSource createFromNaming(final TypeReferenceSource type,
                                                       final Function<NamingConfig, String> name) {
-        return ImmutableParameter.<ParameterSpec>builder()
-                .isSuper(false)
-                .spec(ParameterSpec.builder(type, name.apply(this.namingConfig), FINAL).build())
-                .build();
+        return this.parameterFactory.createMutable(name.apply(this.namingConfig), type);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public StreamEx<Parameter<ParameterSpec>> visitConventionType(final ConventionTypeElement element, 
+    public StreamEx<ParameterSource> visitConventionType(final ConventionTypeElement element,
                                                                   final Void parameter) {
         return this.metaTypeFactory.visitConventionType(element, parameter)
-                .map(parameterSpec -> ImmutableParameter.builder()
-                        .isSuper(true)
-                        .spec(parameterSpec)
-                        .build())
-                .select(Parameter.class)
-                .map(param -> (Parameter<ParameterSpec>) param)
+                .map(parameterSource -> this.parameterFactory.makeMutable(parameterSource)
+                        .toBeUsedInSuperclass(true))
+                .select(ParameterSource.class)
                 .append(entityParameters(element));
-    }
-
-    @Override
-    public String toString() {
-        return "MetaTypePropertyJavaPoetParameterVisitor{" +
-                "metaTypeFactory=" + this.metaTypeFactory +
-                ", variableName=" + this.variableName +
-                ", namingConfig=" + this.namingConfig +
-                ", propertyName=" + this.propertyName +
-                ", serializerName=" + this.serializerName +
-                ", className=" + this.typeName +
-                "}";
     }
 }

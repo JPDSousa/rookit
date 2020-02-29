@@ -22,13 +22,10 @@
 package org.rookit.convention.module.source.type;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
-import org.rookit.auto.javapoet.type.JavaPoetTypeSourceFactory;
+import org.rookit.auto.source.type.TypeSourceFactory;
 import org.rookit.convention.auto.module.ModuleTypeSourceFactory;
-import org.rookit.utils.guice.Base;
-import org.rookit.utils.guice.Proxied;
 
 public final class TypeModule extends AbstractModule {
 
@@ -42,9 +39,7 @@ public final class TypeModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(JavaPoetTypeSourceFactory.class).annotatedWith(Proxied.class)
-                .to(Key.get(JavaPoetTypeSourceFactory.class, Base.class)).in(Singleton.class);
-        bind(JavaPoetTypeSourceFactory.class).to(TypeSourceFactoryImpl.class).in(Singleton.class);
+        bind(TypeSourceFactory.class).to(TypeSourceFactoryImpl.class).in(Singleton.class);
         bind(ModuleTypeSourceFactory.class).to(ModuleTypeSourceFactoryImpl.class).in(Singleton.class);
     }
 }

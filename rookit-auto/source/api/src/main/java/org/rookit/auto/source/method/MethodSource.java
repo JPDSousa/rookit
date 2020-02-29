@@ -21,10 +21,10 @@
  ******************************************************************************/
 package org.rookit.auto.source.method;
 
-import org.rookit.auto.source.Annotatable;
+import org.rookit.auto.source.type.annotation.Annotatable;
 import org.rookit.auto.source.CodeSource;
 import org.rookit.auto.source.CodeSourceVisitor;
-import org.rookit.auto.source.Modifiable;
+import org.rookit.auto.source.modifier.Modifiable;
 
 public interface MethodSource extends CodeSource, Modifiable, Annotatable {
 

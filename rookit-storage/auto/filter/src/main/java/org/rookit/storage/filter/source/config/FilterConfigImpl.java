@@ -21,10 +21,11 @@
  ******************************************************************************/
 package org.rookit.storage.filter.source.config;
 
-import com.squareup.javapoet.TypeVariableName;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.utils.object.DynamicObject;
+import org.rookit.auto.source.type.variable.TypeVariableSource;
+import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
 import org.rookit.storage.api.config.FilterConfig;
+import org.rookit.utils.object.DynamicObject;
 import org.rookit.utils.string.template.Template1;
 import org.rookit.utils.string.template.TemplateFactory;
 
@@ -35,22 +36,26 @@ final class FilterConfigImpl implements FilterConfig {
     private final Template1 partialEntityTemplate;
     private final String name;
     private final TemplateFactory templateFactory;
+    private final TypeVariableSourceFactory typeVariableFactory;
 
-    FilterConfigImpl(final DynamicObject configuration,
-                     final ExtendedPackageElement basePackage,
-                     final Template1 pEntityTemplate,
-                     final String name,
-                     final TemplateFactory templateFactory) {
+    FilterConfigImpl(
+            final DynamicObject configuration,
+            final ExtendedPackageElement basePackage,
+            final Template1 pEntityTemplate,
+            final String name,
+            final TemplateFactory templateFactory,
+            final TypeVariableSourceFactory typeVariableFactory) {
         this.configuration = configuration;
         this.basePackage = basePackage;
         this.partialEntityTemplate = pEntityTemplate;
         this.name = name;
         this.templateFactory = templateFactory;
+        this.typeVariableFactory = typeVariableFactory;
     }
 
     @Override
-    public TypeVariableName parameterName() {
-        return TypeVariableName.get(this.configuration.getString("parameterName"));
+    public TypeVariableSource parameterName() {
+        return this.typeVariableFactory.createFromName(this.configuration.getString("parameterName"));
     }
 
     @Override
@@ -83,14 +88,4 @@ final class FilterConfigImpl implements FilterConfig {
         return this.configuration.getBoolean("enabled");
     }
 
-    @Override
-    public String toString() {
-        return "FilterConfigImpl{" +
-                "configuration=" + this.configuration +
-                ", basePackage=" + this.basePackage +
-                ", partialEntityTemplate=" + this.partialEntityTemplate +
-                ", name='" + this.name + '\'' +
-                ", templateFactory=" + this.templateFactory +
-                "}";
-    }
 }

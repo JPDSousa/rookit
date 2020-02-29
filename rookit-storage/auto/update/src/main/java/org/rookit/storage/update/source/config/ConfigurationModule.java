@@ -72,6 +72,7 @@ public final class ConfigurationModule extends AbstractModule {
         final String name = "update";
         final DynamicObject rawConfig = config.getProcessorConfig(name);
         final Template1 partialEnttiyPrefix = config.partialEntityTemplate();
-        return new UpdateConfigImpl(rawConfig, name, partialEnttiyPrefix, config.basePackage(), templateFactory);
+        return new UpdateConfigImpl(rawConfig, name, partialEnttiyPrefix, config.basePackage(), templateFactory,
+                                    typeVariableFactory);
     }
 }

@@ -22,7 +22,7 @@
 package org.rookit.convention.auto.javax.type.adapter;
 
 import org.rookit.auto.javax.type.ExtendedTypeElement;
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
 import org.rookit.convention.auto.property.Property;

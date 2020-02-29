@@ -21,40 +21,40 @@
  ******************************************************************************/
 package org.rookit.convention.module.source.aggregator;
 
-import org.rookit.auto.source.CodeSource;
-import org.rookit.auto.source.spec.ExtendedElementAggregator;
+import com.google.common.collect.ImmutableList;
+import org.rookit.auto.source.type.TypeSource;
+import org.rookit.auto.source.type.container.TypeSourceContainer;
+import org.rookit.auto.source.type.container.TypeSourceContainerExtendedElementAggregator;
+import org.rookit.auto.source.type.container.TypeSourceContainerFactory;
 
-import javax.annotation.processing.Messager;
+final class ReducedEntityExtendedElementAggregator extends AbstractReducedExtendedElementAggregator<TypeSource> {
 
-final class ReducedEntityExtendedElementAggregator extends AbstractReducedExtendedElementAggregator<CodeSource> {
+    private final TypeSourceContainerFactory containerFactory;
 
-    private final Messager messager;
-
-    ReducedEntityExtendedElementAggregator(final ExtendedElementAggregator<CodeSource> left,
-                                           final ExtendedElementAggregator<CodeSource> right,
-                                           final Messager messager) {
+    ReducedEntityExtendedElementAggregator(
+            final TypeSourceContainerExtendedElementAggregator<TypeSource> left,
+            final TypeSourceContainerExtendedElementAggregator<TypeSource> right,
+            final TypeSourceContainerFactory containerFactory) {
         super(left, right);
-        this.messager = messager;
+        this.containerFactory = containerFactory;
+    }
+
+
+    @Override
+    public TypeSourceContainerExtendedElementAggregator<TypeSource> reduce(
+            final TypeSourceContainerExtendedElementAggregator<TypeSource> aggregator) {
+        return new ReducedEntityExtendedElementAggregator(this, aggregator, this.containerFactory);
     }
 
     @Override
-    public ExtendedElementAggregator<CodeSource> reduce(final ExtendedElementAggregator<CodeSource> aggregator) {
-        return new ReducedEntityExtendedElementAggregator(this, aggregator, this.messager);
+    public TypeSourceContainer<TypeSource> result() {
+
+        return this.containerFactory.createFromContainers(
+                ImmutableList.of(
+                        left().result(),
+                        right().result()
+                )
+        );
     }
 
-    @Override
-    public CodeSource result() {
-        final CodeSource left = left().result();
-        final CodeSource right = right().result();
-
-        // TODO avoid direct initializations
-        return new MultiEntity(left, right);
-    }
-
-    @Override
-    public String toString() {
-        return "ReducedEntityExtendedElementAggregator{" +
-                "messager=" + this.messager +
-                "} " + super.toString();
-    }
 }

@@ -21,16 +21,16 @@
  ******************************************************************************/
 package org.rookit.convention.auto.javax;
 
-import org.rookit.auto.javax.ExtendedElementFactory;
+import org.rookit.auto.javax.type.ExtendedTypeElementFactory;
 import org.rookit.convention.auto.property.Property;
 
 import javax.lang.model.element.TypeElement;
 import java.util.Collection;
 
-public interface ConventionTypeElementFactory extends ExtendedElementFactory {
+public interface ConventionTypeElementFactory extends ExtendedTypeElementFactory {
 
     @Override
-    ConventionTypeElement extendType(TypeElement baseElement);
+    ConventionTypeElement extend(TypeElement baseElement);
 
     ConventionTypeElement changeElementProperties(ConventionTypeElement original, Collection<Property> newProperties);
 }

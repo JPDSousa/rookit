@@ -21,41 +21,48 @@
  ******************************************************************************/
 package org.rookit.convention.auto.javapoet.method;
 
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.TypeName;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javax.visitor.StreamExtendedElementVisitor;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
+import org.rookit.auto.javax.visitor.StreamExtendedElementVisitor;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.method.MethodSourceFactory;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 
-final class GetterMethodVisitor<P> implements ConventionTypeElementVisitor<StreamEx<MethodSpec>, P>,
-        StreamExtendedElementVisitor<MethodSpec, P> {
+final class GetterMethodVisitor<P> implements ConventionTypeElementVisitor<StreamEx<MethodSource>, P>,
+        StreamExtendedElementVisitor<MethodSource, P> {
 
+    private final MethodSourceFactory methodSourceFactory;
     private final CharSequence name;
     private final ExtendedTypeMirror type;
 
-    GetterMethodVisitor(final CharSequence name, final ExtendedTypeMirror type) {
+    GetterMethodVisitor(
+            final MethodSourceFactory methodSourceFactory,
+            final CharSequence name,
+            final ExtendedTypeMirror type) {
+        this.methodSourceFactory = methodSourceFactory;
         this.name = name;
         this.type = type;
     }
 
     @Override
-    public StreamEx<MethodSpec> visitType(final ExtendedTypeElement extendedType, final P parameter) {
+    public StreamEx<MethodSource> visitType(final ExtendedTypeElement extendedType, final P parameter) {
+        return createMethod();
+    }
+
+    private StreamEx<MethodSource> createMethod() {
         return StreamEx.of(
-                MethodSpec.methodBuilder(this.name.toString())
-                        .addAnnotation(Override.class)
-                        .returns(TypeName.get(this.type))
-                        .addStatement("return this.$L", this.name)
-                        .build()
+                this.methodSourceFactory.createMutableMethod(this.name)
+                    .override()
+                    .returnInstanceField(this.type, this.name)
         );
     }
 
     @Override
-    public StreamEx<MethodSpec> visitConventionType(
+    public StreamEx<MethodSource> visitConventionType(
             final ConventionTypeElement element, final P parameter) {
-        return visitType(element, parameter);
+        return createMethod();
     }
 
     @Override

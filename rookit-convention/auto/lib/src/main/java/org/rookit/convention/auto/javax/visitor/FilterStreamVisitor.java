@@ -25,90 +25,97 @@ import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.auto.javax.parameter.ExtendedTypeParameterElement;
+import org.rookit.auto.javax.type.parameter.ExtendedTypeParameterElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.variable.ExtendedVariableElement;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 
+import static one.util.streamex.StreamEx.empty;
+
 final class FilterStreamVisitor<R, P> implements ConventionTypeElementVisitor<StreamEx<R>, P> {
 
-    private final ConventionTypeElementVisitor<Boolean, P> filterVisitor;
-    private final ConventionTypeElementVisitor<StreamEx<R>, P> delegate;
+    private final ConventionTypeElementVisitor<Boolean, P> filter;
+    private final ConventionTypeElementVisitor<StreamEx<R>, P> upstream;
 
-    FilterStreamVisitor(final ConventionTypeElementVisitor<Boolean, P> filterVisitor,
-                        final ConventionTypeElementVisitor<StreamEx<R>, P> delegate) {
-        this.filterVisitor = filterVisitor;
-        this.delegate = delegate;
+    FilterStreamVisitor(final ConventionTypeElementVisitor<Boolean, P> filter,
+                        final ConventionTypeElementVisitor<StreamEx<R>, P> upstream) {
+        this.filter = filter;
+        this.upstream = upstream;
+    }
+
+    @SuppressWarnings("AutoUnboxing")
+    private boolean shouldProceed(final ExtendedElement element, final P parameter) {
+        return element.accept(this.filter, parameter);
     }
 
     @Override
     public StreamEx<R> visitConventionType(final ConventionTypeElement element, final P parameter) {
-        if (this.filterVisitor.visitConventionType(element, parameter)) {
-            return this.delegate.visitConventionType(element, parameter);
+        if (shouldProceed(element, parameter)) {
+            return element.accept(this.upstream, parameter);
         }
 
-        return StreamEx.empty();
+        return empty();
     }
 
     @Override
     public StreamEx<R> visitPackage(final ExtendedPackageElement packageElement, final P parameter) {
-        if (this.filterVisitor.visitPackage(packageElement, parameter)) {
-            return this.delegate.visitPackage(packageElement, parameter);
+        if (shouldProceed(packageElement, parameter)) {
+            return packageElement.accept(this.upstream, parameter);
         }
 
-        return StreamEx.empty();
+        return empty();
     }
 
     @Override
     public StreamEx<R> visitType(final ExtendedTypeElement extendedType, final P parameter) {
-        if (this.filterVisitor.visitType(extendedType, parameter)) {
-            return this.delegate.visitType(extendedType, parameter);
+        if (shouldProceed(extendedType, parameter)) {
+            return extendedType.accept(this.upstream, parameter);
         }
 
-        return StreamEx.empty();
+        return empty();
     }
 
     @Override
     public StreamEx<R> visitExecutable(final ExtendedExecutableElement extendedExecutable, final P parameter) {
-        if (this.filterVisitor.visitExecutable(extendedExecutable, parameter)) {
-            return this.delegate.visitExecutable(extendedExecutable, parameter);
+        if (shouldProceed(extendedExecutable, parameter)) {
+            return extendedExecutable.accept(this.upstream, parameter);
         }
 
-        return StreamEx.empty();
+        return empty();
     }
 
     @Override
     public StreamEx<R> visitTypeParameter(final ExtendedTypeParameterElement extendedParameter, final P parameter) {
-        if (this.filterVisitor.visitTypeParameter(extendedParameter, parameter)) {
-            return this.delegate.visitTypeParameter(extendedParameter, parameter);
+        if (shouldProceed(extendedParameter, parameter)) {
+            return extendedParameter.accept(this.upstream, parameter);
         }
 
-        return StreamEx.empty();
+        return empty();
     }
 
     @Override
     public StreamEx<R> visitVariable(final ExtendedVariableElement extendedElement, final P parameter) {
-        if (this.filterVisitor.visitVariable(extendedElement, parameter)) {
-            return this.delegate.visitVariable(extendedElement, parameter);
+        if (shouldProceed(extendedElement, parameter)) {
+            return extendedElement.accept(this.upstream, parameter);
         }
 
-        return StreamEx.empty();
+        return empty();
     }
 
     @Override
     public StreamEx<R> visitUnknown(final ExtendedElement extendedElement, final P parameter) {
-        if (this.filterVisitor.visitUnknown(extendedElement, parameter)) {
-            return this.delegate.visitUnknown(extendedElement, parameter);
+        if (shouldProceed(extendedElement, parameter)) {
+            return extendedElement.accept(this.upstream, parameter);
         }
 
-        return StreamEx.empty();
+        return empty();
     }
 
     @Override
     public String toString() {
         return "FilterStreamVisitor{" +
-                "filterVisitor=" + this.filterVisitor +
-                ", delegate=" + this.delegate +
+                "filter=" + this.filter +
+                ", upstream=" + this.upstream +
                 "}";
     }
 }

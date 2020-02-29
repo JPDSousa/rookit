@@ -27,10 +27,10 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
-import org.rookit.auto.javax.ExtendedElementFactory;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
-import org.rookit.auto.javax.type.ExtendedTypeMirrorFactory;
+import org.rookit.auto.javax.type.ExtendedTypeElementFactory;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirrorFactory;
 import org.rookit.convention.auto.guice.PropertyModelModuleMixin;
 import org.rookit.convention.property.guice.ImmutablePropertyModel;
 import org.rookit.convention.property.guice.ImmutablePropertyModelGet;
@@ -89,11 +89,11 @@ public final class PropertyModule extends AbstractModule
     @ImmutablePropertyModel
     ExtendedTypeElement immutablePropertyModel(@ImmutablePropertyModel final Class<?> clazz,
                                                final ExtendedTypeMirrorFactory mirrorFactory,
-                                               final ExtendedElementFactory elementFactory) {
+                                               final ExtendedTypeElementFactory typeFactory) {
         return mirrorFactory.createWithErasure(clazz)
                 .toElement()
                 .select(TypeElement.class)
-                .map(elementFactory::extendType)
+                .map(typeFactory::extend)
                 .orElseThrow(() -> new IllegalArgumentException(format(INVALID_META_TYPE_CLASS, clazz)));
     }
 
@@ -102,12 +102,12 @@ public final class PropertyModule extends AbstractModule
     @PropertyModel
     ExtendedTypeElement propertyModel(@PropertyModel final Class<?> propertyModelClass,
                                       final ExtendedTypeMirrorFactory mirrorFactory,
-                                      final ExtendedElementFactory elementFactory) {
+                                      final ExtendedTypeElementFactory typeFactory) {
         // TODO this can be generified with the method above
         return mirrorFactory.createWithErasure(propertyModelClass)
                 .toElement()
                 .select(TypeElement.class)
-                .map(elementFactory::extendType)
+                .map(typeFactory::extend)
                 .orElseThrow(() -> new IllegalArgumentException(format(INVALID_META_TYPE_CLASS, propertyModelClass)));
     }
 

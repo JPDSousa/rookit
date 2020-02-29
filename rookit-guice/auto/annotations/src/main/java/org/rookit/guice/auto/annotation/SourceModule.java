@@ -24,19 +24,13 @@ package org.rookit.guice.auto.annotation;
 import com.google.inject.AbstractModule;
 import com.google.inject.Key;
 import com.google.inject.Module;
-import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
-import one.util.streamex.StreamEx;
 import org.rookit.auto.SourceUtilsModule;
 import org.rookit.auto.javapoet.SourceJavaPoetLibModule;
 import org.rookit.auto.javax.JavaxLibModule;
 import org.rookit.auto.javax.naming.NamingFactory;
-import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
-import org.rookit.auto.source.CodeSourceFactories;
-import org.rookit.auto.source.CodeSourceFactory;
 import org.rookit.auto.source.SourceLibModule;
-import org.rookit.auto.source.type.TypeSource;
 import org.rookit.failsafe.FailsafeModule;
 import org.rookit.guice.auto.GuiceAutoLibModule;
 import org.rookit.guice.auto.annotation.config.ConfigurationModule;
@@ -76,13 +70,6 @@ public final class SourceModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(NamingFactory.class).to(Key.get(NamingFactory.class, Guice.class)).in(Singleton.class);
-    }
-
-    @Provides
-    @Singleton
-    CodeSourceFactory sourceFactory(final ExtendedElementVisitor<StreamEx<TypeSource>, Void> specFactory,
-                                    final CodeSourceFactories factories) {
-        return factories.visitorCodeSourceFactory(specFactory);
     }
 
 }

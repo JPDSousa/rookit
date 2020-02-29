@@ -25,60 +25,60 @@ import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.auto.javax.parameter.ExtendedTypeParameterElement;
+import org.rookit.auto.javax.type.parameter.ExtendedTypeParameterElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.variable.ExtendedVariableElement;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 
 final class StreamExVisitor<R, P> implements ConventionTypeElementVisitor<StreamEx<R>, P> {
 
-    private final ConventionTypeElementVisitor<R, P> delegate;
+    private final ConventionTypeElementVisitor<R, P> upstream;
 
-    StreamExVisitor(final ConventionTypeElementVisitor<R, P> delegate) {
-        this.delegate = delegate;
+    StreamExVisitor(final ConventionTypeElementVisitor<R, P> upstream) {
+        this.upstream = upstream;
     }
 
     @Override
     public StreamEx<R> visitConventionType(final ConventionTypeElement element, final P parameter) {
-        return StreamEx.of(this.delegate.visitConventionType(element, parameter));
+        return StreamEx.of(element.accept(this.upstream, parameter));
     }
 
     @Override
     public StreamEx<R> visitPackage(final ExtendedPackageElement packageElement, final P parameter) {
-        return StreamEx.of(this.delegate.visitPackage(packageElement, parameter));
+        return StreamEx.of(packageElement.accept(this.upstream, parameter));
     }
 
     @Override
     public StreamEx<R> visitType(final ExtendedTypeElement extendedType, final P parameter) {
-        return StreamEx.of(this.delegate.visitType(extendedType, parameter));
+        return StreamEx.of(extendedType.accept(this.upstream, parameter));
     }
 
     @Override
     public StreamEx<R> visitExecutable(
             final ExtendedExecutableElement extendedExecutable, final P parameter) {
-        return StreamEx.of(this.delegate.visitExecutable(extendedExecutable, parameter));
+        return StreamEx.of(extendedExecutable.accept(this.upstream, parameter));
     }
 
     @Override
     public StreamEx<R> visitTypeParameter(
             final ExtendedTypeParameterElement extendedParameter, final P parameter) {
-        return StreamEx.of(this.delegate.visitTypeParameter(extendedParameter, parameter));
+        return StreamEx.of(extendedParameter.accept(this.upstream, parameter));
     }
 
     @Override
     public StreamEx<R> visitVariable(final ExtendedVariableElement extendedElement, final P parameter) {
-        return StreamEx.of(this.delegate.visitVariable(extendedElement, parameter));
+        return StreamEx.of(extendedElement.accept(this.upstream, parameter));
     }
 
     @Override
     public StreamEx<R> visitUnknown(final ExtendedElement extendedElement, final P parameter) {
-        return StreamEx.of(this.delegate.visitUnknown(extendedElement, parameter));
+        return StreamEx.of(extendedElement.accept(this.upstream, parameter));
     }
 
     @Override
     public String toString() {
         return "StreamExVisitor{" +
-                "delegate=" + this.delegate +
+                "upstream=" + this.upstream +
                 "}";
     }
 

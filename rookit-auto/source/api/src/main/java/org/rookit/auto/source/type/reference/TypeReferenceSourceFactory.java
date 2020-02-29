@@ -29,9 +29,9 @@ public interface TypeReferenceSourceFactory {
 
     TypeReferenceSource create(ExtendedTypeMirror element);
 
-    TypeReferenceSource create(Identifier identifier);
+    TypeReferenceSource fromIdentifier(Identifier identifier);
 
-    TypeReferenceSource create(Class<?> clazz);
+    TypeReferenceSource fromClass(Class<?> clazz);
 
     TypeReferenceSource create(ExtendedTypeElement element);
 

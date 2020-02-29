@@ -23,6 +23,7 @@ package org.rookit.auto.source;
 
 import one.util.streamex.StreamEx;
 import org.rookit.auto.source.type.TypeSource;
+import org.rookit.auto.source.type.container.TypeSourceContainer;
 import org.rookit.utils.primitive.VoidUtils;
 
 import javax.annotation.processing.Filer;

@@ -22,7 +22,7 @@
 package org.rookit.convention.auto.entity.parent;
 
 import one.util.streamex.StreamEx;
-import org.rookit.auto.source.CodeSource;
+import org.rookit.auto.source.type.TypeSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.property.Property;
 
@@ -30,15 +30,15 @@ import java.util.Collection;
 
 public interface ParentExtractor {
 
-    StreamEx<CodeSource> extractFrom(ConventionTypeElement element);
+    StreamEx<TypeSource> extractFrom(ConventionTypeElement element);
 
-    StreamEx<CodeSource> extractFrom(final Property property);
+    StreamEx<TypeSource> extractFrom(final Property property);
 
-    default Collection<CodeSource> extractAsIterable(final ConventionTypeElement element) {
+    default Collection<TypeSource> extractAsIterable(final ConventionTypeElement element) {
         return extractFrom(element).toImmutableSet();
     }
 
-    default Collection<CodeSource> extractAsIterable(final Property property) {
+    default Collection<TypeSource> extractAsIterable(final Property property) {
         return extractFrom(property).toImmutableSet();
     }
 

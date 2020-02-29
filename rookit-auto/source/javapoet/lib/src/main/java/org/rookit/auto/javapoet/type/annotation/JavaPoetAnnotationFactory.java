@@ -36,7 +36,6 @@ import org.rookit.auto.source.type.reference.TypeReferenceSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 import org.rookit.utils.primitive.VoidUtils;
 
-import javax.lang.model.element.AnnotationMirror;
 import java.util.Map;
 
 final class JavaPoetAnnotationFactory implements AnnotationSourceFactory {
@@ -58,7 +57,7 @@ final class JavaPoetAnnotationFactory implements AnnotationSourceFactory {
     @Override
     public AnnotationSource create(final Identifier identifier) {
 
-        final TypeReferenceSource reference = this.referenceFactory.create(identifier);
+        final TypeReferenceSource reference = this.referenceFactory.fromIdentifier(identifier);
         final ClassName className = ClassName.get(identifier.packageElement()
                                                           .getQualifiedName()
                                                           .toString(),
@@ -78,7 +77,7 @@ final class JavaPoetAnnotationFactory implements AnnotationSourceFactory {
     @Override
     public MutableAnnotationSource createMutable(final Class<?> clazz) {
 
-        final TypeReferenceSource reference = this.referenceFactory.create(clazz);
+        final TypeReferenceSource reference = this.referenceFactory.fromClass(clazz);
         // TODO 1 is a magic number -> extract into a proper place
         final Map<String, CodeSource> members = Maps.newHashMapWithExpectedSize(1);
 

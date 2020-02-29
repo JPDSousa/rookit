@@ -21,8 +21,12 @@
  ******************************************************************************/
 package org.rookit.auto.javapoet.field;
 
+import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
 import org.rookit.auto.javapoet.JavaPoetMutableAnnotatable;
+import org.rookit.auto.source.arbitrary.ArbitraryCodeSource;
+import org.rookit.auto.source.arbitrary.ArbitraryCodeSourceAdapter;
+import org.rookit.auto.source.arbitrary.ArbitraryCodeSourceFactory;
 import org.rookit.auto.source.field.MutableFieldSource;
 import org.rookit.auto.source.type.annotation.AnnotationSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
@@ -31,6 +35,7 @@ import javax.lang.model.element.Modifier;
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.List;
 
 import static java.util.Collections.unmodifiableCollection;
 
@@ -41,6 +46,9 @@ final class JavaPoetField implements MutableFieldSource {
     private final JavaPoetMutableAnnotatable annotatable;
     private final TypeReferenceSource type;
     private final Collection<Modifier> modifiers;
+    private final ArbitraryCodeSourceFactory codeFactory;
+    private final ArbitraryCodeSourceAdapter<CodeBlock> codeAdapter;
+    private ArbitraryCodeSource initializer;
 
     @SuppressWarnings("FieldNotUsedInToString")
     private final FieldSpec.Builder builder;
@@ -49,11 +57,16 @@ final class JavaPoetField implements MutableFieldSource {
             final JavaPoetMutableAnnotatable annotatable,
             final TypeReferenceSource type,
             final Collection<Modifier> modifiers,
+            final ArbitraryCodeSourceFactory codeFactory,
+            final ArbitraryCodeSourceAdapter<CodeBlock> codeAdapter,
             final FieldSpec.Builder builder) {
         this.annotatable = annotatable;
         this.type = type;
         this.modifiers = new LinkedHashSet<>(modifiers);
+        this.codeFactory = codeFactory;
+        this.codeAdapter = codeAdapter;
         this.builder = builder;
+        this.initializer = codeFactory.createEmpty();
     }
 
     FieldSpec getJavaPoet() {
@@ -63,6 +76,7 @@ final class JavaPoetField implements MutableFieldSource {
 
         builder.addModifiers(this.modifiers.toArray(MODIFIERS));
         builder.addAnnotations(this.annotatable.annotationSpecs());
+        builder.initializer(this.codeAdapter.adaptArbitraryCodeBlock(this.initializer));
 
         return builder.build();
     }
@@ -77,6 +91,12 @@ final class JavaPoetField implements MutableFieldSource {
     public CharSequence name() {
 
         return getJavaPoet().name;
+    }
+
+    @Override
+    public ArbitraryCodeSource initializer() {
+
+        return this.initializer;
     }
 
     @Override
@@ -121,30 +141,34 @@ final class JavaPoetField implements MutableFieldSource {
     public MutableFieldSource addAnnotation(final AnnotationSource annotation) {
 
         this.annotatable.addAnnotation(annotation);
-        return this;
+        return self();
     }
 
     @Override
     public MutableFieldSource addAnnotationByClass(final Class<? extends Annotation> annotation) {
 
         this.annotatable.addAnnotationByClass(annotation);
-        return this;
+        return self();
     }
 
     @Override
     public MutableFieldSource removeAnnotationByClass(final Class<? extends Annotation> annotation) {
 
         this.annotatable.removeAnnotationByClass(annotation);
-        return this;
+        return self();
     }
 
     @Override
-    public String toString() {
-        return "JavaPoetField{" +
-                "annotatable=" + this.annotatable +
-                ", type=" + this.type +
-                ", modifiers=" + this.modifiers +
-                "}";
+    public MutableFieldSource initializer(final String format, final List<Object> parameters) {
+
+        return initializer(this.codeFactory.createFromFormat(format, parameters));
+    }
+
+    @Override
+    public MutableFieldSource initializer(final ArbitraryCodeSource initializer) {
+
+        this.initializer = initializer;
+        return self();
     }
 
 }

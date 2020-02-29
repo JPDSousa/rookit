@@ -25,8 +25,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import org.rookit.auto.javapoet.naming.JavaPoetNamingFactories;
-import org.rookit.auto.javapoet.naming.JavaPoetNamingFactory;
+import org.rookit.auto.javax.naming.NamingFactories;
 import org.rookit.auto.javax.naming.NamingFactory;
 import org.rookit.convention.auto.config.MetatypeModuleConfig;
 import org.rookit.utils.guice.Self;
@@ -42,16 +41,11 @@ public final class NamingModule extends AbstractModule {
 
     private NamingModule() {}
 
-    @Override
-    protected void configure() {
-        bind(NamingFactory.class).to(JavaPoetNamingFactory.class);
-    }
-
     @Provides
     @Singleton
-    JavaPoetNamingFactory namingFactory(final JavaPoetNamingFactories factories,
-                                        final MetatypeModuleConfig config,
-                                        @Self final Template1 noopTemplate) {
+    NamingFactory namingFactory(final NamingFactories factories,
+                                final MetatypeModuleConfig config,
+                                @Self final Template1 noopTemplate) {
         return factories.create(config.basePackage(), config.entityTemplate(), noopTemplate);
     }
 

@@ -22,34 +22,36 @@
 package org.rookit.convention.auto.javapoet;
 
 import com.google.inject.Inject;
-import com.squareup.javapoet.MethodSpec;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javapoet.method.MethodSpecFactory;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.method.MethodSourceFactory;
+import org.rookit.auto.source.parameter.ParameterSourceFactory;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
-import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
 import org.rookit.convention.auto.property.Property;
 
 import java.util.function.BiFunction;
 
 final class ConventionAutoFactoriesImpl implements ConventionAutoFactories {
 
-    private final ConventionTypeElementFactory elementFactory;
+    private final ParameterSourceFactory parameterFactory;
 
     @Inject
-    private ConventionAutoFactoriesImpl(final ConventionTypeElementFactory elementFactory) {
-        this.elementFactory = elementFactory;
+    private ConventionAutoFactoriesImpl(
+            final ParameterSourceFactory parameterFactory) {
+        this.parameterFactory = parameterFactory;
     }
 
     @Override
-    public BiFunction<ConventionTypeElement, Property, StreamEx<MethodSpec>> createTypeTransformation(
-            final MethodSpecFactory specFactory) {
-        return new TypeTransformation(specFactory);
+    public BiFunction<ConventionTypeElement, Property, StreamEx<MethodSource>> createTypeTransformation(
+            final MethodSourceFactory methodFactory) {
+        return new TypeTransformation(methodFactory, this.parameterFactory);
     }
 
     @Override
     public String toString() {
         return "ConventionAutoFactoriesImpl{" +
-                "elementFactory=" + this.elementFactory +
+                "parameterFactory=" + this.parameterFactory +
                 "}";
     }
+
 }

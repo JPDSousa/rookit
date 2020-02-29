@@ -23,49 +23,46 @@ package org.rookit.storage.update.source;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterizedTypeName;
-import com.squareup.javapoet.TypeName;
-import com.squareup.javapoet.TypeSpec;
-import com.squareup.javapoet.TypeVariableName;
-import org.rookit.auto.javapoet.naming.JavaPoetParameterResolver;
-import org.rookit.auto.javapoet.type.JavaPoetTypeSourceFactory;
+import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.naming.Identifier;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
-import org.rookit.auto.source.spec.SpecFactory;
+import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
+import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.type.SingleTypeSourceFactory;
 import org.rookit.auto.source.type.TypeSource;
+import org.rookit.auto.source.type.TypeSourceFactory;
+import org.rookit.auto.source.type.parameter.TypeParameterSourceFactory;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
+import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
-import org.rookit.storage.guice.PartialUpdate;
 import org.rookit.storage.guice.PartialUpdateFilter;
 import org.rookit.storage.guice.TopUpdate;
 import org.rookit.storage.update.UpdateQuery;
-
-import java.util.Collection;
-import java.util.stream.Collectors;
+import org.rookit.utils.primitive.VoidUtils;
 
 // TODO semi copy-pasted from PropertyBasedTypeSourceFactory
 final class PartialUpdateTypeSourceFactory implements SingleTypeSourceFactory {
 
-    private final SpecFactory<MethodSpec> specFactory;
-    private final TypeName updateQueryTypeName;
-    private final JavaPoetParameterResolver parameterResolver;
-    private final JavaPoetTypeSourceFactory adapter;
+    private final TypeSourceFactory typeSourceFactory;
+    private final VoidUtils voidUtils;
+    private final ExtendedElementVisitor<StreamEx<MethodSource>, Void> visitor;
+    private final TypeReferenceSource updateQueryTypeName;
     private final ConventionTypeElementFactory elementFactory;
 
     @Inject
-    private PartialUpdateTypeSourceFactory(@PartialUpdate final JavaPoetParameterResolver parameterResolver,
-                                           final JavaPoetTypeSourceFactory adapter,
-                                           @TopUpdate final SpecFactory<MethodSpec> specFactory,
-                                           @PartialUpdateFilter final TypeVariableName updateFilter,
-                                           final ConventionTypeElementFactory elementFactory) {
-        this.parameterResolver = parameterResolver;
-        this.adapter = adapter;
-        this.specFactory = specFactory;
-        this.updateQueryTypeName = ParameterizedTypeName.get(
-                ClassName.get(UpdateQuery.class),
+    private PartialUpdateTypeSourceFactory(
+            final TypeSourceFactory typeSourceFactory,
+            final VoidUtils voidUtils,
+            @TopUpdate final ExtendedElementVisitor<StreamEx<MethodSource>, Void> visitor,
+            @PartialUpdateFilter final TypeVariableSource updateFilter,
+            final ConventionTypeElementFactory elementFactory,
+            final TypeParameterSourceFactory typeParameterFactory) {
+        this.typeSourceFactory = typeSourceFactory;
+        this.voidUtils = voidUtils;
+        this.visitor = visitor;
+        this.updateQueryTypeName = typeParameterFactory.create(
+                UpdateQuery.class,
                 updateFilter
         );
         this.elementFactory = elementFactory;
@@ -73,22 +70,14 @@ final class PartialUpdateTypeSourceFactory implements SingleTypeSourceFactory {
 
     @Override
     public TypeSource create(final Identifier identifier, final ExtendedTypeElement element) {
-        final ConventionTypeElement conventionElement = this.elementFactory.extendType(element);
-        final TypeSpec spec = TypeSpec.interfaceBuilder(identifier.name())
-                .addSuperinterfaces(parentNamesOf(conventionElement))
-                .addMethods(methodsFor(conventionElement))
-                .build();
-
-        return this.adapter.fromTypeSpec(identifier, spec);
+        final ConventionTypeElement conventionElement = this.elementFactory.extend(element);
+        return this.typeSourceFactory.createMutableInterface(identifier)
+                .addInterfaces(superInterfacesFor(conventionElement))
+                .addMethods(element.accept(this.visitor, this.voidUtils.returnVoid()));
     }
 
-    private Collection<MethodSpec> methodsFor(final ExtendedTypeElement element) {
-        return this.specFactory.create(element)
-                .collect(Collectors.toSet());
-    }
-
-    private Collection<TypeName> parentNamesOf(final ConventionTypeElement baseElement) {
-        final ImmutableSet.Builder<TypeName> builder = ImmutableSet.builder();
+    private Iterable<TypeReferenceSource> superInterfacesFor(final ConventionTypeElement baseElement) {
+        final ImmutableSet.Builder<TypeReferenceSource> builder = ImmutableSet.builder();
 
         if (baseElement.isTopLevel()) {
             builder.add(this.updateQueryTypeName);
@@ -97,11 +86,4 @@ final class PartialUpdateTypeSourceFactory implements SingleTypeSourceFactory {
         return builder.build();
     }
 
-    @Override
-    public String toString() {
-        return "PartialUpdateTypeSourceFactory{" +
-                ", methodFactory=" + this.specFactory +
-                ", updateQueryTypeName=" + this.updateQueryTypeName +
-                "} " + super.toString();
-    }
 }

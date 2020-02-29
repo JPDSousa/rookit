@@ -21,16 +21,16 @@
  ******************************************************************************/
 package org.rookit.convention.auto.config;
 
-import com.squareup.javapoet.TypeVariableName;
 import org.rookit.auto.config.ProcessorConfig;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
+import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.utils.string.template.Template1;
 
 public interface MetatypeApiConfig extends ProcessorConfig {
 
     ExtendedPackageElement basePackage();
 
-    TypeVariableName parameterName();
+    TypeVariableSource parameterName();
 
     Template1 entityTemplate();
 

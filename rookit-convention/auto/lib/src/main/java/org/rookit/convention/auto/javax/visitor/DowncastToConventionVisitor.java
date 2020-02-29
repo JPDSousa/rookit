@@ -24,7 +24,7 @@ package org.rookit.convention.auto.javax.visitor;
 import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.auto.javax.parameter.ExtendedTypeParameterElement;
+import org.rookit.auto.javax.type.parameter.ExtendedTypeParameterElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.variable.ExtendedVariableElement;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
@@ -41,37 +41,37 @@ final class DowncastToConventionVisitor<R, P> implements ConventionTypeElementVi
 
     @Override
     public R visitConventionType(final ConventionTypeElement element, final P parameter) {
-        return this.visitor.visitType(element, parameter);
+        return element.accept(this.visitor, parameter);
     }
 
     @Override
     public R visitPackage(final ExtendedPackageElement packageElement, final P parameter) {
-        return this.visitor.visitPackage(packageElement, parameter);
+        return packageElement.accept(this.visitor, parameter);
     }
 
     @Override
     public R visitType(final ExtendedTypeElement extendedType, final P parameter) {
-        return this.visitor.visitType(extendedType, parameter);
+        return extendedType.accept(this.visitor, parameter);
     }
 
     @Override
     public R visitExecutable(final ExtendedExecutableElement extendedExecutable, final P parameter) {
-        return this.visitor.visitExecutable(extendedExecutable, parameter);
+        return extendedExecutable.accept(this.visitor, parameter);
     }
 
     @Override
     public R visitTypeParameter(final ExtendedTypeParameterElement extendedParameter, final P parameter) {
-        return this.visitor.visitTypeParameter(extendedParameter, parameter);
+        return extendedParameter.accept(this.visitor, parameter);
     }
 
     @Override
     public R visitVariable(final ExtendedVariableElement extendedElement, final P parameter) {
-        return this.visitor.visitVariable(extendedElement, parameter);
+        return extendedElement.accept(this.visitor, parameter);
     }
 
     @Override
     public R visitUnknown(final ExtendedElement extendedElement, final P parameter) {
-        return this.visitor.visitUnknown(extendedElement, parameter);
+        return extendedElement.accept(this.visitor, parameter);
     }
 
     @Override

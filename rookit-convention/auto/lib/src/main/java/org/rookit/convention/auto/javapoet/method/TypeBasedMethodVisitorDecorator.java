@@ -21,15 +21,15 @@
  ******************************************************************************/
 package org.rookit.convention.auto.javapoet.method;
 
-import com.squareup.javapoet.MethodSpec;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.auto.javax.parameter.ExtendedTypeParameterElement;
+import org.rookit.auto.javax.type.parameter.ExtendedTypeParameterElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.auto.javax.variable.ExtendedVariableElement;
+import org.rookit.auto.source.method.MethodSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.convention.auto.javax.visitor.TypeBasedMethodVisitor;
@@ -37,12 +37,12 @@ import org.rookit.convention.auto.javax.visitor.TypeBasedMethodVisitor;
 final class TypeBasedMethodVisitorDecorator<P> implements TypeBasedMethodVisitor<P> {
 
     private final ExtendedTypeMirror type;
-    private final ConventionTypeElementVisitor<StreamEx<MethodSpec>, P> delegate;
+    private final ConventionTypeElementVisitor<StreamEx<MethodSource>, P> upstream;
 
     TypeBasedMethodVisitorDecorator(final ExtendedTypeMirror type,
-                                    final ConventionTypeElementVisitor<StreamEx<MethodSpec>, P> delegate) {
+                                    final ConventionTypeElementVisitor<StreamEx<MethodSource>, P> upstream) {
         this.type = type;
-        this.delegate = delegate;
+        this.upstream = upstream;
     }
 
     @Override
@@ -51,45 +51,46 @@ final class TypeBasedMethodVisitorDecorator<P> implements TypeBasedMethodVisitor
     }
 
     @Override
-    public StreamEx<MethodSpec> visitPackage(final ExtendedPackageElement packageElement, final P parameter) {
-        return this.delegate.visitPackage(packageElement, parameter);
+    public StreamEx<MethodSource> visitPackage(final ExtendedPackageElement packageElement, final P parameter) {
+        return packageElement.accept(this.upstream, parameter);
     }
 
     @Override
-    public StreamEx<MethodSpec> visitType(final ExtendedTypeElement extendedType, final P parameter) {
-        return this.delegate.visitType(extendedType, parameter);
+    public StreamEx<MethodSource> visitType(final ExtendedTypeElement extendedType, final P parameter) {
+        return extendedType.accept(this.upstream, parameter);
     }
 
     @Override
-    public StreamEx<MethodSpec> visitExecutable(final ExtendedExecutableElement extendedExecutable, final P parameter) {
-        return this.delegate.visitExecutable(extendedExecutable, parameter);
+    public StreamEx<MethodSource> visitExecutable(final ExtendedExecutableElement extendedExecutable, final P parameter) {
+        return extendedExecutable.accept(this.upstream, parameter);
     }
 
     @Override
-    public StreamEx<MethodSpec> visitTypeParameter(final ExtendedTypeParameterElement extendedParameter, final P parameter) {
-        return this.delegate.visitTypeParameter(extendedParameter, parameter);
+    public StreamEx<MethodSource> visitTypeParameter(final ExtendedTypeParameterElement extendedParameter,
+                                                     final P parameter) {
+        return extendedParameter.accept(this.upstream, parameter);
     }
 
     @Override
-    public StreamEx<MethodSpec> visitVariable(final ExtendedVariableElement extendedElement, final P parameter) {
-        return this.delegate.visitVariable(extendedElement, parameter);
+    public StreamEx<MethodSource> visitVariable(final ExtendedVariableElement extendedElement, final P parameter) {
+        return extendedElement.accept(this.upstream, parameter);
     }
 
     @Override
-    public StreamEx<MethodSpec> visitUnknown(final ExtendedElement extendedElement, final P parameter) {
-        return this.delegate.visitUnknown(extendedElement, parameter);
+    public StreamEx<MethodSource> visitUnknown(final ExtendedElement extendedElement, final P parameter) {
+        return extendedElement.accept(this.upstream, parameter);
+    }
+
+    @Override
+    public StreamEx<MethodSource> visitConventionType(final ConventionTypeElement element, final P parameter) {
+        return element.accept(this.upstream, parameter);
     }
 
     @Override
     public String toString() {
         return "TypeBasedMethodVisitorDecorator{" +
                 "type=" + this.type +
-                ", delegate=" + this.delegate +
+                ", upstream=" + this.upstream +
                 "}";
-    }
-
-    @Override
-    public StreamEx<MethodSpec> visitConventionType(final ConventionTypeElement element, final P parameter) {
-        return this.delegate.visitConventionType(element, parameter);
     }
 }

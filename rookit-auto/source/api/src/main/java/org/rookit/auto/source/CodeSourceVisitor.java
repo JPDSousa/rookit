@@ -25,6 +25,7 @@ import org.rookit.auto.source.arbitrary.ArbitraryCodeSource;
 import org.rookit.auto.source.field.FieldSource;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.parameter.ParameterSource;
+import org.rookit.auto.source.type.container.TypeSourceContainer;
 import org.rookit.auto.source.type.annotation.AnnotationSource;
 import org.rookit.auto.source.type.TypeSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;

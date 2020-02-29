@@ -93,7 +93,7 @@ final class JavaPoetParameterFactory implements ParameterSourceFactory {
     @Override
     public MutableParameterSource createMutable(final CharSequence name, final Class<?> type) {
 
-        return createMutable(name, this.referenceFactory.create(type));
+        return createMutable(name, this.referenceFactory.fromClass(type));
     }
 
     @Override

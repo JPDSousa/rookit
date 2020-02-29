@@ -21,7 +21,7 @@
  ******************************************************************************/
 package org.rookit.convention.auto.property;
 
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 
 final class ReturnProperty extends AbstractProperty {
 

@@ -25,6 +25,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.source.type.TypeSource;
+import org.rookit.auto.source.type.container.TypeSourceContainer;
 
 import javax.annotation.processing.Filer;
 import java.util.Collection;

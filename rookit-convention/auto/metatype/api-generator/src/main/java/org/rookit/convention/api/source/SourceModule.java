@@ -37,7 +37,7 @@ import org.rookit.convention.api.source.entity.EntityModule;
 import org.rookit.convention.api.source.identifier.IdentifierModule;
 import org.rookit.convention.api.source.method.MethodModule;
 import org.rookit.convention.api.source.naming.NamingModule;
-import org.rookit.convention.api.source.type.TypeSpecModule;
+import org.rookit.convention.api.source.type.TypeModule;
 import org.rookit.convention.auto.ConventionLibModule;
 import org.rookit.convention.auto.property.ExtendedPropertyExtractor;
 import org.rookit.convention.auto.property.ExtendedPropertyExtractorFactory;
@@ -45,7 +45,7 @@ import org.rookit.convention.auto.property.PropertyFactory;
 import org.rookit.failsafe.FailsafeModule;
 import org.rookit.guice.auto.GuiceAutoLibModule;
 import org.rookit.io.IOLibModule;
-import org.rookit.io.path.PathModule;
+import org.rookit.io.PathLibModule;
 import org.rookit.serializer.SerializationBundleModule;
 import org.rookit.utils.guice.UtilsModule;
 
@@ -66,12 +66,12 @@ public final class SourceModule extends AbstractModule {
             IOLibModule.getModule(),
             MethodModule.getModule(),
             NamingModule.getModule(),
-            PathModule.getModule(),
+            PathLibModule.getModule(),
             SerializationBundleModule.getModule(),
             SourceLibModule.getModule(),
             SourceJavaPoetLibModule.getModule(),
             SourceUtilsModule.getModule(),
-            TypeSpecModule.getModule(),
+            TypeModule.getModule(),
             UtilsModule.getModule()
     );
 

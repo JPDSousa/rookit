@@ -24,12 +24,6 @@ package org.rookit.auto.javapoet.type.reference;
 import com.squareup.javapoet.TypeName;
 import org.rookit.auto.source.CodeSourceVisitor;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
-import org.rookit.utils.primitive.VoidUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.annotation.processing.Filer;
-import java.util.concurrent.CompletableFuture;
 
 final class JavaPoetReference implements TypeReferenceSource {
 

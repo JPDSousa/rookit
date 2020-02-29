@@ -22,46 +22,50 @@
 package org.rookit.storage.filter.source.method.type;
 
 import com.google.inject.Inject;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterSpec;
-import com.squareup.javapoet.TypeName;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javapoet.method.MethodSpecFactory;
 import org.rookit.auto.javax.visitor.StreamExtendedElementVisitor;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.method.MethodSourceFactory;
+import org.rookit.auto.source.parameter.ParameterSource;
+import org.rookit.auto.source.parameter.ParameterSourceFactory;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.convention.auto.property.Property;
 import org.rookit.storage.filter.source.guice.Time;
-import org.rookit.storage.guice.filter.PartialFilter;
 import org.rookit.utils.string.template.Template1;
 
 import java.util.Collection;
 import java.util.Set;
 
-final class TimeOperationMethodVisitor<P> implements ConventionTypeElementVisitor<StreamEx<MethodSpec>, P>,
-        StreamExtendedElementVisitor<MethodSpec, P> {
+final class TimeOperationMethodVisitor<P> implements ConventionTypeElementVisitor<StreamEx<MethodSource>, P>,
+        StreamExtendedElementVisitor<MethodSource, P> {
 
-    private final MethodSpecFactory methodSpecFactory;
+    private final MethodSourceFactory methodFactory;
+    private final ParameterSourceFactory parameterFactory;
     private final Collection<Template1> templates;
 
     @Inject
-    private TimeOperationMethodVisitor(@PartialFilter final MethodSpecFactory methodSpecFactory,
-                                       @Time final Set<Template1> templates) {
-        this.methodSpecFactory = methodSpecFactory;
+    private TimeOperationMethodVisitor(
+            final MethodSourceFactory methodFactory,
+            final ParameterSourceFactory parameterFactory,
+            @Time final Set<Template1> templates) {
+        this.methodFactory = methodFactory;
+        this.parameterFactory = parameterFactory;
         this.templates = templates;
     }
 
-    private StreamEx<MethodSpec> create(final Property property) {
+    private StreamEx<MethodSource> create(final Property property) {
         final String propertyName = property.name();
-        final TypeName typeName = TypeName.get(property.type());
-        final ParameterSpec param = ParameterSpec.builder(typeName, propertyName).build();
+        final ParameterSource param = this.parameterFactory.createMutable(propertyName, property.type());
 
         return StreamEx.of(this.templates)
-                .map(template -> this.methodSpecFactory.create(propertyName,template, param));
+                .map(template -> template.build(propertyName))
+                .map(name -> this.methodFactory.createMutableMethod(propertyName)
+                        .addParameter(param));
     }
 
     @Override
-    public StreamEx<MethodSpec> visitConventionType(final ConventionTypeElement element, final P parameter) {
+    public StreamEx<MethodSource> visitConventionType(final ConventionTypeElement element, final P parameter) {
         return StreamEx.of(element.properties())
                 .flatMap(this::create);
     }
@@ -69,8 +73,10 @@ final class TimeOperationMethodVisitor<P> implements ConventionTypeElementVisito
     @Override
     public String toString() {
         return "TimeOperationMethodVisitor{" +
-                "methodSpecFactory=" + this.methodSpecFactory +
+                "methodFactory=" + this.methodFactory +
+                ", parameterFactory=" + this.parameterFactory +
                 ", templates=" + this.templates +
                 "}";
     }
+
 }

@@ -24,61 +24,68 @@ package org.rookit.storage.filter.source.method.type;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterSpec;
-import com.squareup.javapoet.TypeName;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javapoet.method.MethodSpecFactory;
-import org.rookit.convention.auto.javapoet.method.ConventionTypeElementMethodSpecVisitors;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.method.MethodSourceFactory;
+import org.rookit.auto.source.parameter.ParameterSource;
+import org.rookit.auto.source.parameter.ParameterSourceFactory;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.convention.auto.property.Property;
+import org.rookit.convention.auto.source.method.ConventionTypeElementMethodSourceVisitors;
 import org.rookit.storage.filter.source.guice.Between;
-import org.rookit.storage.guice.filter.PartialFilter;
 import org.rookit.utils.string.template.Template1;
 
 import java.util.Collection;
 
-final class BetweenMethodFactoryProvider implements Provider<ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void>> {
+final class BetweenMethodFactoryProvider implements Provider<
+        ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>> {
 
-    private static Collection<ParameterSpec> createParameters(final Property property) {
-        final TypeName typeName = TypeName.get(property.type());
-
-        // TODO inject me
-        final ParameterSpec before = ParameterSpec.builder(typeName, "before").build();
-        final ParameterSpec after = ParameterSpec.builder(typeName, "after").build();
-
-        return ImmutableList.of(before, after);
-    }
-    
-    private final MethodSpecFactory methodSpecFactory;
+    private final MethodSourceFactory methodFactory;
+    private final ParameterSourceFactory parameterFactory;
     private final Template1 template;
-    private final ConventionTypeElementMethodSpecVisitors visitors;
+    private final ConventionTypeElementMethodSourceVisitors visitors;
 
     @Inject
-    private BetweenMethodFactoryProvider(@PartialFilter final MethodSpecFactory methodSpecFactory,
-                                         @Between final Template1 template,
-                                         final ConventionTypeElementMethodSpecVisitors visitors) {
-        this.methodSpecFactory = methodSpecFactory;
+    private BetweenMethodFactoryProvider(
+            final MethodSourceFactory methodFactory,
+            final ParameterSourceFactory parameterFactory,
+            @Between final Template1 template,
+            final ConventionTypeElementMethodSourceVisitors visitors) {
+        this.methodFactory = methodFactory;
+        this.parameterFactory = parameterFactory;
         this.template = template;
         this.visitors = visitors;
     }
-    
+
     @Override
-    public ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void> get() {
-        return this.visitors.<Void>
-                templateMethodSpecVisitorBuilder(
-                this.methodSpecFactory,
+    public ConventionTypeElementVisitor<StreamEx<MethodSource>, Void> get() {
+        return this.visitors.<Void>templateMethodSourceVisitorBuilder(
+                this.methodFactory,
                 this.template,
-                BetweenMethodFactoryProvider::createParameters
+                this::createParameters
         ).build();
+    }
+
+    private Collection<ParameterSource> createParameters(final Property property) {
+
+        final ExtendedTypeMirror propertyType = property.type();
+
+        // TODO inject me
+        final ParameterSource before = this.parameterFactory.createMutable( "before", propertyType);
+        final ParameterSource after = this.parameterFactory.createMutable("after", propertyType);
+
+        return ImmutableList.of(before, after);
     }
 
     @Override
     public String toString() {
         return "BetweenMethodFactoryProvider{" +
-                "methodSpecFactory=" + this.methodSpecFactory +
+                "methodFactory=" + this.methodFactory +
+                ", parameterFactory=" + this.parameterFactory +
                 ", template=" + this.template +
                 ", visitors=" + this.visitors +
                 "}";
     }
+
 }

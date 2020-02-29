@@ -21,26 +21,24 @@
  ******************************************************************************/
 package org.rookit.convention.module.source.method;
 
-import com.squareup.javapoet.MethodSpec;
 import org.rookit.auto.javax.ExtendedElement;
-import org.rookit.auto.source.spec.ExtendedElementAggregator;
-import org.rookit.auto.source.spec.ExtendedElementSpecAggregatorFactory;
+import org.rookit.auto.javax.aggregator.ExtendedTypeElementAggregator;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.javax.aggregator.ExtendedElementAggregator;
+import org.rookit.auto.javax.aggregator.ExtendedElementAggregatorFactory;
 import org.rookit.utils.primitive.VoidUtils;
 
-import javax.annotation.processing.Filer;
-import java.util.concurrent.CompletableFuture;
+final class ReducedConfigureMethodAggregator implements ExtendedTypeElementAggregator<MethodSource> {
 
-final class ReducedConfigureMethodAggregator implements ExtendedElementAggregator<MethodSpec> {
-
-    private final ExtendedElementSpecAggregatorFactory<MethodSpec> factory;
-    private final ExtendedElementAggregator<MethodSpec> delegate;
-    private final MethodSpec left;
-    private final MethodSpec right;
+    private final ExtendedElementAggregatorFactory<MethodSource> factory;
+    private final ExtendedElementAggregator<MethodSource> delegate;
+    private final MethodSource left;
+    private final MethodSource right;
     private final VoidUtils voidUtils;
 
-    ReducedConfigureMethodAggregator(final ExtendedElementSpecAggregatorFactory<MethodSpec> factory,
-                                     final MethodSpec left,
-                                     final MethodSpec right,
+    ReducedConfigureMethodAggregator(final ExtendedElementAggregatorFactory<MethodSource> factory,
+                                     final MethodSource left,
+                                     final MethodSource right,
                                      final VoidUtils voidUtils) {
         this.factory = factory;
         this.delegate = factory.create();
@@ -55,13 +53,13 @@ final class ReducedConfigureMethodAggregator implements ExtendedElementAggregato
     }
 
     @Override
-    public ExtendedElementAggregator<MethodSpec> reduce(
-            final ExtendedElementAggregator<MethodSpec> aggregator) {
+    public ExtendedElementAggregator<MethodSource> reduce(
+            final ExtendedElementAggregator<MethodSource> aggregator) {
         return new ReducedConfigureMethodAggregator(this.factory, result(), aggregator.result(), this.voidUtils);
     }
 
     @Override
-    public MethodSpec result() {
+    public MethodSource result() {
         // TODO we can do better...
         // TODO for real: this implementation >assumes< that the method signature is the same in each
         // TODO reducted aggregators
@@ -69,11 +67,6 @@ final class ReducedConfigureMethodAggregator implements ExtendedElementAggregato
                 .addCode(this.left.code)
                 .addCode(this.right.code)
                 .build();
-    }
-
-    @Override
-    public CompletableFuture<Void> writeTo(final Filer filer) {
-        return this.voidUtils.completeVoid();
     }
 
     @Override
@@ -86,4 +79,5 @@ final class ReducedConfigureMethodAggregator implements ExtendedElementAggregato
                 ", voidUtils=" + this.voidUtils +
                 "}";
     }
+
 }

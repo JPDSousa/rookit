@@ -25,11 +25,10 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
-import org.rookit.convention.auto.module.ModuleEntityTypeElementAggregatorFactory;
+import org.rookit.auto.javax.aggregator.ExtendedPackageElementAggregatorFactory;
 import org.rookit.convention.module.source.aggregator.multi.MultiAggregatorModule;
 import org.rookit.convention.module.source.aggregator.property.PropertyAggregatorModule;
 
-@SuppressWarnings("MethodMayBeStatic")
 public final class AggregatorModule extends AbstractModule {
 
     private static final Module MODULE = Modules.combine(
@@ -46,7 +45,7 @@ public final class AggregatorModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(ModuleEntityTypeElementAggregatorFactory.class).to(ModuleTypeElementAggregatorFactory.class)
+        bind(ExtendedPackageElementAggregatorFactory.class).to(ModuleTypeElementAggregatorFactory.class)
                 .in(Singleton.class);
     }
 }

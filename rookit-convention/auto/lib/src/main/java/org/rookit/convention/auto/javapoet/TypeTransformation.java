@@ -22,46 +22,58 @@
 package org.rookit.convention.auto.javapoet;
 
 import com.google.inject.Inject;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterSpec;
-import com.squareup.javapoet.TypeName;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javapoet.method.MethodSpecFactory;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.method.MethodSourceFactory;
+import org.rookit.auto.source.parameter.ParameterSource;
+import org.rookit.auto.source.parameter.ParameterSourceFactory;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.property.Property;
 
 import javax.lang.model.element.Element;
+import javax.lang.model.element.Name;
 import java.util.function.BiFunction;
 
-final class TypeTransformation implements BiFunction<ConventionTypeElement, Property, StreamEx<MethodSpec>> {
+final class TypeTransformation implements BiFunction<ConventionTypeElement, Property, StreamEx<MethodSource>> {
 
     private static final String ERR_MSG = "This transformation function requires all properties to declare a declared" +
             " type";
 
-    private final MethodSpecFactory methodSpecFactory;
+    private final MethodSourceFactory methodFactory;
+    private final ParameterSourceFactory parameterFactory;
 
     @Inject
-    TypeTransformation(final MethodSpecFactory methodSpecFactory) {
-        this.methodSpecFactory = methodSpecFactory;
+    TypeTransformation(
+            final MethodSourceFactory methodFactory,
+            final ParameterSourceFactory parameterFactory) {
+        this.methodFactory = methodFactory;
+        this.parameterFactory = parameterFactory;
     }
 
     @Override
-    public StreamEx<MethodSpec> apply(final ConventionTypeElement owner, final Property property) {
-        final Element propertyElement = property.type()
+    public StreamEx<MethodSource> apply(final ConventionTypeElement owner, final Property property) {
+
+        final ExtendedTypeMirror propertyType = property.type();
+        final Element propertyElement = propertyType
                 .toElement()
                 .orElseThrow(() -> new IllegalArgumentException(ERR_MSG));
-        final String elementName = propertyElement.getSimpleName().toString();
-        final TypeName typeName = TypeName.get(propertyElement.asType());
-        final ParameterSpec parameter = ParameterSpec.builder(typeName, elementName)
-                .build();
 
-        return StreamEx.of(this.methodSpecFactory.create(elementName, parameter));
+        final Name elementName = propertyElement.getSimpleName();
+        final ParameterSource parameter = this.parameterFactory.createMutable(elementName, propertyType);
+
+        return StreamEx.of(
+                this.methodFactory.createMutableMethod(elementName)
+                .addParameter(parameter)
+        );
     }
 
     @Override
     public String toString() {
         return "TypeTransformation{" +
-                "methodSpecFactory=" + this.methodSpecFactory +
+                "methodFactory=" + this.methodFactory +
+                ", parameterFactory=" + this.parameterFactory +
                 "}";
     }
+
 }

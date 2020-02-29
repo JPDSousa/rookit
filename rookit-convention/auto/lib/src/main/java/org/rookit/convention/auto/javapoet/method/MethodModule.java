@@ -24,6 +24,7 @@ package org.rookit.convention.auto.javapoet.method;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
+import org.rookit.convention.auto.source.method.ConventionTypeElementMethodSourceVisitors;
 
 public final class MethodModule extends AbstractModule {
 
@@ -37,7 +38,7 @@ public final class MethodModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(ConventionTypeElementMethodSpecVisitors.class)
-                .to(ConventionTypeElementMethodSpecVisitorsImpl.class).in(Singleton.class);
+        bind(ConventionTypeElementMethodSourceVisitors.class)
+                .to(ConventionTypeElementMethodSourceVisitorsImpl.class).in(Singleton.class);
     }
 }

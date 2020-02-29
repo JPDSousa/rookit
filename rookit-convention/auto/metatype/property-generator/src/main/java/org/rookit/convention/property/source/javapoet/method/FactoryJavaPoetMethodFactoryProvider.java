@@ -23,49 +23,43 @@ package org.rookit.convention.property.source.javapoet.method;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterSpec;
-import com.squareup.javapoet.TypeVariableName;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javapoet.naming.JavaPoetNamingFactory;
-import org.rookit.auto.javapoet.naming.JavaPoetParameterResolver;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
-import org.rookit.auto.source.spec.parameter.Parameter;
-import org.rookit.convention.auto.javapoet.method.ConventionTypeElementMethodSpecVisitors;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.parameter.ParameterSource;
+import org.rookit.auto.source.type.variable.TypeVariableSource;
+import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.auto.source.method.ConventionTypeElementMethodSourceVisitors;
 import org.rookit.convention.guice.MetaType;
 import org.rookit.convention.property.guice.PropertyModel;
 
 final class FactoryJavaPoetMethodFactoryProvider
-        implements Provider<ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void>> {
+        implements Provider<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>> {
 
-    private final ConventionTypeElementMethodSpecVisitors visitors;
-    private final ExtendedElementVisitor<StreamEx<Parameter<ParameterSpec>>, Void> parameterFactory;
-    private final JavaPoetParameterResolver parameterResolver;
-    private final JavaPoetNamingFactory namingFactory;
-    private final TypeVariableName variableName;
+    private final ConventionTypeElementMethodSourceVisitors visitors;
+    private final ExtendedElementVisitor<StreamEx<ParameterSource>, Void> parameterFactory;
+    private final TypeVariableSourceFactory variableFactory;
+    private final TypeVariableSource variableSource;
 
     @Inject
     private FactoryJavaPoetMethodFactoryProvider(
-            final ConventionTypeElementMethodSpecVisitors visitors,
-            @PropertyModel final ExtendedElementVisitor<StreamEx<Parameter<ParameterSpec>>, Void> parameterFactory,
-            @MetaType final JavaPoetNamingFactory namingFactory,
-            @MetaType final JavaPoetParameterResolver parameterResolver,
-            @MetaType final TypeVariableName variableName) {
+            final ConventionTypeElementMethodSourceVisitors visitors,
+            @PropertyModel final ExtendedElementVisitor<StreamEx<ParameterSource>, Void> parameterFactory,
+            @MetaType final TypeVariableSourceFactory variableFactory,
+            @MetaType final TypeVariableSource variableSource) {
         this.visitors = visitors;
-        this.namingFactory = namingFactory;
         this.parameterFactory = parameterFactory;
-        this.variableName = variableName;
-        this.parameterResolver = parameterResolver;
+        this.variableSource = variableSource;
+        this.variableFactory = variableFactory;
     }
 
     @Override
-    public ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void> get() {
+    public ConventionTypeElementVisitor<StreamEx<MethodSource>, Void> get() {
         return this.visitors.factoryVisitorBuilder(
                 this.parameterFactory,
-                this.namingFactory,
-                this.parameterResolver,
-                this.variableName
+                this.variableFactory,
+                this.variableSource
         ).build();
     }
 
@@ -74,9 +68,9 @@ final class FactoryJavaPoetMethodFactoryProvider
         return "FactoryJavaPoetMethodFactoryProvider{" +
                 "visitors=" + this.visitors +
                 ", parameterFactory=" + this.parameterFactory +
-                ", parameterResolver=" + this.parameterResolver +
-                ", namingFactory=" + this.namingFactory +
-                ", variableName=" + this.variableName +
+                ", variableFactory=" + this.variableFactory +
+                ", variableSource=" + this.variableSource +
                 "}";
     }
+
 }

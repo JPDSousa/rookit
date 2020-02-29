@@ -25,8 +25,8 @@ import one.util.streamex.StreamEx;
 import org.rookit.auto.config.ProcessorConfig;
 import org.rookit.auto.javax.type.ExtendedTypeElementFactory;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
-import org.rookit.auto.source.TypeSourceContainer;
-import org.rookit.auto.source.TypeSourceContainerFactory;
+import org.rookit.auto.source.type.container.TypeSourceContainer;
+import org.rookit.auto.source.type.container.TypeSourceContainerFactory;
 import org.rookit.auto.source.type.TypeSource;
 import org.rookit.utils.primitive.VoidUtils;
 
@@ -68,7 +68,7 @@ public abstract class AbstractTypeProcessor extends AbstractConfigAwareTypeProce
             final TypeSourceContainer<TypeSource> generatedSources = this.typeFactory.extend(element)
                     .accept(this.generator, this.voidUtils.returnVoid())
                     .collect(collectingAndThen(toImmutableList(),
-                                               this.containerFactory::create));
+                                               this.containerFactory::createFromTypeSource));
 
             generatedSources.writeTo(this.filer).get();
         } catch (final InterruptedException | ExecutionException e) {

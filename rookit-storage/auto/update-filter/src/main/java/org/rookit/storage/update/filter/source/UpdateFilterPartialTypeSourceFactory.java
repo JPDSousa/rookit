@@ -23,20 +23,17 @@ package org.rookit.storage.update.filter.source;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.TypeName;
-import com.squareup.javapoet.TypeSpec;
-import com.squareup.javapoet.TypeVariableName;
-import org.rookit.auto.javapoet.naming.JavaPoetParameterResolver;
-import org.rookit.auto.javapoet.type.JavaPoetTypeSourceFactory;
 import org.rookit.auto.javax.naming.Identifier;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.source.type.SingleTypeSourceFactory;
 import org.rookit.auto.source.type.TypeSource;
+import org.rookit.auto.source.type.TypeSourceFactory;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
+import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
+import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
 import org.rookit.storage.guice.PartialUpdateFilter;
-import org.rookit.storage.guice.filter.PartialFilter;
 import org.rookit.storage.update.filter.UpdateFilterQuery;
 
 import java.util.Collection;
@@ -44,37 +41,36 @@ import java.util.Collection;
 //TODO this class is too similar to QueryPartialTypeSourceFactory
 final class UpdateFilterPartialTypeSourceFactory implements SingleTypeSourceFactory {
 
-    private final JavaPoetTypeSourceFactory adapter;
+    private final TypeSourceFactory typeSourceFactory;
     private final ConventionTypeElementFactory elementFactory;
-    private final JavaPoetParameterResolver resolver;
-    private final TypeVariableName updateFilter;
-    private final TypeName updateFilterTypeName;
+    private final TypeReferenceSourceFactory referenceFactory;
+    private final TypeVariableSource updateFilter;
+    private final TypeReferenceSource updateFilterTypeName;
 
     @Inject
-    private UpdateFilterPartialTypeSourceFactory(@PartialUpdateFilter final JavaPoetParameterResolver parameterResolver,
-                                                 final JavaPoetTypeSourceFactory adapter,
-                                                 final ConventionTypeElementFactory elementFactory,
-                                                 @PartialFilter final JavaPoetParameterResolver resolver,
-                                                 @PartialUpdateFilter final TypeVariableName updateFilter) {
-        this.adapter = adapter;
+    private UpdateFilterPartialTypeSourceFactory(
+            final TypeSourceFactory typeSourceFactory,
+            final ConventionTypeElementFactory elementFactory,
+            final TypeReferenceSourceFactory referenceFactory,
+            @PartialUpdateFilter final TypeVariableSource updateFilter) {
+        this.typeSourceFactory = typeSourceFactory;
         this.elementFactory = elementFactory;
-        this.resolver = resolver;
+        this.referenceFactory = referenceFactory;
         this.updateFilter = updateFilter;
-        this.updateFilterTypeName = ClassName.get(UpdateFilterQuery.class);
+        this.updateFilterTypeName = referenceFactory.fromClass(UpdateFilterQuery.class);
     }
 
     @Override
     public TypeSource create(final Identifier identifier, final ExtendedTypeElement element) {
-        final ConventionTypeElement conventionElement = this.elementFactory.extendType(element);
-        final TypeSpec spec = TypeSpec.interfaceBuilder(identifier.name())
-                .addSuperinterfaces(parentNamesOf(conventionElement))
-                .build();
-        return this.adapter.fromTypeSpec(identifier, spec);
+        final ConventionTypeElement conventionElement = this.elementFactory.extend(element);
+
+        return this.typeSourceFactory.createMutableInterface(identifier)
+                .addInterfaces(parentNamesOf(conventionElement));
     }
 
-    private Collection<TypeName> parentNamesOf(final ConventionTypeElement baseElement) {
-        final ImmutableSet.Builder<TypeName> builder = ImmutableSet.<TypeName>builder()
-                .add(this.resolver.resolveParameters(baseElement, this.updateFilter));
+    private Collection<TypeReferenceSource> parentNamesOf(final ConventionTypeElement baseElement) {
+        final ImmutableSet.Builder<TypeReferenceSource> builder = ImmutableSet.<TypeReferenceSource>builder()
+                .add(this.referenceFactory.resolveParameters(baseElement, this.updateFilter));
         if (baseElement.isTopLevel()) {
             builder.add(this.updateFilterTypeName);
         }
@@ -84,9 +80,12 @@ final class UpdateFilterPartialTypeSourceFactory implements SingleTypeSourceFact
     @Override
     public String toString() {
         return "UpdateFilterPartialTypeSourceFactory{" +
-                "resolver=" + this.resolver +
+                "typeSourceFactory=" + this.typeSourceFactory +
+                ", elementFactory=" + this.elementFactory +
+                ", referenceFactory=" + this.referenceFactory +
                 ", updateFilter=" + this.updateFilter +
                 ", updateFilterTypeName=" + this.updateFilterTypeName +
-                "} " + super.toString();
+                "}";
     }
+
 }

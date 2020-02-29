@@ -23,20 +23,20 @@ package org.rookit.storage.update.source.naming;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import org.rookit.auto.javapoet.naming.JavaPoetNamingFactories;
-import org.rookit.auto.javapoet.naming.JavaPoetNamingFactory;
+import org.rookit.auto.javax.naming.NamingFactories;
+import org.rookit.auto.javax.naming.NamingFactory;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
 import org.rookit.storage.api.config.UpdateConfig;
 import org.rookit.storage.guice.Update;
 
-final class UpdateJavaPoetNamingFactoryProvider implements Provider<JavaPoetNamingFactory> {
+final class UpdateJavaPoetNamingFactoryProvider implements Provider<NamingFactory> {
 
-    private final JavaPoetNamingFactories factories;
+    private final NamingFactories factories;
     private final ExtendedPackageElement extendedPackageElement;
     private final UpdateConfig config;
 
     @Inject
-    private UpdateJavaPoetNamingFactoryProvider(final JavaPoetNamingFactories factories,
+    private UpdateJavaPoetNamingFactoryProvider(final NamingFactories factories,
                                                 @Update final ExtendedPackageElement packageElement,
                                                 final UpdateConfig config) {
         this.factories = factories;
@@ -45,7 +45,7 @@ final class UpdateJavaPoetNamingFactoryProvider implements Provider<JavaPoetNami
     }
 
     @Override
-    public JavaPoetNamingFactory get() {
+    public NamingFactory get() {
         return this.factories.create(this.extendedPackageElement,
                 this.config.entityTemplate(),
                 this.config.methodTemplate());

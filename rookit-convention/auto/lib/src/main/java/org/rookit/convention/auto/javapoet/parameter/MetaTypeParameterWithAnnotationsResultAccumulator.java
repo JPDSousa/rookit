@@ -22,9 +22,11 @@
 package org.rookit.convention.auto.javapoet.parameter;
 
 import com.google.inject.Inject;
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.ParameterSpec;
 import org.rookit.auto.javax.naming.Identifier;
+import org.rookit.auto.source.parameter.ParameterSource;
+import org.rookit.auto.source.parameter.ParameterSourceFactory;
+import org.rookit.auto.source.type.annotation.AnnotationSource;
+import org.rookit.auto.source.type.annotation.AnnotationSourceFactory;
 import org.rookit.convention.auto.javax.naming.PropertyIdentifierFactory;
 import org.rookit.convention.auto.property.Property;
 import org.rookit.guice.auto.annotation.Guice;
@@ -32,28 +34,39 @@ import org.rookit.guice.auto.annotation.Guice;
 import java.util.function.BiFunction;
 
 final class MetaTypeParameterWithAnnotationsResultAccumulator
-        implements BiFunction<Property, ParameterSpec, ParameterSpec> {
+        implements BiFunction<Property, ParameterSource, ParameterSource> {
 
     private final PropertyIdentifierFactory guiceIdentifierFactory;
+    private final ParameterSourceFactory parameterFactory;
+    private final AnnotationSourceFactory annotationFactory;
 
     @Inject
-    MetaTypeParameterWithAnnotationsResultAccumulator(@Guice final PropertyIdentifierFactory identifierFactory) {
+    MetaTypeParameterWithAnnotationsResultAccumulator(
+            @Guice final PropertyIdentifierFactory identifierFactory,
+            final ParameterSourceFactory parameterFactory,
+            final AnnotationSourceFactory annotationFactory) {
         this.guiceIdentifierFactory = identifierFactory;
+        this.parameterFactory = parameterFactory;
+        this.annotationFactory = annotationFactory;
     }
 
     @Override
-    public ParameterSpec apply(final Property property, final ParameterSpec parameterSpec) {
+    public ParameterSource apply(final Property property, final ParameterSource parameterSource) {
+
         final Identifier identifier = this.guiceIdentifierFactory.create(property);
-        final ClassName className = ClassName.get(identifier.packageElement().fullName().asString(), identifier.name());
-        return parameterSpec.toBuilder()
-                .addAnnotation(className)
-                .build();
+        final AnnotationSource annotation = this.annotationFactory.create(identifier);
+
+        return this.parameterFactory.makeMutable(parameterSource)
+                .addAnnotation(annotation);
     }
 
     @Override
     public String toString() {
         return "MetaTypeParameterWithAnnotationsResultAccumulator{" +
                 "guiceIdentifierFactory=" + this.guiceIdentifierFactory +
+                ", parameterFactory=" + this.parameterFactory +
+                ", annotationFactory=" + this.annotationFactory +
                 "}";
     }
+
 }

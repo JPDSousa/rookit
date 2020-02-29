@@ -21,36 +21,37 @@
  ******************************************************************************/
 package org.rookit.storage.filter.source.method.type.optional;
 
-import com.squareup.javapoet.MethodSpec;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javapoet.method.MethodSpecFactory;
 import org.rookit.auto.javax.visitor.StreamExtendedElementVisitor;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.method.MethodSourceFactory;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.convention.auto.property.Property;
 import org.rookit.utils.adapt.Adapter;
 import org.rookit.utils.string.template.Template1;
 
-final class NoParamTemplateMethodVisitor<P> implements ConventionTypeElementVisitor<StreamEx<MethodSpec>, P>,
-        StreamExtendedElementVisitor<MethodSpec, P> {
+final class NoParamTemplateMethodVisitor<P> implements ConventionTypeElementVisitor<StreamEx<MethodSource>, P>,
+        StreamExtendedElementVisitor<MethodSource, P> {
 
-    private final MethodSpecFactory methodSpecFactory;
+    private final MethodSourceFactory methodSpecFactory;
     private final Template1 template;
     private final Adapter<ConventionTypeElement> adapter;
 
-    NoParamTemplateMethodVisitor(final MethodSpecFactory methodSpecFactory,
+    NoParamTemplateMethodVisitor(final MethodSourceFactory methodFactory,
                                  final Template1 template,
                                  final Adapter<ConventionTypeElement> adapter) {
-        this.methodSpecFactory = methodSpecFactory;
+        this.methodSpecFactory = methodFactory;
         this.template = template;
         this.adapter = adapter;
     }
 
     @Override
-    public StreamEx<MethodSpec> visitConventionType(final ConventionTypeElement element, final P parameter) {
+    public StreamEx<MethodSource> visitConventionType(final ConventionTypeElement element, final P parameter) {
         return StreamEx.of(this.adapter.adapt(element).properties())
                 .map(Property::name)
-                .map(name -> this.methodSpecFactory.create(name, this.template));
+                .map(this.template::build)
+                .map(this.methodSpecFactory::createMutableMethod);
     }
 
     @Override

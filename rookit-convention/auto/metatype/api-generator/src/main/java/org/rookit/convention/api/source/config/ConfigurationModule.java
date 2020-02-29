@@ -27,6 +27,7 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
 import org.rookit.auto.config.ProcessorConfig;
+import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
 import org.rookit.utils.object.DynamicObject;
 import org.rookit.convention.auto.config.ConventionConfig;
 import org.rookit.convention.auto.config.MetatypeApiConfig;
@@ -54,9 +55,12 @@ public final class ConfigurationModule extends AbstractModule {
 
     @Provides
     @Singleton
-    MetatypeApiConfig config(final ConventionConfig config, final TemplateFactory templateFactory) {
+    MetatypeApiConfig config(final ConventionConfig config,
+                             final TemplateFactory templateFactory,
+                             final TypeVariableSourceFactory variableFactory) {
+
         final String name = "api";
         final DynamicObject rawConfig = config.getProcessorConfig(name);
-        return new MetatypeApiConfigImpl(rawConfig, name, config, templateFactory);
+        return new MetatypeApiConfigImpl(rawConfig, name, config, templateFactory, variableFactory);
     }
 }

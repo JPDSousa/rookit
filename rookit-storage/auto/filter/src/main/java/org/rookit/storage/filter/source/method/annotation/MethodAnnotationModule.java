@@ -23,33 +23,25 @@ package org.rookit.storage.filter.source.method.annotation;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
-import com.google.inject.Provider;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.squareup.javapoet.MethodSpec;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.guice.Flat;
-import org.rookit.auto.javapoet.method.MethodSpecFactory;
-import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitors;
-import org.rookit.auto.source.spec.SpecFactories;
-import org.rookit.auto.source.spec.SpecFactory;
-import org.rookit.auto.spec.AutoSpecFactories;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.method.MethodSourceFactory;
 import org.rookit.convention.auto.javapoet.ConventionAutoFactories;
-import org.rookit.convention.auto.javapoet.method.ConventionTypeElementMethodSpecVisitors;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
 import org.rookit.convention.auto.javax.type.adapter.ConventionTypeAdapters;
 import org.rookit.convention.auto.property.Property;
 import org.rookit.convention.auto.property.PropertyFactory;
 import org.rookit.convention.auto.property.filter.ConventionPropertyFilters;
+import org.rookit.convention.auto.source.method.ConventionTypeElementMethodSourceVisitors;
 import org.rookit.storage.guice.FilterEntity;
 import org.rookit.storage.guice.FilterProperty;
-import org.rookit.storage.guice.TopFilter;
 import org.rookit.storage.guice.filter.Filter;
 import org.rookit.storage.guice.filter.PartialFilter;
-import org.rookit.utils.adapt.Adapter;
 
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
@@ -74,18 +66,18 @@ public final class MethodAnnotationModule extends AbstractModule {
     @Provides
     @FilterEntity
     // TODO so much stuff in here. Please break it down
-    ExtendedElementVisitor<StreamEx<MethodSpec>, Void> entityMethodFactory(
-            final ConventionTypeElementMethodSpecVisitors visitors,
+    ExtendedElementVisitor<StreamEx<MethodSource>, Void> entityMethodFactory(
+            final ConventionTypeElementMethodSourceVisitors visitors,
             final ConventionAutoFactories javaPoetFactories,
             final ConventionTypeAdapters conventionAdapters,
-            @PartialFilter final MethodSpecFactory methodSpecFactory,
+            @PartialFilter final MethodSourceFactory MethodSourceFactory,
             final ConventionTypeElementFactory elementFactory,
             final PropertyFactory propertyFactory) {
         final Predicate<Property> propertyFilter = ConventionPropertyFilters.createEntityFilter(propertyFactory);
-        final BiFunction<ConventionTypeElement, Property, StreamEx<MethodSpec>> typeTransformation =
-                javaPoetFactories.createTypeTransformation(methodSpecFactory);
+        final BiFunction<ConventionTypeElement, Property, StreamEx<MethodSource>> typeTransformation =
+                javaPoetFactories.createTypeTransformation(MethodSourceFactory);
 
-        return visitors.<MethodSpec, Void>createPropertyLevelVisitor(typeTransformation)
+        return visitors.<MethodSource, Void>createPropertyLevelVisitor(typeTransformation)
                 .withConventionTypeAdapter(conventionAdapters
                                                    .createPropertyFilterAdapter(propertyFilter, elementFactory))
                 .build();
@@ -93,27 +85,13 @@ public final class MethodAnnotationModule extends AbstractModule {
 
     @Singleton
     @Provides
-    @FilterProperty
-    SpecFactory<MethodSpec> propertyMethodFactory(
-            final AutoSpecFactories autoFactories,
-            @Flat final Adapter<ExtendedTypeElement> elementAdapter,
-            @TopFilter final Provider<SpecFactory<MethodSpec>> methodFactory) {
-        final SpecFactory<MethodSpec> lazyFactory = autoFactories.createLazyFactory(methodFactory);
-        return autoFactories.createAdapterFactory(lazyFactory, elementAdapter);
-    }
-
-    @Singleton
-    @Provides
     @Filter
-    SpecFactory<MethodSpec> genericAnnotationMethodFactory(
-            final SpecFactories specs,
+    ExtendedElementVisitor<StreamEx<MethodSource>, Void> genericAnnotationMethodFactory(
             final ExtendedElementVisitors visitors,
-            @FilterEntity final ExtendedElementVisitor<StreamEx<MethodSpec>, Void> entityFactory,
-            @FilterProperty final ExtendedElementVisitor<StreamEx<MethodSpec>, Void> propertyFactory) {
-        return specs.fromVisitor(
-                visitors.streamExBuilder(entityFactory)
-                        .withDirtyFallback(propertyFactory)
-                        .build()
-        );
+            @FilterEntity final ExtendedElementVisitor<StreamEx<MethodSource>, Void> entityFactory,
+            @FilterProperty final ExtendedElementVisitor<StreamEx<MethodSource>, Void> propertyFactory) {
+        return visitors.streamExBuilder(entityFactory)
+                .withDirtyFallback(propertyFactory)
+                .build();
     }
 }

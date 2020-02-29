@@ -27,17 +27,19 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.Multibinder;
-import com.squareup.javapoet.ParameterSpec;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
-import org.rookit.auto.source.spec.parameter.Parameter;
-import org.rookit.auto.source.spec.parameter.ParameterVisitors;
-import org.rookit.convention.auto.javapoet.naming.JavaPoetPropertyNamingFactory;
+import org.rookit.auto.source.parameter.ParameterSource;
+import org.rookit.auto.source.parameter.ParameterSourceFactory;
+import org.rookit.auto.source.parameter.ParameterVisitors;
+import org.rookit.auto.source.type.annotation.AnnotationSourceFactory;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.naming.PropertyIdentifierFactory;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitors;
 import org.rookit.convention.auto.property.Property;
+import org.rookit.convention.auto.source.PropertyTypeReferenceSourceFactory;
+import org.rookit.convention.auto.source.parameter.ConventionParameterVisitors;
 import org.rookit.convention.guice.MetaType;
 import org.rookit.convention.property.guice.PropertyModel;
 import org.rookit.guice.auto.annotation.Guice;
@@ -64,39 +66,43 @@ public final class ParameterModule extends AbstractModule {
 
     @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
     private void bindBaseParameterVisitor() {
-        final Multibinder<ConventionTypeElementVisitor<StreamEx<Parameter<ParameterSpec>>, Void>> mBinder = Multibinder
+        final Multibinder<ConventionTypeElementVisitor<StreamEx<ParameterSource>, Void>> mBinder = Multibinder
                 .newSetBinder(binder(), new TypeLiteral<ConventionTypeElementVisitor<
-                        StreamEx<Parameter<ParameterSpec>>, Void>>() {}, PropertyModel.class);
+                        StreamEx<ParameterSource>, Void>>() {}, PropertyModel.class);
         mBinder.addBinding().toProvider(EmptyParameterProvider.class);
     }
 
     @Provides
     @Singleton
     @MetaType(includeAnnotations = true)
-    BiFunction<Property, ParameterSpec, ParameterSpec> conversionFunction(
-            @Guice final PropertyIdentifierFactory identifierFactory) {
-        return new MetaTypeParameterWithAnnotationsResultAccumulator(identifierFactory);
+    BiFunction<Property, ParameterSource, ParameterSource> conversionFunction(
+            @Guice final PropertyIdentifierFactory identifierFactory,
+            final ParameterSourceFactory parameterFactory,
+            final AnnotationSourceFactory annotationFactory) {
+        return new MetaTypeParameterWithAnnotationsResultAccumulator(identifierFactory,
+                                                                     parameterFactory,
+                                                                     annotationFactory);
     }
 
 
     @Provides
     @Singleton
     @MetaType
-    ExtendedElementVisitor<StreamEx<ParameterSpec>, Void> createMetaTypeFactory(
+    ExtendedElementVisitor<StreamEx<ParameterSource>, Void> createMetaTypeFactory(
             final ConventionTypeElementVisitors visitors,
-            @MetaType final BiFunction<ConventionTypeElement, Property, StreamEx<ParameterSpec>> transformation) {
-        return visitors.<ParameterSpec, Void>createPropertyLevelVisitor(transformation)
+            @MetaType final BiFunction<ConventionTypeElement, Property, StreamEx<ParameterSource>> transformation) {
+        return visitors.<ParameterSource, Void>createPropertyLevelVisitor(transformation)
                 .build();
     }
 
     @Provides
     @Singleton
     @MetaType(includeAnnotations = true)
-    ExtendedElementVisitor<StreamEx<Parameter<ParameterSpec>>, Void> createAnnotatedExtendedParameterFactory(
+    ExtendedElementVisitor<StreamEx<ParameterSource>, Void> createAnnotatedExtendedParameterFactory(
             final ParameterVisitors visitors,
-            @MetaType(includeAnnotations = true) final ExtendedElementVisitor<StreamEx<ParameterSpec>, Void> visitor) {
+            @MetaType(includeAnnotations = true)
+            final ExtendedElementVisitor<StreamEx<ParameterSource>, Void> visitor) {
         return visitors.parameterBuilder(visitor)
-                .asParameter()
                 .build();
     }
 
@@ -104,45 +110,47 @@ public final class ParameterModule extends AbstractModule {
     @Provides
     @Singleton
     @MetaType(includeAnnotations = true)
-    ExtendedElementVisitor<StreamEx<ParameterSpec>, Void> createAnnotatedMetaTypeFactory(
+    ExtendedElementVisitor<StreamEx<ParameterSource>, Void> createAnnotatedMetaTypeFactory(
             final ConventionTypeElementVisitors visitors,
             @MetaType(includeAnnotations = true) final BiFunction<ConventionTypeElement, Property,
-                    StreamEx<ParameterSpec>> transformation) {
-        return visitors.<ParameterSpec, Void>createPropertyLevelVisitor(transformation)
+                    StreamEx<ParameterSource>> transformation) {
+        return visitors.<ParameterSource, Void>createPropertyLevelVisitor(transformation)
                 .build();
     }
 
     @Provides
     @Singleton
     @MetaType
-    BiFunction<ConventionTypeElement, Property, StreamEx<ParameterSpec>> baseTransformation(
-            @MetaType final JavaPoetPropertyNamingFactory factory) {
+    BiFunction<ConventionTypeElement, Property, StreamEx<ParameterSource>> baseTransformation(
+            @MetaType final PropertyTypeReferenceSourceFactory factory,
+            final ParameterSourceFactory parameterFactory) {
         return new MetaTypeParameterTransformation(
                 factory,
-                (property, parameterSpec) -> parameterSpec
-        );
+                (property, parameter) -> parameter,
+                parameterFactory);
     }
 
     @Provides
     @Singleton
     @MetaType(includeAnnotations = true)
-    BiFunction<ConventionTypeElement, Property, StreamEx<ParameterSpec>> annotationTransformation(
-            @MetaType final JavaPoetPropertyNamingFactory factory,
+    BiFunction<ConventionTypeElement, Property, StreamEx<ParameterSource>> annotationTransformation(
+            @MetaType final PropertyTypeReferenceSourceFactory factory,
             @MetaType(includeAnnotations = true) final BiFunction<Property,
-                    ParameterSpec, ParameterSpec> resultAccumulator) {
+                    ParameterSource, ParameterSource> resultAccumulator,
+            final ParameterSourceFactory parameterFactory) {
         return new MetaTypeParameterTransformation(
                 factory,
-                resultAccumulator
-        );
+                resultAccumulator,
+                parameterFactory);
     }
 
     @Provides
     @Singleton
     @PropertyModel
-    ConventionTypeElementVisitor<StreamEx<Parameter<ParameterSpec>>, Void> propertyParameterFactory(
+    ConventionTypeElementVisitor<StreamEx<ParameterSource>, Void> propertyParameterFactory(
             final ConventionParameterVisitors elementVisitors,
             @PropertyModel final Set<ConventionTypeElementVisitor<
-                                StreamEx<Parameter<ParameterSpec>>, Void>> visitors) {
+                                StreamEx<ParameterSource>, Void>> visitors) {
         return elementVisitors.streamExConventionBuilder(visitors).build();
     }
 }

@@ -38,11 +38,6 @@
         </dependency>
 
         <dependency>
-            <groupId>${rookit.group}</groupId>
-            <artifactId>rookit-auto-source-javapoet-api</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.squareup</groupId>
             <artifactId>javapoet</artifactId>
         </dependency>

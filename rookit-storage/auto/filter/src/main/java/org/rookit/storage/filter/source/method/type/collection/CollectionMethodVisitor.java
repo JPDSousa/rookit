@@ -24,51 +24,54 @@ package org.rookit.storage.filter.source.method.type.collection;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterSpec;
-import com.squareup.javapoet.TypeName;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javapoet.method.MethodSpecFactory;
-import org.rookit.convention.auto.javapoet.method.ConventionTypeElementMethodSpecVisitors;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.method.MethodSourceFactory;
+import org.rookit.auto.source.parameter.ParameterSource;
+import org.rookit.auto.source.parameter.ParameterSourceFactory;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.auto.source.method.ConventionTypeElementMethodSourceVisitors;
 import org.rookit.storage.filter.source.guice.No;
-import org.rookit.storage.guice.filter.PartialFilter;
 import org.rookit.utils.adapt.Adapter;
 import org.rookit.utils.guice.Collection;
 import org.rookit.utils.guice.Self;
 import org.rookit.utils.string.template.Template1;
 
-import javax.lang.model.type.TypeMirror;
+final class CollectionMethodVisitor implements Provider<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>> {
 
-final class CollectionMethodVisitor implements Provider<ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void>> {
-
-    private final ConventionTypeElementMethodSpecVisitors visitors;
+    private final ParameterSourceFactory parameterFactory;
+    private final ConventionTypeElementMethodSourceVisitors visitors;
     private final Adapter<ConventionTypeElement> collectionAdapter;
     private final Adapter<ConventionTypeElement> collectionUnwrapper;
-    private final MethodSpecFactory methodSpecFactory;
+    private final MethodSourceFactory methodFactory;
     private final Template1 notContainsTemplate;
     private final Template1 containsTemplate;
 
     @Inject
-    private CollectionMethodVisitor(final ConventionTypeElementMethodSpecVisitors visitors,
-                                    @Collection final Adapter<ConventionTypeElement> collectionAdapter,
-                                    @Collection(unwrap = true) final Adapter<ConventionTypeElement> collectionUnwrapper,
-                                    @PartialFilter final MethodSpecFactory methodSpecFactory,
-                                    @No final Template1 notContainsTemplate,
-                                    @Self final Template1 containsTemplate) {
+    private CollectionMethodVisitor(
+            final ParameterSourceFactory parameterFactory,
+            final ConventionTypeElementMethodSourceVisitors visitors,
+            @Collection final Adapter<ConventionTypeElement> collectionAdapter,
+            @Collection(unwrap = true) final Adapter<ConventionTypeElement> collectionUnwrapper,
+            final MethodSourceFactory methodFactory,
+            @No final Template1 notContainsTemplate,
+            @Self final Template1 containsTemplate) {
+        this.parameterFactory = parameterFactory;
         this.visitors = visitors;
         this.collectionAdapter = collectionAdapter;
         this.collectionUnwrapper = collectionUnwrapper;
-        this.methodSpecFactory = methodSpecFactory;
+        this.methodFactory = methodFactory;
         this.notContainsTemplate = notContainsTemplate;
         this.containsTemplate = containsTemplate;
     }
 
     @Override
-    public ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void> get() {
+    public ConventionTypeElementVisitor<StreamEx<MethodSource>, Void> get() {
+
         // unwrap collections
-        final ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void> baseVisitor = createBaseVisitor();
+        final ConventionTypeElementVisitor<StreamEx<MethodSource>, Void> baseVisitor = createBaseVisitor();
         return this.visitors.streamExConventionBuilder(baseVisitor)
                 .withConventionTypeAdapter(this.collectionAdapter)
                 .add(this.visitors.streamExConventionBuilder(baseVisitor)
@@ -77,44 +80,49 @@ final class CollectionMethodVisitor implements Provider<ConventionTypeElementVis
                 .build();
     }
 
-    private <P> ConventionTypeElementVisitor<StreamEx<MethodSpec>, P> createBaseVisitor() {
-        return this.visitors.<P>templateMethodSpecVisitorBuilder(
-                this.methodSpecFactory,
+    private <P> ConventionTypeElementVisitor<StreamEx<MethodSource>, P> createBaseVisitor() {
+        return this.visitors.<P>templateMethodSourceVisitorBuilder(
+                this.methodFactory,
                 this.containsTemplate,
                 property -> containsParam(property.type())
         ).add(
                 this.visitors
-                        .<P>templateMethodSpecVisitorBuilder(
-                                this.methodSpecFactory,
+                        .<P>templateMethodSourceVisitorBuilder(
+                                this.methodFactory,
                                 this.notContainsTemplate,
                                 property -> notContainsParam(property.type())
                         ).build()
         ).build();
     }
 
-    private java.util.Collection<ParameterSpec> containsParam(final TypeMirror typeMirror) {
+    private java.util.Collection<ParameterSource> containsParam(final ExtendedTypeMirror typeMirror) {
         // TODO this name should be configurable
         return createParam(typeMirror, "present");
     }
 
-    private java.util.Collection<ParameterSpec> notContainsParam(final TypeMirror typeMirror) {
+    private java.util.Collection<ParameterSource> notContainsParam(final ExtendedTypeMirror typeMirror) {
         // TODO this name should be configurable
         return createParam(typeMirror, "absent");
     }
 
-    private java.util.Collection<ParameterSpec> createParam(final TypeMirror typeMirror, final String paramName) {
-        return ImmutableList.of(ParameterSpec.builder(TypeName.get(typeMirror), paramName).build());
+    private java.util.Collection<ParameterSource> createParam(final ExtendedTypeMirror typeMirror,
+                                                              final CharSequence paramName) {
+        return ImmutableList.of(
+                this.parameterFactory.createMutable(paramName, typeMirror)
+        );
     }
 
     @Override
     public String toString() {
         return "CollectionMethodVisitor{" +
-                "visitors=" + this.visitors +
+                "parameterFactory=" + this.parameterFactory +
+                ", visitors=" + this.visitors +
                 ", collectionAdapter=" + this.collectionAdapter +
                 ", collectionUnwrapper=" + this.collectionUnwrapper +
-                ", methodSpecFactory=" + this.methodSpecFactory +
+                ", methodFactory=" + this.methodFactory +
                 ", notContainsTemplate=" + this.notContainsTemplate +
                 ", containsTemplate=" + this.containsTemplate +
                 "}";
     }
+
 }

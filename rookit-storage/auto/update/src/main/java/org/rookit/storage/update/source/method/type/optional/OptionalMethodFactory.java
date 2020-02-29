@@ -23,29 +23,29 @@ package org.rookit.storage.update.source.method.type.optional;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.squareup.javapoet.MethodSpec;
 import one.util.streamex.StreamEx;
-import org.rookit.convention.auto.javapoet.method.ConventionTypeElementMethodSpecVisitors;
+import org.rookit.auto.source.method.MethodSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.auto.source.method.ConventionTypeElementMethodSourceVisitors;
 import org.rookit.storage.guice.PartialUpdate;
 import org.rookit.storage.update.source.guice.Remove;
 import org.rookit.utils.adapt.Adapter;
 import org.rookit.utils.guice.Optional;
 
-final class OptionalMethodFactory implements Provider<ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void>> {
+final class OptionalMethodFactory implements Provider<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>> {
 
     private final Adapter<ConventionTypeElement> optionalUnwrapper;
-    private final ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void> removeMethodFactory;
-    private final Provider<ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void>> topMethodFactory;
-    private final ConventionTypeElementMethodSpecVisitors visitors;
+    private final ConventionTypeElementVisitor<StreamEx<MethodSource>, Void> removeMethodFactory;
+    private final Provider<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>> topMethodFactory;
+    private final ConventionTypeElementMethodSourceVisitors visitors;
 
     @Inject
     private OptionalMethodFactory(
             @Optional(unwrap = true) final Adapter<ConventionTypeElement> optionalUnwrapper,
-            @Remove final ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void> removeMethodFactory,
-            @PartialUpdate final Provider<ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void>> topMethodFactory,
-            final ConventionTypeElementMethodSpecVisitors visitors) {
+            @Remove final ConventionTypeElementVisitor<StreamEx<MethodSource>, Void> removeMethodFactory,
+            @PartialUpdate final Provider<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>> topMethodFactory,
+            final ConventionTypeElementMethodSourceVisitors visitors) {
         this.optionalUnwrapper = optionalUnwrapper;
         this.removeMethodFactory = removeMethodFactory;
         this.topMethodFactory = topMethodFactory;
@@ -53,7 +53,7 @@ final class OptionalMethodFactory implements Provider<ConventionTypeElementVisit
     }
 
     @Override
-    public ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void> get() {
+    public ConventionTypeElementVisitor<StreamEx<MethodSource>, Void> get() {
         return this.visitors.streamExConventionBuilder(this.removeMethodFactory)
                 .add(this.topMethodFactory)
                 .withConventionTypeAdapter(this.optionalUnwrapper)

@@ -22,19 +22,8 @@
 package org.rookit.convention.api.source.entity;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Key;
 import com.google.inject.Module;
-import com.google.inject.Provides;
-import com.google.inject.Singleton;
-import org.rookit.auto.javax.naming.IdentifierFactory;
-import org.rookit.auto.source.CodeSourceFactory;
-import org.rookit.auto.source.type.SingleTypeSourceFactory;
-import org.rookit.convention.api.guice.Container;
-import org.rookit.convention.api.guice.Inner;
-import org.rookit.convention.auto.entity.BaseEntityFactory;
-import org.rookit.convention.auto.metatype.guice.MetaTypeAPI;
 
-@SuppressWarnings("MethodMayBeStatic")
 public final class EntityModule extends AbstractModule {
 
     private static final Module MODULE = new EntityModule();
@@ -45,23 +34,4 @@ public final class EntityModule extends AbstractModule {
 
     private EntityModule() {}
 
-    @Override
-    protected void configure() {
-        bind(CodeSourceFactory.class).to(Key.get(CodeSourceFactory.class, MetaTypeAPI.class)).in(Singleton.class);
-
-        bind(CodeSourceFactory.class).annotatedWith(MetaTypeAPI.class)
-                .to(MetaTypeCodeSourceFactory.class).in(Singleton.class);
-
-        bind(CodeSourceFactory.class).annotatedWith(Container.class)
-                .to(PropertyEntityFactory.class).in(Singleton.class);
-    }
-
-    @Provides
-    @Singleton
-    @Inner
-    CodeSourceFactory innerEntityFactory(@Container final CodeSourceFactory codeSourceFactory,
-                                         @MetaTypeAPI final IdentifierFactory identifierFactory,
-                                         @Container final SingleTypeSourceFactory typeSpecFactory) {
-        return BaseEntityFactory.create(codeSourceFactory, identifierFactory, typeSpecFactory);
-    }
 }

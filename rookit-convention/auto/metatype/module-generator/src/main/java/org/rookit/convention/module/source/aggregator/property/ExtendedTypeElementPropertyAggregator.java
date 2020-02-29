@@ -22,47 +22,39 @@
 package org.rookit.convention.module.source.aggregator.property;
 
 import com.google.common.collect.Maps;
-import com.squareup.javapoet.MethodSpec;
 import org.rookit.auto.javax.ExtendedElement;
+import org.rookit.auto.javax.aggregator.ExtendedTypeElementAggregator;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
-import org.rookit.auto.source.spec.ExtendedElementAggregator;
+import org.rookit.auto.source.method.MethodSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
-import org.rookit.convention.auto.module.ModuleExtendedPropertyMethodAggregatorFactory;
-import org.rookit.convention.auto.property.ExtendedPropertyAggregator;
+import org.rookit.convention.auto.property.aggregator.ExtendedPropertyAggregator;
+import org.rookit.convention.auto.property.aggregator.ExtendedPropertyAggregatorFactory;
 import org.rookit.utils.primitive.VoidUtils;
 
-import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
 import javax.lang.model.element.Name;
-import javax.tools.Diagnostic;
 import java.util.Collection;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-final class ExtendedTypeElementPropertyAggregator implements ExtendedElementAggregator<Collection<MethodSpec>> {
+final class ExtendedTypeElementPropertyAggregator implements ExtendedTypeElementAggregator<Collection<MethodSource>> {
 
-    private final Map<String, ExtendedPropertyAggregator<Collection<MethodSpec>>> subAggregators;
-    private final ModuleExtendedPropertyMethodAggregatorFactory aggregatorFactory;
+    private final Map<String, ExtendedPropertyAggregator<Collection<MethodSource>>> subAggregators;
+    private final ExtendedPropertyAggregatorFactory<Collection<MethodSource>> aggregatorFactory;
     private final VoidUtils voidUtils;
     private final Messager messager;
     private final ExtendedElementVisitor<Name, Void> qualifiedNameVisitor;
 
-    ExtendedTypeElementPropertyAggregator(final ModuleExtendedPropertyMethodAggregatorFactory aggregatorFactory,
-                                          final VoidUtils voidUtils,
-                                          final Messager messager,
-                                          final ExtendedElementVisitor<Name, Void> qualifiedNameVisitor) {
+    ExtendedTypeElementPropertyAggregator(
+            final ExtendedPropertyAggregatorFactory<Collection<MethodSource>> aggregatorFactory,
+            final VoidUtils voidUtils,
+            final Messager messager,
+            final ExtendedElementVisitor<Name, Void> qualifiedNameVisitor) {
         this.aggregatorFactory = aggregatorFactory;
         this.voidUtils = voidUtils;
         this.messager = messager;
         this.qualifiedNameVisitor = qualifiedNameVisitor;
         this.subAggregators = Maps.newHashMap();
-    }
-
-    @Override
-    public CompletableFuture<Void> writeTo(final Filer filer) {
-        this.messager.printMessage(Diagnostic.Kind.WARNING, "This aggregator has nothing to write to a filer");
-        return this.voidUtils.completeVoid();
     }
 
     @Override
@@ -77,27 +69,18 @@ final class ExtendedTypeElementPropertyAggregator implements ExtendedElementAggr
     }
 
     @Override
-    public ExtendedElementAggregator<Collection<MethodSpec>> reduce(
-            final ExtendedElementAggregator<Collection<MethodSpec>> aggregator) {
+    public ExtendedTypeElementAggregator<Collection<MethodSource>> reduce(
+            final ExtendedTypeElementAggregator<Collection<MethodSource>> aggregator) {
+
         return new ReducedExtendedTypeElementPropertyAggregator(this, aggregator, this.messager);
     }
 
     @Override
-    public Collection<MethodSpec> result() {
+    public Collection<MethodSource> result() {
         return this.subAggregators.values().stream()
-                .map(ExtendedPropertyAggregator<Collection<MethodSpec>>::result)
+                .map(ExtendedPropertyAggregator<Collection<MethodSource>>::result)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public String toString() {
-        return "ExtendedTypeElementPropertyAggregator{" +
-                "subAggregators=" + this.subAggregators +
-                ", aggregatorFactory=" + this.aggregatorFactory +
-                ", voidUtils=" + this.voidUtils +
-                ", messager=" + this.messager +
-                ", qualifiedNameVisitor=" + this.qualifiedNameVisitor +
-                "}";
-    }
 }

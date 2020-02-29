@@ -25,11 +25,12 @@ import com.google.common.collect.ImmutableList;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
+import org.rookit.auto.javax.naming.Identifier;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.auto.javax.parameter.ExtendedTypeParameterElement;
+import org.rookit.auto.javax.type.parameter.ExtendedTypeParameterElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
-import org.rookit.auto.javax.type.ExtendedTypeMirrorFactory;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirrorFactory;
 import org.rookit.convention.annotation.Entity;
 import org.rookit.convention.annotation.EntityExtension;
 import org.rookit.convention.annotation.PartialEntity;
@@ -77,7 +78,6 @@ final class ConventionTypeElementImpl implements ConventionTypeElement {
 
     @Override
     public Collection<Property> properties() {
-        //noinspection AssignmentOrReturnOfFieldWithMutableType as already immutable
         return this.properties;
     }
 
@@ -96,13 +96,13 @@ final class ConventionTypeElementImpl implements ConventionTypeElement {
     @Override
     public StreamEx<ConventionTypeElement> conventionInterfaces() {
         return StreamEx.of(getInterfaces())
-                .map(this.mirrorFactory::create)
+                .map(this.mirrorFactory::extend)
                 .map(ExtendedTypeMirror::toElement)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .select(TypeElement.class)
                 .filter(this.utils::isConventionElement)
-                .map(this.factory::extendType);
+                .map(this.factory::extend);
     }
 
     @Override
@@ -150,6 +150,11 @@ final class ConventionTypeElementImpl implements ConventionTypeElement {
     @Override
     public ExtendedPackageElement packageInfo() {
         return this.delegate.packageInfo();
+    }
+
+    @Override
+    public Identifier identifier() {
+        return this.delegate.identifier();
     }
 
     @Override

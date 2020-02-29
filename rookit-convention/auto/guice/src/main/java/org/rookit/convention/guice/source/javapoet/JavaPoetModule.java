@@ -25,14 +25,12 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.squareup.javapoet.TypeSpec;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javapoet.identifier.JavaPoetIdentifierFactory;
-import org.rookit.auto.source.spec.SpecFactories;
-import org.rookit.auto.source.spec.SpecFactory;
+import org.rookit.auto.javax.naming.IdentifierFactory;
+import org.rookit.auto.source.type.TypeSource;
 import org.rookit.convention.annotation.LaConvention;
-import org.rookit.convention.auto.javapoet.type.ConventionTypeElementTypeSpecVisitors;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.auto.source.type.ConventionTypeElementTypeSourceVisitors;
 
 import java.lang.annotation.Annotation;
 import java.util.Set;
@@ -55,21 +53,13 @@ public final class JavaPoetModule extends AbstractModule {
 
     @Provides
     @Singleton
-    SpecFactory<TypeSpec> typeSpecFactory(final SpecFactories specFactories,
-                                          final ConventionTypeElementVisitor<StreamEx<TypeSpec>, Void> visitor) {
-        return specFactories.fromVisitor(visitor);
-    }
-
-    @Provides
-    @Singleton
-    ConventionTypeElementVisitor<StreamEx<TypeSpec>, Void> typeElementVisitor(
-            final ConventionTypeElementTypeSpecVisitors visitors,
-            final JavaPoetIdentifierFactory identifierFactory,
+    ConventionTypeElementVisitor<StreamEx<TypeSource>, Void> typeElementVisitor(
+            final ConventionTypeElementTypeSourceVisitors visitors,
+            final IdentifierFactory identifierFactory,
             @LaConvention final Set<Class<? extends Annotation>> annotations) {
         return visitors.conventionAnnotationBuilder(identifierFactory, Void.class)
                 .withRecursiveVisiting(StreamEx::append)
-                .filterIfAllAnnotationsAbsent(annotations)
-                .buildConventionTypeSpec()
+                .filterIfAnyAnnotationPresent(annotations)
                 .build();
     }
 }

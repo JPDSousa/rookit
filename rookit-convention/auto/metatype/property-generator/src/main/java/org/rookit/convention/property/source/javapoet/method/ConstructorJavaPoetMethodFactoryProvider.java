@@ -23,37 +23,32 @@ package org.rookit.convention.property.source.javapoet.method;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterSpec;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
-import org.rookit.auto.source.spec.parameter.Parameter;
-import org.rookit.convention.auto.javapoet.method.ConventionTypeElementMethodSpecVisitors;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.parameter.ParameterSource;
+import org.rookit.convention.auto.source.method.ConventionTypeElementMethodSourceVisitors;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.convention.property.guice.PropertyModel;
-import org.rookit.utils.guice.Separator;
 
 final class ConstructorJavaPoetMethodFactoryProvider
-        implements Provider<ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void>> {
+        implements Provider<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>> {
 
-    private final ConventionTypeElementMethodSpecVisitors visitors;
-    private final ExtendedElementVisitor<StreamEx<Parameter<ParameterSpec>>, Void> parameterFactory;
-    private final String separator;
+    private final ConventionTypeElementMethodSourceVisitors visitors;
+    private final ExtendedElementVisitor<StreamEx<ParameterSource>, Void> parameterFactory;
 
     @Inject
     private ConstructorJavaPoetMethodFactoryProvider(
-            final ConventionTypeElementMethodSpecVisitors visitors,
+            final ConventionTypeElementMethodSourceVisitors visitors,
             @PropertyModel(includeAnnotations = true) final ExtendedElementVisitor<
-                    StreamEx<Parameter<ParameterSpec>>, Void> parameterFactory,
-            @Separator final String separator) {
+                    StreamEx<ParameterSource>, Void> parameterFactory) {
         this.visitors = visitors;
         this.parameterFactory = parameterFactory;
-        this.separator = separator;
     }
 
     @Override
-    public ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void> get() {
-        return this.visitors.constructorVisitorBuilder(this.parameterFactory, this.separator)
+    public ConventionTypeElementVisitor<StreamEx<MethodSource>, Void> get() {
+        return this.visitors.constructorVisitorBuilder(this.parameterFactory)
                 .build();
     }
 
@@ -62,7 +57,7 @@ final class ConstructorJavaPoetMethodFactoryProvider
         return "ConstructorJavaPoetMethodFactoryProvider{" +
                 "visitors=" + this.visitors +
                 ", parameterFactory=" + this.parameterFactory +
-                ", separator='" + this.separator + '\'' +
                 "}";
     }
+
 }

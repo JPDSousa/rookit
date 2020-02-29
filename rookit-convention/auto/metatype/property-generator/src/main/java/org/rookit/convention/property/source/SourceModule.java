@@ -22,38 +22,31 @@
 package org.rookit.convention.property.source;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Modules;
-import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.TypeVariableName;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.TypeProcessor;
-import org.rookit.auto.javapoet.identifier.JavaPoetIdentifierFactories;
-import org.rookit.auto.javapoet.naming.JavaPoetNamingFactories;
+import org.rookit.auto.javax.naming.IdentifierFactories;
 import org.rookit.auto.javax.naming.IdentifierFactory;
+import org.rookit.auto.javax.naming.NamingFactories;
 import org.rookit.auto.javax.naming.NamingFactory;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
-import org.rookit.auto.source.CodeSourceFactory;
-import org.rookit.auto.source.spec.SpecFactory;
+import org.rookit.auto.source.field.FieldSource;
 import org.rookit.auto.source.type.SingleTypeSourceFactory;
+import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.convention.auto.ConventionLibModule;
 import org.rookit.convention.auto.config.PropertyConfig;
-import org.rookit.convention.auto.entity.PropertyEntityFactory;
-import org.rookit.convention.auto.entity.property.PropertyFlatEntityFactory;
 import org.rookit.convention.auto.property.ExtendedPropertyEvaluator;
 import org.rookit.convention.auto.property.ExtendedPropertyExtractor;
 import org.rookit.convention.auto.property.ExtendedPropertyExtractorFactory;
 import org.rookit.convention.auto.property.Property;
-import org.rookit.convention.guice.MetaType;
 import org.rookit.convention.property.source.config.ConfigurationModule;
 import org.rookit.convention.property.source.javapoet.JavaPoetModule;
 import org.rookit.failsafe.FailsafeModule;
-import org.rookit.io.path.PathModule;
+import org.rookit.io.PathLibModule;
 import org.rookit.utils.guice.Self;
 import org.rookit.utils.guice.UtilsModule;
 import org.rookit.utils.string.template.Template1;
@@ -75,7 +68,7 @@ public final class SourceModule extends AbstractModule {
             ConventionLibModule.getModule(),
             FailsafeModule.getModule(),
             JavaPoetModule.getModule(),
-            PathModule.getModule(),
+            PathLibModule.getModule(),
             UtilsModule.getModule()
     );
 
@@ -89,19 +82,15 @@ public final class SourceModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(TypeProcessor.class).to(PropertyTypeProcessor.class).in(Singleton.class);
-        bind(PropertyEntityFactory.class).to(MetaTypePropertyEntityFactory.class).in(Singleton.class);
         bind(ExtendedPropertyEvaluator.class).toInstance(Property::isContainer);
-        bind(CodeSourceFactory.class).to(PropertyFlatEntityFactory.class).in(Singleton.class);
         bind(SingleTypeSourceFactory.class).to(PropertySingleTypeSourceFactory.class).in(Singleton.class);
-        bind(new TypeLiteral<ExtendedElementVisitor<StreamEx<FieldSpec>, Void>>() {})
+        bind(new TypeLiteral<ExtendedElementVisitor<StreamEx<FieldSource>, Void>>() {})
                 .to(MetaTypePropertyFieldVisitor.class).in(Singleton.class);
-        bind(new TypeLiteral<SpecFactory<MethodSpec>>() {})
-                .to(Key.get(new TypeLiteral<SpecFactory<MethodSpec>>() {}, MetaType.class)).in(Singleton.class);
     }
 
     @Provides
     @Singleton
-    IdentifierFactory identifierFactory(final JavaPoetIdentifierFactories factories,
+    IdentifierFactory identifierFactory(final IdentifierFactories factories,
                                         final NamingFactory namingFactory) {
         return factories.create(namingFactory);
     }
@@ -115,7 +104,7 @@ public final class SourceModule extends AbstractModule {
 
     @Provides
     @Singleton
-    NamingFactory namingFactory(final JavaPoetNamingFactories factories,
+    NamingFactory namingFactory(final NamingFactories factories,
                                 final PropertyConfig config,
                                 @Self final Template1 noopTemplate) {
         return factories.create(config.basePackage(), config.entityTemplate(), noopTemplate);
@@ -123,7 +112,7 @@ public final class SourceModule extends AbstractModule {
 
     @Provides
     @Singleton
-    TypeVariableName typeVariableName(final PropertyConfig config) {
+    TypeVariableSource typeVariableName(final PropertyConfig config) {
         return config.parameterName();
     }
 }

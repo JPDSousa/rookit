@@ -54,11 +54,6 @@ public final class SourceLibModule extends AbstractModule {
 
     private SourceLibModule() {}
 
-    @Override
-    protected void configure() {
-        bind(CodeSourceFactories.class).to(CodeSourceFactoriesImpl.class).in(Singleton.class);
-    }
-
     @Provides
     @Singleton
     @JavadocTemplate

@@ -38,7 +38,6 @@ public final class EntityModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(ExtendedPropertyEvaluator.class).toInstance(property -> true);
-//        bind(CodeSourceFactory.class).to(PropertyFlatEntityFactory.class).in(Singleton.class);
 //      FIXME bind(PropertyEntityFactory.class).to(BasePropertyEntityFactory.class).in(Singleton.class);
     }
 

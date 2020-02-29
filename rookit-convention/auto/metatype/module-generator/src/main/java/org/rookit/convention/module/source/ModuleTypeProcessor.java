@@ -24,9 +24,9 @@ package org.rookit.convention.module.source;
 import com.google.inject.Inject;
 import org.rookit.auto.AbstractConfigAwareTypeProcessor;
 import org.rookit.auto.config.ProcessorConfig;
-import org.rookit.auto.javax.ExtendedElementFactory;
+import org.rookit.auto.javax.type.ExtendedTypeElementFactory;
 import org.rookit.auto.source.CodeSource;
-import org.rookit.auto.source.spec.ExtendedElementAggregator;
+import org.rookit.auto.javax.aggregator.ExtendedElementAggregator;
 import org.rookit.failsafe.Failsafe;
 
 import javax.annotation.processing.Filer;
@@ -39,7 +39,7 @@ import java.util.concurrent.ExecutionException;
 final class ModuleTypeProcessor extends AbstractConfigAwareTypeProcessor {
 
     private final ExtendedElementAggregator<Collection<CodeSource>> aggregator;
-    private final ExtendedElementFactory elementFactory;
+    private final ExtendedTypeElementFactory typeFactory;
     private final Filer filer;
     private final Messager messager;
     private final Failsafe failsafe;
@@ -48,12 +48,12 @@ final class ModuleTypeProcessor extends AbstractConfigAwareTypeProcessor {
     private ModuleTypeProcessor(final ProcessorConfig config,
                                 final Messager messager,
                                 final ExtendedElementAggregator<Collection<CodeSource>> aggregator,
-                                final ExtendedElementFactory elementFactory,
+                                final ExtendedTypeElementFactory typeFactory,
                                 final Filer filer,
                                 final Failsafe failsafe) {
         super(config, messager);
         this.aggregator = aggregator;
-        this.elementFactory = elementFactory;
+        this.typeFactory = typeFactory;
         this.filer = filer;
         this.messager = messager;
         this.failsafe = failsafe;
@@ -61,7 +61,7 @@ final class ModuleTypeProcessor extends AbstractConfigAwareTypeProcessor {
 
     @Override
     protected void doProcessEntity(final TypeElement element) {
-        this.aggregator.accept(this.elementFactory.extendType(element));
+        this.aggregator.accept(this.typeFactory.extend(element));
     }
 
 
@@ -83,7 +83,7 @@ final class ModuleTypeProcessor extends AbstractConfigAwareTypeProcessor {
     public String toString() {
         return "ModuleTypeProcessor{" +
                 "aggregator=" + this.aggregator +
-                ", elementFactory=" + this.elementFactory +
+                ", typeFactory=" + this.typeFactory +
                 ", filer=" + this.filer +
                 ", messager=" + this.messager +
                 ", failsafe=" + this.failsafe +

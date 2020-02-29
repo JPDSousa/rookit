@@ -21,42 +21,49 @@
  ******************************************************************************/
 package org.rookit.convention.module.source.method;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import com.google.inject.Singleton;
-import com.squareup.javapoet.CodeBlock;
-import com.squareup.javapoet.MethodSpec;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javapoet.method.MethodSpecFactory;
 import org.rookit.auto.javax.ExtendedElement;
+import org.rookit.auto.javax.aggregator.ExtendedElementAggregatorFactory;
+import org.rookit.auto.javax.aggregator.ExtendedTypeElementAggregator;
 import org.rookit.auto.javax.naming.NamingFactory;
-import org.rookit.auto.source.spec.ExtendedElementAggregator;
-import org.rookit.auto.source.spec.ExtendedElementSpecAggregatorFactory;
+import org.rookit.auto.source.arbitrary.ArbitraryCodeSource;
+import org.rookit.auto.source.arbitrary.ArbitraryCodeSourceFactory;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.method.MethodSourceFactory;
+import org.rookit.auto.source.method.MutableMethodSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.utils.primitive.VoidUtils;
 
-import javax.annotation.processing.Filer;
+import java.util.List;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 
-final class ConfigureMethodAggregator implements ExtendedElementAggregator<MethodSpec> {
+final class ConfigureMethodAggregator implements ExtendedTypeElementAggregator<MethodSource> {
 
     private final Set<ExtendedElement> configureBindings;
     private final NamingFactory apiNamingFactory;
     private final NamingFactory implNamingFactory;
-    private final MethodSpecFactory methodSpecFactory;
-    private final ExtendedElementSpecAggregatorFactory<MethodSpec> factory;
+    private final MethodSourceFactory methodFactory;
+    private final ExtendedElementAggregatorFactory<MethodSource, ExtendedTypeElementAggregator<MethodSource>> factory;
     private final VoidUtils voidUtils;
+    private final ArbitraryCodeSourceFactory codeFactory;
 
-    ConfigureMethodAggregator(final NamingFactory apiNamingFactory,
-                              final NamingFactory implNamingFactory,
-                              final MethodSpecFactory methodSpecFactory,
-                              final ExtendedElementSpecAggregatorFactory<MethodSpec> factory,
-                              final VoidUtils voidUtils) {
+    ConfigureMethodAggregator(
+            final NamingFactory apiNamingFactory,
+            final NamingFactory implNamingFactory,
+            final MethodSourceFactory methodFactory,
+            final ExtendedElementAggregatorFactory<MethodSource,
+                    ExtendedTypeElementAggregator<MethodSource>> factory,
+            final VoidUtils voidUtils,
+            final ArbitraryCodeSourceFactory codeFactory) {
         this.apiNamingFactory = apiNamingFactory;
         this.implNamingFactory = implNamingFactory;
-        this.methodSpecFactory = methodSpecFactory;
+        this.methodFactory = methodFactory;
         this.factory = factory;
         this.voidUtils = voidUtils;
+        this.codeFactory = codeFactory;
         this.configureBindings = Sets.newHashSet();
     }
 
@@ -67,45 +74,36 @@ final class ConfigureMethodAggregator implements ExtendedElementAggregator<Metho
     }
 
     @Override
-    public ExtendedElementAggregator<MethodSpec> reduce(
-            final ExtendedElementAggregator<MethodSpec> aggregator) {
-        return new ReducedConfigureMethodAggregator(this.factory, result(), aggregator.result(), voidUtils);
+    public ExtendedTypeElementAggregator<MethodSource> reduce(
+            final ExtendedTypeElementAggregator<MethodSource> aggregator) {
+
+        return new ReducedConfigureMethodAggregator(this.factory, result(), aggregator.result(), this.voidUtils);
     }
 
     @Override
-    public MethodSpec result() {
-        final MethodSpec.Builder configureBuilder = this.methodSpecFactory.create().toBuilder();
+    public MethodSource result() {
+        final MutableMethodSource configureBuilder = this.methodFactory.createMutableMethod("configure");
+
         StreamEx.of(this.configureBindings)
                 .select(ConventionTypeElement.class)
                 .filter(ConventionTypeElement::isConvention)
                 .map(this::createBinding)
                 .forEach(configureBuilder::addStatement);
 
-        return configureBuilder.build();
+        return configureBuilder;
     }
 
-    private CodeBlock createBinding(final ExtendedElement element) {
-        final String apiName = this.apiNamingFactory.type(element);
-        final String implName = this.implNamingFactory.type(element);
+    private ArbitraryCodeSource createBinding(final ExtendedElement element) {
+
+        final List<Object> params = ImmutableList.of(
+                this.apiNamingFactory.type(element),
+                this.implNamingFactory.type(element),
+                Singleton.class
+        );
+
         final String bindPreStatement = "bind($L.class).to($L.class).in($T.class)";
 
-        return CodeBlock.of(bindPreStatement, apiName, implName, Singleton.class);
+        return this.codeFactory.createFromFormat(bindPreStatement, params);
     }
 
-    @Override
-    public CompletableFuture<Void> writeTo(final Filer filer) {
-        return this.voidUtils.completeVoid();
-    }
-
-    @Override
-    public String toString() {
-        return "ConfigureMethodAggregator{" +
-                "configureBindings=" + this.configureBindings +
-                ", apiNamingFactory=" + this.apiNamingFactory +
-                ", implNamingFactory=" + this.implNamingFactory +
-                ", methodSpecFactory=" + this.methodSpecFactory +
-                ", factory=" + this.factory +
-                ", voidUtils=" + this.voidUtils +
-                "}";
-    }
 }

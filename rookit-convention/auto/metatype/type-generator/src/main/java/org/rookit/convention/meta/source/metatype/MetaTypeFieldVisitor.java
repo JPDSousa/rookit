@@ -22,63 +22,80 @@
 package org.rookit.convention.meta.source.metatype;
 
 import com.google.inject.Inject;
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.ParameterizedTypeName;
-import com.squareup.javapoet.TypeName;
-import com.squareup.javapoet.TypeVariableName;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.visitor.StreamExtendedElementVisitor;
-import org.rookit.convention.guice.MetaType;
-import org.rookit.convention.auto.javapoet.naming.JavaPoetPropertyNamingFactory;
+import org.rookit.auto.source.field.FieldSource;
+import org.rookit.auto.source.field.FieldSourceFactory;
+import org.rookit.auto.source.type.parameter.TypeParameterSource;
+import org.rookit.auto.source.type.parameter.TypeParameterSourceFactory;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
+import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
+import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.convention.auto.property.Property;
+import org.rookit.convention.auto.source.PropertyTypeReferenceSourceFactory;
+import org.rookit.convention.guice.MetaType;
 
-import static javax.lang.model.element.Modifier.FINAL;
-import static javax.lang.model.element.Modifier.PRIVATE;
+final class MetaTypeFieldVisitor implements ConventionTypeElementVisitor<StreamEx<FieldSource>, Void>,
+        StreamExtendedElementVisitor<FieldSource, Void> {
 
-final class MetaTypeFieldVisitor implements ConventionTypeElementVisitor<StreamEx<FieldSpec>, Void>,
-        StreamExtendedElementVisitor<FieldSpec, Void> {
-
-    private final JavaPoetPropertyNamingFactory namingFactory;
-    private final ClassName metaTypeName;
-    private final TypeVariableName variableName;
+    private final FieldSourceFactory fieldFactory;
+    private final TypeParameterSourceFactory parameterFactory;
+    private final TypeReferenceSourceFactory referenceFactory;
+    private final PropertyTypeReferenceSourceFactory propertyReferenceFactory;
+    private final TypeReferenceSource metaTypeName;
+    private final TypeVariableSource variableSource;
 
     @Inject
-    private MetaTypeFieldVisitor(@MetaType final JavaPoetPropertyNamingFactory namingFactory,
-                                 @MetaType final TypeVariableName variableName) {
-        this.namingFactory = namingFactory;
-        this.variableName = variableName;
-        this.metaTypeName = ClassName.get(org.rookit.convention.MetaType.class);
+    private MetaTypeFieldVisitor(
+            final FieldSourceFactory fieldFactory,
+            final TypeParameterSourceFactory parameterFactory,
+            final TypeReferenceSourceFactory referenceFactory,
+            @MetaType final PropertyTypeReferenceSourceFactory propRefFactory,
+            @MetaType final TypeVariableSource variableSource) {
+        this.fieldFactory = fieldFactory;
+        this.parameterFactory = parameterFactory;
+        this.referenceFactory = referenceFactory;
+        this.propertyReferenceFactory = propRefFactory;
+        this.variableSource = variableSource;
+        this.metaTypeName = referenceFactory.fromClass(org.rookit.convention.MetaType.class);
     }
 
     @Override
-    public StreamEx<FieldSpec> visitConventionType(final ConventionTypeElement element, final Void parameter) {
-        final TypeName param = element.isPartialEntity() ? this.variableName : ClassName.get(element);
-        final ParameterizedTypeName metatypeType = ParameterizedTypeName.get(this.metaTypeName, param);
+    public StreamEx<FieldSource> visitConventionType(final ConventionTypeElement element, final Void parameter) {
 
-        // TODO ERROR here!!!!!
-        return StreamEx.of(FieldSpec.builder(metatypeType, "metaType", PRIVATE, FINAL).build())
+        final TypeReferenceSource param = element.isPartialEntity()
+                ? this.variableSource
+                : this.referenceFactory.create(element);
+
+        final TypeParameterSource metatypeType = this.parameterFactory.create(this.metaTypeName, param);
+
+        // TODO ERROR here, but where ????
+        return StreamEx.<FieldSource>of(this.fieldFactory.createMutable(metatypeType, "metaType"))
                 .append(createPropertyFields(element));
     }
 
-    private StreamEx<FieldSpec> createPropertyFields(final ConventionTypeElement owner) {
+    private StreamEx<FieldSource> createPropertyFields(final ConventionTypeElement owner) {
         return StreamEx.of(owner.properties())
                 .map(property -> createProperty(owner, property));
     }
 
-    private FieldSpec createProperty(final ConventionTypeElement owner, final Property property) {
-        final TypeName type = this.namingFactory.typeNameFor(owner, property);
-        return FieldSpec.builder(type, property.name(), PRIVATE, FINAL).build();
+    private FieldSource createProperty(final ConventionTypeElement owner, final Property property) {
+        final TypeReferenceSource type = this.propertyReferenceFactory.create(owner, property);
+        return this.fieldFactory.createMutable(type, property.name());
     }
 
     @Override
     public String toString() {
         return "MetaTypeFieldVisitor{" +
-                "namingFactory=" + this.namingFactory +
+                "fieldFactory=" + this.fieldFactory +
+                ", parameterFactory=" + this.parameterFactory +
+                ", referenceFactory=" + this.referenceFactory +
+                ", propertyReferenceFactory=" + this.propertyReferenceFactory +
                 ", metaTypeName=" + this.metaTypeName +
-                ", variableName=" + this.variableName +
+                ", variableSource=" + this.variableSource +
                 "}";
     }
+
 }

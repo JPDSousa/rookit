@@ -22,9 +22,9 @@
 package org.rookit.auto.source.type;
 
 import org.rookit.auto.javax.type.ExtendedTypeElement;
-import org.rookit.auto.source.MutableAnnotatable;
-import org.rookit.auto.source.MutableModifiable;
-import org.rookit.auto.source.SupportsTypeVariable;
+import org.rookit.auto.source.type.annotation.MutableAnnotatable;
+import org.rookit.auto.source.modifier.MutableModifiable;
+import org.rookit.auto.source.type.variable.SupportsTypeVariable;
 import org.rookit.auto.source.field.FieldSource;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;

@@ -24,7 +24,7 @@ package org.rookit.convention.auto.property;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import org.rookit.auto.javax.ElementUtils;
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.convention.annotation.PropertyContainer;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.ConventionTypeElementFactory;

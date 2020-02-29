@@ -39,7 +39,7 @@ final class Convention2AutoAdapter implements Adapter<ExtendedTypeElement> {
 
     @Override
     public ExtendedTypeElement adapt(final ExtendedTypeElement source) {
-        final ConventionTypeElement conventionSource = this.elementFactory.extendType(source);
+        final ConventionTypeElement conventionSource = this.elementFactory.extend(source);
         return this.delegate.adapt(conventionSource);
     }
 

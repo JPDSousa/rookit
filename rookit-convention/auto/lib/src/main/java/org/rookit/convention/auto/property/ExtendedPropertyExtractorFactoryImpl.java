@@ -22,8 +22,8 @@
 package org.rookit.convention.auto.property;
 
 import com.google.inject.Inject;
-import org.rookit.auto.javax.ExtendedElementFactory;
-import org.rookit.auto.javax.type.ExtendedTypeMirrorFactory;
+import org.rookit.auto.javax.executable.ExtendedExecutableElementFactory;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirrorFactory;
 import org.rookit.convention.auto.javax.ConventionElementUtils;
 
 import javax.lang.model.element.ExecutableElement;
@@ -31,17 +31,17 @@ import java.util.function.Predicate;
 
 final class ExtendedPropertyExtractorFactoryImpl implements ExtendedPropertyExtractorFactory {
 
-    private final ExtendedElementFactory elementFactory;
+    private final ExtendedExecutableElementFactory executableFactory;
     private final PropertyFactory propertyFactory;
     private final ConventionElementUtils utils;
     private final ExtendedTypeMirrorFactory mirrorFactory;
 
     @Inject
-    private ExtendedPropertyExtractorFactoryImpl(final ExtendedElementFactory elementFactory,
+    private ExtendedPropertyExtractorFactoryImpl(final ExtendedExecutableElementFactory executableFactory,
                                                  final PropertyFactory propertyFactory,
                                                  final ConventionElementUtils utils,
                                                  final ExtendedTypeMirrorFactory mirrorFactory) {
-        this.elementFactory = elementFactory;
+        this.executableFactory = executableFactory;
         this.propertyFactory = propertyFactory;
         this.utils = utils;
         this.mirrorFactory = mirrorFactory;
@@ -55,7 +55,7 @@ final class ExtendedPropertyExtractorFactoryImpl implements ExtendedPropertyExtr
     @Override
     public ExtendedPropertyExtractor create(final PropertyFactory propertyFactory,
                                             final Predicate<ExecutableElement> executableFilter) {
-        return new MethodPropertyExtractor(this.elementFactory, propertyFactory, executableFilter);
+        return new MethodPropertyExtractor(this.executableFactory, propertyFactory, executableFilter);
     }
 
     @Override
@@ -66,7 +66,7 @@ final class ExtendedPropertyExtractorFactoryImpl implements ExtendedPropertyExtr
     @Override
     public String toString() {
         return "ExtendedPropertyExtractorFactoryImpl{" +
-                "elementFactory=" + this.elementFactory +
+                "executableFactory=" + this.executableFactory +
                 ", propertyFactory=" + this.propertyFactory +
                 ", utils=" + this.utils +
                 ", mirrorFactory=" + this.mirrorFactory +

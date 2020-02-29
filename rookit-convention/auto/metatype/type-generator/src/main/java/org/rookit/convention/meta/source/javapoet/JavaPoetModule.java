@@ -23,18 +23,13 @@ package org.rookit.convention.meta.source.javapoet;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
-import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.Multibinder;
-import com.squareup.javapoet.MethodSpec;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.spec.AutoSpecFactories;
-import org.rookit.auto.source.spec.SpecFactory;
+import org.rookit.auto.source.method.MethodSource;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.convention.guice.MetaType;
-
-import java.util.Set;
 
 public final class JavaPoetModule extends AbstractModule {
 
@@ -46,22 +41,17 @@ public final class JavaPoetModule extends AbstractModule {
 
     private JavaPoetModule() {}
 
+    @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClassMayBeStatic", "AnonymousInnerClass",
+            "EmptyClass"})
     @Override
     protected void configure() {
-        final Multibinder<ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void>> mBinder = Multibinder
-                .newSetBinder(binder(), new TypeLiteral<ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void>>() {},
+        final Multibinder<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>> mBinder = Multibinder
+                .newSetBinder(binder(),
+                              new TypeLiteral<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>>() {},
                         MetaType.class);
         mBinder.addBinding().toProvider(FactoryJavaPoetMethodFactoryProvider.class).in(Singleton.class);
         mBinder.addBinding().toProvider(ConstructorJavaPoetMethodFactoryProvider.class).in(Singleton.class);
         mBinder.addBinding().toProvider(ModelTypeMethodFactoryProvider.class).in(Singleton.class);
     }
 
-    @SuppressWarnings("TypeMayBeWeakened") // due to guice
-    @Provides
-    @Singleton
-    @MetaType
-    SpecFactory<MethodSpec> metaTypeMethodFactory(final AutoSpecFactories autoFactories,
-                                                  @MetaType final Set<SpecFactory<MethodSpec>> factories) {
-        return autoFactories.createMultiFactory(factories);
-    }
 }

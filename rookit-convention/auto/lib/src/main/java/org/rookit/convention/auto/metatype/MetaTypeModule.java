@@ -28,10 +28,10 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Modules;
-import org.rookit.auto.javax.ExtendedElementFactory;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
-import org.rookit.auto.javax.type.ExtendedTypeMirrorFactory;
+import org.rookit.auto.javax.type.ExtendedTypeElementFactory;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirrorFactory;
 import org.rookit.convention.auto.guice.MetaTypeModuleMixin;
 import org.rookit.convention.auto.metatype.property.PropertyModule;
 import org.rookit.convention.guice.MetaType;
@@ -103,11 +103,11 @@ public final class MetaTypeModule extends AbstractModule implements MetaTypeModu
     @MetaType
     ExtendedTypeElement metaType(@MetaType final Class<?> metaTypeClass,
                                  final ExtendedTypeMirrorFactory mirrorFactory,
-                                 final ExtendedElementFactory elementFactory) {
+                                 final ExtendedTypeElementFactory elementFactory) {
         return mirrorFactory.createWithErasure(metaTypeClass)
                 .toElement()
                 .select(TypeElement.class)
-                .map(elementFactory::extendType)
+                .map(elementFactory::extend)
                 .orElseThrow(() -> new IllegalArgumentException(format(INVALID_META_TYPE_CLASS, metaTypeClass)));
     }
 

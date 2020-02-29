@@ -26,17 +26,14 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.TypeVariableName;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javapoet.method.EntityMethodFactory;
-import org.rookit.auto.javapoet.naming.JavaPoetNamingFactory;
-import org.rookit.auto.source.spec.SpecFactories;
-import org.rookit.auto.source.spec.SpecFactory;
-import org.rookit.convention.auto.javapoet.naming.JavaPoetPropertyNamingFactories;
-import org.rookit.convention.auto.javapoet.naming.JavaPoetPropertyNamingFactory;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
+import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.convention.auto.metatype.guice.MetaTypeAPI;
+import org.rookit.convention.auto.source.PropertyTypeReferenceSourceFactories;
+import org.rookit.convention.auto.source.PropertyTypeReferenceSourceFactory;
 
 @SuppressWarnings("MethodMayBeStatic")
 public final class MethodModule extends AbstractModule {
@@ -52,26 +49,20 @@ public final class MethodModule extends AbstractModule {
     @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
     @Override
     protected void configure() {
-        bind(new TypeLiteral<ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void>>() {})
+        bind(new TypeLiteral<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>>() {})
                 .to(EntityPropertiesMethodVisitor.class).in(Singleton.class);
-        bind(EntityMethodFactory.class).to(EntityPropertiesEntityMethodFactory.class).in(Singleton.class);
+        bind(new TypeLiteral<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>>() {})
+                .to(EntityPropertiesEntityMethodFactory.class).in(Singleton.class);
     }
 
     @Provides
     @Singleton
     @MetaTypeAPI
-    JavaPoetPropertyNamingFactory javaPoetPropertyNamingFactory(
-            final JavaPoetPropertyNamingFactories factories,
-            @MetaTypeAPI final JavaPoetNamingFactory namingFactory,
-            @MetaTypeAPI final TypeVariableName variableName) {
-        return factories.createDispatcherFactory(factories.parameterWithVariableEntity(variableName), namingFactory);
+    PropertyTypeReferenceSourceFactory propertyNamingFactory(
+            final PropertyTypeReferenceSourceFactories factories,
+            @MetaTypeAPI final TypeReferenceSourceFactory referenceFactory,
+            @MetaTypeAPI final TypeVariableSource variableName) {
+        return factories.createDispatcherFactory(factories.parameterWithVariableEntity(variableName), referenceFactory);
     }
 
-
-    @Provides
-    @Singleton
-    SpecFactory<MethodSpec> specFactory(final SpecFactories specFactories,
-                                        final ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void> visitor) {
-        return specFactories.fromVisitor(visitor);
-    }
 }

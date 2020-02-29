@@ -21,70 +21,63 @@
  ******************************************************************************/
 package org.rookit.convention.auto.javapoet.type;
 
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.TypeName;
-import com.squareup.javapoet.TypeSpec;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javapoet.naming.JavaPoetParameterResolver;
-import org.rookit.auto.javapoet.type.JavaPoetTypeSourceFactory;
 import org.rookit.auto.javax.naming.Identifier;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
+import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
+import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.type.SingleTypeSourceFactory;
 import org.rookit.auto.source.type.TypeSource;
+import org.rookit.auto.source.type.TypeSourceFactory;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
+import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
-
-import javax.lang.model.element.Modifier;
-import java.util.Collection;
-import java.util.stream.Collectors;
+import org.rookit.utils.primitive.VoidUtils;
 
 public abstract class AbstractInterfaceTypeSourceFactory implements SingleTypeSourceFactory {
 
-    private final JavaPoetParameterResolver parameterResolver;
-    private final JavaPoetTypeSourceFactory adapter;
+    private final TypeVariableSourceFactory variableFactory;
     private final ConventionTypeElementFactory elementFactory;
+    private final ExtendedElementVisitor<StreamEx<MethodSource>, Void> methodVisitor;
+    private final TypeSourceFactory typeFactory;
+    private final VoidUtils voidUtils;
 
-    AbstractInterfaceTypeSourceFactory(final JavaPoetParameterResolver parameterResolver,
-                                       final JavaPoetTypeSourceFactory adapter,
-                                       final ConventionTypeElementFactory elementFactory) {
-        this.parameterResolver = parameterResolver;
-        this.adapter = adapter;
+    AbstractInterfaceTypeSourceFactory(
+            final TypeVariableSourceFactory variableFactory,
+            final ConventionTypeElementFactory elementFactory,
+            final ExtendedElementVisitor<StreamEx<MethodSource>, Void> methodVisitor,
+            final TypeSourceFactory typeFactory,
+            final VoidUtils voidUtils) {
+        this.variableFactory = variableFactory;
         this.elementFactory = elementFactory;
+        this.methodVisitor = methodVisitor;
+        this.typeFactory = typeFactory;
+        this.voidUtils = voidUtils;
     }
 
     @Override
     public TypeSource create(final Identifier identifier,
                              final ExtendedTypeElement element) {
-        final ClassName className = ClassName.get(identifier.packageElement().fullName().asString(), identifier.name());
-        final ConventionTypeElement conventionElement = this.elementFactory.extendType(element);
+        final ConventionTypeElement conventionElement = this.elementFactory.extend(element);
 
-        final TypeSpec.Builder spec = TypeSpec.interfaceBuilder(className)
-                .addTypeVariables(this.parameterResolver.createParameters(element))
-                .addMethods(methodsFor(element))
-                .addSuperinterfaces(parentNamesOf(conventionElement))
-                .addModifiers(Modifier.PUBLIC);
-        return this.adapter.fromTypeSpec(identifier, spec.build());
+        return this.typeFactory.createMutableInterface(identifier)
+                .addTypeVariables(this.variableFactory.createTypeVariables(element))
+                .addMethods(element.accept(this.methodVisitor, this.voidUtils.returnVoid()))
+                .addInterfaces(superInterfacesFor(conventionElement));
     }
 
-    protected abstract Collection<MethodSpec> methodsFor(ExtendedTypeElement element);
+    protected abstract Iterable<MethodSource> methodsFor(ExtendedTypeElement element);
 
-    private StreamEx<TypeName> superTypesFor(final ExtendedTypeElement parent) {
-        return StreamEx.of(this.parameterResolver.resolveParameters(parent));
+    private StreamEx<TypeReferenceSource> superTypesFor(final ExtendedTypeElement parent) {
+        return StreamEx.empty();
+//        return StreamEx.of(this.variableFactory.resolveParameters(parent));
     }
 
-    private Collection<TypeName> parentNamesOf(final ConventionTypeElement baseElement) {
+    private Iterable<TypeReferenceSource> superInterfacesFor(final ConventionTypeElement baseElement) {
         return baseElement.conventionInterfaces()
                 .flatMap(this::superTypesFor)
-                .collect(Collectors.toList());
+                .toImmutableList();
     }
 
-    @Override
-    public String toString() {
-        return "AbstractInterfaceTypeSourceFactory{" +
-                "parameterResolver=" + this.parameterResolver +
-                ", adapter=" + this.adapter +
-                ", elementFactory=" + this.elementFactory +
-                "}";
-    }
 }

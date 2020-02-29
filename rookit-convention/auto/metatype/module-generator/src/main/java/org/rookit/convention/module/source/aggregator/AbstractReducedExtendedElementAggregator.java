@@ -22,27 +22,29 @@
 package org.rookit.convention.module.source.aggregator;
 
 import org.rookit.auto.javax.ExtendedElement;
-import org.rookit.auto.source.spec.ExtendedElementAggregator;
+import org.rookit.auto.source.type.TypeSource;
+import org.rookit.auto.source.type.container.TypeSourceContainerExtendedElementAggregator;
 
 import javax.annotation.processing.Filer;
 import java.util.concurrent.CompletableFuture;
 
-public abstract class AbstractReducedExtendedElementAggregator<R> implements ExtendedElementAggregator<R> {
+public abstract class AbstractReducedExtendedElementAggregator<R extends TypeSource>
+        implements TypeSourceContainerExtendedElementAggregator<R> {
 
-    private final ExtendedElementAggregator<R> left;
-    private final ExtendedElementAggregator<R> right;
+    private final TypeSourceContainerExtendedElementAggregator<R> left;
+    private final TypeSourceContainerExtendedElementAggregator<R> right;
 
-    protected AbstractReducedExtendedElementAggregator(final ExtendedElementAggregator<R> left,
-                                                       final ExtendedElementAggregator<R> right) {
+    protected AbstractReducedExtendedElementAggregator(final TypeSourceContainerExtendedElementAggregator<R> left,
+                                                       final TypeSourceContainerExtendedElementAggregator<R> right) {
         this.left = left;
         this.right = right;
     }
 
-    protected final ExtendedElementAggregator<R> left() {
+    protected final TypeSourceContainerExtendedElementAggregator<R> left() {
         return this.left;
     }
 
-    protected final ExtendedElementAggregator<R> right() {
+    protected final TypeSourceContainerExtendedElementAggregator<R> right() {
         return this.right;
     }
 

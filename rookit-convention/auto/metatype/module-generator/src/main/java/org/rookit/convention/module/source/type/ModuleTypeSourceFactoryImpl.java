@@ -22,84 +22,49 @@
 package org.rookit.convention.module.source.type;
 
 import com.google.inject.Inject;
-import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.MethodSpec;
+import org.rookit.auto.javax.aggregator.ExtendedElementAggregatorFactory;
+import org.rookit.auto.javax.aggregator.ExtendedTypeElementAggregator;
 import org.rookit.auto.javax.naming.Identifier;
 import org.rookit.auto.source.identifier.IdentifierFieldAggregator;
 import org.rookit.auto.source.identifier.IdentifierFieldAggregatorFactory;
-import org.rookit.auto.source.spec.ExtendedElementAggregator;
-import org.rookit.auto.source.spec.ExtendedElementSpecAggregatorFactory;
+import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.type.MutableTypeSource;
-import org.rookit.auto.source.type.MutableTypeSourceFactory;
-import org.rookit.convention.auto.config.MetatypeModuleConfig;
-import org.rookit.convention.auto.module.ModuleExtendedPropertyAggregatorFactory;
+import org.rookit.auto.source.type.TypeSourceFactory;
 import org.rookit.convention.auto.module.ModuleTypeSource;
-import org.rookit.convention.auto.module.ModuleTypeSourceFactory;
 
-import javax.annotation.processing.Messager;
-import javax.tools.Diagnostic;
 import java.util.Collection;
 
-import static java.lang.String.format;
+final class ModuleTypeSourceFactoryImpl implements ModuleTypeSourceFactory {
 
-final class ModuleTypeSourceFactoryImpl implements ModuleTypeSourceFactory<MethodSpec, FieldSpec> {
-
-    private static final String WARN_DELEGATE = "No specification for module %s on generator '%s'. " +
-            "Falling back to default implementation";
-
-    private final MutableTypeSourceFactory<MethodSpec, FieldSpec> delegate;
-    private final MetatypeModuleConfig config;
-    private final Messager messager;
-    private final ExtendedElementSpecAggregatorFactory<MethodSpec> methodAggregatorFactory;
-    private final IdentifierFieldAggregatorFactory<FieldSpec> moduleAggregatorFactory;
-    private final ModuleExtendedPropertyAggregatorFactory<MethodSpec> propertyAggregatorFactory;
+    private final TypeSourceFactory delegate;
+    private final ExtendedElementAggregatorFactory<MethodSource,
+            ExtendedTypeElementAggregator<MethodSource>> methodAggregatorFactory;
+    private final IdentifierFieldAggregatorFactory moduleAggregatorFactory;
+    private final ExtendedElementAggregatorFactory<Collection<MethodSource>,
+            ExtendedTypeElementAggregator<Collection<MethodSource>>> propertyAggregatorFactory;
 
     @Inject
-    private ModuleTypeSourceFactoryImpl(final MetatypeModuleConfig config,
-                                        final MutableTypeSourceFactory<MethodSpec, FieldSpec> delegate,
-                                        final Messager messager,
-                                        final ExtendedElementSpecAggregatorFactory<MethodSpec> methodFactory,
-                                        final IdentifierFieldAggregatorFactory<FieldSpec> moduleFactory,
-                                        final ModuleExtendedPropertyAggregatorFactory<MethodSpec> propAggFactory) {
-        this.config = config;
+    private ModuleTypeSourceFactoryImpl(
+            final TypeSourceFactory delegate,
+            final ExtendedElementAggregatorFactory<MethodSource,
+                    ExtendedTypeElementAggregator<MethodSource>> methodFactory,
+            final IdentifierFieldAggregatorFactory moduleFactory,
+            final ExtendedElementAggregatorFactory<Collection<MethodSource>,
+                    ExtendedTypeElementAggregator<Collection<MethodSource>>> propAggFactory) {
         this.delegate = delegate;
-        this.messager = messager;
         this.methodAggregatorFactory = methodFactory;
         this.moduleAggregatorFactory = moduleFactory;
         this.propertyAggregatorFactory = propAggFactory;
     }
 
     @Override
-    public ModuleTypeSource<MethodSpec, FieldSpec> createClass(final Identifier identifier) {
-        final MutableTypeSource<MethodSpec, FieldSpec> delegate = this.delegate.createClass(identifier);
-        final ExtendedElementAggregator<MethodSpec> methodAggregator = this.methodAggregatorFactory.create();
-        final IdentifierFieldAggregator<FieldSpec> moduleAggregator = this.moduleAggregatorFactory.create(identifier);
-        final ExtendedElementAggregator<Collection<MethodSpec>> propertyAggregator
+    public ModuleTypeSource createClass(final Identifier identifier) {
+        final MutableTypeSource delegate = this.delegate.createMutableClass(identifier);
+        final ExtendedTypeElementAggregator<MethodSource> methodAggregator = this.methodAggregatorFactory.create();
+        final IdentifierFieldAggregator moduleAggregator = this.moduleAggregatorFactory.create(identifier);
+        final ExtendedTypeElementAggregator<Collection<MethodSource>> propertyAggregator
                 = this.propertyAggregatorFactory.create();
-        return new ModuleTypeSourceImpl<>(delegate, methodAggregator, moduleAggregator, propertyAggregator);
+        return new ModuleTypeSourceImpl(delegate, methodAggregator, moduleAggregator, propertyAggregator);
     }
 
-    @Override
-    public MutableTypeSource<MethodSpec, FieldSpec> createInterface(final Identifier identifier) {
-        this.messager.printMessage(Diagnostic.Kind.NOTE, format(WARN_DELEGATE, "interfaces", this.config.name()));
-        return this.delegate.createInterface(identifier);
-    }
-
-    @Override
-    public MutableTypeSource<MethodSpec, FieldSpec> createAnnotation(final Identifier identifier) {
-        this.messager.printMessage(Diagnostic.Kind.NOTE, format(WARN_DELEGATE, "annotations", this.config.name()));
-        return this.delegate.createAnnotation(identifier);
-    }
-
-    @Override
-    public String toString() {
-        return "ModuleTypeSourceFactoryImpl{" +
-                "delegate=" + this.delegate +
-                ", config=" + this.config +
-                ", messager=" + this.messager +
-                ", methodAggregatorFactory=" + this.methodAggregatorFactory +
-                ", moduleAggregatorFactory=" + this.moduleAggregatorFactory +
-                ", propertyAggregatorFactory=" + this.propertyAggregatorFactory +
-                "}";
-    }
 }

@@ -21,25 +21,17 @@
  ******************************************************************************/
 package org.rookit.convention.auto.javapoet;
 
-import com.google.inject.Provider;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterSpec;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javapoet.method.MethodSpecFactory;
-import org.rookit.auto.source.spec.SpecFactory;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.method.MethodSourceFactory;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.property.Property;
-import org.rookit.utils.adapt.Adapter;
-import org.rookit.utils.string.template.Template1;
 
-import java.util.Collection;
 import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 public interface ConventionAutoFactories {
 
-    BiFunction<ConventionTypeElement, Property, StreamEx<MethodSpec>> createTypeTransformation(
-            MethodSpecFactory specFactory);
+    BiFunction<ConventionTypeElement, Property, StreamEx<MethodSource>> createTypeTransformation(
+            MethodSourceFactory methodFactory);
 
 }

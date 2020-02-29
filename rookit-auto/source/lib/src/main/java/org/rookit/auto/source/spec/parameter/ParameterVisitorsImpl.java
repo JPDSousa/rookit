@@ -28,8 +28,10 @@ import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitors;
 import org.rookit.auto.javax.visitor.GenericBuilder;
 import org.rookit.auto.javax.visitor.StreamExBuilder;
+import org.rookit.auto.source.parameter.GenericParameterBuilder;
 import org.rookit.auto.source.parameter.ParameterSource;
 import org.rookit.auto.source.parameter.ParameterSourceFactory;
+import org.rookit.auto.source.parameter.ParameterVisitors;
 
 import javax.lang.model.element.Name;
 import java.lang.annotation.Annotation;

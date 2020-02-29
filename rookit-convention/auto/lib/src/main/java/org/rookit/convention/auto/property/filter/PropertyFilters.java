@@ -22,7 +22,7 @@
 package org.rookit.convention.auto.property.filter;
 
 import org.rookit.convention.auto.property.Property;
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 
 import java.util.function.Predicate;
 

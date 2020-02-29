@@ -21,80 +21,86 @@
  ******************************************************************************/
 package org.rookit.convention.auto.javapoet.type;
 
-import com.squareup.javapoet.TypeSpec;
-import org.rookit.auto.javapoet.identifier.JavaPoetIdentifierFactory;
 import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
+import org.rookit.auto.javax.naming.Identifier;
+import org.rookit.auto.javax.naming.IdentifierFactory;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.auto.javax.parameter.ExtendedTypeParameterElement;
+import org.rookit.auto.javax.type.parameter.ExtendedTypeParameterElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.variable.ExtendedVariableElement;
+import org.rookit.auto.source.type.TypeSource;
+import org.rookit.auto.source.type.TypeSourceFactory;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.lang.model.element.Modifier;
-
-final class BaseAnnotationVisitor<P> implements ConventionTypeElementVisitor<TypeSpec.Builder, P> {
+final class BaseAnnotationVisitor<P> implements ConventionTypeElementVisitor<TypeSource, P> {
 
     /**
      * Logger for this class.
      */
     private static final Logger logger = LoggerFactory.getLogger(BaseAnnotationVisitor.class);
 
-    private final JavaPoetIdentifierFactory factory;
+    private final IdentifierFactory factory;
+    private final TypeSourceFactory typeFactory;
 
-    BaseAnnotationVisitor(final JavaPoetIdentifierFactory factory) {
+    BaseAnnotationVisitor(
+            final IdentifierFactory factory,
+            final TypeSourceFactory typeFactory) {
         this.factory = factory;
+        this.typeFactory = typeFactory;
     }
 
-    private TypeSpec.Builder create(final ExtendedElement element) {
-        return TypeSpec.annotationBuilder(this.factory.create(element).className())
-                .addModifiers(Modifier.PUBLIC);
+    private TypeSource create(final ExtendedElement element) {
+
+        final Identifier identifier = this.factory.create(element);
+        return this.typeFactory.createMutableAnnotation(identifier)
+                .makePublic();
     }
 
     @Override
-    public TypeSpec.Builder visitConventionType(final ConventionTypeElement element, final P parameter) {
+    public TypeSource visitConventionType(final ConventionTypeElement element, final P parameter) {
         logger.trace("Ignoring parameter: {}", parameter);
         return create(element);
     }
 
     @Override
-    public TypeSpec.Builder visitPackage(final ExtendedPackageElement packageElement, final P parameter) {
+    public TypeSource visitPackage(final ExtendedPackageElement packageElement, final P parameter) {
         logger.trace("Ignoring parameter: {}", parameter);
         return create(packageElement);
     }
 
     @Override
-    public TypeSpec.Builder visitType(final ExtendedTypeElement extendedType, final P parameter) {
+    public TypeSource visitType(final ExtendedTypeElement extendedType, final P parameter) {
         logger.trace("Ignoring parameter: {}", parameter);
         return create(extendedType);
     }
 
     @Override
-    public TypeSpec.Builder visitExecutable(
+    public TypeSource visitExecutable(
             final ExtendedExecutableElement extendedExecutable, final P parameter) {
         logger.trace("Ignoring parameter: {}", parameter);
         return create(extendedExecutable);
     }
 
     @Override
-    public TypeSpec.Builder visitTypeParameter(
+    public TypeSource visitTypeParameter(
             final ExtendedTypeParameterElement extendedParameter, final P parameter) {
         logger.trace("Ignoring parameter: {}", parameter);
         return create(extendedParameter);
     }
 
     @Override
-    public TypeSpec.Builder visitVariable(
+    public TypeSource visitVariable(
             final ExtendedVariableElement extendedElement, final P parameter) {
         logger.trace("Ignoring parameter: {}", parameter);
         return create(extendedElement);
     }
 
     @Override
-    public TypeSpec.Builder visitUnknown(final ExtendedElement extendedElement, final P parameter) {
+    public TypeSource visitUnknown(final ExtendedElement extendedElement, final P parameter) {
         logger.trace("Ignoring parameter: {}", parameter);
         return create(extendedElement);
     }
@@ -103,6 +109,7 @@ final class BaseAnnotationVisitor<P> implements ConventionTypeElementVisitor<Typ
     public String toString() {
         return "BaseAnnotationVisitor{" +
                 "factory=" + this.factory +
+                ", typeFactory=" + this.typeFactory +
                 "}";
     }
 

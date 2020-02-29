@@ -22,7 +22,7 @@
 package org.rookit.convention.auto.property;
 
 import org.rookit.auto.javax.ElementUtils;
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
 import org.rookit.utils.optional.Optional;
@@ -62,7 +62,7 @@ final class BaseExtendedProperty extends AbstractProperty implements ExtendedPro
     public Optional<ConventionTypeElement> typeAsElement() {
         return type().toElement()
                 .map(element -> (TypeElement) element)
-                .map(this.elementFactory::extendType);
+                .map(this.elementFactory::extend);
     }
 
     @Override

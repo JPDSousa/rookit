@@ -24,8 +24,8 @@ package org.rookit.convention.module.source.aggregator.property;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
-import org.rookit.convention.auto.module.ModuleExtendedPropertyAggregatorFactory;
-import org.rookit.convention.auto.module.ModuleExtendedPropertyMethodAggregatorFactory;
+import org.rookit.auto.javax.aggregator.ExtendedElementAggregatorFactory;
+import org.rookit.convention.auto.property.aggregator.ExtendedPropertyAggregatorFactory;
 
 public final class PropertyAggregatorModule extends AbstractModule {
 
@@ -39,9 +39,9 @@ public final class PropertyAggregatorModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(ModuleExtendedPropertyMethodAggregatorFactory.class).to(ExtendedPropertyMultiMethodAggregatorFactory.class)
+        bind(ExtendedPropertyAggregatorFactory.class).to(ExtendedPropertyMultiAggregatorFactory.class)
                 .in(Singleton.class);
-        bind(ModuleExtendedPropertyAggregatorFactory.class).to(ModuleExtendedPropertyAggregatorFactoryImpl.class)
+        bind(ExtendedElementAggregatorFactory.class).to(ModuleExtendedPropertyAggregatorFactoryImpl.class)
                 .in(Singleton.class);
     }
 }

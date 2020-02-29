@@ -21,11 +21,12 @@
  ******************************************************************************/
 package org.rookit.convention.api.source.config;
 
-import com.squareup.javapoet.TypeVariableName;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.utils.object.DynamicObject;
+import org.rookit.auto.source.type.variable.TypeVariableSource;
+import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
 import org.rookit.convention.auto.config.ConventionConfig;
 import org.rookit.convention.auto.config.MetatypeApiConfig;
+import org.rookit.utils.object.DynamicObject;
 import org.rookit.utils.string.template.Template1;
 import org.rookit.utils.string.template.TemplateFactory;
 
@@ -35,15 +36,19 @@ final class MetatypeApiConfigImpl implements MetatypeApiConfig {
     private final String name;
     private final ConventionConfig parent;
     private final TemplateFactory templateFactory;
+    private final TypeVariableSourceFactory variableFactory;
 
-    MetatypeApiConfigImpl(final DynamicObject configuration,
-                          final String name,
-                          final ConventionConfig parent,
-                          final TemplateFactory templateFactory) {
+    MetatypeApiConfigImpl(
+            final DynamicObject configuration,
+            final String name,
+            final ConventionConfig parent,
+            final TemplateFactory templateFactory,
+            final TypeVariableSourceFactory variableFactory) {
         this.configuration = configuration;
         this.name = name;
         this.parent = parent;
         this.templateFactory = templateFactory;
+        this.variableFactory = variableFactory;
     }
 
     @Override
@@ -52,8 +57,8 @@ final class MetatypeApiConfigImpl implements MetatypeApiConfig {
     }
 
     @Override
-    public TypeVariableName parameterName() {
-        return TypeVariableName.get(this.configuration.getString("parameterName"));
+    public TypeVariableSource parameterName() {
+        return this.variableFactory.createFromName(this.configuration.getString("parameterName"));
     }
 
     @Override
@@ -83,6 +88,8 @@ final class MetatypeApiConfigImpl implements MetatypeApiConfig {
                 ", name='" + this.name + '\'' +
                 ", parent=" + this.parent +
                 ", templateFactory=" + this.templateFactory +
+                ", variableFactory=" + this.variableFactory +
                 "}";
     }
+
 }

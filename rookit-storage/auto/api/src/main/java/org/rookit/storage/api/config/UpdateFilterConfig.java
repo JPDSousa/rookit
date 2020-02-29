@@ -21,14 +21,14 @@
  ******************************************************************************/
 package org.rookit.storage.api.config;
 
-import com.squareup.javapoet.TypeVariableName;
 import org.rookit.auto.config.ProcessorConfig;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
+import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.utils.string.template.Template1;
 
 public interface UpdateFilterConfig extends ProcessorConfig {
 
-    TypeVariableName parameterName();
+    TypeVariableSource parameterName();
 
     ExtendedPackageElement basePackage();
 

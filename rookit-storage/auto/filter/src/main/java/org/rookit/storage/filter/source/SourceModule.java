@@ -22,38 +22,28 @@
 package org.rookit.storage.filter.source;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.TypeVariableName;
-import org.rookit.auto.javapoet.identifier.JavaPoetIdentifierFactories;
-import org.rookit.auto.javapoet.naming.JavaPoetNamingFactory;
-import org.rookit.auto.javapoet.naming.JavaPoetParameterResolver;
-import org.rookit.auto.javapoet.naming.LeafSingleParameterResolver;
-import org.rookit.auto.javapoet.naming.SelfSinglePartialParameterResolver;
-import org.rookit.auto.javapoet.type.EmptyInterfaceTypeSourceFactory;
-import org.rookit.auto.javapoet.type.JavaPoetTypeSourceFactory;
+import one.util.streamex.StreamEx;
+import org.rookit.auto.javax.naming.IdentifierFactories;
 import org.rookit.auto.javax.naming.IdentifierFactory;
 import org.rookit.auto.javax.naming.NamingFactory;
-import org.rookit.auto.source.CodeSourceFactory;
-import org.rookit.auto.source.spec.SpecFactory;
+import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
+import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.type.SingleTypeSourceFactory;
-import org.rookit.convention.auto.entity.BaseEntityFactory;
-import org.rookit.convention.auto.javapoet.type.ConventionSingleTypeSourceFactories;
+import org.rookit.auto.source.type.variable.TypeVariableSource;
+import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
 import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
+import org.rookit.convention.auto.source.type.ConventionSingleTypeSourceFactories;
 import org.rookit.storage.api.config.FilterConfig;
 import org.rookit.storage.filter.source.config.ConfigurationModule;
 import org.rookit.storage.filter.source.method.FilterMethodModule;
 import org.rookit.storage.filter.source.naming.NamingModule;
 import org.rookit.storage.guice.TopFilter;
 import org.rookit.storage.guice.filter.Filter;
-import org.rookit.storage.guice.filter.FilterBase;
 import org.rookit.storage.guice.filter.PartialFilter;
-
-import java.util.concurrent.Executor;
 
 @SuppressWarnings("MethodMayBeStatic")
 public final class SourceModule extends AbstractModule {
@@ -71,31 +61,17 @@ public final class SourceModule extends AbstractModule {
 
     private SourceModule() {}
 
-    @Override
-    protected void configure() {
-        bind(CodeSourceFactory.class).to(Key.get(CodeSourceFactory.class, FilterBase.class)).in(Singleton.class);
-    }
-
     @Provides
     @Singleton
     @PartialFilter
-    TypeVariableName typeVariableName(final FilterConfig config) {
+    TypeVariableSource typeVariableName(final FilterConfig config) {
         return config.parameterName();
     }
 
     @Provides
-    @Singleton
-    @FilterBase
-    CodeSourceFactory filterEntityFactory(@PartialFilter final CodeSourceFactory codeSourceFactory,
-                                          @Filter final IdentifierFactory identifierFactory,
-                                          @Filter final SingleTypeSourceFactory typeSpecFactory) {
-        return BaseEntityFactory.create(codeSourceFactory, identifierFactory, typeSpecFactory);
-    }
-
-    @Provides
     @PartialFilter
     @Singleton
-    IdentifierFactory filterIdentifier(final JavaPoetIdentifierFactories factories,
+    IdentifierFactory filterIdentifier(final IdentifierFactories factories,
                                        @PartialFilter final NamingFactory namingFactory) {
         return factories.create(namingFactory);
     }
@@ -103,7 +79,7 @@ public final class SourceModule extends AbstractModule {
     @Provides
     @Filter
     @Singleton
-    IdentifierFactory filterEntityIdentifier(final JavaPoetIdentifierFactories factories,
+    IdentifierFactory filterEntityIdentifier(final IdentifierFactories factories,
                                              @Filter final NamingFactory namingFactory) {
         return factories.create(namingFactory);
     }
@@ -111,37 +87,12 @@ public final class SourceModule extends AbstractModule {
     @Singleton
     @Provides
     @PartialFilter
-    JavaPoetParameterResolver partialFilter(@PartialFilter final JavaPoetNamingFactory namingFactory,
-                                            @PartialFilter final TypeVariableName filterType) {
-        return SelfSinglePartialParameterResolver.create(namingFactory, filterType);
-    }
-
-    @Singleton
-    @Provides
-    @Filter
-    JavaPoetParameterResolver filter(@Filter final JavaPoetNamingFactory namingFactory,
-                                     @PartialFilter final JavaPoetNamingFactory genericNamingFactory) {
-        return LeafSingleParameterResolver.create(namingFactory, genericNamingFactory);
-    }
-
-    @Singleton
-    @Provides
-    @PartialFilter
-    SingleTypeSourceFactory filterTypeSourceFactory(final ConventionSingleTypeSourceFactories factories,
-                                                    @PartialFilter final JavaPoetParameterResolver parameterResolver,
-                                                    @TopFilter final SpecFactory<MethodSpec> specFactory,
-                                                    final JavaPoetTypeSourceFactory adapter,
-                                                    final ConventionTypeElementFactory elementFactory) {
-        return factories.propertyBasedTypeSourceFactory(parameterResolver, adapter, specFactory, elementFactory);
-    }
-
-    @Provides
-    @Singleton
-    @Filter
-    SingleTypeSourceFactory filterTypeSourceFactory(@Filter final JavaPoetParameterResolver parameterResolver,
-                                                    @Filter final JavaPoetNamingFactory namingFactory,
-                                                    final Executor executor) {
-        return EmptyInterfaceTypeSourceFactory.create(parameterResolver, namingFactory, executor);
+    SingleTypeSourceFactory filterTypeSourceFactory(
+            final ConventionSingleTypeSourceFactories factories,
+            final TypeVariableSourceFactory parameterResolver,
+            @TopFilter final ExtendedElementVisitor<StreamEx<MethodSource>, Void> specFactory,
+            final ConventionTypeElementFactory elementFactory) {
+        return factories.propertyBasedTypeSourceFactory(parameterResolver, specFactory, elementFactory);
     }
 
 }

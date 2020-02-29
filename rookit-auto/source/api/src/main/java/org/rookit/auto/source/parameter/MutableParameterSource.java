@@ -21,7 +21,7 @@
  ******************************************************************************/
 package org.rookit.auto.source.parameter;
 
-import org.rookit.auto.source.MutableAnnotatable;
+import org.rookit.auto.source.type.annotation.MutableAnnotatable;
 
 public interface MutableParameterSource extends ParameterSource, MutableAnnotatable<MutableParameterSource> {
 

@@ -24,21 +24,21 @@ package org.rookit.convention.auto;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.util.Modules;
-import org.rookit.convention.auto.entity.EntityModule;
 import org.rookit.convention.auto.javapoet.JavaPoetModule;
 import org.rookit.convention.auto.javax.JavaxModule;
 import org.rookit.convention.auto.metatype.MetaTypeModule;
 import org.rookit.convention.auto.naming.NamingModule;
+import org.rookit.convention.auto.source.SourceModule;
 
 public final class ConventionLibModule extends AbstractModule {
 
     private static final Module MODULE = Modules.combine(
             new ConventionLibModule(),
-            EntityModule.getModule(),
             JavaPoetModule.getModule(),
             JavaxModule.getModule(),
             MetaTypeModule.getModule(),
-            NamingModule.getModule()
+            NamingModule.getModule(),
+            SourceModule.getModule()
     );
 
     public static Module getModule() {

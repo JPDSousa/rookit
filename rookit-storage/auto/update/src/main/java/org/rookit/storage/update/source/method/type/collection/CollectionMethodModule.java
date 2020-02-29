@@ -21,24 +21,19 @@
  ******************************************************************************/
 package org.rookit.storage.update.source.method.type.collection;
 
-import com.google.common.collect.ImmutableList;
 import com.google.inject.AbstractModule;
-import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.Multibinder;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterSpec;
-import com.squareup.javapoet.TypeName;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.source.spec.SpecFactory;
-import org.rookit.convention.auto.javapoet.method.ConventionTypeElementMethodSpecVisitors;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.parameter.ParameterSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.convention.auto.property.Property;
-import org.rookit.storage.guice.Update;
+import org.rookit.convention.auto.source.method.ConventionTypeElementMethodSourceVisitors;
 import org.rookit.storage.update.source.guice.Collection;
 import org.rookit.utils.adapt.Adapter;
 
@@ -59,36 +54,28 @@ public final class CollectionMethodModule extends AbstractModule {
     @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
     @Override
     protected void configure() {
-        final Multibinder<SpecFactory<MethodSpec>> multibinder = Multibinder.newSetBinder(binder(),
-                new TypeLiteral<SpecFactory<MethodSpec>>() {}, Update.class);
-        multibinder.addBinding().to(Key.get(new TypeLiteral<SpecFactory<MethodSpec>>() {}, Collection.class))
-                .in(Singleton.class);
 
-        final Multibinder<ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void>> opMultiBinder = Multibinder
+        final Multibinder<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>> opMultiBinder = Multibinder
                 .newSetBinder(binder(),
-                        new TypeLiteral<ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void>>() {},
+                        new TypeLiteral<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>>() {},
                         Collection.class);
         opMultiBinder.addBinding().toProvider(AddMethodFactoryProvider.class).in(Singleton.class);
         opMultiBinder.addBinding().toProvider(RemoveMethodFactoryProvider.class).in(Singleton.class);
         opMultiBinder.addBinding().toProvider(AddAllMethodFactoryProvider.class).in(Singleton.class);
         opMultiBinder.addBinding().toProvider(RemoveAllMethodFactoryProvider.class).in(Singleton.class);
 
-        bind(new TypeLiteral<Function<Property, java.util.Collection<ParameterSpec>>>() {})
+        bind(new TypeLiteral<Function<Property, java.util.Collection<ParameterSource>>>() {})
                 .annotatedWith(Collection.class)
-                .toInstance(this::createCollectionParam);
-    }
-
-    private java.util.Collection<ParameterSpec> createCollectionParam(final Property property) {
-        return ImmutableList.of(ParameterSpec.builder(TypeName.get(property.type()), property.name()).build());
+                .to(CollectionParams.class);
     }
     
     @Provides
     @Singleton
     @Collection
-    ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void> collection(
-            @Collection final Set<ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void>> opFactories,
+    ConventionTypeElementVisitor<StreamEx<MethodSource>, Void> collection(
+            @Collection final Set<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>> opFactories,
             @org.rookit.utils.guice.Collection(unwrap = true) final Adapter<ConventionTypeElement> collectionUnwrapper,
-            final ConventionTypeElementMethodSpecVisitors visitors) {
+            final ConventionTypeElementMethodSourceVisitors visitors) {
         return visitors.streamExConventionBuilder(opFactories)
                 .withConventionTypeAdapter(collectionUnwrapper)
                 .build();

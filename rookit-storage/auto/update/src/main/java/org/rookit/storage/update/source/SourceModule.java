@@ -26,18 +26,12 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
-import com.squareup.javapoet.TypeVariableName;
-import org.rookit.auto.javapoet.naming.JavaPoetNamingFactory;
-import org.rookit.auto.javapoet.naming.JavaPoetParameterResolver;
-import org.rookit.auto.javapoet.naming.LeafSingleSingleParameterResolver;
-import org.rookit.auto.javapoet.type.EmptyLeafTypeSourceFactory;
-import org.rookit.auto.javapoet.type.JavaPoetTypeSourceFactory;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
 import org.rookit.auto.source.type.SingleTypeSourceFactory;
+import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.storage.api.config.UpdateConfig;
 import org.rookit.storage.guice.PartialUpdate;
 import org.rookit.storage.guice.Update;
-import org.rookit.storage.guice.UpdateFilter;
 import org.rookit.storage.update.source.config.ConfigurationModule;
 import org.rookit.storage.update.source.identifier.IdentifierModule;
 import org.rookit.storage.update.source.method.MethodModule;
@@ -64,8 +58,6 @@ public final class SourceModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(JavaPoetParameterResolver.class).annotatedWith(PartialUpdate.class)
-                .to(PartialUpdateParameterResolver.class).in(Singleton.class);
         bind(SingleTypeSourceFactory.class).annotatedWith(PartialUpdate.class)
                 .to(PartialUpdateTypeSourceFactory.class).in(Singleton.class);
     }
@@ -73,25 +65,8 @@ public final class SourceModule extends AbstractModule {
     @Provides
     @Singleton
     @PartialUpdate
-    TypeVariableName typeVariableName(final UpdateConfig config) {
+    TypeVariableSource typeVariableName(final UpdateConfig config) {
         return config.parameterName();
-    }
-
-    @Provides
-    @Singleton
-    @Update
-    SingleTypeSourceFactory update(final JavaPoetTypeSourceFactory adapter,
-                                   @Update final JavaPoetParameterResolver resolver) {
-        return EmptyLeafTypeSourceFactory.create(adapter, resolver);
-    }
-
-    @Singleton
-    @Provides
-    @Update
-    JavaPoetParameterResolver update(@Update final JavaPoetNamingFactory update,
-                                     @UpdateFilter final JavaPoetNamingFactory updateFilter,
-                                     @PartialUpdate final JavaPoetNamingFactory genericNamingFactory) {
-        return LeafSingleSingleParameterResolver.create(genericNamingFactory, update, updateFilter);
     }
 
     @Singleton

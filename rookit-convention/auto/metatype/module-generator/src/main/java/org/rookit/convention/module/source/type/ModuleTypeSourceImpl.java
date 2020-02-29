@@ -22,28 +22,31 @@
 package org.rookit.convention.module.source.type;
 
 import org.rookit.auto.javax.ExtendedElement;
+import org.rookit.auto.javax.aggregator.ExtendedTypeElementAggregator;
 import org.rookit.auto.javax.naming.Identifier;
 import org.rookit.auto.source.identifier.IdentifierFieldAggregator;
-import org.rookit.auto.source.spec.ExtendedElementAggregator;
+import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.type.MutableTypeSource;
+import org.rookit.auto.source.type.annotation.AnnotationSource;
 import org.rookit.convention.auto.module.ModuleTypeSource;
 
 import javax.annotation.processing.Filer;
+import javax.lang.model.element.Modifier;
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 
-final class ModuleTypeSourceImpl<M, F> implements ModuleTypeSource<M, F> {
+final class ModuleTypeSourceImpl implements ModuleTypeSource {
 
     private boolean written;
-    private final MutableTypeSource<M, F> delegate;
-    private final ExtendedElementAggregator<M> configureAggregator;
-    private final IdentifierFieldAggregator<F> subModules;
-    private final ExtendedElementAggregator<Collection<M>> propertyAggregator;
+    private final MutableTypeSource delegate;
+    private final ExtendedTypeElementAggregator<MethodSource> configureAggregator;
+    private final IdentifierFieldAggregator subModules;
+    private final ExtendedTypeElementAggregator<Collection<MethodSource>> propertyAggregator;
 
-    ModuleTypeSourceImpl(final MutableTypeSource<M, F> delegate,
-                         final ExtendedElementAggregator<M> configureAggregator,
-                         final IdentifierFieldAggregator<F> subModules,
-                         final ExtendedElementAggregator<Collection<M>> propertyAggregator) {
+    ModuleTypeSourceImpl(final MutableTypeSource delegate,
+                         final ExtendedTypeElementAggregator<MethodSource> configureAggregator,
+                         final IdentifierFieldAggregator subModules,
+                         final ExtendedTypeElementAggregator<Collection<MethodSource>> propertyAggregator) {
         this.configureAggregator = configureAggregator;
         this.propertyAggregator = propertyAggregator;
         this.written = false;
@@ -70,18 +73,6 @@ final class ModuleTypeSourceImpl<M, F> implements ModuleTypeSource<M, F> {
         return this.delegate.identifier();
     }
 
-    @Override
-    public void addMethod(final M method) {
-        attemptToWrite();
-        this.delegate.addMethod(method);
-    }
-
-    @Override
-    public void addField(final F field) {
-        attemptToWrite();
-        this.delegate.addField(field);
-    }
-
     private void attemptToWrite() {
         if (this.written) {
             throw new UnsupportedOperationException("This type source has already been written to a filer, and as such"
@@ -102,13 +93,13 @@ final class ModuleTypeSourceImpl<M, F> implements ModuleTypeSource<M, F> {
     }
 
     @Override
-    public String toString() {
-        return "ModuleTypeSourceImpl{" +
-                "written=" + this.written +
-                ", delegate=" + this.delegate +
-                ", configureAggregator=" + this.configureAggregator +
-                ", subModules=" + this.subModules +
-                ", propertyAggregator=" + this.propertyAggregator +
-                "}";
+    public Collection<Modifier> modifiers() {
+        return this.delegate.modifiers();
     }
+
+    @Override
+    public Collection<AnnotationSource> annotations() {
+        return this.delegate.annotations();
+    }
+
 }

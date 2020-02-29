@@ -22,7 +22,7 @@
 package org.rookit.convention.auto.property;
 
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.utils.optional.Optional;
 
 public interface PropertyFactory {

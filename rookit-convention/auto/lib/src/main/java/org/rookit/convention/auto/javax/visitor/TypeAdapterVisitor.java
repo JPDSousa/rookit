@@ -24,7 +24,7 @@ package org.rookit.convention.auto.javax.visitor;
 import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.auto.javax.parameter.ExtendedTypeParameterElement;
+import org.rookit.auto.javax.type.parameter.ExtendedTypeParameterElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.variable.ExtendedVariableElement;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
@@ -32,55 +32,57 @@ import org.rookit.utils.adapt.Adapter;
 
 final class TypeAdapterVisitor<R, P> implements ConventionTypeElementVisitor<R, P> {
 
-    private final ConventionTypeElementVisitor<R, P> downstreamVisitor;
+    private final ConventionTypeElementVisitor<R, P> upstream;
     private final Adapter<ConventionTypeElement> adapter;
 
-    TypeAdapterVisitor(final ConventionTypeElementVisitor<R, P> downstreamVisitor,
+    TypeAdapterVisitor(final ConventionTypeElementVisitor<R, P> upstream,
                        final Adapter<ConventionTypeElement> adapter) {
-        this.downstreamVisitor = downstreamVisitor;
+        this.upstream = upstream;
         this.adapter = adapter;
     }
 
     @Override
     public R visitConventionType(final ConventionTypeElement element, final P parameter) {
-        return this.downstreamVisitor.visitConventionType(this.adapter.adapt(element), parameter);
+        return this.adapter.adapt(element).accept(this.upstream, parameter);
     }
 
     @Override
     public R visitPackage(final ExtendedPackageElement packageElement, final P parameter) {
-        return this.downstreamVisitor.visitPackage(packageElement, parameter);
+        return packageElement.accept(this.upstream, parameter);
     }
 
     @Override
     public R visitType(final ExtendedTypeElement extendedType, final P parameter) {
-        // TODO we might want to the consider the fact that ConventionTypeElement is a subclass of ExtendedTypeElement
-        return this.downstreamVisitor.visitType(extendedType, parameter);
+        if (extendedType instanceof ConventionTypeElement) {
+            return this.adapter.adapt((ConventionTypeElement) extendedType).accept(this.upstream, parameter);
+        }
+        return extendedType.accept(this.upstream, parameter);
     }
 
     @Override
     public R visitExecutable(final ExtendedExecutableElement extendedExecutable, final P parameter) {
-        return this.downstreamVisitor.visitExecutable(extendedExecutable, parameter);
+        return extendedExecutable.accept(this.upstream, parameter);
     }
 
     @Override
     public R visitTypeParameter(final ExtendedTypeParameterElement extendedParameter, final P parameter) {
-        return this.downstreamVisitor.visitTypeParameter(extendedParameter, parameter);
+        return extendedParameter.accept(this.upstream, parameter);
     }
 
     @Override
     public R visitVariable(final ExtendedVariableElement extendedElement, final P parameter) {
-        return this.downstreamVisitor.visitVariable(extendedElement, parameter);
+        return extendedElement.accept(this.upstream, parameter);
     }
 
     @Override
     public R visitUnknown(final ExtendedElement extendedElement, final P parameter) {
-        return this.downstreamVisitor.visitUnknown(extendedElement, parameter);
+        return extendedElement.accept(this.upstream, parameter);
     }
 
     @Override
     public String toString() {
         return "TypeAdapterVisitor{" +
-                "downstreamVisitor=" + this.downstreamVisitor +
+                "upstream=" + this.upstream +
                 ", adapter=" + this.adapter +
                 "}";
     }

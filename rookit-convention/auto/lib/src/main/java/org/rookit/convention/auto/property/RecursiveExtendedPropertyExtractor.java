@@ -22,8 +22,8 @@
 package org.rookit.convention.auto.property;
 
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
-import org.rookit.auto.javax.type.ExtendedTypeMirrorFactory;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirrorFactory;
 import org.rookit.convention.auto.javax.ConventionElementUtils;
 import org.rookit.utils.optional.Optional;
 
@@ -47,7 +47,7 @@ final class RecursiveExtendedPropertyExtractor implements ExtendedPropertyExtrac
     public StreamEx<Property> fromType(final TypeElement element) {
         // TODO copied from AbstractTypeElementDecorator#conventionInterfaces
         return StreamEx.of(element.getInterfaces())
-                .map(this.mirrorFactory::create)
+                .map(this.mirrorFactory::extend)
                 .map(ExtendedTypeMirror::toElement)
                 .filter(Optional::isPresent)
                 .map(Optional::get)

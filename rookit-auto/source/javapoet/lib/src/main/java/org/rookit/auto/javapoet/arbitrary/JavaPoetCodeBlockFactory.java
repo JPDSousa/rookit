@@ -21,12 +21,15 @@
  ******************************************************************************/
 package org.rookit.auto.javapoet.arbitrary;
 
+import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import org.rookit.auto.source.arbitrary.ArbitraryCodeSource;
 import org.rookit.auto.source.arbitrary.ArbitraryCodeSourceFactory;
 import org.rookit.utils.primitive.VoidUtils;
 
-import java.util.Arrays;
+import java.util.List;
+
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 final class JavaPoetCodeBlockFactory implements ArbitraryCodeSourceFactory {
 
@@ -38,12 +41,15 @@ final class JavaPoetCodeBlockFactory implements ArbitraryCodeSourceFactory {
     }
 
     @Override
-    public ArbitraryCodeSource create(final String format, final Object... args) {
+    public ArbitraryCodeSource createFromFormat(final String format, final List<Object> args) {
 
-        return new JavaPoetCodeBlock(
-                format,
-                Arrays.asList(args)
-        );
+        return new JavaPoetCodeBlock(format, args);
+    }
+
+    @Override
+    public ArbitraryCodeSource createEmpty() {
+
+        return createFromFormat(EMPTY, ImmutableList.of());
     }
 
     @Override

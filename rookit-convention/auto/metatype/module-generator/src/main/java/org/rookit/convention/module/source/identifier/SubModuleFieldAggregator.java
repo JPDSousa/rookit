@@ -21,41 +21,52 @@
  ******************************************************************************/
 package org.rookit.convention.module.source.identifier;
 
-import com.google.common.collect.Iterables;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.inject.Module;
 import com.google.inject.util.Modules;
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.CodeBlock;
-import com.squareup.javapoet.FieldSpec;
 import one.util.streamex.StreamEx;
-import org.apache.commons.lang3.ArrayUtils;
 import org.rookit.auto.javax.naming.Identifier;
+import org.rookit.auto.source.arbitrary.ArbitraryCodeSource;
+import org.rookit.auto.source.arbitrary.ArbitraryCodeSourceFactory;
+import org.rookit.auto.source.field.FieldSource;
+import org.rookit.auto.source.field.FieldSourceFactory;
 import org.rookit.auto.source.identifier.IdentifierFieldAggregator;
 import org.rookit.auto.source.identifier.IdentifierFieldAggregatorFactory;
-import org.rookit.auto.javapoet.field.FieldSpecFactory;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
+import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
+import static com.google.common.collect.Iterables.getOnlyElement;
 import static java.lang.String.format;
 
-final class SubModuleFieldAggregator implements IdentifierFieldAggregator<FieldSpec> {
+final class SubModuleFieldAggregator implements IdentifierFieldAggregator {
 
-    private final IdentifierFieldAggregatorFactory<FieldSpec> factory;
-    private final FieldSpecFactory fieldSpecFactory;
+    private final IdentifierFieldAggregatorFactory factory;
     private final Collection<Identifier> subModules;
     private final String separator;
+    private final FieldSourceFactory fieldFactory;
+    private final TypeReferenceSourceFactory referenceFactory;
+    private final ArbitraryCodeSourceFactory codeSourceFactory;
 
-    SubModuleFieldAggregator(final IdentifierFieldAggregatorFactory<FieldSpec> factory,
-                             final FieldSpecFactory fieldSpecFactory,
-                             final Iterable<Identifier> subModules,
-                             final String separator) {
+    SubModuleFieldAggregator(
+            final IdentifierFieldAggregatorFactory factory,
+            final Iterable<Identifier> subModules,
+            final String separator,
+            final FieldSourceFactory fieldFactory,
+            final TypeReferenceSourceFactory referenceFactory,
+            final ArbitraryCodeSourceFactory codeSourceFactory) {
         this.factory = factory;
-        this.fieldSpecFactory = fieldSpecFactory;
         // this must be a list, because we are treating the FIRST item differently
         // TODO should we change the design here to consider the first field separately?
         this.subModules = Lists.newArrayList(subModules);
         this.separator = separator;
+        this.fieldFactory = fieldFactory;
+        this.referenceFactory = referenceFactory;
+        this.codeSourceFactory = codeSourceFactory;
     }
 
     @Override
@@ -68,36 +79,50 @@ final class SubModuleFieldAggregator implements IdentifierFieldAggregator<FieldS
     }
 
     @Override
-    public IdentifierFieldAggregator<FieldSpec> reduce(final IdentifierFieldAggregator<FieldSpec> aggregator) {
-        return new ReducedSubModuleFieldAggregator(this.factory, this.fieldSpecFactory, this, aggregator);
+    public IdentifierFieldAggregator reduce(final IdentifierFieldAggregator aggregator) {
+
+        return new ReducedSubModuleFieldAggregator(this.fieldFactory,
+                                                   this.referenceFactory,
+                                                   this.factory,
+                                                   this.separator,
+                                                   this,
+                                                   aggregator
+        );
     }
 
     @Override
-    public FieldSpec result() {
-        return this.fieldSpecFactory.create()
-                .toBuilder()
-                .initializer(initializer())
-                .build();
+    public FieldSource result() {
+        final TypeReferenceSource type = this.referenceFactory.fromClass(Module.class);
+        return this.fieldFactory.createMutable(type, "MODULE")
+                .makePrivate()
+                .makeStatic()
+                .makeFinal()
+                .initializer(initializer());
     }
 
-    private CodeBlock initializer() {
+    private ArbitraryCodeSource initializer() {
         if (this.subModules.isEmpty()) {
-            return CodeBlock.of("$T.combine()", Modules.class);
+            return this.codeSourceFactory.createFromFormat("$T.combine()", ImmutableList.of(Modules.class));
         }
         if (this.subModules.size() == 1) {
-            final Identifier onlyElement = Iterables.getOnlyElement(this.subModules);
-            final ClassName className = ClassName.get(onlyElement.packageElement().fullName().asString(),
-                    onlyElement.name());
-            return CodeBlock.of("$T.combine(new $T())", Modules.class, className);
+            final Identifier onlyElement = getOnlyElement(this.subModules);
+            final TypeReferenceSource referenceName = this.referenceFactory.fromIdentifier(onlyElement);
+            return this.codeSourceFactory.createFromFormat("$T.combine(new $T())",
+                                                           ImmutableList.of(Modules.class, referenceName));
         }
 
         final String initializer = format("$T.combine(new $T(),%s%s)", this.separator, combineBody());
-        final Object[] args = StreamEx.of(this.subModules)
-                .map(identifier -> ClassName.get(identifier.packageElement().fullName().asString(), identifier.name()))
-                .toArray(ClassName[]::new);
-        final Object[] modules = {ClassName.get(Modules.class)};
+        final List<TypeReferenceSource> args = StreamEx.of(this.subModules)
+                .map(this.referenceFactory::fromIdentifier)
+                .toImmutableList();
 
-        return CodeBlock.of(initializer, ArrayUtils.addAll(modules, args));
+        return this.codeSourceFactory.createFromFormat(
+                initializer,
+                ImmutableList.builder()
+                        .addAll(args)
+                        .add(this.referenceFactory.fromClass(Modules.class))
+                        .build()
+        );
     }
 
     private String combineBody() {
@@ -106,13 +131,4 @@ final class SubModuleFieldAggregator implements IdentifierFieldAggregator<FieldS
         return String.join("," + this.separator, combines);
     }
 
-    @Override
-    public String toString() {
-        return "SubModuleFieldAggregator{" +
-                "factory=" + this.factory +
-                ", fieldSpecFactory=" + this.fieldSpecFactory +
-                ", subModules=" + this.subModules +
-                ", separator='" + this.separator + '\'' +
-                "}";
-    }
 }

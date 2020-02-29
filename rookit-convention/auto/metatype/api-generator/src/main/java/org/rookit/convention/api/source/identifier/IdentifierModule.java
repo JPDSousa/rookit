@@ -24,10 +24,9 @@ package org.rookit.convention.api.source.identifier;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
+import org.rookit.auto.javax.naming.IdentifierFactory;
 import org.rookit.convention.auto.metatype.guice.MetaTypeAPI;
 import org.rookit.convention.auto.metatype.guice.PartialMetaTypeAPI;
-
-import static org.rookit.auto.guice.RookitAutoModuleTools.bindIdentifierFactory;
 
 public final class IdentifierModule extends AbstractModule {
 
@@ -41,9 +40,9 @@ public final class IdentifierModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bindIdentifierFactory(binder(), MetaTypeAPI.class)
-                .toProvider(MetatypeAPIJavaPoetIdentifierFactoryProvider.class).in(Singleton.class);
-        bindIdentifierFactory(binder(), PartialMetaTypeAPI.class)
-                .toProvider(PartialMetatypeAPIJavaPoetIdentifierFactoryProvider.class).in(Singleton.class);
+        bind(IdentifierFactory.class).annotatedWith(MetaTypeAPI.class)
+                .toProvider(MetatypeAPIIdentifierFactoryProvider.class).in(Singleton.class);
+        bind(IdentifierFactory.class).annotatedWith(PartialMetaTypeAPI.class)
+                .toProvider(PartialMetaTypeAPIJavaPoetIdentifierFactoryProvider.class).in(Singleton.class);
     }
 }

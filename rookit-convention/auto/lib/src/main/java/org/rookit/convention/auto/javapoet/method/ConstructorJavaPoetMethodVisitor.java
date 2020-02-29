@@ -21,85 +21,55 @@
  ******************************************************************************/
 package org.rookit.convention.auto.javapoet.method;
 
-import com.google.common.collect.Collections2;
-import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
-import com.squareup.javapoet.CodeBlock;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterSpec;
-import one.util.streamex.MoreCollectors;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.javax.visitor.StreamExtendedElementVisitor;
-import org.rookit.auto.source.spec.parameter.Parameter;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.method.MethodSourceFactory;
+import org.rookit.auto.source.method.MutableMethodSource;
+import org.rookit.auto.source.parameter.ParameterSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 
-import javax.lang.model.element.Modifier;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
+final class ConstructorJavaPoetMethodVisitor<P> implements StreamExtendedElementVisitor<MethodSource, P>,
+        ConventionTypeElementVisitor<StreamEx<MethodSource>, P> {
 
-final class ConstructorJavaPoetMethodVisitor<P> implements StreamExtendedElementVisitor<MethodSpec, P>,
-        ConventionTypeElementVisitor<StreamEx<MethodSpec>, P> {
-
-    private final ExtendedElementVisitor<StreamEx<Parameter<ParameterSpec>>, P> annotationParameterVisitor;
-    private final String separator;
-    private final Collector<CharSequence, ?, CodeBlock> collector;
+    private final MethodSourceFactory methodSourceFactory;
+    private final ExtendedElementVisitor<StreamEx<ParameterSource>, P> annotationParameterVisitor;
 
     ConstructorJavaPoetMethodVisitor(
-            final ExtendedElementVisitor<StreamEx<Parameter<ParameterSpec>>, P> aParameterVisitor,
-            final String separator) {
+            final MethodSourceFactory methodSourceFactory,
+            final ExtendedElementVisitor<StreamEx<ParameterSource>, P> aParameterVisitor) {
+        this.methodSourceFactory = methodSourceFactory;
         this.annotationParameterVisitor = aParameterVisitor;
-        this.separator = separator;
-        this.collector = MoreCollectors.collectingAndThen(Collectors.joining(", "),
-                args -> CodeBlock.of("super($T.of($L))", ImmutableSet.class, args));
-    }
-
-    private CodeBlock createSuperStatement(final Collection<Parameter<ParameterSpec>> parameters) {
-        return StreamEx.of(parameters)
-                .filter(Parameter::isSuper)
-                .map(Parameter::spec)
-                .map(extendedParameter -> extendedParameter.name)
-                .collect(this.collector);
     }
 
     @Override
-    public StreamEx<MethodSpec> visitType(final ExtendedTypeElement extendedType, final P parameter) {
-        final List<Parameter<ParameterSpec>> parameters = this.annotationParameterVisitor
-                .visitType(extendedType, parameter)
-                .toImmutableList();
+    public StreamEx<MethodSource> visitType(final ExtendedTypeElement extendedType, final P parameter) {
 
-        final Collection<CodeBlock> blocks = StreamEx.of(parameters)
-                .map(Parameter::spec)
-                .map(parameterSpec -> parameterSpec.name)
-                .map(name -> CodeBlock.of("this.$L = $L", name, name))
-                .collect(Collectors.toSet());
+        return StreamEx.of(createConstructor(extendedType, parameter));
+    }
 
-        return StreamEx.of(
-                MethodSpec.constructorBuilder()
-                        .addModifiers(Modifier.PRIVATE)
-                        .addAnnotation(Inject.class)
-                        .addParameters(Collections2.transform(parameters, Parameter::spec))
-                        .addStatement(createSuperStatement(parameters))
-                        .addStatement(CodeBlock.join(blocks, ";" + this.separator))
-                        .build()
-        );
+    private MutableMethodSource createConstructor(final ExtendedTypeElement extendedType, final P parameter) {
+        return this.methodSourceFactory.createMutableConstructor()
+                .makePrivate()
+                .addAnnotationByClass(Inject.class)
+                .assignParametersToFields(extendedType.accept(this.annotationParameterVisitor, parameter));
+    }
+
+    @Override
+    public StreamEx<MethodSource> visitConventionType(final ConventionTypeElement element, final P parameter) {
+        return StreamEx.of(createConstructor(element, parameter));
     }
 
     @Override
     public String toString() {
         return "ConstructorJavaPoetMethodVisitor{" +
-                "annotationParameterVisitor=" + this.annotationParameterVisitor +
-                ", separator='" + this.separator + '\'' +
-                ", collector=" + this.collector +
+                "methodSourceFactory=" + this.methodSourceFactory +
+                ", annotationParameterVisitor=" + this.annotationParameterVisitor +
                 "}";
     }
 
-    @Override
-    public StreamEx<MethodSpec> visitConventionType(final ConventionTypeElement element, final P parameter) {
-        return visitType(element, parameter);
-    }
 }

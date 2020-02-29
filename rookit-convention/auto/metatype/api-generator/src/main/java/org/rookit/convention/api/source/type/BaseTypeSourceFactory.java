@@ -22,112 +22,98 @@
 package org.rookit.convention.api.source.type;
 
 import com.google.common.collect.ImmutableList;
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterizedTypeName;
-import com.squareup.javapoet.TypeName;
-import com.squareup.javapoet.TypeSpec;
-import com.squareup.javapoet.TypeVariableName;
+import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.naming.Identifier;
-import org.rookit.auto.javapoet.method.EntityMethodFactory;
-import org.rookit.auto.javapoet.naming.JavaPoetParameterResolver;
-import org.rookit.auto.javapoet.type.JavaPoetTypeSourceFactory;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
+import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
+import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.type.SingleTypeSourceFactory;
 import org.rookit.auto.source.type.TypeSource;
-import org.rookit.auto.source.spec.SpecFactory;
+import org.rookit.auto.source.type.TypeSourceFactory;
+import org.rookit.auto.source.type.parameter.TypeParameterSource;
+import org.rookit.auto.source.type.parameter.TypeParameterSourceFactory;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
+import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
+import org.rookit.auto.source.type.variable.TypeVariableSource;
+import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
 import org.rookit.convention.MetaType;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
 import org.rookit.convention.property.ImmutablePropertyModel;
+import org.rookit.utils.primitive.VoidUtils;
 
-import javax.lang.model.element.Modifier;
 import java.util.Collection;
-import java.util.stream.Collectors;
+
+import static com.google.common.collect.ImmutableList.toImmutableList;
 
 // TODO break me down into pieces
 class BaseTypeSourceFactory implements SingleTypeSourceFactory {
 
-    private final ClassName typeModel;
-    private final ClassName propertyModel;
-    private final SpecFactory<MethodSpec> methodFactory;
-    private final EntityMethodFactory entityMethodFactory;
-    private final JavaPoetTypeSourceFactory adapter;
-    private final JavaPoetParameterResolver parameterResolver;
-    private final TypeVariableName typeVariableName;
+    private final TypeSourceFactory typeFactory;
+    private final TypeVariableSourceFactory variableFactory;
+    private final TypeReferenceSourceFactory referenceFactory;
+    private final TypeParameterSourceFactory typeParameterFactory;
+    private final TypeReferenceSource typeModel;
+    private final TypeVariableSource typeVariableName;
+    private final TypeReferenceSource propertyModel;
+    private final VoidUtils voidUtils;
+    private final ExtendedElementVisitor<StreamEx<MethodSource>, Void> visitor;
     private final ConventionTypeElementFactory elementFactory;
 
-    BaseTypeSourceFactory(final SpecFactory<MethodSpec> methodFactory,
-                          final EntityMethodFactory entityMethodFactory,
-                          final JavaPoetTypeSourceFactory adapter,
-                          final JavaPoetParameterResolver parameterResolver,
-                          final TypeVariableName typeVariableName,
-                          final ConventionTypeElementFactory elementFactory) {
-        this.methodFactory = methodFactory;
-        this.entityMethodFactory = entityMethodFactory;
-        this.adapter = adapter;
-        this.parameterResolver = parameterResolver;
+    BaseTypeSourceFactory(
+            final TypeSourceFactory typeFactory,
+            final TypeVariableSourceFactory variableFactory,
+            final TypeReferenceSourceFactory referenceFactory,
+            final TypeParameterSourceFactory typeParameterFactory,
+            final VoidUtils voidUtils,
+            final ExtendedElementVisitor<StreamEx<MethodSource>, Void> visitor,
+            final TypeVariableSource typeVariableName,
+            final ConventionTypeElementFactory elementFactory) {
+        this.typeFactory = typeFactory;
+        this.variableFactory = variableFactory;
+        this.referenceFactory = referenceFactory;
+        this.typeParameterFactory = typeParameterFactory;
+        this.voidUtils = voidUtils;
+        this.visitor = visitor;
         this.typeVariableName = typeVariableName;
         this.elementFactory = elementFactory;
-        this.typeModel = ClassName.get(MetaType.class);
-        this.propertyModel = ClassName.get(ImmutablePropertyModel.class);
+        this.typeModel = referenceFactory.fromClass(MetaType.class);
+        this.propertyModel = referenceFactory.fromClass(ImmutablePropertyModel.class);
     }
 
     @Override
     public TypeSource create(final Identifier identifier,
                              final ExtendedTypeElement element) {
-        final ClassName className = ClassName.get(identifier.packageElement().fullName().asString(), identifier.name());
-        final ConventionTypeElement conventionElement = this.elementFactory.extendType(element);
 
-        final TypeSpec.Builder builder = TypeSpec.interfaceBuilder(className)
-                .addTypeVariables(this.parameterResolver.createParameters(element))
-                .addModifiers(Modifier.PUBLIC)
-                .addSuperinterfaces(superInterfaces(conventionElement))
-                .addMethods(methods(element));
-
-        return this.adapter.fromTypeSpec(identifier, builder.build());
+        final ConventionTypeElement conventionElement = this.elementFactory.extend(element);
+        return this.typeFactory.createMutableInterface(identifier)
+                .makePublic()
+                .addTypeVariables(this.variableFactory.createTypeVariables(element))
+                .addInterfaces(superInterfaces(conventionElement))
+                .addMethods(element.accept(this.visitor, this.voidUtils.returnVoid()));
     }
 
-    private Iterable<TypeName> superInterfaces(final ConventionTypeElement element) {
-        final Collection<TypeName> superTypes = element.conventionInterfaces()
-                .map(conventionInterface -> this.parameterResolver.resolveParameters(conventionInterface))
-                .collect(Collectors.toList());
+    private Iterable<TypeReferenceSource> superInterfaces(final ConventionTypeElement element) {
 
-        final ParameterizedTypeName typeModel = getModelTypeName(element);
+        final Collection<TypeReferenceSource> superTypes = element.conventionInterfaces()
+                .map(this.referenceFactory::resolveParameters)
+                .collect(toImmutableList());
 
-        return ImmutableList.<TypeName>builder()
+        final TypeParameterSource typeModel = getModelTypeName(element);
+
+        return ImmutableList.<TypeReferenceSource>builder()
                 .add(typeModel)
                 .addAll(superTypes)
                 .build();
     }
 
-    private ParameterizedTypeName getModelTypeName(final ConventionTypeElement element) {
+    private TypeParameterSource getModelTypeName(final ConventionTypeElement element) {
         if (element.isEntity() || element.isPartialEntity()) {
-            return ParameterizedTypeName.get(this.typeModel, this.typeVariableName);
+            return this.typeParameterFactory.create(this.typeModel, this.typeVariableName);
         }
 
-        final ClassName elementName = ClassName.get(element);
-        return ParameterizedTypeName.get(this.propertyModel, this.typeVariableName, elementName);
+        final TypeReferenceSource elementReference = this.referenceFactory.create(element);
+        return this.typeParameterFactory.create(this.propertyModel, this.typeVariableName, elementReference);
     }
 
-    private Iterable<MethodSpec> methods(final ExtendedTypeElement element) {
-        return ImmutableList.<MethodSpec>builder()
-                .addAll(this.entityMethodFactory.create(element))
-                .addAll(this.methodFactory.create(element))
-                .build();
-    }
-
-    @Override
-    public String toString() {
-        return "BaseTypeSourceFactory{" +
-                "typeModel=" + this.typeModel +
-                ", propertyModel=" + this.propertyModel +
-                ", methodFactory=" + this.methodFactory +
-                ", entityMethodFactory=" + this.entityMethodFactory +
-                ", adapter=" + this.adapter +
-                ", parameterResolver=" + this.parameterResolver +
-                ", typeVariableName=" + this.typeVariableName +
-                ", elementFactory=" + this.elementFactory +
-                "}";
-    }
 }

@@ -22,37 +22,37 @@
 package org.rookit.convention.module.source.method;
 
 import com.google.inject.Inject;
-import com.squareup.javapoet.MethodSpec;
-import org.rookit.auto.javapoet.method.MethodSpecFactory;
-import org.rookit.auto.source.spec.ExtendedElementAggregator;
-import org.rookit.auto.source.spec.ExtendedElementSpecAggregatorFactory;
 import org.rookit.auto.javax.naming.NamingFactory;
-import org.rookit.convention.guice.MetaType;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.method.MethodSourceFactory;
+import org.rookit.auto.javax.aggregator.ExtendedElementAggregator;
+import org.rookit.auto.javax.aggregator.ExtendedElementAggregatorFactory;
 import org.rookit.convention.auto.metatype.guice.MetaTypeAPI;
+import org.rookit.convention.guice.MetaType;
 import org.rookit.utils.primitive.VoidUtils;
 
-final class ConfigureMethodAggregatorFactory implements ExtendedElementSpecAggregatorFactory<MethodSpec> {
+final class ConfigureMethodAggregatorFactory implements ExtendedElementAggregatorFactory<MethodSource> {
 
     private final NamingFactory apiNamingFactory;
     private final NamingFactory implNamingFactory;
-    private final MethodSpecFactory methodSpecFactory;
+    private final MethodSourceFactory methodFactory;
     private final VoidUtils voidUtils;
 
     @Inject
     private ConfigureMethodAggregatorFactory(@MetaTypeAPI final NamingFactory apiNamingFactory,
                                              @MetaType final NamingFactory implNamingFactory,
-                                             final MethodSpecFactory methodSpecFactory,
+                                             final MethodSourceFactory methodFactory,
                                              final VoidUtils voidUtils) {
         this.apiNamingFactory = apiNamingFactory;
         this.implNamingFactory = implNamingFactory;
-        this.methodSpecFactory = methodSpecFactory;
+        this.methodFactory = methodFactory;
         this.voidUtils = voidUtils;
     }
 
     @Override
-    public ExtendedElementAggregator<MethodSpec> create() {
+    public ExtendedElementAggregator<MethodSource> create() {
         return new ConfigureMethodAggregator(this.apiNamingFactory, this.implNamingFactory,
-                this.methodSpecFactory, this, this.voidUtils);
+                                             this.methodFactory, this, this.voidUtils, codeFactory);
     }
 
     @Override
@@ -60,7 +60,7 @@ final class ConfigureMethodAggregatorFactory implements ExtendedElementSpecAggre
         return "ConfigureMethodAggregatorFactory{" +
                 "apiNamingFactory=" + this.apiNamingFactory +
                 ", implNamingFactory=" + this.implNamingFactory +
-                ", methodSpecFactory=" + this.methodSpecFactory +
+                ", methodFactory=" + this.methodFactory +
                 ", voidUtils=" + this.voidUtils +
                 "}";
     }

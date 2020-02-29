@@ -25,9 +25,10 @@ import com.google.common.collect.ImmutableSet;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
+import org.rookit.auto.javax.naming.Identifier;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.auto.javax.parameter.ExtendedTypeParameterElement;
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.parameter.ExtendedTypeParameterElement;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.convention.auto.property.Property;
 import org.rookit.utils.optional.Optional;
 
@@ -58,7 +59,6 @@ final class PropertyOverridingExtendedTypeElement implements ConventionTypeEleme
         return this.delegate.packageInfo();
     }
 
-    @SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType") // already immutable
     @Override
     public Collection<Property> properties() {
         return this.overriddenProperties;
@@ -102,6 +102,11 @@ final class PropertyOverridingExtendedTypeElement implements ConventionTypeEleme
     @Override
     public StreamEx<ConventionTypeElement> conventionInterfaces() {
         return this.delegate.conventionInterfaces();
+    }
+
+    @Override
+    public Identifier identifier() {
+        return this.delegate.identifier();
     }
 
     @Override

@@ -22,7 +22,7 @@
 package org.rookit.auto.javapoet;
 
 import com.squareup.javapoet.AnnotationSpec;
-import org.rookit.auto.source.MutableAnnotatable;
+import org.rookit.auto.source.type.annotation.MutableAnnotatable;
 
 import java.util.Collection;
 

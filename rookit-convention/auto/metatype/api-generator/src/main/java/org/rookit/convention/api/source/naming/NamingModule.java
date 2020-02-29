@@ -26,17 +26,11 @@ import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.squareup.javapoet.TypeVariableName;
-import org.rookit.auto.javapoet.naming.JavaPoetNamingFactory;
-import org.rookit.auto.javapoet.naming.JavaPoetParameterResolver;
-import org.rookit.auto.javapoet.naming.LeafSingleParameterResolver;
-import org.rookit.convention.api.guice.Container;
+import org.rookit.auto.javax.naming.NamingFactory;
+import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.convention.auto.config.MetatypeApiConfig;
 import org.rookit.convention.auto.metatype.guice.MetaTypeAPI;
 import org.rookit.convention.auto.metatype.guice.PartialMetaTypeAPI;
-import org.rookit.utils.guice.Self;
-
-import static org.rookit.auto.guice.RookitAutoModuleTools.bindNaming;
 
 @SuppressWarnings("MethodMayBeStatic")
 public final class NamingModule extends AbstractModule {
@@ -51,32 +45,21 @@ public final class NamingModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bindNaming(binder(), MetaTypeAPI.class).toProvider(MetatypeAPIJavaPoetNamingFactoryProvider.class)
+        bind(NamingFactory.class).annotatedWith(MetaTypeAPI.class)
+                .toProvider(MetatypeAPIJavaPoetNamingFactoryProvider.class)
                 .in(Singleton.class);
-        bindNaming(binder(), PartialMetaTypeAPI.class).toProvider(PartialMetatypeAPIJavaPoetNamingFactoryProvider.class)
+        bind(NamingFactory.class).annotatedWith(PartialMetaTypeAPI.class)
+                .toProvider(PartialMetatypeAPIJavaPoetNamingFactoryProvider.class)
                 .in(Singleton.class);
 
-        bind(JavaPoetParameterResolver.class).annotatedWith(PartialMetaTypeAPI.class)
-                .to(PartialMetaTypeParameterResolver.class).in(Singleton.class);
-
-        bind(JavaPoetParameterResolver.class).annotatedWith(Container.class)
-                .to(PropertyParameterResolver.class).in(Singleton.class);
-
-        bind(JavaPoetNamingFactory.class).to(Key.get(JavaPoetNamingFactory.class, MetaTypeAPI.class));
+        bind(NamingFactory.class).to(Key.get(NamingFactory.class, MetaTypeAPI.class));
     }
 
     @Provides
     @Singleton
     @MetaTypeAPI
-    TypeVariableName parameterName(final MetatypeApiConfig config) {
+    TypeVariableSource parameterName(final MetatypeApiConfig config) {
         return config.parameterName();
     }
 
-    @Singleton
-    @Provides
-    @MetaTypeAPI
-    JavaPoetParameterResolver metaTypeResolver(@Self final JavaPoetNamingFactory entity,
-                                               @PartialMetaTypeAPI final JavaPoetNamingFactory partialEntity) {
-        return LeafSingleParameterResolver.create(entity, partialEntity);
-    }
 }

@@ -21,10 +21,10 @@
  ******************************************************************************/
 package org.rookit.auto.source.type.annotation;
 
-import org.rookit.auto.source.CodeSource;
+import org.rookit.auto.source.arbitrary.ArbitraryCodeSource;
 
 public interface MutableAnnotationSource extends AnnotationSource {
 
-    MutableAnnotationSource addMember(String memberName, CodeSource memberValue);
+    MutableAnnotationSource addMember(String memberName, ArbitraryCodeSource memberValue);
 
 }

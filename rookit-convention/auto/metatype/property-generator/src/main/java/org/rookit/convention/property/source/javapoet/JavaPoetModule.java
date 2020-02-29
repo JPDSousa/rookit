@@ -26,24 +26,26 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterSpec;
-import com.squareup.javapoet.TypeVariableName;
+import com.google.inject.util.Modules;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.source.spec.SpecFactory;
-import org.rookit.auto.source.spec.parameter.Parameter;
-import org.rookit.auto.spec.AutoSpecFactories;
+import org.rookit.auto.javapoet.method.MethodModule;
+import org.rookit.auto.source.parameter.ParameterSource;
+import org.rookit.auto.source.parameter.ParameterSourceFactory;
+import org.rookit.auto.source.type.parameter.TypeParameterSourceFactory;
+import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
+import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.convention.auto.config.NamingConfig;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.convention.guice.MetaType;
 import org.rookit.convention.property.guice.PropertyModel;
 
-import java.util.Set;
-
 @SuppressWarnings("MethodMayBeStatic")
 public final class JavaPoetModule extends AbstractModule {
 
-    private static final Module MODULE = new JavaPoetModule();
+    private static final Module MODULE = Modules.combine(
+            new JavaPoetModule(),
+            MethodModule.getModule()
+    );
 
     public static Module getModule() {
         return MODULE;
@@ -54,7 +56,7 @@ public final class JavaPoetModule extends AbstractModule {
     @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
     @Override
     protected void configure() {
-        bind(new TypeLiteral<ConventionTypeElementVisitor<StreamEx<Parameter<ParameterSpec>>, Void>>() {})
+        bind(new TypeLiteral<ConventionTypeElementVisitor<StreamEx<ParameterSource>, Void>>() {})
                 .annotatedWith(PropertyModel.class)
                 .to(MetaTypePropertyJavaPoetParameterVisitor.class).in(Singleton.class);
     }
@@ -62,20 +64,23 @@ public final class JavaPoetModule extends AbstractModule {
     @Provides
     @Singleton
     @PropertyModel(includeAnnotations = true)
-    ConventionTypeElementVisitor<StreamEx<Parameter<ParameterSpec>>, Void> parameterFactoryWithAnnotations(
-            @MetaType(includeAnnotations = true) final ConventionTypeElementVisitor<
-                    StreamEx<ParameterSpec>, Void> baseFactory,
-            @MetaType final TypeVariableName variableName,
+    ConventionTypeElementVisitor<StreamEx<ParameterSource>, Void> parameterFactoryWithAnnotations(
+            final TypeReferenceSourceFactory referenceFactory,
+            final ParameterSourceFactory parameterFactory,
+            @MetaType(includeAnnotations = true)
+            final ConventionTypeElementVisitor<StreamEx<ParameterSource>, Void> baseVisitor,
+            final TypeParameterSourceFactory typeParameterFactory,
+            @MetaType final TypeVariableSource variableSource,
             final NamingConfig namingConfig) {
-        return new MetaTypePropertyJavaPoetParameterVisitor(baseFactory, variableName, namingConfig);
+
+        return new MetaTypePropertyJavaPoetParameterVisitor(
+                referenceFactory,
+                parameterFactory,
+                baseVisitor,
+                typeParameterFactory,
+                variableSource,
+                namingConfig
+        );
     }
 
-    @Provides
-    @Singleton
-    @PropertyModel
-    SpecFactory<MethodSpec> metaTypePropertyMethodFactory(
-            final AutoSpecFactories autoFactories,
-            @PropertyModel final Set<SpecFactory<MethodSpec>> methodFactories) {
-        return autoFactories.createMultiFactory(methodFactories);
-    }
 }

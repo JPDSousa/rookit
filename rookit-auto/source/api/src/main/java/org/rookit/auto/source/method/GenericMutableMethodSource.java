@@ -23,9 +23,10 @@ package org.rookit.auto.source.method;
 
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
-import org.rookit.auto.source.MutableAnnotatable;
-import org.rookit.auto.source.MutableModifiable;
-import org.rookit.auto.source.SupportsTypeVariable;
+import org.rookit.auto.source.arbitrary.ArbitraryCodeSource;
+import org.rookit.auto.source.type.annotation.MutableAnnotatable;
+import org.rookit.auto.source.modifier.MutableModifiable;
+import org.rookit.auto.source.type.variable.SupportsTypeVariable;
 import org.rookit.auto.source.parameter.ParameterSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
 
@@ -71,6 +72,8 @@ public interface GenericMutableMethodSource<S extends GenericMutableMethodSource
 
     S addStatement(String statement, List<Object> args);
 
+    S addStatement(ArbitraryCodeSource statement);
+
     S varArgs(boolean varArgs);
 
     S addThrownType(TypeReferenceSource exceptionType);
@@ -81,5 +84,7 @@ public interface GenericMutableMethodSource<S extends GenericMutableMethodSource
         exceptionTypes.forEach(this::addThrownType);
         return self();
     }
+
+    S returnStaticField(TypeReferenceSource returnType, CharSequence fieldName);
 
 }

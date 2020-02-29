@@ -72,10 +72,6 @@ final class JavaPoetTypeSourceFactory implements TypeSourceFactory {
         this.separator = separator;
     }
 
-    @Override
-    public TypeSource createClass(final Identifier identifier) {
-        return createMutableClass(identifier);
-    }
 
     @Override
     public MutableTypeSource createMutableClass(final Identifier identifier) {
@@ -84,11 +80,6 @@ final class JavaPoetTypeSourceFactory implements TypeSourceFactory {
 
     private ClassName fromIdentifier(final Identifier identifier) {
         return ClassName.get(identifier.packageElement().getQualifiedName().toString(), identifier.name());
-    }
-
-    @Override
-    public TypeSource createInterface(final Identifier identifier) {
-        return createMutableInterface(identifier);
     }
 
     @Override

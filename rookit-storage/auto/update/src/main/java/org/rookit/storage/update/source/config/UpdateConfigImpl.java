@@ -21,10 +21,11 @@
  ******************************************************************************/
 package org.rookit.storage.update.source.config;
 
-import com.squareup.javapoet.TypeVariableName;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.utils.object.DynamicObject;
+import org.rookit.auto.source.type.variable.TypeVariableSource;
+import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
 import org.rookit.storage.api.config.UpdateConfig;
+import org.rookit.utils.object.DynamicObject;
 import org.rookit.utils.string.template.Template1;
 import org.rookit.utils.string.template.TemplateFactory;
 
@@ -35,22 +36,26 @@ final class UpdateConfigImpl implements UpdateConfig {
     private final Template1 partialEntityTemplate;
     private final ExtendedPackageElement basePackage;
     private final TemplateFactory templateFactory;
+    private final TypeVariableSourceFactory typeVariableFactory;
 
-    UpdateConfigImpl(final DynamicObject configuration,
-                     final String name,
-                     final Template1 pEntityTemplate,
-                     final ExtendedPackageElement basePackage,
-                     final TemplateFactory templateFactory) {
+    UpdateConfigImpl(
+            final DynamicObject configuration,
+            final String name,
+            final Template1 pEntityTemplate,
+            final ExtendedPackageElement basePackage,
+            final TemplateFactory templateFactory,
+            final TypeVariableSourceFactory typeVariableFactory) {
         this.configuration = configuration;
         this.name = name;
         this.partialEntityTemplate = pEntityTemplate;
         this.basePackage = basePackage;
         this.templateFactory = templateFactory;
+        this.typeVariableFactory = typeVariableFactory;
     }
 
     @Override
-    public TypeVariableName parameterName() {
-        return TypeVariableName.get(this.configuration.getString("parameterName"));
+    public TypeVariableSource parameterName() {
+        return this.typeVariableFactory.createFromName(this.configuration.getString("parameterName"));
     }
 
     @Override
@@ -83,14 +88,4 @@ final class UpdateConfigImpl implements UpdateConfig {
         return this.configuration.getBoolean("enabled");
     }
 
-    @Override
-    public String toString() {
-        return "UpdateConfigImpl{" +
-                "configuration=" + this.configuration +
-                ", name='" + this.name + '\'' +
-                ", partialEntityTemplate=" + this.partialEntityTemplate +
-                ", basePackage=" + this.basePackage +
-                ", templateFactory=" + this.templateFactory +
-                "}";
-    }
 }

@@ -22,7 +22,7 @@
 package org.rookit.convention.auto.property;
 
 import com.google.common.base.MoreObjects;
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 
 final class NameProperty extends AbstractProperty {
 

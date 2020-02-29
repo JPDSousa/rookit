@@ -24,10 +24,9 @@ package org.rookit.storage.update.source.identifier;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
+import org.rookit.auto.javax.naming.IdentifierFactory;
 import org.rookit.storage.guice.PartialUpdate;
 import org.rookit.storage.guice.Update;
-
-import static org.rookit.auto.guice.RookitAutoModuleTools.bindIdentifierFactory;
 
 public final class IdentifierModule extends AbstractModule {
 
@@ -41,10 +40,11 @@ public final class IdentifierModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bindIdentifierFactory(binder(), Update.class).toProvider(UpdateJavaPoetIdentifierFactoryProvider.class)
+        bind(IdentifierFactory.class).annotatedWith(Update.class)
+                .toProvider(UpdateJavaPoetIdentifierFactoryProvider.class)
                 .in(Singleton.class);
-        bindIdentifierFactory(binder(), PartialUpdate.class)
-                .toProvider(PartialUpdateJavaPoetIdentifierFactoryProvider.class).in(Singleton.class);
+        bind(IdentifierFactory.class).annotatedWith(PartialUpdate.class)
+                .toProvider(PartialUpdateIdentifierFactoryProvider.class).in(Singleton.class);
     }
 
 }

@@ -24,7 +24,7 @@ package org.rookit.convention.module.source.method;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
-import org.rookit.auto.source.spec.ExtendedElementSpecAggregatorFactory;
+import org.rookit.auto.javax.aggregator.ExtendedElementAggregatorFactory;
 
 public final class MethodModule extends AbstractModule {
 
@@ -38,7 +38,7 @@ public final class MethodModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(ExtendedElementSpecAggregatorFactory.class)
+        bind(ExtendedElementAggregatorFactory.class)
                 .to(ConfigureMethodAggregatorFactory.class).in(Singleton.class);;
     }
 }

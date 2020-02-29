@@ -47,7 +47,7 @@ final class JavaPoetReferenceFactory implements TypeReferenceSourceFactory {
     }
 
     @Override
-    public TypeReferenceSource create(final Identifier identifier) {
+    public TypeReferenceSource fromIdentifier(final Identifier identifier) {
 
         final ClassName className = ClassName.get(identifier.packageElement()
                                                           .getQualifiedName()
@@ -58,7 +58,7 @@ final class JavaPoetReferenceFactory implements TypeReferenceSourceFactory {
     }
 
     @Override
-    public TypeReferenceSource create(final Class<?> clazz) {
+    public TypeReferenceSource fromClass(final Class<?> clazz) {
 
         return new JavaPoetReference(ClassName.get(clazz));
     }

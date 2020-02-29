@@ -21,38 +21,42 @@
  ******************************************************************************/
 package org.rookit.convention.auto.javapoet.type;
 
-import com.squareup.javapoet.MethodSpec;
-import org.rookit.auto.javapoet.naming.JavaPoetParameterResolver;
-import org.rookit.auto.javapoet.type.JavaPoetTypeSourceFactory;
+import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
-import org.rookit.auto.source.spec.SpecFactory;
+import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.type.TypeSourceFactory;
+import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
 import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
-
-import java.util.Collection;
-import java.util.stream.Collectors;
+import org.rookit.utils.primitive.VoidUtils;
 
 final class PropertyBasedTypeSourceFactory extends AbstractInterfaceTypeSourceFactory {
 
-    private final SpecFactory<MethodSpec> specFactory;
+    private final ExtendedElementVisitor<StreamEx<MethodSource>, Void> visitor;
+    private final VoidUtils voidUtils;
 
-    PropertyBasedTypeSourceFactory(final JavaPoetParameterResolver parameterResolver,
-                                   final JavaPoetTypeSourceFactory adapter,
-                                   final SpecFactory<MethodSpec> specFactory,
-                                   final ConventionTypeElementFactory elementFactory) {
-        super(parameterResolver, adapter, elementFactory);
-        this.specFactory = specFactory;
+    PropertyBasedTypeSourceFactory(
+            final TypeVariableSourceFactory parameterResolver,
+            final ExtendedElementVisitor<StreamEx<MethodSource>, Void> visitor,
+            final ConventionTypeElementFactory elementFactory,
+            final VoidUtils voidUtils,
+            final TypeSourceFactory typeFactory) {
+        super(parameterResolver, elementFactory, visitor, typeFactory, voidUtils);
+        this.visitor = visitor;
+        this.voidUtils = voidUtils;
     }
 
     @Override
-    protected Collection<MethodSpec> methodsFor(final ExtendedTypeElement element) {
-        return this.specFactory.create(element)
-                .collect(Collectors.toSet());
+    protected Iterable<MethodSource> methodsFor(final ExtendedTypeElement element) {
+        return element.accept(this.visitor, this.voidUtils.returnVoid());
     }
 
     @Override
     public String toString() {
         return "PropertyBasedTypeSourceFactory{" +
-                "specFactory=" + this.specFactory +
+                "visitor=" + this.visitor +
+                ", voidUtils=" + this.voidUtils +
                 "} " + super.toString();
     }
+
 }

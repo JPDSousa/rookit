@@ -28,7 +28,7 @@ import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import one.util.streamex.EntryStream;
 import org.rookit.auto.source.CodeSource;
-import org.rookit.auto.source.TypeSourceContainer;
+import org.rookit.auto.source.type.container.TypeSourceContainer;
 import org.rookit.auto.source.CodeSourceVisitor;
 import org.rookit.auto.source.arbitrary.ArbitraryCodeSource;
 import org.rookit.auto.source.arbitrary.ArbitraryCodeSourceAdapter;

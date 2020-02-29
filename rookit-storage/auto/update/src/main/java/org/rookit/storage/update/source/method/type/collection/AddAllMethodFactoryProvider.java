@@ -23,57 +23,47 @@ package org.rookit.storage.update.source.method.type.collection;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterSpec;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javapoet.method.MethodSpecFactory;
-import org.rookit.convention.auto.javapoet.method.ConventionTypeElementMethodSpecVisitors;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.method.MethodSourceFactory;
+import org.rookit.auto.source.parameter.ParameterSource;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.convention.auto.property.Property;
-import org.rookit.storage.guice.PartialUpdate;
+import org.rookit.convention.auto.source.method.ConventionTypeElementMethodSourceVisitors;
 import org.rookit.storage.update.source.guice.AddAll;
 import org.rookit.utils.string.template.Template1;
 
 import java.util.Collection;
 import java.util.function.Function;
 
-final class AddAllMethodFactoryProvider implements Provider<ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void>> {
+final class AddAllMethodFactoryProvider implements Provider<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>> {
 
     private final Template1 addAllTemplate;
-    private final MethodSpecFactory methodSpecFactory;
-    private final Function<Property, Collection<ParameterSpec>> parameterResolver;
-    private final ConventionTypeElementMethodSpecVisitors visitors;
+    private final MethodSourceFactory methodFactory;
+    private final Function<Property, Collection<ParameterSource>> parameterResolver;
+    private final ConventionTypeElementMethodSourceVisitors visitors;
 
     @Inject
     private AddAllMethodFactoryProvider(
             @AddAll final Template1 addAllTemplate,
-            @PartialUpdate final MethodSpecFactory methodSpecFactory,
+            final MethodSourceFactory methodFactory,
             @org.rookit.storage.update.source
-                    .guice.Collection final Function<Property, Collection<ParameterSpec>> parameterResolver,
-            final ConventionTypeElementMethodSpecVisitors visitors) {
+                    .guice.Collection final Function<Property, Collection<ParameterSource>> parameterResolver,
+            final ConventionTypeElementMethodSourceVisitors visitors) {
+
         this.addAllTemplate = addAllTemplate;
-        this.methodSpecFactory = methodSpecFactory;
+        this.methodFactory = methodFactory;
         this.parameterResolver = parameterResolver;
         this.visitors = visitors;
     }
 
     @Override
-    public ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void> get() {
+    public ConventionTypeElementVisitor<StreamEx<MethodSource>, Void> get() {
         return this.visitors.<Void>
-                templateMethodSpecVisitorBuilder(
-                this.methodSpecFactory,
+                templateMethodSourceVisitorBuilder(
+                this.methodFactory,
                 this.addAllTemplate,
                 this.parameterResolver
         ).build();
-    }
-
-    @Override
-    public String toString() {
-        return "AddAllMethodFactoryProvider{" +
-                "addAllTemplate=" + this.addAllTemplate +
-                ", methodSpecFactory=" + this.methodSpecFactory +
-                ", parameterResolver=" + this.parameterResolver +
-                ", visitors=" + this.visitors +
-                "}";
     }
 }

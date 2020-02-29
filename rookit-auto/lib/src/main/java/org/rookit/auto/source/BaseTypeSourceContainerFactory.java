@@ -23,6 +23,8 @@ package org.rookit.auto.source;
 
 import com.google.inject.Inject;
 import org.rookit.auto.source.type.TypeSource;
+import org.rookit.auto.source.type.container.TypeSourceContainer;
+import org.rookit.auto.source.type.container.TypeSourceContainerFactory;
 import org.rookit.utils.primitive.VoidUtils;
 
 import java.util.Collection;
@@ -37,7 +39,7 @@ final class BaseTypeSourceContainerFactory implements TypeSourceContainerFactory
     }
 
     @Override
-    public <T extends TypeSource> TypeSourceContainer<T> create(final Collection<T> sources) {
+    public <T extends TypeSource> TypeSourceContainer<T> createFromTypeSource(final Collection<T> sources) {
         if (sources.isEmpty()) {
             return empty();
         }

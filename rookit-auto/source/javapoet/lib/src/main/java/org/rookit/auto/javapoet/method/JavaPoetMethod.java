@@ -22,6 +22,7 @@
 package org.rookit.auto.javapoet.method;
 
 import com.google.common.base.Joiner;
+import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeName;
@@ -29,6 +30,8 @@ import com.squareup.javapoet.TypeVariableName;
 import org.rookit.auto.javapoet.JavaPoetMutableAnnotatable;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
+import org.rookit.auto.source.arbitrary.ArbitraryCodeSource;
+import org.rookit.auto.source.arbitrary.ArbitraryCodeSourceAdapter;
 import org.rookit.auto.source.method.MutableMethodSource;
 import org.rookit.auto.source.parameter.ParameterSource;
 import org.rookit.auto.source.parameter.ParameterSourceAdapter;
@@ -61,6 +64,8 @@ final class JavaPoetMethod implements MutableMethodSource {
     private final TypeReferenceSourceAdapter<TypeName> referenceAdapter;
     private final TypeReferenceSourceFactory referenceFactory;
 
+    private final ArbitraryCodeSourceAdapter<CodeBlock> codeAdapter;
+
     private final JavaPoetMutableAnnotatable annotatable;
 
     private final Set<Modifier> modifiers;
@@ -73,10 +78,12 @@ final class JavaPoetMethod implements MutableMethodSource {
             final TypeVariableSourceAdapter<TypeVariableName> typeVariableAdapter,
             final TypeReferenceSourceAdapter<TypeName> referenceAdapter,
             final TypeReferenceSourceFactory referenceFactory,
+            final ArbitraryCodeSourceAdapter<CodeBlock> codeAdapter,
             final JavaPoetMutableAnnotatable annotatable,
             final Set<Modifier> modifiers,
             final Set<TypeReferenceSource> thrownTypes) {
         this.builder = builder;
+        this.codeAdapter = codeAdapter;
         this.annotatable = annotatable;
         this.parameterAdapter = parameterAdapter;
         this.typeVariableAdapter = typeVariableAdapter;
@@ -139,8 +146,7 @@ final class JavaPoetMethod implements MutableMethodSource {
     @Override
     public MutableMethodSource returnInstanceField(final TypeReferenceSource fieldType, final CharSequence fieldName) {
 
-        final TypeName typeName = this.referenceAdapter.adaptTypeReference(fieldType);
-        this.builder.returns(typeName);
+        withReturnType(fieldType);
         this.builder.addStatement("return this.$L", fieldName);
         return this;
     }
@@ -202,6 +208,13 @@ final class JavaPoetMethod implements MutableMethodSource {
     }
 
     @Override
+    public MutableMethodSource addStatement(final ArbitraryCodeSource statement) {
+
+        this.builder.addStatement(this.codeAdapter.adaptArbitraryCodeBlock(statement));
+        return self();
+    }
+
+    @Override
     public MutableMethodSource varArgs(final boolean varArgs) {
         this.builder.varargs(varArgs);
         return self();
@@ -216,6 +229,14 @@ final class JavaPoetMethod implements MutableMethodSource {
     @Override
     public MutableMethodSource addThrownType(final ExtendedTypeMirror exceptionType) {
         this.thrownTypes.add(this.referenceFactory.create(exceptionType));
+        return self();
+    }
+
+    @Override
+    public MutableMethodSource returnStaticField(final TypeReferenceSource returnType, final CharSequence fieldName) {
+
+        withReturnType(returnType);
+        this.builder.addStatement("return $L", fieldName);
         return self();
     }
 
@@ -283,19 +304,6 @@ final class JavaPoetMethod implements MutableMethodSource {
 
         this.builder.addTypeVariable(this.typeVariableAdapter.adaptTypeVariable(typeVariable));
         return this;
-    }
-
-    @Override
-    public String toString() {
-        return "JavaPoetMethod{" +
-                ", parameterAdapter=" + this.parameterAdapter +
-                ", typeVariableAdapter=" + this.typeVariableAdapter +
-                ", referenceAdapter=" + this.referenceAdapter +
-                ", referenceFactory=" + this.referenceFactory +
-                ", annotatable=" + this.annotatable +
-                ", modifiers=" + this.modifiers +
-                ", thrownTypes=" + this.thrownTypes +
-                "}";
     }
 
 }

@@ -73,7 +73,7 @@ public final class ConfigurationModule extends AbstractModule {
                 config.basePackage(),
                 config.partialEntityTemplate(),
                 name,
-                templateFactory);
+                templateFactory, typeVariableFactory);
     }
 
 }

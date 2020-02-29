@@ -23,9 +23,9 @@ package org.rookit.convention.auto.module;
 
 import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.naming.Identifier;
-import org.rookit.auto.source.type.MutableTypeSource;
+import org.rookit.auto.source.type.TypeSource;
 
-public interface ModuleTypeSource<M, F> extends MutableTypeSource<M, F> {
+public interface ModuleTypeSource extends TypeSource {
 
     void addModule(Identifier identifier);
 

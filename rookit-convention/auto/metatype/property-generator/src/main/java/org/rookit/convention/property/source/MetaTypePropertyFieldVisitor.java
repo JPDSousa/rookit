@@ -22,59 +22,60 @@
 package org.rookit.convention.property.source;
 
 import com.google.inject.Inject;
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.ParameterizedTypeName;
-import com.squareup.javapoet.TypeVariableName;
 import one.util.streamex.StreamEx;
+import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.javax.visitor.StreamExtendedElementVisitor;
-import org.rookit.auto.javax.type.ExtendedTypeElement;
+import org.rookit.auto.source.field.FieldSource;
+import org.rookit.auto.source.field.FieldSourceFactory;
+import org.rookit.auto.source.type.parameter.TypeParameterSource;
+import org.rookit.auto.source.type.parameter.TypeParameterSourceFactory;
+import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
+import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.convention.auto.config.NamingConfig;
 import org.rookit.convention.guice.MetaType;
 
 import java.util.function.Function;
 
-import static javax.lang.model.element.Modifier.FINAL;
-import static javax.lang.model.element.Modifier.PRIVATE;
-
-final class MetaTypePropertyFieldVisitor implements StreamExtendedElementVisitor<FieldSpec, Void> {
+final class MetaTypePropertyFieldVisitor implements StreamExtendedElementVisitor<FieldSource, Void> {
 
     private final NamingConfig namingConfig;
-    private final TypeVariableName variableName;
-    private final ExtendedElementVisitor<StreamEx<FieldSpec>, Void> delegate;
+    private final TypeVariableSource variableName;
+    private final ExtendedElementVisitor<StreamEx<FieldSource>, Void> delegate;
+    private final TypeParameterSourceFactory parameterFactory;
+    private final TypeReferenceSourceFactory referenceFactory;
+    private final FieldSourceFactory fieldFactory;
 
     @Inject
-    private MetaTypePropertyFieldVisitor(final NamingConfig namingConfig,
-                                         @MetaType final TypeVariableName variableName,
-                                         @MetaType final ExtendedElementVisitor<StreamEx<FieldSpec>, Void> delegate) {
+    private MetaTypePropertyFieldVisitor(
+            final NamingConfig namingConfig,
+            @MetaType final TypeVariableSource variableName,
+            @MetaType final ExtendedElementVisitor<StreamEx<FieldSource>, Void> delegate,
+            final TypeParameterSourceFactory parameterFactory,
+            final TypeReferenceSourceFactory referenceFactory,
+            final FieldSourceFactory fieldFactory) {
         this.namingConfig = namingConfig;
         this.variableName = variableName;
         this.delegate = delegate;
+        this.parameterFactory = parameterFactory;
+        this.referenceFactory = referenceFactory;
+        this.fieldFactory = fieldFactory;
     }
 
     @Override
-    public StreamEx<FieldSpec> visitType(final ExtendedTypeElement extendedType, final Void parameter) {
-        final ParameterizedTypeName function = ParameterizedTypeName.get(
-                ClassName.get(Function.class),
+    public StreamEx<FieldSource> visitType(final ExtendedTypeElement extendedType, final Void parameter) {
+        final TypeParameterSource function = this.parameterFactory.create(
+                Function.class,
                 this.variableName,
-                ClassName.get(extendedType)
+                this.referenceFactory.create(extendedType)
         );
 
         // TODO streams are meant to be lazy, and as such we shouldn't createMutable them eagerly
-        return StreamEx.of(
-                FieldSpec.builder(String.class, this.namingConfig.propertyName(), PRIVATE, FINAL).build(),
-                FieldSpec.builder(function, this.namingConfig.getter(), PRIVATE, FINAL).build()
+        return StreamEx.<FieldSource>of(
+                this.fieldFactory.createMutable(this.referenceFactory.fromClass(String.class), this.namingConfig.propertyName()),
+                this.fieldFactory.createMutable(function, this.namingConfig.getter())
         )
-                .append(this.delegate.visitType(extendedType, parameter));
+                .append(extendedType.accept(this.delegate, parameter));
     }
 
-    @Override
-    public String toString() {
-        return "MetaTypePropertyFieldVisitor{" +
-                "namingConfig=" + this.namingConfig +
-                ", variableName=" + this.variableName +
-                ", delegate=" + this.delegate +
-                "}";
-    }
 }

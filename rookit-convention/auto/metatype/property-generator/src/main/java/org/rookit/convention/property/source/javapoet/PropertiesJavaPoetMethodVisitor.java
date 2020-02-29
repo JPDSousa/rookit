@@ -22,49 +22,49 @@
 package org.rookit.convention.property.source.javapoet;
 
 import com.google.inject.Inject;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterSpec;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.javax.visitor.StreamExtendedElementVisitor;
-import org.rookit.auto.source.spec.parameter.Parameter;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.method.MethodSourceFactory;
+import org.rookit.auto.source.parameter.ParameterSource;
 import org.rookit.convention.property.guice.PropertyModel;
 
-import static javax.lang.model.element.Modifier.PUBLIC;
+final class PropertiesJavaPoetMethodVisitor<P> implements StreamExtendedElementVisitor<MethodSource, P> {
 
-final class PropertiesJavaPoetMethodVisitor<P> implements StreamExtendedElementVisitor<MethodSpec, P> {
-
-    private final ExtendedElementVisitor<StreamEx<Parameter<ParameterSpec>>, P> parameterFactory;
+    private final MethodSourceFactory methodSourceFactory;
+    private final ExtendedElementVisitor<StreamEx<ParameterSource>, P> parameterFactory;
 
     @Inject
     private PropertiesJavaPoetMethodVisitor(
-            @PropertyModel final ExtendedElementVisitor<StreamEx<Parameter<ParameterSpec>>, P> parameterFactory) {
+            final MethodSourceFactory methodSourceFactory,
+            @PropertyModel final ExtendedElementVisitor<StreamEx<ParameterSource>, P> parameterFactory) {
+        this.methodSourceFactory = methodSourceFactory;
         this.parameterFactory = parameterFactory;
     }
 
     @Override
-    public StreamEx<MethodSpec> visitType(final ExtendedTypeElement extendedType, final P parameter) {
-        return this.parameterFactory.visitType(extendedType, parameter)
+    public StreamEx<MethodSource> visitType(final ExtendedTypeElement extendedType, final P parameter) {
+        return extendedType.accept(this.parameterFactory, parameter)
                 // TODO this filter is hammerish
-                .filter(Parameter::isSuper)
-                .map(Parameter::spec)
+                .filter(ParameterSource::isToBeUsedInSuperclass)
                 .map(this::createGetter);
     }
 
-    private MethodSpec createGetter(final ParameterSpec parameter) {
-        return MethodSpec.methodBuilder(parameter.name)
-                .addModifiers(PUBLIC)
-                .addAnnotation(Override.class)
-                .returns(parameter.type)
-                .addStatement("return this.$L", parameter.name)
-                .build();
+    private MethodSource createGetter(final ParameterSource parameter) {
+        return this.methodSourceFactory.createMutableMethod(parameter.name())
+                .makePublic()
+                .override()
+                .returnInstanceField(parameter.type(), parameter.name());
     }
 
     @Override
     public String toString() {
         return "PropertiesJavaPoetMethodVisitor{" +
-                "parameterFactory=" + this.parameterFactory +
+                "methodSourceFactory=" + this.methodSourceFactory +
+                ", parameterFactory=" + this.parameterFactory +
                 "}";
     }
+
 }

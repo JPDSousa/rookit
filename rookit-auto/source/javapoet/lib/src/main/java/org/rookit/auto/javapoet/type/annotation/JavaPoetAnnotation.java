@@ -25,14 +25,13 @@ import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.CodeBlock;
 import org.rookit.auto.source.CodeSource;
 import org.rookit.auto.source.CodeSourceVisitor;
+import org.rookit.auto.source.arbitrary.ArbitraryCodeSource;
 import org.rookit.auto.source.type.annotation.MutableAnnotationSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
 import org.rookit.utils.primitive.VoidUtils;
 
-import javax.annotation.processing.Filer;
 import java.util.Collections;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 final class JavaPoetAnnotation implements MutableAnnotationSource {
 
@@ -62,7 +61,7 @@ final class JavaPoetAnnotation implements MutableAnnotationSource {
     }
 
     @Override
-    public MutableAnnotationSource addMember(final String memberName, final CodeSource memberValue) {
+    public MutableAnnotationSource addMember(final String memberName, final ArbitraryCodeSource memberValue) {
 
         this.builder.addMember(memberName, memberValue.accept(this.javaPoetVisitor, this.voidUtils.returnVoid()));
         this.members.put(memberName, memberValue);

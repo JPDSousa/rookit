@@ -22,28 +22,29 @@
 package org.rookit.convention.module.source.aggregator.property;
 
 import com.google.inject.Inject;
-import com.squareup.javapoet.MethodSpec;
+import org.rookit.auto.javax.aggregator.ExtendedElementAggregatorFactory;
+import org.rookit.auto.javax.aggregator.ExtendedTypeElementAggregator;
 import org.rookit.auto.javax.guice.QualifiedName;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
-import org.rookit.auto.source.spec.ExtendedElementAggregator;
-import org.rookit.convention.auto.module.ModuleExtendedPropertyAggregatorFactory;
-import org.rookit.convention.auto.module.ModuleExtendedPropertyMethodAggregatorFactory;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.convention.auto.property.aggregator.ExtendedPropertyAggregatorFactory;
 import org.rookit.utils.primitive.VoidUtils;
 
 import javax.annotation.processing.Messager;
 import javax.lang.model.element.Name;
 import java.util.Collection;
 
-final class ModuleExtendedPropertyAggregatorFactoryImpl implements ModuleExtendedPropertyAggregatorFactory<MethodSpec> {
+final class ModuleExtendedPropertyAggregatorFactoryImpl implements ExtendedElementAggregatorFactory<
+        Collection<MethodSource>, ExtendedTypeElementAggregator<Collection<MethodSource>>> {
 
-    private final ModuleExtendedPropertyMethodAggregatorFactory aggregatorFactory;
+    private final ExtendedPropertyAggregatorFactory<Collection<MethodSource>> aggregatorFactory;
     private final VoidUtils voidUtils;
     private final Messager messager;
     private final ExtendedElementVisitor<Name, Void> qualifiedNameVisitor;
 
     @Inject
     private ModuleExtendedPropertyAggregatorFactoryImpl(
-            final ModuleExtendedPropertyMethodAggregatorFactory aggregatorFactory,
+            final ExtendedPropertyAggregatorFactory<Collection<MethodSource>> aggregatorFactory,
             final VoidUtils voidUtils,
             final Messager messager,
             @QualifiedName final ExtendedElementVisitor<Name, Void> qualifiedNameVisitor) {
@@ -54,7 +55,7 @@ final class ModuleExtendedPropertyAggregatorFactoryImpl implements ModuleExtende
     }
 
     @Override
-    public ExtendedElementAggregator<Collection<MethodSpec>> create() {
+    public ExtendedTypeElementAggregator<Collection<MethodSource>> create() {
         return new ExtendedTypeElementPropertyAggregator(
                 this.aggregatorFactory,
                 this.voidUtils,
@@ -63,13 +64,4 @@ final class ModuleExtendedPropertyAggregatorFactoryImpl implements ModuleExtende
         );
     }
 
-    @Override
-    public String toString() {
-        return "ModuleExtendedPropertyAggregatorFactoryImpl{" +
-                "aggregatorFactory=" + this.aggregatorFactory +
-                ", voidUtils=" + this.voidUtils +
-                ", messager=" + this.messager +
-                ", qualifiedNameVisitor=" + this.qualifiedNameVisitor +
-                "}";
-    }
 }

@@ -21,12 +21,13 @@
  ******************************************************************************/
 package org.rookit.convention.property.source.config;
 
-import com.squareup.javapoet.TypeVariableName;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.utils.object.DynamicObject;
+import org.rookit.auto.source.type.variable.TypeVariableSource;
+import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
 import org.rookit.convention.auto.config.ConventionConfig;
-import org.rookit.convention.auto.config.PropertyConfig;
 import org.rookit.convention.auto.config.NamingConfig;
+import org.rookit.convention.auto.config.PropertyConfig;
+import org.rookit.utils.object.DynamicObject;
 import org.rookit.utils.string.template.Template1;
 import org.rookit.utils.string.template.TemplateFactory;
 
@@ -36,15 +37,19 @@ final class PropertyConfigImpl implements PropertyConfig {
     private final ConventionConfig parent;
     private final String name;
     private final TemplateFactory templateFactory;
+    private final TypeVariableSourceFactory typeVariableFactory;
 
-    PropertyConfigImpl(final DynamicObject configuration,
-                       final ConventionConfig parent,
-                       final String name,
-                       final TemplateFactory templateFactory) {
+    PropertyConfigImpl(
+            final DynamicObject configuration,
+            final ConventionConfig parent,
+            final String name,
+            final TemplateFactory templateFactory,
+            final TypeVariableSourceFactory typeVariableFactory) {
         this.configuration = configuration;
         this.parent = parent;
         this.name = name;
         this.templateFactory = templateFactory;
+        this.typeVariableFactory = typeVariableFactory;
     }
 
     @Override
@@ -53,8 +58,8 @@ final class PropertyConfigImpl implements PropertyConfig {
     }
 
     @Override
-    public TypeVariableName parameterName() {
-        return TypeVariableName.get(this.configuration.getString("parameterName"));
+    public TypeVariableSource parameterName() {
+        return this.typeVariableFactory.createFromName(this.configuration.getString("parameterName"));
     }
 
     @Override
@@ -77,13 +82,4 @@ final class PropertyConfigImpl implements PropertyConfig {
         return this.configuration.getBoolean("enabled");
     }
 
-    @Override
-    public String toString() {
-        return "PropertyConfigImpl{" +
-                "configuration=" + this.configuration +
-                ", parent=" + this.parent +
-                ", name='" + this.name + '\'' +
-                ", templateFactory=" + this.templateFactory +
-                "}";
-    }
 }

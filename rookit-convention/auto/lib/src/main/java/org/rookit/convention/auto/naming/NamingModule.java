@@ -25,9 +25,9 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import org.rookit.auto.javapoet.naming.JavaPoetNamingFactory;
-import org.rookit.convention.auto.javapoet.naming.JavaPoetPropertyNamingFactories;
-import org.rookit.convention.auto.javapoet.naming.JavaPoetPropertyNamingFactory;
+import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
+import org.rookit.convention.auto.source.PropertyTypeReferenceSourceFactories;
+import org.rookit.convention.auto.source.PropertyTypeReferenceSourceFactory;
 import org.rookit.convention.guice.MetaType;
 
 public final class NamingModule extends AbstractModule {
@@ -43,9 +43,9 @@ public final class NamingModule extends AbstractModule {
     @Provides
     @Singleton
     @MetaType
-    JavaPoetPropertyNamingFactory propertyNamingFactory(final JavaPoetPropertyNamingFactories factories,
-                                                        final JavaPoetNamingFactory namingFactory) {
-        return factories.createDispatcherFactory(namingFactory);
+    PropertyTypeReferenceSourceFactory propertyNamingFactory(final PropertyTypeReferenceSourceFactories factories,
+                                                             final TypeReferenceSourceFactory referenceFactory) {
+        return factories.createDispatcherFactory(referenceFactory);
     }
 
 }

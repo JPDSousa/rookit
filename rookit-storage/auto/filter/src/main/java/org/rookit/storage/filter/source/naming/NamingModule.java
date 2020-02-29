@@ -25,12 +25,11 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import org.rookit.auto.javax.naming.NamingFactory;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
 import org.rookit.storage.api.config.FilterConfig;
 import org.rookit.storage.guice.filter.Filter;
 import org.rookit.storage.guice.filter.PartialFilter;
-
-import static org.rookit.auto.guice.RookitAutoModuleTools.bindNaming;
 
 @SuppressWarnings("MethodMayBeStatic")
 public final class NamingModule extends AbstractModule {
@@ -45,9 +44,11 @@ public final class NamingModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bindNaming(binder(), PartialFilter.class).toProvider(PartialFilterNamingFactoryProvider.class)
+        bind(NamingFactory.class).annotatedWith(PartialFilter.class)
+                .toProvider(PartialFilterNamingFactoryProvider.class)
                 .in(Singleton.class);
-        bindNaming(binder(), Filter.class).toProvider(FilterJavaPoetNamingFactoryProvider.class).in(Singleton.class);
+        bind(NamingFactory.class).annotatedWith(Filter.class)
+                .toProvider(FilterJavaPoetNamingFactoryProvider.class).in(Singleton.class);
     }
 
     @Singleton

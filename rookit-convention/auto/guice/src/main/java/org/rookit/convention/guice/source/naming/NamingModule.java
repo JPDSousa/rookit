@@ -26,7 +26,6 @@ import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import org.rookit.auto.javapoet.naming.JavaPoetNamingFactory;
 import org.rookit.auto.javax.naming.NamingFactory;
 import org.rookit.convention.auto.javax.naming.PropertyIdentifierFactories;
 import org.rookit.convention.auto.javax.naming.PropertyIdentifierFactory;
@@ -48,7 +47,7 @@ public final class NamingModule extends AbstractModule {
     protected void configure() {
         bind(PropertyIdentifierFactory.class).to(Key.get(PropertyIdentifierFactory.class, Guice.class))
                 .in(Singleton.class);
-        bind(JavaPoetNamingFactory.class).to(Key.get(JavaPoetNamingFactory.class, Guice.class));
+        bind(NamingFactory.class).to(Key.get(NamingFactory.class, Guice.class));
     }
 
     @Provides

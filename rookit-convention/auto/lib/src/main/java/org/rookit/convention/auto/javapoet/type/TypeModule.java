@@ -25,6 +25,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
+import org.rookit.convention.auto.source.type.ConventionSingleTypeSourceFactories;
+import org.rookit.convention.auto.source.type.ConventionTypeElementTypeSourceVisitors;
 
 public final class TypeModule extends AbstractModule {
 
@@ -40,7 +42,7 @@ public final class TypeModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(ConventionTypeElementTypeSpecVisitors.class).to(ConventionTypeElementTypeSpecVisitorsImpl.class)
+        bind(ConventionTypeElementTypeSourceVisitors.class).to(ConventionTypeElementTypeSourceVisitorsImpl.class)
                 .in(Singleton.class);
         bind(ConventionSingleTypeSourceFactories.class).to(ConventionSingleTypeSourceFactoriesImpl.class)
                 .in(Singleton.class);

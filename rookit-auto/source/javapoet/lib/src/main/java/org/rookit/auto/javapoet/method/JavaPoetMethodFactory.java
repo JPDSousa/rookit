@@ -24,6 +24,7 @@ package org.rookit.auto.javapoet.method;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
+import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeName;
@@ -33,6 +34,7 @@ import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.javax.mirror.variable.ExtendedTypeVariable;
 import org.rookit.auto.javax.type.parameter.ExtendedTypeParameterElement;
+import org.rookit.auto.source.arbitrary.ArbitraryCodeSourceAdapter;
 import org.rookit.auto.source.method.MethodSourceFactory;
 import org.rookit.auto.source.method.MutableMethodSource;
 import org.rookit.auto.source.parameter.ParameterSourceAdapter;
@@ -60,6 +62,8 @@ final class JavaPoetMethodFactory implements MethodSourceFactory {
 
     private final JavaPoetMutableAnnotatableFactory annotatableFactory;
 
+    private final ArbitraryCodeSourceAdapter<CodeBlock> codeAdapter;
+
     @Inject
     private JavaPoetMethodFactory(
             final ParameterSourceFactory parameterFactory,
@@ -68,7 +72,8 @@ final class JavaPoetMethodFactory implements MethodSourceFactory {
             final TypeVariableSourceFactory typeVariableFactory,
             final TypeReferenceSourceAdapter<TypeName> referenceAdapter,
             final TypeReferenceSourceFactory referenceFactory,
-            final JavaPoetMutableAnnotatableFactory annotatableFactory) {
+            final JavaPoetMutableAnnotatableFactory annotatableFactory,
+            final ArbitraryCodeSourceAdapter<CodeBlock> codeAdapter) {
         this.parameterFactory = parameterFactory;
         this.parameterAdapter = parameterAdapter;
         this.typeVariableAdapter = typeVariableAdapter;
@@ -76,6 +81,7 @@ final class JavaPoetMethodFactory implements MethodSourceFactory {
         this.referenceAdapter = referenceAdapter;
         this.referenceFactory = referenceFactory;
         this.annotatableFactory = annotatableFactory;
+        this.codeAdapter = codeAdapter;
     }
 
     @Override
@@ -124,6 +130,7 @@ final class JavaPoetMethodFactory implements MethodSourceFactory {
                 this.typeVariableAdapter,
                 this.referenceAdapter,
                 this.referenceFactory,
+                this.codeAdapter,
                 this.annotatableFactory.createEmpty(),
                 ImmutableSet.of(),
                 ImmutableSet.of());
@@ -140,17 +147,6 @@ final class JavaPoetMethodFactory implements MethodSourceFactory {
 
         return from(method)
                 .addAnnotationByClass(Override.class);
-    }
-
-    @Override
-    public String toString() {
-        return "JavaPoetMethodFactory{" +
-                "parameterAdapter=" + this.parameterAdapter +
-                ", typeVariableAdapter=" + this.typeVariableAdapter +
-                ", referenceAdapter=" + this.referenceAdapter +
-                ", referenceFactory=" + this.referenceFactory +
-                ", annotatableFactory=" + this.annotatableFactory +
-                "}";
     }
 
 }

@@ -22,75 +22,61 @@
 package org.rookit.convention.property.source;
 
 import com.google.inject.Inject;
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterizedTypeName;
-import com.squareup.javapoet.TypeSpec;
-import com.squareup.javapoet.TypeVariableName;
-import org.rookit.auto.javapoet.naming.JavaPoetNamingFactory;
-import org.rookit.auto.javapoet.type.JavaPoetTypeSourceFactory;
+import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.naming.Identifier;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
-import org.rookit.auto.source.spec.SpecFactory;
+import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
+import org.rookit.auto.source.field.FieldSource;
+import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.type.SingleTypeSourceFactory;
 import org.rookit.auto.source.type.TypeSource;
-import org.rookit.convention.auto.metatype.guice.MetaTypeAPI;
+import org.rookit.auto.source.type.TypeSourceFactory;
+import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.convention.metatype.AbstractMetaType;
 import org.rookit.convention.property.guice.PropertyModel;
-
-import javax.lang.model.element.Modifier;
+import org.rookit.utils.primitive.VoidUtils;
 
 final class PropertySingleTypeSourceFactory implements SingleTypeSourceFactory {
 
-    private final JavaPoetTypeSourceFactory adapter;
-    private final SpecFactory<FieldSpec> fieldFactory;
-    private final SpecFactory<MethodSpec> methodFactory;
-    private final TypeVariableName typeVariableName;
-    private final JavaPoetNamingFactory apiNamingFactory;
+    private final VoidUtils voidUtils;
+    private final ExtendedElementVisitor<StreamEx<FieldSource>, Void> fieldFactory;
+    private final ExtendedElementVisitor<StreamEx<MethodSource>, Void> methodVisitor;
+    private final TypeVariableSource typeVariable;
+    private final TypeSourceFactory typeSourceFactory;
 
     @Inject
-    private PropertySingleTypeSourceFactory(final JavaPoetTypeSourceFactory adapter,
-                                            @PropertyModel final SpecFactory<MethodSpec> methodFactory,
-                                            final SpecFactory<FieldSpec> fieldFactory,
-                                            final TypeVariableName typeVariableName,
-                                            @MetaTypeAPI final JavaPoetNamingFactory apiNamingFactory) {
-        this.adapter = adapter;
-        this.methodFactory = methodFactory;
+    private PropertySingleTypeSourceFactory(
+            final VoidUtils voidUtils,
+            @PropertyModel final ExtendedElementVisitor<StreamEx<MethodSource>, Void> methodVisitor,
+            final ExtendedElementVisitor<StreamEx<FieldSource>, Void> fieldFactory,
+            final TypeVariableSource typeVariable,
+            final TypeSourceFactory typeSourceFactory) {
+        this.voidUtils = voidUtils;
+        this.methodVisitor = methodVisitor;
         this.fieldFactory = fieldFactory;
-        this.typeVariableName = typeVariableName;
-        this.apiNamingFactory = apiNamingFactory;
+        this.typeVariable = typeVariable;
+        this.typeSourceFactory = typeSourceFactory;
     }
 
     @Override
     public TypeSource create(final Identifier identifier, final ExtendedTypeElement element) {
-        final ClassName className = ClassName.get(identifier.packageElement().fullName().asString(), identifier.name());
-
-        final TypeSpec.Builder spec = TypeSpec.classBuilder(className)
-                .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
-                .addTypeVariable(this.typeVariableName)
-                .superclass(ParameterizedTypeName.get(
-                        ClassName.get(AbstractMetaType.class),
-                        ClassName.get(element)
-                ))
-                .addSuperinterface(ParameterizedTypeName.get(
-                        this.apiNamingFactory.classNameFor(element),
-                        this.typeVariableName
-                ))
-                .addMethods(this.methodFactory.create(element))
-                .addFields(this.fieldFactory.create(element));
-
-        return this.adapter.fromTypeSpec(identifier, spec.build());
+        return this.typeSourceFactory.createMutableClass(identifier)
+                .addTypeVariable(this.typeVariable)
+                .withParameterizedSuperclass(AbstractMetaType.class, element)
+                .addParameterizedInterface(element, this.typeVariable)
+                .addMethods(element.accept(this.methodVisitor, this.voidUtils.returnVoid()))
+                .addFields(element.accept(this.fieldFactory, this.voidUtils.returnVoid()));
     }
 
     @Override
     public String toString() {
         return "PropertySingleTypeSourceFactory{" +
-                "adapter=" + this.adapter +
+                "voidUtils=" + this.voidUtils +
                 ", fieldFactory=" + this.fieldFactory +
-                ", methodFactory=" + this.methodFactory +
-                ", typeVariableName=" + this.typeVariableName +
-                ", apiNamingFactory=" + this.apiNamingFactory +
+                ", methodVisitor=" + this.methodVisitor +
+                ", typeVariable=" + this.typeVariable +
+                ", typeSourceFactory=" + this.typeSourceFactory +
                 "}";
     }
+
 }

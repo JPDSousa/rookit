@@ -24,6 +24,7 @@ package org.rookit.auto.source;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
+import org.rookit.auto.source.type.container.TypeSourceContainerFactory;
 
 public final class SourceModule extends AbstractModule {
 

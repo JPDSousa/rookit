@@ -27,8 +27,8 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.Multibinder;
-import com.squareup.javapoet.MethodSpec;
 import one.util.streamex.StreamEx;
+import org.rookit.auto.source.method.MethodSource;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.storage.filter.source.guice.Any;
 import org.rookit.storage.filter.source.guice.No;
@@ -50,9 +50,9 @@ public final class OptionalModule extends AbstractModule {
     @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
     @Override
     protected void configure() {
-        final Multibinder<ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void>> optionalMFactories = Multibinder
-                .newSetBinder(binder(), new TypeLiteral<ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void>>() {},
-                        Optional.class);
+        final Multibinder<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>> optionalMFactories = Multibinder
+                .newSetBinder(binder(), new TypeLiteral<ConventionTypeElementVisitor<StreamEx<MethodSource>,
+                                      Void>>() {}, Optional.class);
         optionalMFactories.addBinding().toProvider(NoneMethodFactoryProvider.class);
         optionalMFactories.addBinding().toProvider(SomeMethodFactoryProvider.class);
     }

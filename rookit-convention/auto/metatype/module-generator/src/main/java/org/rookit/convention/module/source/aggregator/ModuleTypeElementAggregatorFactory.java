@@ -22,60 +22,60 @@
 package org.rookit.convention.module.source.aggregator;
 
 import com.google.inject.Inject;
-import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.MethodSpec;
+import org.rookit.auto.javax.aggregator.ExtendedPackageElementAggregatorFactory;
 import org.rookit.auto.javax.naming.Identifier;
 import org.rookit.auto.javax.naming.IdentifierFactory;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
 import org.rookit.auto.javax.pack.PackageReferenceWalker;
 import org.rookit.auto.javax.pack.PackageReferenceWalkerFactory;
-import org.rookit.auto.source.CodeSource;
-import org.rookit.auto.source.spec.ExtendedElementAggregator;
-import org.rookit.convention.auto.module.ModuleEntityTypeElementAggregatorFactory;
+import org.rookit.auto.source.type.TypeSource;
+import org.rookit.auto.source.type.container.TypeSourceContainer;
+import org.rookit.auto.source.type.container.TypeSourceContainerExtendedElementAggregator;
+import org.rookit.auto.source.type.container.TypeSourceContainerFactory;
 import org.rookit.convention.auto.module.ModuleTypeSource;
 import org.rookit.convention.auto.module.ModuleTypeSourceFactory;
 import org.rookit.utils.optional.OptionalFactory;
 
-import javax.annotation.processing.Messager;
+final class ModuleTypeElementAggregatorFactory implements ExtendedPackageElementAggregatorFactory<
+        TypeSourceContainer<TypeSource>, TypeSourceContainerExtendedElementAggregator<TypeSource>> {
 
-final class ModuleTypeElementAggregatorFactory implements ModuleEntityTypeElementAggregatorFactory {
-
-    private final ModuleTypeSourceFactory<MethodSpec, FieldSpec> sourceFactory;
+    private final ModuleTypeSourceFactory sourceFactory;
     private final OptionalFactory optionalFactory;
     private final IdentifierFactory identifierFactory;
-    private final Messager messager;
     private final PackageReferenceWalkerFactory walkerFactory;
+    private final TypeSourceContainerFactory containerFactory;
 
     @Inject
-    private ModuleTypeElementAggregatorFactory(final ModuleTypeSourceFactory<MethodSpec, FieldSpec> sourceFactory,
-                                               final OptionalFactory optionalFactory,
-                                               final IdentifierFactory identifierFactory,
-                                               final Messager messager,
-                                               final PackageReferenceWalkerFactory walkerFactory) {
+    private ModuleTypeElementAggregatorFactory(
+            final ModuleTypeSourceFactory sourceFactory,
+            final OptionalFactory optionalFactory,
+            final IdentifierFactory identifierFactory,
+            final PackageReferenceWalkerFactory walkerFactory,
+            final TypeSourceContainerFactory containerFactory) {
         this.sourceFactory = sourceFactory;
         this.optionalFactory = optionalFactory;
         this.identifierFactory = identifierFactory;
-        this.messager = messager;
         this.walkerFactory = walkerFactory;
+        this.containerFactory = containerFactory;
     }
 
     @Override
-    public ExtendedElementAggregator<CodeSource> create(final ExtendedPackageElement packageElement) {
+    public TypeSourceContainerExtendedElementAggregator<TypeSource> create(
+            final ExtendedPackageElement packageElement) {
+
         final Identifier identifier = this.identifierFactory.create(packageElement);
-        final ModuleTypeSource<MethodSpec, FieldSpec> typeSource = this.sourceFactory.createClass(identifier);
+        final ModuleTypeSource typeSource = this.sourceFactory.createClass(identifier);
         final PackageReferenceWalker step = this.walkerFactory.create(packageElement);
-        return new EntityExtendedTypeElementAggregator(step, packageElement, this.identifierFactory,
-                typeSource, this.optionalFactory, identifier, this.messager);
+
+        return new EntityExtendedTypeElementAggregator(
+                step,
+                packageElement,
+                this.identifierFactory,
+                typeSource,
+                this.optionalFactory,
+                identifier,
+                this.containerFactory
+        );
     }
 
-    @Override
-    public String toString() {
-        return "ModuleTypeElementAggregatorFactory{" +
-                "sourceFactory=" + this.sourceFactory +
-                ", optionalFactory=" + this.optionalFactory +
-                ", identifierFactory=" + this.identifierFactory +
-                ", messager=" + this.messager +
-                ", walkerFactory=" + this.walkerFactory +
-                "}";
-    }
 }

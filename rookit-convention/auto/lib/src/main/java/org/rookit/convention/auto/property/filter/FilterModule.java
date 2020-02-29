@@ -28,7 +28,7 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import org.rookit.auto.guice.Annotation;
 import org.rookit.convention.auto.property.Property;
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.utils.guice.Collection;
 import org.rookit.utils.guice.Immutable;
 import org.rookit.utils.guice.Mutable;

@@ -23,20 +23,20 @@ package org.rookit.convention.api.source.naming;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import org.rookit.auto.javapoet.naming.JavaPoetNamingFactories;
-import org.rookit.auto.javapoet.naming.JavaPoetNamingFactory;
+import org.rookit.auto.javax.naming.NamingFactories;
+import org.rookit.auto.javax.naming.NamingFactory;
 import org.rookit.convention.auto.config.MetatypeApiConfig;
 import org.rookit.utils.guice.Self;
 import org.rookit.utils.string.template.Template1;
 
-final class PartialMetatypeAPIJavaPoetNamingFactoryProvider implements Provider<JavaPoetNamingFactory> {
+final class PartialMetatypeAPIJavaPoetNamingFactoryProvider implements Provider<NamingFactory> {
 
-    private final JavaPoetNamingFactories factories;
+    private final NamingFactories factories;
     private final MetatypeApiConfig config;
     private final Template1 noopTemplate;
 
     @Inject
-    private PartialMetatypeAPIJavaPoetNamingFactoryProvider(final JavaPoetNamingFactories factories,
+    private PartialMetatypeAPIJavaPoetNamingFactoryProvider(final NamingFactories factories,
                                                             final MetatypeApiConfig config,
                                                             @Self final Template1 noopTemplate) {
         this.factories = factories;
@@ -45,7 +45,7 @@ final class PartialMetatypeAPIJavaPoetNamingFactoryProvider implements Provider<
     }
 
     @Override
-    public JavaPoetNamingFactory get() {
+    public NamingFactory get() {
         return this.factories.create(
                 this.config.basePackage(),
                 this.config.partialEntityTemplate(),

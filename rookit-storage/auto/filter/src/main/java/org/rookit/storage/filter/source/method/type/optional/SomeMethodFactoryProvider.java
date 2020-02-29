@@ -23,41 +23,40 @@ package org.rookit.storage.filter.source.method.type.optional;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.squareup.javapoet.MethodSpec;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javapoet.method.MethodSpecFactory;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.method.MethodSourceFactory;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.storage.filter.source.guice.Any;
-import org.rookit.storage.guice.filter.PartialFilter;
 import org.rookit.utils.adapt.Adapter;
 import org.rookit.utils.guice.Optional;
 import org.rookit.utils.string.template.Template1;
 
-final class SomeMethodFactoryProvider implements Provider<ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void>> {
+final class SomeMethodFactoryProvider implements Provider<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>> {
 
-    private final MethodSpecFactory methodSpecFactory;
+    private final MethodSourceFactory methodFactory;
     private final Template1 someTemplate;
     private final Adapter<ConventionTypeElement> adapter;
 
     @Inject
-    private SomeMethodFactoryProvider(@PartialFilter final MethodSpecFactory methodSpecFactory,
+    private SomeMethodFactoryProvider(final MethodSourceFactory methodFactory,
                                       @Any final Template1 someTemplate,
                                       @Optional final Adapter<ConventionTypeElement> adapter) {
-        this.methodSpecFactory = methodSpecFactory;
+        this.methodFactory = methodFactory;
         this.someTemplate = someTemplate;
         this.adapter = adapter;
     }
 
     @Override
-    public ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void> get() {
-        return new NoParamTemplateMethodVisitor<>(this.methodSpecFactory, this.someTemplate, this.adapter);
+    public ConventionTypeElementVisitor<StreamEx<MethodSource>, Void> get() {
+        return new NoParamTemplateMethodVisitor<>(this.methodFactory, this.someTemplate, this.adapter);
     }
 
     @Override
     public String toString() {
         return "SomeMethodFactoryProvider{" +
-                "methodSpecFactory=" + this.methodSpecFactory +
+                "methodFactory=" + this.methodFactory +
                 ", someTemplate=" + this.someTemplate +
                 ", adapter=" + this.adapter +
                 "}";

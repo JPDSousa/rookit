@@ -22,7 +22,7 @@
 package org.rookit.convention.auto.property;
 
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javax.ExtendedElementFactory;
+import org.rookit.auto.javax.executable.ExtendedExecutableElementFactory;
 
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
@@ -31,14 +31,14 @@ import java.util.function.Predicate;
 
 final class MethodPropertyExtractor implements ExtendedPropertyExtractor {
 
-    private final ExtendedElementFactory elementFactory;
+    private final ExtendedExecutableElementFactory executableFactory;
     private final PropertyFactory propertyFactory;
     private final Predicate<ExecutableElement> methodFilter;
 
-    MethodPropertyExtractor(final ExtendedElementFactory elementFactory,
+    MethodPropertyExtractor(final ExtendedExecutableElementFactory executableFactory,
                             final PropertyFactory propertyFactory,
                             final Predicate<ExecutableElement> methodFilter) {
-        this.elementFactory = elementFactory;
+        this.executableFactory = executableFactory;
         this.propertyFactory = propertyFactory;
         this.methodFilter = methodFilter;
     }
@@ -50,14 +50,14 @@ final class MethodPropertyExtractor implements ExtendedPropertyExtractor {
                 .select(ExecutableElement.class)
                 .filter(this.methodFilter)
                 .select(ExecutableElement.class)
-                .map(this.elementFactory::extendExecutable)
+                .map(this.executableFactory::extend)
                 .map(this.propertyFactory::create);
     }
 
     @Override
     public String toString() {
         return "MethodPropertyExtractor{" +
-                "elementFactory=" + this.elementFactory +
+                "executableFactory=" + this.executableFactory +
                 ", propertyFactory=" + this.propertyFactory +
                 ", methodFilter=" + this.methodFilter +
                 "}";

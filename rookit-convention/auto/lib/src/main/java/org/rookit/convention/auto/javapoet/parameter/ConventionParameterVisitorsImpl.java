@@ -27,14 +27,16 @@ import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.javax.visitor.GenericBuilder;
 import org.rookit.auto.javax.visitor.StreamExBuilder;
-import org.rookit.auto.source.spec.parameter.GenericParameterBuilder;
-import org.rookit.auto.source.spec.parameter.ParameterVisitors;
+import org.rookit.auto.source.parameter.ParameterSource;
+import org.rookit.auto.source.parameter.GenericParameterBuilder;
+import org.rookit.auto.source.parameter.ParameterVisitors;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitors;
 import org.rookit.convention.auto.javax.visitor.GenericStreamExConventionBuilder;
 import org.rookit.convention.auto.javax.visitor.StreamExConventionBuilder;
 import org.rookit.convention.auto.property.Property;
+import org.rookit.convention.auto.source.parameter.ConventionParameterVisitors;
 
 import javax.lang.model.element.Name;
 import java.lang.annotation.Annotation;
@@ -55,10 +57,10 @@ final class ConventionParameterVisitorsImpl implements ConventionParameterVisito
     }
 
     @Override
-    public <B extends GenericParameterBuilder<B, V, R, P>,
-            V extends ExtendedElementVisitor<StreamEx<R>, P>, R, P> B parameterBuilder(
+    public <B extends GenericParameterBuilder<B, V, P>,
+            V extends ExtendedElementVisitor<StreamEx<ParameterSource>, P>, P> B parameterBuilder(
             final V visitor,
-            final Function<ExtendedElementVisitor<StreamEx<R>, P>, V> downcastAdapter) {
+            final Function<ExtendedElementVisitor<StreamEx<ParameterSource>, P>, V> downcastAdapter) {
         return this.delegate.parameterBuilder(visitor, downcastAdapter);
     }
 

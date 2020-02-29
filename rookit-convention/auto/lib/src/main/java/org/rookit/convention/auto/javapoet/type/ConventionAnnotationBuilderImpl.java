@@ -23,76 +23,64 @@ package org.rookit.convention.auto.javapoet.type;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Provider;
-import com.squareup.javapoet.AnnotationSpec;
-import com.squareup.javapoet.TypeSpec;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javapoet.doc.JavaPoetJavadocTemplate1;
 import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
-import org.rookit.auto.javax.visitor.StreamExBuilder;
+import org.rookit.auto.source.doc.JavadocTemplate1;
+import org.rookit.auto.source.type.annotation.AnnotationSource;
+import org.rookit.auto.source.type.TypeSource;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
-import org.rookit.convention.auto.javax.visitor.StreamExConventionBuilder;
+import org.rookit.convention.auto.source.type.ConventionAnnotationBuilder;
+import org.rookit.convention.auto.source.type.ConventionTypeSourceBuilder;
 import org.rookit.utils.adapt.Adapter;
 
-import javax.lang.model.type.TypeMirror;
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 
-final class ConventionAnnotationBuilderImpl<V extends ConventionTypeElementVisitor<StreamEx<TypeSpec.Builder>, P>, P>
+final class ConventionAnnotationBuilderImpl<V extends ConventionTypeElementVisitor<StreamEx<TypeSource>, P>, P>
         implements ConventionAnnotationBuilder<V, P> {
 
-    private final ConventionTypeSpecBuilder<V, P> builder;
-    private final Collection<AnnotationSpec> annotations;
+    private final ConventionTypeSourceBuilder<V, P> builder;
+    private final Collection<AnnotationSource> annotations;
+
 
     ConventionAnnotationBuilderImpl(
-            final ConventionTypeSpecBuilder<V, P> builder,
-            final Collection<AnnotationSpec> annotations) {
+            final ConventionTypeSourceBuilder<V, P> builder,
+            final Collection<AnnotationSource> annotations) {
         this.builder = builder;
         this.annotations = ImmutableList.copyOf(annotations);
     }
 
     private ConventionAnnotationBuilder<V, P> newStage(
-            final ConventionTypeSpecBuilder<V, P> builder) {
+            final ConventionTypeSourceBuilder<V, P> builder) {
         return new ConventionAnnotationBuilderImpl<>(builder, this.annotations);
     }
 
     @Override
     public ConventionAnnotationBuilder<V, P> withAnnotations(
-            final Iterable<AnnotationSpec> annotations) {
+            final Iterable<AnnotationSource> annotations) {
         return newStage(this.builder.withAnnotations(annotations));
     }
 
     @Override
     public ConventionAnnotationBuilder<V, P> copyBodyFrom(
-            final TypeMirror typeMirror) {
-        return newStage(this.builder.copyBodyFrom(typeMirror));
+            final ExtendedTypeElement source) {
+        return newStage(this.builder.copyBodyFrom(source));
     }
 
     @Override
     public ConventionAnnotationBuilder<V, P> copyBodyFrom(
-            final Function<ExtendedElement, TypeMirror> extractionFunction) {
+            final Function<ExtendedElement, ExtendedTypeElement> extractionFunction) {
         return newStage(this.builder.copyBodyFrom(extractionFunction));
     }
 
     @Override
     public ConventionAnnotationBuilder<V, P> withClassJavadoc(
-            final JavaPoetJavadocTemplate1 template) {
+            final JavadocTemplate1 template) {
         return newStage(this.builder.withClassJavadoc(template));
-    }
-
-    @Override
-    public <V1 extends ExtendedElementVisitor<StreamEx<TypeSpec>, P>> StreamExBuilder<V1, TypeSpec, P> buildTypeSpec(
-            final Function<ExtendedElementVisitor<StreamEx<TypeSpec>, P>, V1> downcastAdapter) {
-        return this.builder.buildTypeSpec(downcastAdapter);
-    }
-
-    @Override
-    public <V1 extends ConventionTypeElementVisitor<StreamEx<TypeSpec>, P>> StreamExConventionBuilder<V1, TypeSpec, P> buildConventionTypeSpec(
-                    final Function<ConventionTypeElementVisitor<StreamEx<TypeSpec>, P>, V1> downcastAdapter) {
-        return this.builder.buildConventionTypeSpec(downcastAdapter);
     }
 
     @Override
@@ -108,7 +96,7 @@ final class ConventionAnnotationBuilderImpl<V extends ConventionTypeElementVisit
 
     @Override
     public ConventionAnnotationBuilder<V, P> withRecursiveVisiting(
-            final BinaryOperator<StreamEx<TypeSpec.Builder>> resultReducer) {
+            final BinaryOperator<StreamEx<TypeSource>> resultReducer) {
         return newStage(this.builder.withRecursiveVisiting(resultReducer));
     }
 
@@ -135,20 +123,20 @@ final class ConventionAnnotationBuilderImpl<V extends ConventionTypeElementVisit
 
     @Override
     public ConventionAnnotationBuilder<V, P> withDirtyFallback(
-            final ExtendedElementVisitor<StreamEx<TypeSpec.Builder>, P> visitor) {
+            final ExtendedElementVisitor<StreamEx<TypeSource>, P> visitor) {
         return newStage(this.builder.withDirtyFallback(visitor));
     }
 
     @Override
-    public ConventionAnnotationBuilder<V, P> filterIfAnnotationAbsent(
+    public ConventionAnnotationBuilder<V, P> filterIfAnnotationPresent(
             final Class<? extends Annotation> annotationClass) {
-        return newStage(this.builder.filterIfAnnotationAbsent(annotationClass));
+        return newStage(this.builder.filterIfAnnotationPresent(annotationClass));
     }
 
     @Override
-    public ConventionAnnotationBuilder<V, P> filterIfAllAnnotationsAbsent(
+    public ConventionAnnotationBuilder<V, P> filterIfAnyAnnotationPresent(
             final Iterable<? extends Class<? extends Annotation>> annotationClasses) {
-        return newStage(this.builder.filterIfAllAnnotationsAbsent(annotationClasses));
+        return newStage(this.builder.filterIfAnyAnnotationPresent(annotationClasses));
     }
 
     @Override

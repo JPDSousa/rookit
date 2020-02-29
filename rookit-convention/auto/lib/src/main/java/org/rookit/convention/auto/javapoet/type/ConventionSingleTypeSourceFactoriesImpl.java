@@ -22,24 +22,49 @@
 package org.rookit.convention.auto.javapoet.type;
 
 import com.google.inject.Inject;
-import com.squareup.javapoet.MethodSpec;
-import org.rookit.auto.javapoet.naming.JavaPoetParameterResolver;
-import org.rookit.auto.javapoet.type.JavaPoetTypeSourceFactory;
-import org.rookit.auto.source.spec.SpecFactory;
+import one.util.streamex.StreamEx;
+import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
+import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.type.SingleTypeSourceFactory;
+import org.rookit.auto.source.type.TypeSourceFactory;
+import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
 import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
+import org.rookit.convention.auto.source.type.ConventionSingleTypeSourceFactories;
+import org.rookit.utils.primitive.VoidUtils;
 
 final class ConventionSingleTypeSourceFactoriesImpl implements ConventionSingleTypeSourceFactories {
 
+    private final VoidUtils voidUtils;
+    private final TypeSourceFactory typeFactory;
+
     @Inject
-    private ConventionSingleTypeSourceFactoriesImpl() {}
+    private ConventionSingleTypeSourceFactoriesImpl(
+            final VoidUtils voidUtils,
+            final TypeSourceFactory typeFactory) {
+        this.voidUtils = voidUtils;
+        this.typeFactory = typeFactory;
+    }
 
     @Override
-    public SingleTypeSourceFactory propertyBasedTypeSourceFactory(final JavaPoetParameterResolver parameterResolver,
-                                                                  final JavaPoetTypeSourceFactory adapter,
-                                                                  final SpecFactory<MethodSpec> specFactory,
-                                                                  final ConventionTypeElementFactory elementFactory) {
-        return new PropertyBasedTypeSourceFactory(parameterResolver, adapter, specFactory, elementFactory);
+    public SingleTypeSourceFactory propertyBasedTypeSourceFactory(
+            final TypeVariableSourceFactory variableFactory,
+            final ExtendedElementVisitor<StreamEx<MethodSource>, Void> methodVisitor,
+            final ConventionTypeElementFactory elementFactory) {
+        return new PropertyBasedTypeSourceFactory(
+                variableFactory,
+                methodVisitor,
+                elementFactory,
+                this.voidUtils,
+                this.typeFactory
+        );
+    }
+
+    @Override
+    public String toString() {
+        return "ConventionSingleTypeSourceFactoriesImpl{" +
+                "voidUtils=" + this.voidUtils +
+                ", typeFactory=" + this.typeFactory +
+                "}";
     }
 
 }

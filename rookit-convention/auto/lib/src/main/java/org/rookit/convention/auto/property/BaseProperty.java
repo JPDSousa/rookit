@@ -21,7 +21,7 @@
  ******************************************************************************/
 package org.rookit.convention.auto.property;
 
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 
 // TODO use immutables
 final class BaseProperty extends AbstractProperty {

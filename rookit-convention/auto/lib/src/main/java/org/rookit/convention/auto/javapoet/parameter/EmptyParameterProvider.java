@@ -23,14 +23,14 @@ package org.rookit.convention.auto.javapoet.parameter;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.squareup.javapoet.ParameterSpec;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.source.spec.parameter.Parameter;
+import org.rookit.auto.source.parameter.ParameterSource;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.auto.source.parameter.ConventionParameterVisitors;
 
 
 final class EmptyParameterProvider implements Provider<ConventionTypeElementVisitor<
-        StreamEx<Parameter<ParameterSpec>>, Void>> {
+        StreamEx<ParameterSource>, Void>> {
 
     private final ConventionParameterVisitors visitors;
 
@@ -40,7 +40,7 @@ final class EmptyParameterProvider implements Provider<ConventionTypeElementVisi
     }
 
     @Override
-    public ConventionTypeElementVisitor<StreamEx<Parameter<ParameterSpec>>, Void> get() {
+    public ConventionTypeElementVisitor<StreamEx<ParameterSource>, Void> get() {
         return this.visitors.emptyStreamVisitor();
     }
 

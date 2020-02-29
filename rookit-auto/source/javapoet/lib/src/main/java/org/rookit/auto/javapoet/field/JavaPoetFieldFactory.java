@@ -23,9 +23,12 @@ package org.rookit.auto.javapoet.field;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
+import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.TypeName;
 import org.rookit.auto.javapoet.JavaPoetMutableAnnotatableFactory;
+import org.rookit.auto.source.arbitrary.ArbitraryCodeSourceAdapter;
+import org.rookit.auto.source.arbitrary.ArbitraryCodeSourceFactory;
 import org.rookit.auto.source.field.FieldSourceFactory;
 import org.rookit.auto.source.field.MutableFieldSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
@@ -35,13 +38,19 @@ final class JavaPoetFieldFactory implements FieldSourceFactory {
 
     private final TypeReferenceSourceAdapter<TypeName> referenceAdapter;
     private final JavaPoetMutableAnnotatableFactory annotatableFactory;
+    private final ArbitraryCodeSourceFactory codeFactory;
+    private final ArbitraryCodeSourceAdapter<CodeBlock> codeAdapter;
 
     @Inject
     private JavaPoetFieldFactory(
             final TypeReferenceSourceAdapter<TypeName> referenceAdapter,
-            final JavaPoetMutableAnnotatableFactory annotatableFactory) {
+            final JavaPoetMutableAnnotatableFactory annotatableFactory,
+            final ArbitraryCodeSourceFactory codeFactory,
+            final ArbitraryCodeSourceAdapter<CodeBlock> codeAdapter) {
         this.referenceAdapter = referenceAdapter;
         this.annotatableFactory = annotatableFactory;
+        this.codeFactory = codeFactory;
+        this.codeAdapter = codeAdapter;
     }
 
     @Override
@@ -54,6 +63,8 @@ final class JavaPoetFieldFactory implements FieldSourceFactory {
                 this.annotatableFactory.createEmpty(),
                 type,
                 ImmutableList.of(),
+                this.codeFactory,
+                this.codeAdapter,
                 builder
         );
     }
@@ -63,6 +74,8 @@ final class JavaPoetFieldFactory implements FieldSourceFactory {
         return "JavaPoetFieldFactory{" +
                 "referenceAdapter=" + this.referenceAdapter +
                 ", annotatableFactory=" + this.annotatableFactory +
+                ", codeFactory=" + this.codeFactory +
+                ", codeAdapter=" + this.codeAdapter +
                 "}";
     }
 

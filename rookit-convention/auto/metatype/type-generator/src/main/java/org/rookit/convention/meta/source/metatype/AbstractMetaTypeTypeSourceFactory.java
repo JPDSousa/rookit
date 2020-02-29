@@ -21,72 +21,61 @@
  ******************************************************************************/
 package org.rookit.convention.meta.source.metatype;
 
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.TypeName;
-import com.squareup.javapoet.TypeSpec;
-import com.squareup.javapoet.TypeVariableName;
-import org.rookit.auto.javapoet.method.EntityMethodFactory;
-import org.rookit.auto.javapoet.type.JavaPoetTypeSourceFactory;
+import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.naming.Identifier;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
-import org.rookit.auto.source.spec.SpecFactory;
+import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
+import org.rookit.auto.source.field.FieldSource;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.type.MutableTypeSource;
 import org.rookit.auto.source.type.SingleTypeSourceFactory;
 import org.rookit.auto.source.type.TypeSource;
+import org.rookit.auto.source.type.TypeSourceFactory;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
+import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.utils.optional.Optional;
+import org.rookit.utils.primitive.VoidUtils;
 
-import javax.lang.model.element.Modifier;
 import java.util.Collection;
 
+@Deprecated
 abstract class AbstractMetaTypeTypeSourceFactory implements SingleTypeSourceFactory {
 
-    private final JavaPoetTypeSourceFactory adapter;
-    private final SpecFactory<FieldSpec> fieldFactory;
-    private final EntityMethodFactory entityMethodFactory;
-    private final SpecFactory<MethodSpec> methodFactory;
+    private final TypeSourceFactory typeSourceFactory;
 
-    AbstractMetaTypeTypeSourceFactory(final JavaPoetTypeSourceFactory adapter,
-                                      final SpecFactory<MethodSpec> methodFactory,
-                                      final EntityMethodFactory entityMethodFactory,
-                                      final SpecFactory<FieldSpec> fieldFactory) {
-        this.adapter = adapter;
-        this.methodFactory = methodFactory;
-        this.entityMethodFactory = entityMethodFactory;
-        this.fieldFactory = fieldFactory;
+    private final VoidUtils voidUtils;
+    private final ExtendedElementVisitor<StreamEx<FieldSource>, Void> fieldVisitor;
+    private final ExtendedElementVisitor<StreamEx<MethodSource>, Void> methodVisitor;
+
+    AbstractMetaTypeTypeSourceFactory(
+            final TypeSourceFactory typeSourceFactory,
+            final VoidUtils voidUtils,
+            final ExtendedElementVisitor<StreamEx<MethodSource>, Void> methodVisitor,
+            final ExtendedElementVisitor<StreamEx<FieldSource>, Void> fieldVisitor) {
+        this.typeSourceFactory = typeSourceFactory;
+        this.voidUtils = voidUtils;
+        this.methodVisitor = methodVisitor;
+        this.fieldVisitor = fieldVisitor;
     }
 
     @Override
     public TypeSource create(final Identifier identifier, final ExtendedTypeElement element) {
-        final ClassName className = ClassName.get(identifier.packageElement().fullName().asString(), identifier.name());
-
-        final TypeSpec.Builder builder = TypeSpec.classBuilder(className)
-                .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
-        typeVariableName(element).ifPresent(builder::addTypeVariable);
-        superclass(element).ifPresent(builder::superclass);
-
-        final TypeSpec.Builder spec = builder
-                .addSuperinterfaces(superInterfaces(element))
-                .addMethods(this.entityMethodFactory.create(element))
-                .addFields(this.fieldFactory.create(element))
-                .addMethods(this.methodFactory.create(element));
-
-        return this.adapter.fromTypeSpec(identifier, spec.build());
+        final MutableTypeSource typeSource = this.typeSourceFactory.createMutableClass(identifier)
+                .makePublic()
+                .makeFinal()
+                .addInterfaces(superInterfaces(element))
+                .addFields(element.accept(this.fieldVisitor, this.voidUtils.returnVoid()))
+                .addMethods(element.accept(this.methodVisitor, this.voidUtils.returnVoid()));
+        typeVariableName(element).ifPresent(typeSource::addTypeVariable);
+        superclass(element).ifPresent(typeSource::withSuperclass);
+        
+        return typeSource;
     }
 
-    abstract Collection<TypeName> superInterfaces(ExtendedTypeElement element);
+    abstract Collection<TypeReferenceSource> superInterfaces(ExtendedTypeElement element);
 
-    abstract Optional<TypeName> superclass(ExtendedTypeElement element);
+    abstract Optional<TypeReferenceSource> superclass(ExtendedTypeElement element);
 
-    abstract Optional<TypeVariableName> typeVariableName(ExtendedTypeElement element);
+    abstract Optional<TypeVariableSource> typeVariableName(ExtendedTypeElement element);
 
-    @Override
-    public String toString() {
-        return "AbstractMetaTypeTypeSourceFactory{" +
-                "adapter=" + this.adapter +
-                ", fieldFactory=" + this.fieldFactory +
-                ", entityMethodFactory=" + this.entityMethodFactory +
-                ", methodFactory=" + this.methodFactory +
-                "}";
-    }
 }

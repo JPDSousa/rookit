@@ -23,16 +23,10 @@ package org.rookit.convention.guice.source;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
-import com.google.inject.Provides;
-import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
 import org.rookit.auto.javapoet.SourceJavaPoetLibModule;
 import org.rookit.auto.javax.JavaxLibModule;
-import org.rookit.auto.source.CodeSourceFactories;
-import org.rookit.auto.source.CodeSourceFactory;
 import org.rookit.auto.source.SourceLibModule;
-import org.rookit.auto.source.spec.SpecFactory;
-import org.rookit.auto.source.type.TypeSource;
 import org.rookit.convention.ConventionModule;
 import org.rookit.convention.auto.ConventionLibModule;
 import org.rookit.convention.guice.source.config.ConfigModule;
@@ -44,7 +38,7 @@ import org.rookit.failsafe.FailsafeModule;
 import org.rookit.guice.auto.GuiceAutoLibModule;
 import org.rookit.guice.auto.annotation.config.ConfigurationModule;
 import org.rookit.io.IOLibModule;
-import org.rookit.io.path.PathModule;
+import org.rookit.io.PathLibModule;
 import org.rookit.serializer.SerializationBundleModule;
 import org.rookit.utils.guice.UtilsModule;
 
@@ -64,7 +58,7 @@ public final class SourceModule extends AbstractModule {
             JavaxModule.getModule(),
             JavaxLibModule.getModule(),
             NamingModule.getModule(),
-            PathModule.getModule(),
+            PathLibModule.getModule(),
             SerializationBundleModule.getModule(),
             SourceJavaPoetLibModule.getModule(),
             SourceLibModule.getModule(),
@@ -77,12 +71,5 @@ public final class SourceModule extends AbstractModule {
     }
 
     private SourceModule() {}
-
-    @Provides
-    @Singleton
-    CodeSourceFactory sourceFactory(final SpecFactory<TypeSource> specFactory,
-                                    final CodeSourceFactories factories) {
-        return factories.specCodeSourceFactory(specFactory);
-    }
 
 }

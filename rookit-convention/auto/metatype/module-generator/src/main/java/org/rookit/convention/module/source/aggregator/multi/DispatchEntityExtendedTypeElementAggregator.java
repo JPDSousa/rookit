@@ -22,31 +22,35 @@
 package org.rookit.convention.module.source.aggregator.multi;
 
 import com.google.common.collect.Maps;
-import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.ExtendedElement;
+import org.rookit.auto.javax.aggregator.ExtendedPackageElementAggregatorFactory;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
 import org.rookit.auto.javax.pack.PackageReferenceWalker;
 import org.rookit.auto.javax.pack.RootPackageReferenceWalker;
-import org.rookit.auto.source.CodeSource;
-import org.rookit.auto.source.CodeSourceContainerFactory;
-import org.rookit.auto.source.spec.ExtendedElementAggregator;
-import org.rookit.convention.auto.module.ModuleEntityTypeElementAggregatorFactory;
+import org.rookit.auto.source.type.TypeSource;
+import org.rookit.auto.source.type.container.TypeSourceContainer;
+import org.rookit.auto.source.type.container.TypeSourceContainerExtendedElementAggregator;
+import org.rookit.auto.source.type.container.TypeSourceContainerFactory;
 
 import javax.annotation.processing.Filer;
-import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-final class DispatchEntityExtendedTypeElementAggregator implements ExtendedElementAggregator<Collection<CodeSource>> {
+final class DispatchEntityExtendedTypeElementAggregator
+        implements TypeSourceContainerExtendedElementAggregator<TypeSource> {
 
     private final RootPackageReferenceWalker walker;
-    private final Map<ExtendedPackageElement, ExtendedElementAggregator<Collection<CodeSource>>> subModules;
-    private final CodeSourceContainerFactory containerFactory;
-    private final ModuleEntityTypeElementAggregatorFactory aggregatorFactory;
+    private final Map<ExtendedPackageElement, TypeSourceContainerExtendedElementAggregator<TypeSource>> subModules;
+    private final TypeSourceContainerFactory containerFactory;
+    private final ExtendedPackageElementAggregatorFactory<TypeSourceContainer<TypeSource>,
+            TypeSourceContainerExtendedElementAggregator<TypeSource>> aggregatorFactory;
 
-    DispatchEntityExtendedTypeElementAggregator(final RootPackageReferenceWalker walker,
-                                                final CodeSourceContainerFactory containerFactory,
-                                                final ModuleEntityTypeElementAggregatorFactory aggregatorFactory) {
+    DispatchEntityExtendedTypeElementAggregator(
+            final RootPackageReferenceWalker walker,
+            final TypeSourceContainerFactory containerFactory,
+            final ExtendedPackageElementAggregatorFactory<
+                    TypeSourceContainer<TypeSource>,
+                    TypeSourceContainerExtendedElementAggregator<TypeSource>> aggregatorFactory) {
         this.walker = walker;
         this.containerFactory = containerFactory;
         this.aggregatorFactory = aggregatorFactory;
@@ -56,7 +60,7 @@ final class DispatchEntityExtendedTypeElementAggregator implements ExtendedEleme
     @Override
     public CompletableFuture<Void> writeTo(final Filer filer) {
         return this.containerFactory
-                .create(this.subModules.values())
+                .createFromContainers(this.subModules.values())
                 .writeTo(filer);
     }
 
@@ -69,29 +73,30 @@ final class DispatchEntityExtendedTypeElementAggregator implements ExtendedEleme
                 .orElse(false);
     }
 
-    private ExtendedElementAggregator<Collection<CodeSource>> aggregatorFor(final PackageReferenceWalker step) {
+    @Override
+    public TypeSourceContainerExtendedElementAggregator<TypeSource> reduce(
+            final TypeSourceContainerExtendedElementAggregator<TypeSource> aggregator) {
+
+        // TODO avoid direct initialization
+        return new ReducedMultiEntityExtendedElementAggregator(this, aggregator, this.containerFactory);
+    }
+
+    private TypeSourceContainerExtendedElementAggregator<TypeSource> aggregatorFor(final PackageReferenceWalker step) {
+
         return this.subModules.computeIfAbsent(step.materialize(), key -> createAggregator(step));
     }
 
-    private ExtendedElementAggregator<Collection<CodeSource>> createAggregator(final PackageReferenceWalker step) {
+    private TypeSourceContainerExtendedElementAggregator<TypeSource> createAggregator(
+            final PackageReferenceWalker step) {
+
         // TODO avoid direct initialization
-        return new MultiEntityModuleExtendedTypeElementAggregator(step, this.containerFactory,
-                this.aggregatorFactory);
+        return new MultiEntityModuleExtendedTypeElementAggregator(step, this.containerFactory, this.aggregatorFactory);
     }
 
-    @Override
-    public ExtendedElementAggregator<Collection<CodeSource>> reduce(
-            final ExtendedElementAggregator<Collection<CodeSource>> aggregator) {
-        // TODO avoid direct initialization
-        return new ReducedMultiEntityExtendedElementAggregator(this, aggregator);
-    }
 
     @Override
-    public Collection<CodeSource> result() {
-        return StreamEx.of(this.containerFactory.create(this.subModules.values()).stream())
-                .map(ExtendedElementAggregator<Collection<CodeSource>>::result)
-                .flatMap(Collection::stream)
-                .toImmutableSet();
+    public TypeSourceContainer<TypeSource> result() {
+        return this.containerFactory.createFromContainers(this.subModules.values());
     }
 
     @Override

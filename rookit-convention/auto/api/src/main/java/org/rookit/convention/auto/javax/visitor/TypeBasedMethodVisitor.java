@@ -21,12 +21,12 @@
  ******************************************************************************/
 package org.rookit.convention.auto.javax.visitor;
 
-import com.squareup.javapoet.MethodSpec;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
+import org.rookit.auto.source.method.MethodSource;
 
 @Deprecated
-public interface TypeBasedMethodVisitor<P> extends ConventionTypeElementVisitor<StreamEx<MethodSpec>, P> {
+public interface TypeBasedMethodVisitor<P> extends ConventionTypeElementVisitor<StreamEx<MethodSource>, P> {
 
     ExtendedTypeMirror type();
 

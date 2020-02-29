@@ -21,93 +21,83 @@
  ******************************************************************************/
 package org.rookit.convention.module.source.type;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.TypeSpec;
 import org.rookit.auto.javax.naming.Identifier;
-import org.rookit.auto.javapoet.type.JavaPoetTypeSource;
-import org.rookit.auto.javapoet.type.JavaPoetTypeSourceFactory;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.method.MethodSourceFactory;
+import org.rookit.auto.source.type.MutableTypeSource;
+import org.rookit.auto.source.type.TypeSource;
+import org.rookit.auto.source.type.TypeSourceFactory;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
+import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 import org.rookit.convention.auto.config.MetatypeModuleConfig;
 import org.rookit.utils.guice.Proxied;
 
 import javax.annotation.processing.Messager;
 import javax.tools.Diagnostic;
 import java.util.Collection;
-import java.util.concurrent.Executor;
 
 import static java.lang.String.format;
-import static javax.lang.model.element.Modifier.PRIVATE;
-import static javax.lang.model.element.Modifier.PUBLIC;
-import static javax.lang.model.element.Modifier.STATIC;
 
-final class TypeSourceFactoryImpl implements JavaPoetTypeSourceFactory {
+final class TypeSourceFactoryImpl implements TypeSourceFactory {
 
     // TODO copied from ModuleTypeSourceFactoryImpl
     private static final String WARN_DELEGATE = "No specification for module %s on generator '%s'. " +
             "Falling back to default implementation";
 
-    private final JavaPoetTypeSourceFactory delegate;
-    private final Executor executor;
-    private final Collection<MethodSpec> methods;
+    private final TypeSourceFactory delegate;
+    private final Collection<MethodSource> methods;
     private final Messager messager;
     private final MetatypeModuleConfig config;
+    private final TypeReferenceSource abstractModule;
 
     @Inject
-    private TypeSourceFactoryImpl(@Proxied final JavaPoetTypeSourceFactory delegate,
-                                  final Executor executor,
-                                  final MetatypeModuleConfig config,
-                                  final Messager messager) {
+    private TypeSourceFactoryImpl(
+            @Proxied final TypeSourceFactory delegate,
+            final MetatypeModuleConfig config,
+            final Messager messager,
+            final TypeReferenceSourceFactory referenceFactory,
+            final MethodSourceFactory methodFactory) {
         this.delegate = delegate;
-        this.executor = executor;
 
+        this.abstractModule = referenceFactory.fromClass(AbstractModule.class);
         this.methods = ImmutableSet.of(
-                MethodSpec.constructorBuilder()
-                        .addModifiers(PRIVATE)
-                        .build(),
-                MethodSpec.methodBuilder(config.singletonMethodName())
-                        .addModifiers(PUBLIC, STATIC)
-                        .returns(Module.class)
-                        // TODO make available through configuration
-                        .addStatement("return MODULE")
-                        .build()
+                methodFactory.createMutableConstructor()
+                        .makePrivate(),
+                methodFactory.createMutableMethod(config.singletonMethodName())
+                        .makePublic()
+                        .makeStatic()
+                        .returnStaticField(referenceFactory.fromClass(Module.class), "MODULE")
         );
         this.messager = messager;
         this.config = config;
     }
 
     @Override
-    public JavaPoetTypeSource createClass(final Identifier identifier) {
-        return new TypeSourceImpl(this.executor, identifier, this.methods, ImmutableList.of());
+    public MutableTypeSource createMutableClass(final Identifier identifier) {
+        return this.delegate.createMutableClass(identifier)
+                .withSuperclass(this.abstractModule)
+                .addMethods(this.methods);
     }
 
     @Override
-    public JavaPoetTypeSource createInterface(final Identifier identifier) {
+    public MutableTypeSource createMutableInterface(final Identifier identifier) {
         this.messager.printMessage(Diagnostic.Kind.NOTE, format(WARN_DELEGATE, "interfaces", this.config.name()));
-        return this.delegate.createInterface(identifier);
+        return this.delegate.createMutableInterface(identifier);
     }
 
     @Override
-    public JavaPoetTypeSource createAnnotation(final Identifier identifier) {
+    public MutableTypeSource createMutableAnnotation(final Identifier identifier) {
         this.messager.printMessage(Diagnostic.Kind.NOTE, format(WARN_DELEGATE, "annotations", this.config.name()));
-        return this.delegate.createAnnotation(identifier);
+        return this.delegate.createMutableAnnotation(identifier);
     }
 
     @Override
-    public JavaPoetTypeSource fromTypeSpec(final Identifier identifier, final TypeSpec source) {
-        return this.delegate.fromTypeSpec(identifier, source);
+    public MutableTypeSource makeMutable(final TypeSource typeSource) {
+        return this.delegate.makeMutable(typeSource);
     }
 
-    @Override
-    public String toString() {
-        return "TypeSourceFactoryImpl{" +
-                "delegate=" + this.delegate +
-                ", executor=" + this.executor +
-                ", methods=" + this.methods +
-                ", messager=" + this.messager +
-                ", config=" + this.config +
-                "}";
-    }
 }

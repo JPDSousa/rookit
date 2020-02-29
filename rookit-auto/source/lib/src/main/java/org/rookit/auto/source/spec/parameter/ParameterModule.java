@@ -24,6 +24,7 @@ package org.rookit.auto.source.spec.parameter;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
+import org.rookit.auto.source.parameter.ParameterVisitors;
 
 public final class ParameterModule extends AbstractModule {
 

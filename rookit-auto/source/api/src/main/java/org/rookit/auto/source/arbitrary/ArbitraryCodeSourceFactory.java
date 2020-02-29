@@ -21,9 +21,12 @@
  ******************************************************************************/
 package org.rookit.auto.source.arbitrary;
 
-@FunctionalInterface
+import java.util.List;
+
 public interface ArbitraryCodeSourceFactory {
 
-    ArbitraryCodeSource create(String format, Object... args);
+    ArbitraryCodeSource createFromFormat(String format, List<Object> args);
+
+    ArbitraryCodeSource createEmpty();
 
 }

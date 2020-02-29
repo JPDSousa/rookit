@@ -21,10 +21,11 @@
  ******************************************************************************/
 package org.rookit.storage.query.source.config;
 
-import com.squareup.javapoet.TypeVariableName;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.utils.object.DynamicObject;
+import org.rookit.auto.source.type.variable.TypeVariableSource;
+import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
 import org.rookit.storage.api.config.QueryConfig;
+import org.rookit.utils.object.DynamicObject;
 import org.rookit.utils.string.template.Template1;
 import org.rookit.utils.string.template.TemplateFactory;
 
@@ -35,27 +36,31 @@ final class QueryConfigImpl implements QueryConfig {
     private final Template1 partialEntityTemplate;
     private final String name;
     private final TemplateFactory templateFactory;
+    private final TypeVariableSourceFactory typeVariableFactory;
 
-    QueryConfigImpl(final DynamicObject configuration,
-                    final ExtendedPackageElement basePackage,
-                    final Template1 pEntityTemplate,
-                    final String name,
-                    final TemplateFactory templateFactory) {
+    QueryConfigImpl(
+            final DynamicObject configuration,
+            final ExtendedPackageElement basePackage,
+            final Template1 pEntityTemplate,
+            final String name,
+            final TemplateFactory templateFactory,
+            final TypeVariableSourceFactory typeVariableFactory) {
         this.configuration = configuration;
         this.basePackage = basePackage;
         this.partialEntityTemplate = pEntityTemplate;
         this.name = name;
         this.templateFactory = templateFactory;
+        this.typeVariableFactory = typeVariableFactory;
     }
 
     @Override
-    public TypeVariableName parameterName() {
-        return TypeVariableName.get(this.configuration.getString("parameterName"));
+    public TypeVariableSource parameterName() {
+        return this.typeVariableFactory.createFromName(this.configuration.getString("parameterName"));
     }
 
     @Override
-    public TypeVariableName elementParameterName() {
-        return TypeVariableName.get(this.configuration.getString("elementParameterName"));
+    public TypeVariableSource elementParameterName() {
+        return this.typeVariableFactory.createFromName(this.configuration.getString("elementParameterName"));
     }
 
     @Override

@@ -23,25 +23,25 @@ package org.rookit.storage.update.source.identifier;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import org.rookit.auto.javapoet.identifier.JavaPoetIdentifierFactories;
-import org.rookit.auto.javapoet.identifier.JavaPoetIdentifierFactory;
+import org.rookit.auto.javax.naming.IdentifierFactories;
+import org.rookit.auto.javax.naming.IdentifierFactory;
 import org.rookit.auto.javax.naming.NamingFactory;
 import org.rookit.storage.guice.Update;
 
-final class UpdateJavaPoetIdentifierFactoryProvider implements Provider<JavaPoetIdentifierFactory> {
+final class UpdateJavaPoetIdentifierFactoryProvider implements Provider<IdentifierFactory> {
 
-    private final JavaPoetIdentifierFactories factories;
+    private final IdentifierFactories factories;
     private final NamingFactory namingFactory;
 
     @Inject
-    private UpdateJavaPoetIdentifierFactoryProvider(final JavaPoetIdentifierFactories factories,
+    private UpdateJavaPoetIdentifierFactoryProvider(final IdentifierFactories factories,
                                                     @Update final NamingFactory namingFactory) {
         this.factories = factories;
         this.namingFactory = namingFactory;
     }
 
     @Override
-    public JavaPoetIdentifierFactory get() {
+    public IdentifierFactory get() {
         return this.factories.create(this.namingFactory);
     }
 

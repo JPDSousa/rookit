@@ -72,7 +72,7 @@ public final class ConfigurationModule extends AbstractModule {
     @Singleton
     MetatypeModuleConfig config(final ConventionConfig parent, final TemplateFactory templateFactory) {
         final String name = "module";
-        return new MetatypeModuleConfigImpl(parent.getProcessorConfig(name), parent, name, templateFactory);
+        return new MetaTypeModuleConfigImpl(parent.getProcessorConfig(name), parent, name, templateFactory);
     }
 
 }

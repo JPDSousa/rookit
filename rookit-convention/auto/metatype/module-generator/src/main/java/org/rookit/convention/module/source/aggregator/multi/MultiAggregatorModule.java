@@ -25,13 +25,12 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import org.rookit.auto.javax.aggregator.ExtendedPackageElementAggregatorFactory;
 import org.rookit.auto.javax.pack.PackageReferenceWalkerFactory;
-import org.rookit.auto.source.CodeSource;
-import org.rookit.auto.source.CodeSourceContainerFactory;
-import org.rookit.auto.source.spec.ExtendedElementAggregator;
-import org.rookit.convention.auto.module.ModuleEntityTypeElementAggregatorFactory;
-
-import java.util.Collection;
+import org.rookit.auto.source.type.TypeSource;
+import org.rookit.auto.source.type.container.TypeSourceContainer;
+import org.rookit.auto.source.type.container.TypeSourceContainerExtendedElementAggregator;
+import org.rookit.auto.source.type.container.TypeSourceContainerFactory;
 
 @SuppressWarnings("MethodMayBeStatic")
 public final class MultiAggregatorModule extends AbstractModule {
@@ -46,13 +45,17 @@ public final class MultiAggregatorModule extends AbstractModule {
 
     @Provides
     @Singleton
-    ExtendedElementAggregator<Collection<CodeSource>> baseAggregator(
-            final CodeSourceContainerFactory containerFactory,
-            final ModuleEntityTypeElementAggregatorFactory aggregatorFactory,
+    TypeSourceContainerExtendedElementAggregator<TypeSource> baseAggregator(
+            final TypeSourceContainerFactory containerFactory,
+            final ExtendedPackageElementAggregatorFactory<TypeSourceContainer<TypeSource>,
+                    TypeSourceContainerExtendedElementAggregator<TypeSource>> aggregatorFactory,
             final PackageReferenceWalkerFactory walkerFactory) {
-        return new DispatchEntityExtendedTypeElementAggregator(walkerFactory.create(),
+
+        return new DispatchEntityExtendedTypeElementAggregator(
+                walkerFactory.create(),
                 containerFactory,
-                aggregatorFactory);
+                aggregatorFactory
+        );
     }
 
 }

@@ -22,16 +22,17 @@
 package org.rookit.convention.auto.javapoet.method;
 
 import com.google.inject.Provider;
-import com.squareup.javapoet.MethodSpec;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
+import org.rookit.auto.source.method.MethodSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.convention.auto.javax.visitor.StreamExConventionBuilder;
 import org.rookit.convention.auto.javax.visitor.TypeBasedMethodVisitor;
 import org.rookit.convention.auto.property.Property;
+import org.rookit.convention.auto.source.method.TypeBasedMethodVisitorBuilder;
 import org.rookit.utils.adapt.Adapter;
 
 import java.lang.annotation.Annotation;
@@ -42,18 +43,18 @@ import java.util.function.Predicate;
 final class TypeBasedMethodVisitorBuilderImpl<P>
         implements TypeBasedMethodVisitorBuilder<TypeBasedMethodVisitor<P>, P> {
 
-    private final StreamExConventionBuilder<TypeBasedMethodVisitor<P>, MethodSpec, P> delegate;
+    private final StreamExConventionBuilder<TypeBasedMethodVisitor<P>, MethodSource, P> delegate;
     private final ExtendedTypeMirror typeMirror;
 
     TypeBasedMethodVisitorBuilderImpl(
-            final StreamExConventionBuilder<TypeBasedMethodVisitor<P>, MethodSpec, P> delegate,
+            final StreamExConventionBuilder<TypeBasedMethodVisitor<P>, MethodSource, P> delegate,
             final ExtendedTypeMirror typeMirror) {
         this.delegate = delegate;
         this.typeMirror = typeMirror;
     }
 
     private TypeBasedMethodVisitorBuilder<TypeBasedMethodVisitor<P>, P>
-    newStage(final StreamExConventionBuilder<TypeBasedMethodVisitor<P>, MethodSpec, P> builder) {
+    newStage(final StreamExConventionBuilder<TypeBasedMethodVisitor<P>, MethodSource, P> builder) {
         return new TypeBasedMethodVisitorBuilderImpl<>(builder, this.typeMirror);
     }
 
@@ -71,7 +72,7 @@ final class TypeBasedMethodVisitorBuilderImpl<P>
 
     @Override
     public TypeBasedMethodVisitorBuilder<TypeBasedMethodVisitor<P>, P>
-    withRecursiveVisiting(final BinaryOperator<StreamEx<MethodSpec>> resultReducer) {
+    withRecursiveVisiting(final BinaryOperator<StreamEx<MethodSource>> resultReducer) {
         return newStage(this.delegate.withRecursiveVisiting(resultReducer));
     }
 
@@ -90,7 +91,7 @@ final class TypeBasedMethodVisitorBuilderImpl<P>
 
     @Override
     public TypeBasedMethodVisitorBuilder<TypeBasedMethodVisitor<P>, P>
-    routeThroughFilter(final ConventionTypeElementVisitor<StreamEx<MethodSpec>, P> fallbackVisitor,
+    routeThroughFilter(final ConventionTypeElementVisitor<StreamEx<MethodSource>, P> fallbackVisitor,
                        final Predicate<Property> filter) {
         return newStage(this.delegate.routeThroughFilter(fallbackVisitor, filter));
     }
@@ -115,19 +116,19 @@ final class TypeBasedMethodVisitorBuilderImpl<P>
 
     @Override
     public TypeBasedMethodVisitorBuilder<TypeBasedMethodVisitor<P>, P>
-    withDirtyFallback(final ExtendedElementVisitor<StreamEx<MethodSpec>, P> visitor) {
+    withDirtyFallback(final ExtendedElementVisitor<StreamEx<MethodSource>, P> visitor) {
         return newStage(this.delegate.withDirtyFallback(visitor));
     }
 
     @Override
     public TypeBasedMethodVisitorBuilder<TypeBasedMethodVisitor<P>, P>
-    filterIfAnnotationAbsent(final Class<? extends Annotation> annotationClass) {
-        return newStage(this.delegate.filterIfAnnotationAbsent(annotationClass));
+    filterIfAnnotationPresent(final Class<? extends Annotation> annotationClass) {
+        return newStage(this.delegate.filterIfAnnotationPresent(annotationClass));
     }
 
     @Override
     public TypeBasedMethodVisitorBuilder<TypeBasedMethodVisitor<P>, P>
-    filterIfAllAnnotationsAbsent(final Iterable<? extends Class<? extends Annotation>> annotationClasses) {
-        return newStage(this.delegate.filterIfAllAnnotationsAbsent(annotationClasses));
+    filterIfAnyAnnotationPresent(final Iterable<? extends Class<? extends Annotation>> annotationClasses) {
+        return newStage(this.delegate.filterIfAnyAnnotationPresent(annotationClasses));
     }
 }

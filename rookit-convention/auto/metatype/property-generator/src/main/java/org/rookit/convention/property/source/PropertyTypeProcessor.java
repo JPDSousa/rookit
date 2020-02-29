@@ -56,7 +56,7 @@ final class PropertyTypeProcessor extends AbstractConfigAwareTypeProcessor {
 
     @Override
     protected void doProcessEntity(final TypeElement element) {
-        this.elementFactory.extendType(element).properties().stream()
+        this.elementFactory.extend(element).properties().stream()
                 .map(this.propertyFactory::toContainer)
                 .filter(Optional::isPresent)
                 .map(Optional::get)

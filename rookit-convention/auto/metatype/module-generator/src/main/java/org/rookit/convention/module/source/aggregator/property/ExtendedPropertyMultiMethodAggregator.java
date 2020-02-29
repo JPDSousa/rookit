@@ -21,27 +21,27 @@
  ******************************************************************************/
 package org.rookit.convention.module.source.aggregator.property;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.squareup.javapoet.AnnotationSpec;
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterSpec;
-import com.squareup.javapoet.ParameterizedTypeName;
-import com.squareup.javapoet.TypeName;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javapoet.naming.JavaPoetNamingFactory;
-import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.naming.Identifier;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
-import org.rookit.auto.source.spec.parameter.Parameter;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.method.MethodSourceFactory;
+import org.rookit.auto.source.parameter.ParameterSource;
+import org.rookit.auto.source.type.annotation.AnnotationSource;
+import org.rookit.auto.source.type.annotation.AnnotationSourceFactory;
+import org.rookit.auto.source.type.parameter.TypeParameterSourceFactory;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
+import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 import org.rookit.convention.auto.javax.naming.PropertyIdentifierFactory;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.convention.auto.property.ContainerProperty;
 import org.rookit.convention.auto.property.ExtendedProperty;
-import org.rookit.convention.auto.property.ExtendedPropertyAggregator;
+import org.rookit.convention.auto.property.aggregator.ExtendedPropertyAggregator;
 import org.rookit.convention.auto.property.Property;
 import org.rookit.convention.auto.property.PropertyFactory;
 import org.rookit.utils.optional.Optional;
@@ -49,41 +49,49 @@ import org.rookit.utils.primitive.VoidUtils;
 
 import javax.annotation.processing.Messager;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 import static org.apache.commons.text.WordUtils.uncapitalize;
 
-final class ExtendedPropertyMultiMethodAggregator implements ExtendedPropertyAggregator<Collection<MethodSpec>> {
+final class ExtendedPropertyMultiMethodAggregator implements ExtendedPropertyAggregator<Collection<MethodSource>> {
 
-    private final ConventionTypeElementVisitor<StreamEx<Parameter<ParameterSpec>>, Void> parameterVisitor;
+    private final MethodSourceFactory methodFactory;
+    private final AnnotationSourceFactory annotationFactory;
+
+    private final ConventionTypeElementVisitor<StreamEx<ParameterSource>, Void> parameterVisitor;
     private final ExtendedTypeElement element;
     private final Collection<Property> properties;
     private final PropertyFactory propertyFactory;
     private final PropertyIdentifierFactory identifierFactory;
     private final Messager messager;
-    private final JavaPoetNamingFactory apiNamingFactory;
-    private final JavaPoetNamingFactory implNamingFactory;
+    private final TypeReferenceSourceFactory apiReferenceFactory;
+    private final TypeReferenceSourceFactory implReferenceFactory;
+    private final TypeParameterSourceFactory parameterFactory;
     private final VoidUtils voidUtils;
 
     ExtendedPropertyMultiMethodAggregator(
-            final ConventionTypeElementVisitor<
-                    StreamEx<Parameter<ParameterSpec>>, Void> parameterVisitor,
+            final MethodSourceFactory methodFactory,
+            final AnnotationSourceFactory annotationFactory,
+            final ConventionTypeElementVisitor<StreamEx<ParameterSource>, Void> parameterVisitor,
             final ExtendedTypeElement element,
             final Iterable<Property> properties,
             final PropertyFactory propertyFactory,
             final PropertyIdentifierFactory identifierFactory,
             final Messager messager,
-            final JavaPoetNamingFactory apiNamingFactory,
-            final JavaPoetNamingFactory implNamingFactory,
+            final TypeReferenceSourceFactory apiReferenceFactory,
+            final TypeReferenceSourceFactory implReferenceFactory,
+            final TypeParameterSourceFactory parameterFactory,
             final VoidUtils voidUtils) {
+        this.methodFactory = methodFactory;
+        this.annotationFactory = annotationFactory;
         this.parameterVisitor = parameterVisitor;
         this.element = element;
         this.properties = Lists.newArrayList(properties);
         this.propertyFactory = propertyFactory;
         this.identifierFactory = identifierFactory;
         this.messager = messager;
-        this.apiNamingFactory = apiNamingFactory;
-        this.implNamingFactory = implNamingFactory;
+        this.apiReferenceFactory = apiReferenceFactory;
+        this.implReferenceFactory = implReferenceFactory;
+        this.parameterFactory = parameterFactory;
         this.voidUtils = voidUtils;
     }
 
@@ -94,13 +102,13 @@ final class ExtendedPropertyMultiMethodAggregator implements ExtendedPropertyAgg
     }
 
     @Override
-    public ExtendedPropertyAggregator<Collection<MethodSpec>> reduce(
-            final ExtendedPropertyAggregator<Collection<MethodSpec>> aggregator) {
+    public ExtendedPropertyAggregator<Collection<MethodSource>> reduce(
+            final ExtendedPropertyAggregator<Collection<MethodSource>> aggregator) {
         return new ReducedExtendedPropertyMultiMethodAggregator(this.messager, this, aggregator);
     }
 
     @Override
-    public Collection<MethodSpec> result() {
+    public Collection<MethodSource> result() {
         return StreamEx.of(this.properties)
                 .map(this.propertyFactory::toContainer)
                 .filter(Optional::isPresent)
@@ -109,57 +117,32 @@ final class ExtendedPropertyMultiMethodAggregator implements ExtendedPropertyAgg
                 .toImmutableList();
     }
 
-    private MethodSpec createPropertyBinding(final ContainerProperty property) {
+    private MethodSource createPropertyBinding(final ContainerProperty property) {
+
         final String methodName = uncapitalize(this.element.getSimpleName().toString()) + property.name();
+
         final Identifier identifier = this.identifierFactory.create(property);
+
         final ExtendedTypeElement propertyType = property.typeAsElement();
-        final TypeName returnType = ParameterizedTypeName.get(
-                this.apiNamingFactory.classNameFor(propertyType),
-                ClassName.get(this.element)
-        );
-        final Collection<ParameterSpec> parameters = parameters(propertyType);
-        final String paramString = StreamEx.of(parameters)
-                .map(parameterSpec -> parameterSpec.name)
-                .collect(Collectors.joining(", "));
 
-        return MethodSpec.methodBuilder(methodName)
+        final TypeReferenceSource returnType = this.parameterFactory.create(
+                this.apiReferenceFactory.create(propertyType),
+                this.element
+        );
+
+        final TypeReferenceSource implReference = this.implReferenceFactory.create(propertyType);
+        return this.methodFactory.createMutableMethod(methodName)
                 .addAnnotations(annotations(identifier))
-                .returns(returnType)
-                .addParameters(parameters)
-                // TODO there should be some config for 'createMutable'
-                .addStatement("return $T.createMutable($L)", this.implNamingFactory.classNameFor(propertyType),
-                        paramString)
-                .build();
+                .addParameters(propertyType.accept(this.parameterVisitor, this.voidUtils.returnVoid()))
+                .returnMethodCall(returnType, "$T.create", ImmutableList.of(implReference));
     }
 
-    private Collection<AnnotationSpec> annotations(final Identifier identifier) {
+    private Collection<AnnotationSource> annotations(final Identifier identifier) {
         return ImmutableSet.of(
-                AnnotationSpec.builder(Provides.class).build(),
-                AnnotationSpec.builder(Singleton.class).build(),
-                AnnotationSpec.builder(ClassName
-                        .get(identifier.packageElement().fullName().asString(), identifier.name())).build()
+                this.annotationFactory.create(Provides.class),
+                this.annotationFactory.create(Singleton.class),
+                this.annotationFactory.create(identifier)
         );
-    }
-
-    private Collection<ParameterSpec> parameters(final ExtendedElement propertyType) {
-        return propertyType.accept(this.parameterVisitor, this.voidUtils.returnVoid())
-                .map(Parameter::spec)
-                .toImmutableList();
-    }
-
-    @Override
-    public String toString() {
-        return "ExtendedPropertyMultiMethodAggregator{" +
-                "parameterVisitor=" + this.parameterVisitor +
-                ", element=" + this.element +
-                ", properties=" + this.properties +
-                ", propertyFactory=" + this.propertyFactory +
-                ", identifierFactory=" + this.identifierFactory +
-                ", messager=" + this.messager +
-                ", apiNamingFactory=" + this.apiNamingFactory +
-                ", implNamingFactory=" + this.implNamingFactory +
-                ", voidUtils=" + this.voidUtils +
-                "}";
     }
 
 }

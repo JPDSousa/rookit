@@ -21,31 +21,33 @@
  ******************************************************************************/
 package org.rookit.convention.module.source.aggregator.multi;
 
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableList;
 import org.rookit.auto.javax.ExtendedElement;
-import org.rookit.auto.javax.pack.ExtendedPackageElement;
+import org.rookit.auto.javax.aggregator.ExtendedPackageElementAggregatorFactory;
 import org.rookit.auto.javax.pack.PackageReferenceWalker;
-import org.rookit.auto.source.CodeSource;
-import org.rookit.auto.source.CodeSourceContainerFactory;
-import org.rookit.auto.source.spec.ExtendedElementAggregator;
-import org.rookit.convention.auto.module.ModuleEntityTypeElementAggregatorFactory;
+import org.rookit.auto.source.type.TypeSource;
+import org.rookit.auto.source.type.container.TypeSourceContainer;
+import org.rookit.auto.source.type.container.TypeSourceContainerExtendedElementAggregator;
+import org.rookit.auto.source.type.container.TypeSourceContainerFactory;
 
 import javax.annotation.processing.Filer;
-import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 
 final class MultiEntityModuleExtendedTypeElementAggregator
-        implements ExtendedElementAggregator<Collection<CodeSource>> {
+        implements TypeSourceContainerExtendedElementAggregator<TypeSource> {
 
-    private final ExtendedPackageElement packageId;
-    private final ExtendedElementAggregator<CodeSource> moduleAggregator;
-    private final ExtendedElementAggregator<Collection<CodeSource>> delegate;
+    // TODO this doesn't make much sense, given that the module is a single type source, but we're using a container.
+    private final TypeSourceContainerExtendedElementAggregator<TypeSource> moduleAggregator;
+    private final TypeSourceContainerExtendedElementAggregator<TypeSource> delegate;
+    private final TypeSourceContainerFactory containerFactory;
 
-    MultiEntityModuleExtendedTypeElementAggregator(final PackageReferenceWalker step,
-                                                   final CodeSourceContainerFactory containerFactory,
-                                                   final ModuleEntityTypeElementAggregatorFactory aggregatorFactory) {
-        this.packageId = step.materialize();
-        this.moduleAggregator = aggregatorFactory.create(this.packageId);
+    MultiEntityModuleExtendedTypeElementAggregator(
+            final PackageReferenceWalker step,
+            final TypeSourceContainerFactory containerFactory,
+            final ExtendedPackageElementAggregatorFactory<TypeSourceContainer<TypeSource>,
+                    TypeSourceContainerExtendedElementAggregator<TypeSource>> aggregatorFactory) {
+        this.moduleAggregator = aggregatorFactory.create(step.materialize());
+        this.containerFactory = containerFactory;
         // TODO avoid explicit initializations
         //only subpackages are to be processed by this aggregator
         this.delegate = new DispatchEntityExtendedTypeElementAggregator(step, containerFactory, aggregatorFactory);
@@ -65,26 +67,19 @@ final class MultiEntityModuleExtendedTypeElementAggregator
     }
 
     @Override
-    public ExtendedElementAggregator<Collection<CodeSource>> reduce(
-            final ExtendedElementAggregator<Collection<CodeSource>> aggregator) {
+    public TypeSourceContainerExtendedElementAggregator<TypeSource> reduce(
+            final TypeSourceContainerExtendedElementAggregator<TypeSource> aggregator) {
+
         // TODO not really confident about this
         return this.delegate.reduce(aggregator);
     }
 
     @Override
-    public Collection<CodeSource> result() {
-        return ImmutableSet.<CodeSource>builder()
-                .addAll(this.delegate.result())
-                .add(this.moduleAggregator.result())
-                .build();
+    public TypeSourceContainer<TypeSource> result() {
+
+        return this.containerFactory.createFromContainers(
+                ImmutableList.of(this.delegate, this.moduleAggregator)
+        );
     }
 
-    @Override
-    public String toString() {
-        return "MultiEntityModuleExtendedTypeElementAggregator{" +
-                "packageId=" + this.packageId +
-                ", moduleAggregator=" + this.moduleAggregator +
-                ", delegate=" + this.delegate +
-                "}";
-    }
 }

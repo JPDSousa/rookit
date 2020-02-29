@@ -21,8 +21,8 @@
  ******************************************************************************/
 package org.rookit.convention.auto.javapoet.identifier;
 
-import org.rookit.auto.javapoet.identifier.ImmutableJavaPoetIdentifier;
 import org.rookit.auto.javax.naming.Identifier;
+import org.rookit.auto.javax.naming.ImmutableIdentifier;
 import org.rookit.auto.javax.naming.NamingFactory;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
@@ -53,7 +53,7 @@ public final class BasePropertyIdentifierFactory implements PropertyIdentifierFa
     }
 
     private Identifier create(final ExtendedPackageElement pack, final Property property) {
-        return ImmutableJavaPoetIdentifier.builder()
+        return ImmutableIdentifier.builder()
                 .packageElement(pack)
                 .name(capitalize(this.namingFactory.method(property.name())))
                 .build();

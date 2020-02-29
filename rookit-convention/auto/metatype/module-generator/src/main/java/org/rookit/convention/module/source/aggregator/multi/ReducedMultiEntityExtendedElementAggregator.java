@@ -21,33 +21,37 @@
  ******************************************************************************/
 package org.rookit.convention.module.source.aggregator.multi;
 
-import com.google.common.collect.ImmutableSet;
-import org.rookit.auto.source.CodeSource;
-import org.rookit.auto.source.spec.ExtendedElementAggregator;
+import com.google.common.collect.ImmutableList;
+import org.rookit.auto.source.type.TypeSource;
+import org.rookit.auto.source.type.container.TypeSourceContainer;
+import org.rookit.auto.source.type.container.TypeSourceContainerExtendedElementAggregator;
+import org.rookit.auto.source.type.container.TypeSourceContainerFactory;
 import org.rookit.convention.module.source.aggregator.AbstractReducedExtendedElementAggregator;
 
-import java.util.Collection;
-
 final class ReducedMultiEntityExtendedElementAggregator
-        extends AbstractReducedExtendedElementAggregator<Collection<CodeSource>> {
+        extends AbstractReducedExtendedElementAggregator<TypeSource> {
 
-    ReducedMultiEntityExtendedElementAggregator(final ExtendedElementAggregator<Collection<CodeSource>> left,
-                                                final ExtendedElementAggregator<Collection<CodeSource>> right) {
+    private final TypeSourceContainerFactory containerFactory;
+
+    ReducedMultiEntityExtendedElementAggregator(
+            final TypeSourceContainerExtendedElementAggregator<TypeSource> left,
+            final TypeSourceContainerExtendedElementAggregator<TypeSource> right,
+            final TypeSourceContainerFactory containerFactory) {
         super(left, right);
+        this.containerFactory = containerFactory;
     }
 
     @Override
-    public ExtendedElementAggregator<Collection<CodeSource>> reduce(
-            final ExtendedElementAggregator<Collection<CodeSource>> aggregator) {
-        return new ReducedMultiEntityExtendedElementAggregator(this, aggregator);
+    public TypeSourceContainerExtendedElementAggregator<TypeSource> reduce(
+            final TypeSourceContainerExtendedElementAggregator<TypeSource> aggregator) {
+
+        return new ReducedMultiEntityExtendedElementAggregator(this, aggregator, this.containerFactory);
     }
 
     @Override
-    public Collection<CodeSource> result() {
-        return ImmutableSet.<CodeSource>builder()
-                .addAll(left().result())
-                .addAll(right().result())
-                .build();
+    public TypeSourceContainer<TypeSource> result() {
+
+        return this.containerFactory.createFromContainers(ImmutableList.of(left(), right()));
     }
 
 }

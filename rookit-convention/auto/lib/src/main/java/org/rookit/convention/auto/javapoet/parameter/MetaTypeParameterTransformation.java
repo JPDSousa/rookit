@@ -21,41 +21,49 @@
  ******************************************************************************/
 package org.rookit.convention.auto.javapoet.parameter;
 
-import com.squareup.javapoet.ParameterSpec;
-import com.squareup.javapoet.TypeName;
 import one.util.streamex.StreamEx;
-import org.rookit.convention.auto.javapoet.naming.JavaPoetPropertyNamingFactory;
+import org.rookit.auto.source.parameter.MutableParameterSource;
+import org.rookit.auto.source.parameter.ParameterSource;
+import org.rookit.auto.source.parameter.ParameterSourceFactory;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.property.Property;
+import org.rookit.convention.auto.source.PropertyTypeReferenceSourceFactory;
 
 import java.util.function.BiFunction;
 
-import static javax.lang.model.element.Modifier.FINAL;
-
 final class MetaTypeParameterTransformation
-        implements BiFunction<ConventionTypeElement, Property, StreamEx<ParameterSpec>> {
+        implements BiFunction<ConventionTypeElement, Property, StreamEx<ParameterSource>> {
 
-    private final JavaPoetPropertyNamingFactory propertyNamingFactory;
-    private final BiFunction<Property, ParameterSpec, ParameterSpec> resultAccumulator;
+    private final PropertyTypeReferenceSourceFactory propertyReferenceFactory;
+    private final BiFunction<Property, ParameterSource, ParameterSource> resultAccumulator;
+    private final ParameterSourceFactory parameterFactory;
 
-    MetaTypeParameterTransformation(final JavaPoetPropertyNamingFactory propNamingFactory,
-                                    final BiFunction<Property, ParameterSpec, ParameterSpec> resultAccumulator) {
-        this.propertyNamingFactory = propNamingFactory;
+    MetaTypeParameterTransformation(
+            final PropertyTypeReferenceSourceFactory propRefFactory,
+            final BiFunction<Property, ParameterSource, ParameterSource> resultAccumulator,
+            final ParameterSourceFactory parameterFactory) {
+        this.propertyReferenceFactory = propRefFactory;
         this.resultAccumulator = resultAccumulator;
+        this.parameterFactory = parameterFactory;
     }
 
     @Override
-    public StreamEx<ParameterSpec> apply(final ConventionTypeElement element, final Property property) {
-        final TypeName paramType = this.propertyNamingFactory.typeNameFor(element, property);
-        final ParameterSpec.Builder builder = ParameterSpec.builder(paramType, property.name(), FINAL);
-        return StreamEx.of(this.resultAccumulator.apply(property, builder.build()));
+    public StreamEx<ParameterSource> apply(final ConventionTypeElement element, final Property property) {
+
+        final TypeReferenceSource paramType = this.propertyReferenceFactory.create(element, property);
+        final MutableParameterSource parameter = this.parameterFactory.createMutable(property.name(), paramType);
+
+        return StreamEx.of(this.resultAccumulator.apply(property, parameter));
     }
 
     @Override
     public String toString() {
         return "MetaTypeParameterTransformation{" +
-                "propertyNamingFactory=" + this.propertyNamingFactory +
+                "propertyReferenceFactory=" + this.propertyReferenceFactory +
                 ", resultAccumulator=" + this.resultAccumulator +
+                ", parameterFactory=" + this.parameterFactory +
                 "}";
     }
+
 }

@@ -26,18 +26,15 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.TypeVariableName;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javapoet.method.MethodSpecFactories;
-import org.rookit.auto.javapoet.method.MethodSpecFactory;
-import org.rookit.auto.javax.naming.NamingFactory;
-import org.rookit.convention.auto.javapoet.method.ConventionTypeElementMethodSpecVisitors;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.method.MethodSourceFactory;
 import org.rookit.convention.auto.javax.type.filter.TypeFilter;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitors;
 import org.rookit.convention.auto.javax.visitor.TypeBasedMethodVisitor;
 import org.rookit.convention.auto.property.Property;
+import org.rookit.convention.auto.source.method.ConventionTypeElementMethodSourceVisitors;
 import org.rookit.storage.filter.source.guice.Type;
 import org.rookit.storage.filter.source.method.annotation.MethodAnnotationModule;
 import org.rookit.storage.filter.source.method.type.TypeMethodFactoryModule;
@@ -65,29 +62,13 @@ public final class FilterMethodModule extends AbstractModule {
 
     private FilterMethodModule() {}
 
-    @Override
-    protected void configure() {
-
-    }
-
-    @Singleton
-    @Provides
-    @PartialFilter
-    MethodSpecFactory genericMethodSpecFactory(final MethodSpecFactories factories,
-                                               @PartialFilter final TypeVariableName typeVariableName,
-                                               @PartialFilter final NamingFactory namingFactory,
-                                               @Self final Template1 noopTemplate) {
-        return factories.createInterfaceMethodSpecFactory(typeVariableName,
-                namingFactory, noopTemplate);
-    }
-
     @Singleton
     @Provides
     @TopFilter
-    ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void> topFilterFactory(
+    ConventionTypeElementVisitor<StreamEx<MethodSource>, Void> topFilterFactory(
             final ConventionTypeElementVisitors visitors,
-            @Filter final ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void> annotationFactory,
-            @Type final ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void> typeVisitor,
+            @Filter final ConventionTypeElementVisitor<StreamEx<MethodSource>, Void> annotationFactory,
+            @Type final ConventionTypeElementVisitor<StreamEx<MethodSource>, Void> typeVisitor,
             @Filter final Predicate<Property> annotationPredicate) {
         return visitors.streamExConventionBuilder(annotationFactory)
                 .routeThroughFilter(typeVisitor, annotationPredicate)
@@ -97,10 +78,10 @@ public final class FilterMethodModule extends AbstractModule {
     @Provides
     @Singleton
     @Type
-    ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void> typeFactory(
+    ConventionTypeElementVisitor<StreamEx<MethodSource>, Void> typeFactory(
             final ConventionTypeElementVisitors visitors,
             @Filter final Set<TypeBasedMethodVisitor<Void>> typeVisitors,
-            @FallbackFilter final ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void> genericMethodVisitor,
+            @FallbackFilter final ConventionTypeElementVisitor<StreamEx<MethodSource>, Void> genericMethodVisitor,
             @Type final Predicate<Property> typeFilter) {
         return visitors.streamExConventionBuilder(typeVisitors)
                 .routeThroughFilter(genericMethodVisitor, typeFilter)
@@ -118,11 +99,11 @@ public final class FilterMethodModule extends AbstractModule {
     @Singleton
     @Provides
     @FallbackFilter
-    ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void> fallbackFilter(
-            final ConventionTypeElementMethodSpecVisitors visitors,
-            @PartialFilter final MethodSpecFactory methodSpecFactory,
+    ConventionTypeElementVisitor<StreamEx<MethodSource>, Void> fallbackFilter(
+            final ConventionTypeElementMethodSourceVisitors visitors,
+            @PartialFilter final MethodSourceFactory factory,
             @Self final Template1 noopTemplate) {
-        return visitors.<Void>templateMethodSpecVisitorBuilder(methodSpecFactory, noopTemplate)
+        return visitors.<Void>templateMethodSourceVisitorBuilder(factory, noopTemplate)
                 .build();
     }
 }

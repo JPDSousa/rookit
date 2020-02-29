@@ -121,7 +121,7 @@ final class StreamExConventionBuilderImpl<V extends ConventionTypeElementVisitor
     }
 
     @Override
-    public StreamExConventionBuilder<V, R, P> filterIfAnnotationAbsent(
+    public StreamExConventionBuilder<V, R, P> filterIfAnnotationPresent(
             final Class<? extends Annotation> annotationClass) {
         return this.visitors.streamExConventionBuilder(this.downcastAdapter.apply(new FilterStreamVisitor<>(
                 this.visitors.isPresent(annotationClass),
@@ -130,9 +130,9 @@ final class StreamExConventionBuilderImpl<V extends ConventionTypeElementVisitor
     }
 
     @Override
-    public StreamExConventionBuilder<V, R, P> filterIfAllAnnotationsAbsent(
+    public StreamExConventionBuilder<V, R, P> filterIfAnyAnnotationPresent(
             final Iterable<? extends Class<? extends Annotation>> annotationClasses) {
-        return newStage(this.delegate.filterIfAllAnnotationsAbsent(annotationClasses));
+        return newStage(this.delegate.filterIfAnyAnnotationPresent(annotationClasses));
     }
 
     @Override

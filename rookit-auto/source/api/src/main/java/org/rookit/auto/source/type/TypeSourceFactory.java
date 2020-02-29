@@ -25,13 +25,21 @@ import org.rookit.auto.javax.naming.Identifier;
 
 public interface TypeSourceFactory {
 
-    TypeSource createClass(Identifier identifier);
+    default TypeSource createClass(final Identifier identifier) {
+        return createMutableClass(identifier);
+    }
 
     MutableTypeSource createMutableClass(Identifier identifier);
 
-    TypeSource createInterface(Identifier identifier);
+    default TypeSource createInterface(final Identifier identifier) {
+        return createMutableInterface(identifier);
+    }
 
     MutableTypeSource createMutableInterface(Identifier identifier);
+
+    default TypeSource createAnnotation(final Identifier identifier) {
+        return createMutableAnnotation(identifier);
+    }
 
     MutableTypeSource createMutableAnnotation(Identifier identifier);
 

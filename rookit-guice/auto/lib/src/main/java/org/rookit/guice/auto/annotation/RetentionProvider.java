@@ -21,9 +21,10 @@
  ******************************************************************************/
 package org.rookit.guice.auto.annotation;
 
+import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import org.rookit.auto.source.CodeSource;
+import org.rookit.auto.source.arbitrary.ArbitraryCodeSource;
 import org.rookit.auto.source.arbitrary.ArbitraryCodeSourceFactory;
 import org.rookit.auto.source.type.annotation.AnnotationSource;
 import org.rookit.auto.source.type.annotation.AnnotationSourceFactory;
@@ -48,7 +49,11 @@ final class RetentionProvider implements Provider<AnnotationSource> {
 
     @Override
     public AnnotationSource get() {
-        final CodeSource retention = this.codeSourceFactory.create("$T.$L", RetentionPolicy.class, RUNTIME);
+        final ArbitraryCodeSource retention = this.codeSourceFactory.createFromFormat("$T.$L",
+                                                                                      ImmutableList.of(
+                                                                                              RetentionPolicy.class,
+                                                                                              RUNTIME
+                                                                                      ));
         return this.factory.createMutable(Retention.class)
                 .addMember("value", retention);
     }

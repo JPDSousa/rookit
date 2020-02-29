@@ -22,23 +22,24 @@
 package org.rookit.convention.module.source.aggregator.property;
 
 import com.google.common.collect.ImmutableList;
-import com.squareup.javapoet.MethodSpec;
+import org.rookit.auto.source.method.MethodSource;
 import org.rookit.convention.auto.property.ExtendedProperty;
-import org.rookit.convention.auto.property.ExtendedPropertyAggregator;
+import org.rookit.convention.auto.property.aggregator.ExtendedPropertyAggregator;
 
 import javax.annotation.processing.Messager;
 import javax.tools.Diagnostic;
 import java.util.Collection;
 
-final class ReducedExtendedPropertyMultiMethodAggregator implements ExtendedPropertyAggregator<Collection<MethodSpec>> {
+final class ReducedExtendedPropertyMultiMethodAggregator
+        implements ExtendedPropertyAggregator<Collection<MethodSource>> {
 
     private final Messager messager;
-    private final ExtendedPropertyAggregator<Collection<MethodSpec>> left;
-    private final ExtendedPropertyAggregator<Collection<MethodSpec>> right;
+    private final ExtendedPropertyAggregator<Collection<MethodSource>> left;
+    private final ExtendedPropertyAggregator<Collection<MethodSource>> right;
 
     ReducedExtendedPropertyMultiMethodAggregator(final Messager messager,
-                                                 final ExtendedPropertyAggregator<Collection<MethodSpec>> left,
-                                                 final ExtendedPropertyAggregator<Collection<MethodSpec>> right) {
+                                                 final ExtendedPropertyAggregator<Collection<MethodSource>> left,
+                                                 final ExtendedPropertyAggregator<Collection<MethodSource>> right) {
         this.messager = messager;
         this.left = left;
         this.right = right;
@@ -52,14 +53,14 @@ final class ReducedExtendedPropertyMultiMethodAggregator implements ExtendedProp
     }
 
     @Override
-    public ExtendedPropertyAggregator<Collection<MethodSpec>> reduce(
-            final ExtendedPropertyAggregator<Collection<MethodSpec>> aggregator) {
+    public ExtendedPropertyAggregator<Collection<MethodSource>> reduce(
+            final ExtendedPropertyAggregator<Collection<MethodSource>> aggregator) {
         return new ReducedExtendedPropertyMultiMethodAggregator(this.messager, this, aggregator);
     }
 
     @Override
-    public Collection<MethodSpec> result() {
-        return ImmutableList.<MethodSpec>builder()
+    public Collection<MethodSource> result() {
+        return ImmutableList.<MethodSource>builder()
                 .addAll(this.left.result())
                 .addAll(this.right.result())
                 .build();

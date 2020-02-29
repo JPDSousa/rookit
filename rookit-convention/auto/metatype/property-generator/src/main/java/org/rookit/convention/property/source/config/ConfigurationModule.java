@@ -75,7 +75,8 @@ public final class ConfigurationModule extends AbstractModule {
     @Singleton
     PropertyConfig config(final ConventionConfig config, final TemplateFactory templateFactory) {
         final String name = "property";
-        return new PropertyConfigImpl(config.getProcessorConfig(name), config, name, templateFactory);
+        return new PropertyConfigImpl(config.getProcessorConfig(name), config, name, templateFactory,
+                                      typeVariableFactory);
     }
 
     @Provides

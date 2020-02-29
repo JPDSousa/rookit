@@ -23,28 +23,28 @@ package org.rookit.convention.meta.source.javapoet;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.squareup.javapoet.MethodSpec;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
-import org.rookit.convention.auto.javapoet.method.ConventionTypeElementMethodSpecVisitors;
+import org.rookit.auto.source.method.MethodSource;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.auto.source.method.ConventionTypeElementMethodSourceVisitors;
 import org.rookit.convention.guice.MetaTypeModelType;
 
 final class ModelTypeMethodFactoryProvider
-        implements Provider<ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void>> {
+        implements Provider<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>> {
 
-    private final ConventionTypeElementMethodSpecVisitors visitors;
+    private final ConventionTypeElementMethodSourceVisitors visitors;
     private final ExtendedExecutableElement method;
 
     @Inject
     private ModelTypeMethodFactoryProvider(@MetaTypeModelType final ExtendedExecutableElement method,
-                                           final ConventionTypeElementMethodSpecVisitors visitors) {
+                                           final ConventionTypeElementMethodSourceVisitors visitors) {
         this.method = method;
         this.visitors = visitors;
     }
 
     @Override
-    public ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void> get() {
+    public ConventionTypeElementVisitor<StreamEx<MethodSource>, Void> get() {
         return this.visitors.<Void>getterMethodBuilder(this.method)
                 .build();
     }

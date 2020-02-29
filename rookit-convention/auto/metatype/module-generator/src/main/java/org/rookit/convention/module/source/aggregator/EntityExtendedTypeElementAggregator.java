@@ -21,48 +21,50 @@
  ******************************************************************************/
 package org.rookit.convention.module.source.aggregator;
 
-import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.MethodSpec;
+import com.google.common.collect.ImmutableList;
 import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.naming.Identifier;
 import org.rookit.auto.javax.naming.IdentifierFactory;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
 import org.rookit.auto.javax.pack.PackageReferenceWalker;
-import org.rookit.auto.source.CodeSource;
-import org.rookit.auto.source.spec.ExtendedElementAggregator;
+import org.rookit.auto.source.type.TypeSource;
+import org.rookit.auto.source.type.container.TypeSourceContainer;
+import org.rookit.auto.source.type.container.TypeSourceContainerExtendedElementAggregator;
+import org.rookit.auto.source.type.container.TypeSourceContainerFactory;
 import org.rookit.convention.auto.module.ModuleTypeSource;
 import org.rookit.utils.optional.OptionalFactory;
 
 import javax.annotation.processing.Filer;
-import javax.annotation.processing.Messager;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
-final class EntityExtendedTypeElementAggregator implements ExtendedElementAggregator<CodeSource> {
+final class EntityExtendedTypeElementAggregator implements TypeSourceContainerExtendedElementAggregator<TypeSource> {
 
     private final PackageReferenceWalker step;
     private final ExtendedPackageElement packageId;
     private final IdentifierFactory identifierFactory;
-    private final ModuleTypeSource<MethodSpec, FieldSpec> source;
     private final OptionalFactory optionalFactory;
     private final Identifier identifier;
-    private final Messager messager;
+    private final TypeSourceContainerFactory containerFactory;
+
+    private final ModuleTypeSource source;
 
     // TODO too much dependencies :(
-    EntityExtendedTypeElementAggregator(final PackageReferenceWalker step,
-                                        final ExtendedPackageElement packageId,
-                                        final IdentifierFactory identifierFactory,
-                                        final ModuleTypeSource<MethodSpec, FieldSpec> source,
-                                        final OptionalFactory optionalFactory,
-                                        final Identifier identifier,
-                                        final Messager messager) {
+    EntityExtendedTypeElementAggregator(
+            final PackageReferenceWalker step,
+            final ExtendedPackageElement packageId,
+            final IdentifierFactory identifierFactory,
+            final ModuleTypeSource source,
+            final OptionalFactory optionalFactory,
+            final Identifier identifier,
+            final TypeSourceContainerFactory containerFactory) {
         this.step = step;
         this.packageId = packageId;
         this.identifierFactory = identifierFactory;
         this.source = source;
         this.identifier = identifier;
         this.optionalFactory = optionalFactory;
-        this.messager = messager;
+        this.containerFactory = containerFactory;
     }
 
     @Override
@@ -88,14 +90,16 @@ final class EntityExtendedTypeElementAggregator implements ExtendedElementAggreg
     }
 
     @Override
-    public ExtendedElementAggregator<CodeSource> reduce(final ExtendedElementAggregator<CodeSource> aggregator) {
+    public TypeSourceContainerExtendedElementAggregator<TypeSource> reduce(
+            final TypeSourceContainerExtendedElementAggregator<TypeSource> aggregator) {
+
         // TODO avoid direct initializations
-        return new ReducedEntityExtendedElementAggregator(this, aggregator, this.messager);
+        return new ReducedEntityExtendedElementAggregator(this, aggregator, this.containerFactory);
     }
 
     @Override
-    public CodeSource result() {
-        return this;
+    public TypeSourceContainer<TypeSource> result() {
+        return this.containerFactory.createFromTypeSource(ImmutableList.of(this.source));
     }
 
     @Override
@@ -104,10 +108,11 @@ final class EntityExtendedTypeElementAggregator implements ExtendedElementAggreg
                 "step=" + this.step +
                 ", packageId=" + this.packageId +
                 ", identifierFactory=" + this.identifierFactory +
-                ", source=" + this.source +
                 ", optionalFactory=" + this.optionalFactory +
                 ", identifier=" + this.identifier +
-                ", messager=" + this.messager +
+                ", containerFactory=" + this.containerFactory +
+                ", source=" + this.source +
                 "}";
     }
+
 }

@@ -42,7 +42,7 @@ final class GuiceConventionConfigImpl implements GuiceConventionConfig {
 
     @Override
     public ExtendedPackageElement propertyPackage() {
-        return this.packageFactory.create(this.configuration.getString("propertyPackage"));
+        return this.packageFactory.fromFQDN(this.configuration.getString("propertyPackage"));
     }
 
     @Override

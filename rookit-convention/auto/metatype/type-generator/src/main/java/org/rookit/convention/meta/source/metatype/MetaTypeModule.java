@@ -22,41 +22,30 @@
 package org.rookit.convention.meta.source.metatype;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
-import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.TypeVariableName;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javapoet.identifier.JavaPoetIdentifierFactories;
-import org.rookit.auto.javapoet.method.EntityMethodFactory;
-import org.rookit.auto.javapoet.naming.JavaPoetNamingFactories;
-import org.rookit.auto.javapoet.naming.JavaPoetNamingFactory;
-import org.rookit.auto.javapoet.naming.JavaPoetParameterResolver;
-import org.rookit.auto.javapoet.type.TypeVariableNameResolver;
+import org.rookit.auto.javax.naming.IdentifierFactories;
 import org.rookit.auto.javax.naming.IdentifierFactory;
+import org.rookit.auto.javax.naming.NamingFactories;
 import org.rookit.auto.javax.naming.NamingFactory;
-import org.rookit.auto.source.CodeSourceContainerFactory;
-import org.rookit.auto.source.CodeSourceFactory;
+import org.rookit.auto.source.field.FieldSource;
+import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.type.SingleTypeSourceFactory;
+import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
+import org.rookit.auto.source.type.variable.TypeVariableSource;
+import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
 import org.rookit.convention.auto.config.ConventionMetatypeConfig;
-import org.rookit.convention.auto.entity.BasePartialEntityFactory;
-import org.rookit.convention.auto.entity.nopartial.NoPartialEntityFactory;
-import org.rookit.convention.auto.entity.parent.ParentExtractor;
-import org.rookit.convention.auto.metatype.guice.MetaTypeAPI;
-import org.rookit.convention.auto.javapoet.naming.JavaPoetPropertyNamingFactories;
-import org.rookit.convention.auto.javapoet.naming.JavaPoetPropertyNamingFactory;
-import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.auto.metatype.guice.MetaTypeAPI;
 import org.rookit.convention.auto.property.PropertyTypeResolver;
+import org.rookit.convention.auto.source.PropertyTypeReferenceSourceFactories;
+import org.rookit.convention.auto.source.PropertyTypeReferenceSourceFactory;
 import org.rookit.convention.guice.MetaType;
 import org.rookit.convention.meta.guice.PartialMetatype;
-import org.rookit.convention.property.guice.PropertyModel;
 import org.rookit.utils.guice.Self;
-import org.rookit.utils.optional.OptionalFactory;
 import org.rookit.utils.string.template.Template1;
 
 @SuppressWarnings("MethodMayBeStatic")
@@ -77,66 +66,34 @@ public final class MetaTypeModule extends AbstractModule {
                 .to(MetaTypePartialTypeSourceFactory.class).in(Singleton.class);
         bind(SingleTypeSourceFactory.class).annotatedWith(MetaType.class)
                 .to(MetaTypeSingleTypeSourceFactory.class).in(Singleton.class);
-        bind(new TypeLiteral<ConventionTypeElementVisitor<StreamEx<FieldSpec>, Void>>() {})
+        bind(new TypeLiteral<ConventionTypeElementVisitor<StreamEx<FieldSource>, Void>>() {})
                 .annotatedWith(MetaType.class).to(MetaTypeFieldVisitor.class).in(Singleton.class);
-        bind(new TypeLiteral<ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void>>() {})
+        bind(new TypeLiteral<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>>() {})
                 .annotatedWith(MetaType.class).to(MetaTypeMethodVisitor.class).in(Singleton.class);
-        bind(NamingFactory.class).annotatedWith(MetaType.class)
-                .to(Key.get(JavaPoetNamingFactory.class, MetaType.class)).in(Singleton.class);
-        bind(EntityMethodFactory.class).annotatedWith(MetaType.class)
-                .to(MetaTypeEntityMethodFactory.class).in(Singleton.class);
-        bind(TypeVariableName.class).annotatedWith(MetaType.class).toInstance(TypeVariableName.get("T"));
-        bind(JavaPoetParameterResolver.class).annotatedWith(MetaType.class).to(MetatypeParameterResolver.class)
-                .in(Singleton.class);
         bind(PropertyTypeResolver.class).annotatedWith(MetaType.class)
                 .to(PropertyTypeResolver.class).in(Singleton.class);
-        bind(TypeVariableNameResolver.class).annotatedWith(MetaType.class)
-                .to(MetatypeTypeVariableNameResolver.class).in(Singleton.class);
     }
 
     @Provides
     @Singleton
     @MetaType
-    JavaPoetNamingFactory namingFactory(final JavaPoetNamingFactories factories,
-                                        final ConventionMetatypeConfig config,
-                                        @Self final Template1 noopTemplate) {
+    TypeVariableSource metaTypeVariableSource(final TypeVariableSourceFactory variableFactory) {
+        return variableFactory.createFromName("T");
+    }
+
+    @Provides
+    @Singleton
+    @MetaType
+    NamingFactory namingFactory(final NamingFactories factories,
+                                final ConventionMetatypeConfig config,
+                                @Self final Template1 noopTemplate) {
         return factories.create(config.basePackage(), config.entityTemplate(), noopTemplate);
     }
 
     @Provides
     @Singleton
-    CodeSourceFactory entityFactory(@MetaType final IdentifierFactory identifierFactory,
-                                    @MetaType final SingleTypeSourceFactory typeSpecFactory,
-                                    final OptionalFactory optionalFactory) {
-        return NoPartialEntityFactory.create(identifierFactory, typeSpecFactory, optionalFactory);
-    }
-
-    @Provides
-    @Singleton
     @MetaType
-    CodeSourceFactory partialEntityFactory(@MetaType final IdentifierFactory identifierFactory,
-                                           @PartialMetatype final SingleTypeSourceFactory typeSourceFactory,
-                                           final OptionalFactory optionalFactory,
-                                           final ParentExtractor extractor,
-                                           final CodeSourceContainerFactory containerFactory,
-                                           final ConventionTypeElementFactory elementFactory) {
-        return BasePartialEntityFactory.create(identifierFactory, typeSourceFactory, optionalFactory,
-                extractor, containerFactory, elementFactory);
-    }
-
-    @Provides
-    @Singleton
-    @PropertyModel
-    CodeSourceFactory metatypePropertyEntityFactory(final OptionalFactory optionalFactory,
-                                                    @MetaType final IdentifierFactory identifierFactory,
-                                                    @MetaType final SingleTypeSourceFactory typeSpecFactory) {
-        return NoPartialEntityFactory.create(identifierFactory, typeSpecFactory, optionalFactory);
-    }
-
-    @Provides
-    @Singleton
-    @MetaType
-    IdentifierFactory identifierFactory(final JavaPoetIdentifierFactories factories,
+    IdentifierFactory identifierFactory(final IdentifierFactories factories,
                                         @MetaType final NamingFactory namingFactory) {
         return factories.create(namingFactory);
     }
@@ -144,14 +101,14 @@ public final class MetaTypeModule extends AbstractModule {
     @Provides
     @Singleton
     @MetaType
-    JavaPoetPropertyNamingFactory javaPoetPropertyNamingFactory(
-            final JavaPoetPropertyNamingFactories factories,
-            @MetaTypeAPI final JavaPoetNamingFactory namingFactory,
-            @MetaType final TypeVariableName variableName,
+    PropertyTypeReferenceSourceFactory propertyNamingFactory(
+            final PropertyTypeReferenceSourceFactories factories,
+            @MetaTypeAPI final TypeReferenceSourceFactory referenceFactory,
+            @MetaType final TypeVariableSource variableSource,
             @MetaType final PropertyTypeResolver resolver) {
-        return factories.createDispatcherFactory(factories.parameterWithoutVariableEntity(variableName),
+        return factories.createDispatcherFactory(factories.parameterWithoutVariableEntity(variableSource),
                                                  resolver,
-                                                 namingFactory);
+                                                 referenceFactory);
     }
 
 }

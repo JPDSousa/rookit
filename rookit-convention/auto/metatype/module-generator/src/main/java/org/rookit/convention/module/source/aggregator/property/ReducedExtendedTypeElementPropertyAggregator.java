@@ -22,34 +22,27 @@
 package org.rookit.convention.module.source.aggregator.property;
 
 import com.google.common.collect.ImmutableSet;
-import com.squareup.javapoet.MethodSpec;
 import org.rookit.auto.javax.ExtendedElement;
-import org.rookit.auto.source.spec.ExtendedElementAggregator;
+import org.rookit.auto.javax.aggregator.ExtendedTypeElementAggregator;
+import org.rookit.auto.source.method.MethodSource;
 
-import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
 import javax.tools.Diagnostic;
 import java.util.Collection;
-import java.util.concurrent.CompletableFuture;
 
 final class ReducedExtendedTypeElementPropertyAggregator
-        implements ExtendedElementAggregator<Collection<MethodSpec>> {
+        implements ExtendedTypeElementAggregator<Collection<MethodSource>> {
 
-    private final ExtendedElementAggregator<Collection<MethodSpec>> left;
-    private final ExtendedElementAggregator<Collection<MethodSpec>> right;
+    private final ExtendedTypeElementAggregator<Collection<MethodSource>> left;
+    private final ExtendedTypeElementAggregator<Collection<MethodSource>> right;
     private final Messager messager;
 
-    ReducedExtendedTypeElementPropertyAggregator(final ExtendedElementAggregator<Collection<MethodSpec>> left,
-                                                 final ExtendedElementAggregator<Collection<MethodSpec>> right,
+    ReducedExtendedTypeElementPropertyAggregator(final ExtendedTypeElementAggregator<Collection<MethodSource>> left,
+                                                 final ExtendedTypeElementAggregator<Collection<MethodSource>> right,
                                                  final Messager messager) {
         this.left = left;
         this.right = right;
         this.messager = messager;
-    }
-
-    @Override
-    public CompletableFuture<Void> writeTo(final Filer filer) {
-        return CompletableFuture.allOf(this.left.writeTo(filer), this.right.writeTo(filer));
     }
 
     @Override
@@ -60,14 +53,15 @@ final class ReducedExtendedTypeElementPropertyAggregator
     }
 
     @Override
-    public ExtendedElementAggregator<Collection<MethodSpec>> reduce(
-            final ExtendedElementAggregator<Collection<MethodSpec>> aggregator) {
+    public ExtendedTypeElementAggregator<Collection<MethodSource>> reduce(
+            final ExtendedTypeElementAggregator<Collection<MethodSource>> aggregator) {
+
         return new ReducedExtendedTypeElementPropertyAggregator(this, aggregator, this.messager);
     }
 
     @Override
-    public Collection<MethodSpec> result() {
-        return ImmutableSet.<MethodSpec>builder()
+    public Collection<MethodSource> result() {
+        return ImmutableSet.<MethodSource>builder()
                 .addAll(this.left.result())
                 .addAll(this.right.result())
                 .build();

@@ -23,13 +23,13 @@ package org.rookit.storage.filter.source.method.type;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.squareup.javapoet.MethodSpec;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
-import org.rookit.auto.javax.type.ExtendedTypeMirrorFactory;
-import org.rookit.convention.auto.javapoet.method.ConventionTypeElementMethodSpecVisitors;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirrorFactory;
+import org.rookit.auto.source.method.MethodSource;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.convention.auto.javax.visitor.TypeBasedMethodVisitor;
+import org.rookit.convention.auto.source.method.ConventionTypeElementMethodSourceVisitors;
 import org.rookit.storage.filter.source.guice.Time;
 
 import java.time.LocalDate;
@@ -37,13 +37,13 @@ import java.time.LocalDate;
 final class LocalDateMethodFactory implements Provider<TypeBasedMethodVisitor<Void>> {
 
     private final ExtendedTypeMirror type;
-    private final ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void> delegate;
-    private final ConventionTypeElementMethodSpecVisitors specs;
+    private final ConventionTypeElementVisitor<StreamEx<MethodSource>, Void> delegate;
+    private final ConventionTypeElementMethodSourceVisitors specs;
 
     @Inject
     private LocalDateMethodFactory(final ExtendedTypeMirrorFactory factory,
-                                   @Time final ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void> delegate,
-                                   final ConventionTypeElementMethodSpecVisitors specs) {
+                                   @Time final ConventionTypeElementVisitor<StreamEx<MethodSource>, Void> delegate,
+                                   final ConventionTypeElementMethodSourceVisitors specs) {
         this.type = factory.createWithErasure(LocalDate.class);
         this.delegate = delegate;
         this.specs = specs;

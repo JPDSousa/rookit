@@ -73,7 +73,7 @@ public final class ConfigurationModule extends AbstractModule {
         final DynamicObject rawConfig = config.getProcessorConfig(name);
         final Template1 pEntityTemplate = config.partialEntityTemplate();
         return new UpdateFilterConfigImpl(rawConfig, config.basePackage(), pEntityTemplate,
-                name, templateFactory);
+                                          name, templateFactory, typeVariableFactory);
     }
 
 }

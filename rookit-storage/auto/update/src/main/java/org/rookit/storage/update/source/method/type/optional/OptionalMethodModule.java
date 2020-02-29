@@ -26,12 +26,11 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
-import com.squareup.javapoet.MethodSpec;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javapoet.method.MethodSpecFactory;
-import org.rookit.convention.auto.javapoet.method.ConventionTypeElementMethodSpecVisitors;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.method.MethodSourceFactory;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
-import org.rookit.storage.guice.PartialUpdate;
+import org.rookit.convention.auto.source.method.ConventionTypeElementMethodSourceVisitors;
 import org.rookit.storage.update.source.guice.Optional;
 import org.rookit.storage.update.source.guice.Remove;
 import org.rookit.utils.string.template.Template1;
@@ -50,7 +49,7 @@ public final class OptionalMethodModule extends AbstractModule {
     @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
     @Override
     protected void configure() {
-        bind(new TypeLiteral<ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void>>() {})
+        bind(new TypeLiteral<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>>() {})
                 .annotatedWith(Optional.class)
                 .toProvider(OptionalMethodFactory.class).in(Singleton.class);
     }
@@ -58,11 +57,11 @@ public final class OptionalMethodModule extends AbstractModule {
     @Provides
     @Singleton
     @Remove
-    ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void> removeMethodFactory(
-            final ConventionTypeElementMethodSpecVisitors visitors,
-            @PartialUpdate final MethodSpecFactory methodSpecFactory,
+    ConventionTypeElementVisitor<StreamEx<MethodSource>, Void> removeMethodFactory(
+            final ConventionTypeElementMethodSourceVisitors visitors,
+            final MethodSourceFactory methodFactory,
             @Remove final Template1 template) {
-        return visitors.<Void>templateMethodSpecVisitorBuilder(methodSpecFactory, template)
+        return visitors.<Void>templateMethodSourceVisitorBuilder(methodFactory, template)
                 .build();
     }
 }

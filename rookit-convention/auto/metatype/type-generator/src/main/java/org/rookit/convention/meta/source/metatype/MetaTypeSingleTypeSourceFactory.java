@@ -23,65 +23,74 @@ package org.rookit.convention.meta.source.metatype;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterizedTypeName;
-import com.squareup.javapoet.TypeName;
-import com.squareup.javapoet.TypeVariableName;
-import org.rookit.auto.javapoet.method.EntityMethodFactory;
-import org.rookit.auto.javapoet.naming.JavaPoetNamingFactory;
-import org.rookit.auto.javapoet.type.JavaPoetTypeSourceFactory;
+import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
-import org.rookit.auto.source.spec.SpecFactory;
-import org.rookit.convention.guice.MetaType;
+import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
+import org.rookit.auto.source.field.FieldSource;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.type.TypeSourceFactory;
+import org.rookit.auto.source.type.parameter.TypeParameterSourceFactory;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
+import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
+import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.convention.auto.metatype.guice.MetaTypeAPI;
+import org.rookit.convention.guice.MetaType;
 import org.rookit.convention.metatype.AbstractMetaType;
 import org.rookit.utils.optional.Optional;
 import org.rookit.utils.optional.OptionalFactory;
+import org.rookit.utils.primitive.VoidUtils;
 
 import java.util.Collection;
 
 final class MetaTypeSingleTypeSourceFactory extends AbstractMetaTypeTypeSourceFactory {
 
-    private final JavaPoetNamingFactory namingFactory;
-    private final ClassName delegateBaseMetatype;
+    private final TypeReferenceSourceFactory referenceFactory;
+    private final TypeParameterSourceFactory parameterFactory;
+    private final TypeReferenceSource delegateBaseMetaType;
     private final OptionalFactory optionalFactory;
 
     @Inject
-    private MetaTypeSingleTypeSourceFactory(final JavaPoetTypeSourceFactory adapter,
-                                            @MetaType final SpecFactory<MethodSpec> methodFactory,
-                                            @MetaType final EntityMethodFactory entityMethodFactory,
-                                            @MetaType final SpecFactory<FieldSpec> fieldFactory,
-                                            @MetaTypeAPI final JavaPoetNamingFactory namingFactory,
-                                            final OptionalFactory optionalFactory) {
-        super(adapter, methodFactory, entityMethodFactory, fieldFactory);
-        this.namingFactory = namingFactory;
+    private MetaTypeSingleTypeSourceFactory(
+            final TypeSourceFactory typeFactory,
+            final VoidUtils voidUtils,
+            @MetaType final ExtendedElementVisitor<StreamEx<MethodSource>, Void> methodVisitor,
+            @MetaType final ExtendedElementVisitor<StreamEx<FieldSource>, Void> fieldVisitor,
+            @MetaTypeAPI final TypeReferenceSourceFactory referenceFactory,
+            final TypeParameterSourceFactory parameterFactory,
+            final OptionalFactory optionalFactory) {
+        super(typeFactory, voidUtils, methodVisitor, fieldVisitor);
+        this.referenceFactory = referenceFactory;
+        this.parameterFactory = parameterFactory;
         this.optionalFactory = optionalFactory;
-        this.delegateBaseMetatype = ClassName.get(AbstractMetaType.class);
+        this.delegateBaseMetaType = referenceFactory.fromClass(AbstractMetaType.class);
     }
 
     @Override
-    Collection<TypeName> superInterfaces(final ExtendedTypeElement element) {
-        return ImmutableList.of(this.namingFactory.classNameFor(element));
+    Collection<TypeReferenceSource> superInterfaces(final ExtendedTypeElement element) {
+
+        return ImmutableList.of(this.referenceFactory.create(element));
     }
 
     @Override
-    Optional<TypeName> superclass(final ExtendedTypeElement element) {
-        return this.optionalFactory.of(ParameterizedTypeName.get(this.delegateBaseMetatype, ClassName.get(element)));
+    Optional<TypeReferenceSource> superclass(final ExtendedTypeElement element) {
+        return this.optionalFactory.of(
+                this.parameterFactory.create(this.delegateBaseMetaType, element)
+        );
     }
 
     @Override
-    Optional<TypeVariableName> typeVariableName(final ExtendedTypeElement element) {
+    Optional<TypeVariableSource> typeVariableName(final ExtendedTypeElement element) {
         return this.optionalFactory.empty();
     }
 
     @Override
     public String toString() {
         return "MetaTypeSingleTypeSourceFactory{" +
-                "namingFactory=" + this.namingFactory +
-                ", delegateBaseMetatype=" + this.delegateBaseMetatype +
+                "referenceFactory=" + this.referenceFactory +
+                ", parameterFactory=" + this.parameterFactory +
+                ", delegateBaseMetaType=" + this.delegateBaseMetaType +
                 ", optionalFactory=" + this.optionalFactory +
                 "} " + super.toString();
     }
+
 }

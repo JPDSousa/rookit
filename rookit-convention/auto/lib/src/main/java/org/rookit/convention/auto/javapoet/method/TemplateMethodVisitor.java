@@ -21,11 +21,11 @@
  ******************************************************************************/
 package org.rookit.convention.auto.javapoet.method;
 
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterSpec;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javapoet.method.MethodSpecFactory;
 import org.rookit.auto.javax.visitor.StreamExtendedElementVisitor;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.method.MethodSourceFactory;
+import org.rookit.auto.source.parameter.ParameterSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.convention.auto.property.Property;
@@ -34,29 +34,29 @@ import org.rookit.utils.string.template.Template1;
 import java.util.Collection;
 import java.util.function.Function;
 
-final class TemplateMethodVisitor<P> implements ConventionTypeElementVisitor<StreamEx<MethodSpec>, P>,
-        StreamExtendedElementVisitor<MethodSpec, P> {
-    
-    private final MethodSpecFactory methodSpecFactory;
-    private final Template1 template;
-    private final Function<Property, Collection<ParameterSpec>> parameterResolver;
+final class TemplateMethodVisitor<P> implements ConventionTypeElementVisitor<StreamEx<MethodSource>, P>,
+        StreamExtendedElementVisitor<MethodSource, P> {
 
-    TemplateMethodVisitor(final MethodSpecFactory methodSpecFactory,
+    private final MethodSourceFactory methodSourceFactory;
+    private final Template1 template;
+    private final Function<Property, Collection<ParameterSource>> parameterResolver;
+
+    TemplateMethodVisitor(final MethodSourceFactory methodSourceFactory,
                           final Template1 template,
-                          final Function<Property, Collection<ParameterSpec>> parameterResolver) {
-        this.methodSpecFactory = methodSpecFactory;
+                          final Function<Property, Collection<ParameterSource>> parameterResolver) {
+        this.methodSourceFactory = methodSourceFactory;
         this.template = template;
         this.parameterResolver = parameterResolver;
     }
 
-    private MethodSpec create(final Property property) {
-        final Collection<ParameterSpec> paramsCollection = this.parameterResolver.apply(property);
-        final ParameterSpec[] params = paramsCollection.toArray(new ParameterSpec[paramsCollection.size()]);
-        return this.methodSpecFactory.create(property.name(), this.template, params);
+    private MethodSource create(final Property property) {
+
+        return this.methodSourceFactory.createMutableMethod(this.template.build(property.name()))
+                .addParameters(this.parameterResolver.apply(property));
     }
 
     @Override
-    public StreamEx<MethodSpec> visitConventionType(final ConventionTypeElement element, final P parameter) {
+    public StreamEx<MethodSource> visitConventionType(final ConventionTypeElement element, final P parameter) {
         return StreamEx.of(element.properties())
                 .map(this::create);
     }
@@ -64,7 +64,7 @@ final class TemplateMethodVisitor<P> implements ConventionTypeElementVisitor<Str
     @Override
     public String toString() {
         return "TemplateMethodVisitor{" +
-                "methodSpecFactory=" + this.methodSpecFactory +
+                "methodSourceFactory=" + this.methodSourceFactory +
                 ", template=" + this.template +
                 ", parameterResolver=" + this.parameterResolver +
                 "}";

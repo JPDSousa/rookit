@@ -21,11 +21,11 @@
  ******************************************************************************/
 package org.rookit.convention.auto.entity;
 
-import org.rookit.auto.source.CodeSource;
+import org.rookit.auto.source.type.TypeSource;
 import org.rookit.convention.auto.property.Property;
 
 public interface PropertyPartialEntityFactory {
 
-    CodeSource create(Property property);
+    TypeSource create(Property property);
 
 }

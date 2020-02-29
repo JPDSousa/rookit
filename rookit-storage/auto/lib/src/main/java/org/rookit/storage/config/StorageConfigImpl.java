@@ -47,7 +47,7 @@ final class StorageConfigImpl implements StorageConfig {
 
     @Override
     public ExtendedPackageElement basePackage() {
-        return this.referenceFactory.create(this.configuration.getString("basePackage"));
+        return this.referenceFactory.fromFQDN(this.configuration.getString("basePackage"));
     }
 
     @Override

@@ -28,6 +28,7 @@ import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitors;
 import org.rookit.auto.javax.visitor.StreamExBuilder;
 import org.rookit.auto.source.parameter.ParameterSource;
+import org.rookit.auto.source.parameter.ParameterSourceBuilder;
 import org.rookit.auto.source.parameter.ParameterSourceFactory;
 import org.rookit.utils.adapt.Adapter;
 

@@ -27,7 +27,6 @@ import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
 import org.rookit.convention.auto.javapoet.identifier.IdentifierModule;
 import org.rookit.convention.auto.javapoet.method.MethodModule;
-import org.rookit.convention.auto.javapoet.naming.NamingModule;
 import org.rookit.convention.auto.javapoet.parameter.ParameterModule;
 import org.rookit.convention.auto.javapoet.type.TypeModule;
 
@@ -37,7 +36,6 @@ public final class JavaPoetModule extends AbstractModule {
             new JavaPoetModule(),
             IdentifierModule.getModule(),
             MethodModule.getModule(),
-            NamingModule.getModule(),
             ParameterModule.getModule(),
             TypeModule.getModule()
     );

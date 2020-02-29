@@ -23,40 +23,54 @@ package org.rookit.convention.module.source.identifier;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
-import com.squareup.javapoet.FieldSpec;
 import org.rookit.auto.javax.naming.Identifier;
+import org.rookit.auto.source.arbitrary.ArbitraryCodeSourceFactory;
+import org.rookit.auto.source.field.FieldSourceFactory;
 import org.rookit.auto.source.identifier.IdentifierFieldAggregator;
 import org.rookit.auto.source.identifier.IdentifierFieldAggregatorFactory;
-import org.rookit.auto.javapoet.field.FieldSpecFactory;
+import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 import org.rookit.utils.guice.Separator;
 
-final class SubModuleFieldAggregatorFactory implements IdentifierFieldAggregatorFactory<FieldSpec> {
+final class SubModuleFieldAggregatorFactory implements IdentifierFieldAggregatorFactory {
 
-    private final FieldSpecFactory fieldSpecFactory;
     private final String separator;
+    private final FieldSourceFactory fieldFactory;
+    private final TypeReferenceSourceFactory referenceFactory;
+    private final ArbitraryCodeSourceFactory codeSourceFactory;
 
     @Inject
-    private SubModuleFieldAggregatorFactory(final FieldSpecFactory fieldSpecFactory,
-                                            @Separator final String separator) {
-        this.fieldSpecFactory = fieldSpecFactory;
+    private SubModuleFieldAggregatorFactory(
+            @Separator final String separator,
+            final FieldSourceFactory fieldFactory,
+            final TypeReferenceSourceFactory referenceFactory,
+            final ArbitraryCodeSourceFactory codeSourceFactory) {
         this.separator = separator;
+        this.fieldFactory = fieldFactory;
+        this.referenceFactory = referenceFactory;
+        this.codeSourceFactory = codeSourceFactory;
     }
 
     @Override
-    public IdentifierFieldAggregator<FieldSpec> create() {
-        return new SubModuleFieldAggregator(this, this.fieldSpecFactory, ImmutableSet.of(), this.separator);
+    public IdentifierFieldAggregator create() {
+        return new SubModuleFieldAggregator(
+                this,
+                ImmutableSet.of(),
+                this.separator,
+                this.fieldFactory,
+                this.referenceFactory,
+                this.codeSourceFactory
+        );
     }
 
     @Override
-    public IdentifierFieldAggregator<FieldSpec> create(final Identifier identifier) {
-        return new SubModuleFieldAggregator(this, this.fieldSpecFactory, ImmutableSet.of(identifier), this.separator);
-    }
-
-    @Override
-    public String toString() {
-        return "SubModuleFieldAggregatorFactory{" +
-                "fieldSpecFactory=" + this.fieldSpecFactory +
-                ", separator='" + this.separator + '\'' +
-                "}";
+    public IdentifierFieldAggregator create(final Identifier identifier) {
+        return new SubModuleFieldAggregator(
+                this,
+                ImmutableSet.of(identifier),
+                this.separator,
+                this.fieldFactory,
+                this.referenceFactory,
+                this.codeSourceFactory
+        );
     }
 }

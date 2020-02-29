@@ -22,39 +22,45 @@
 package org.rookit.convention.api.source.method;
 
 import com.google.inject.Inject;
-import com.squareup.javapoet.MethodSpec;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.visitor.StreamExtendedElementVisitor;
-import org.rookit.convention.auto.metatype.guice.MetaTypeAPI;
-import org.rookit.convention.auto.javapoet.naming.JavaPoetPropertyNamingFactory;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.method.MethodSourceFactory;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.auto.metatype.guice.MetaTypeAPI;
+import org.rookit.convention.auto.source.PropertyTypeReferenceSourceFactory;
 
-import javax.lang.model.element.Modifier;
+final class EntityPropertiesMethodVisitor implements ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>,
+        StreamExtendedElementVisitor<MethodSource, Void> {
 
-final class EntityPropertiesMethodVisitor implements ConventionTypeElementVisitor<StreamEx<MethodSpec>, Void>,
-        StreamExtendedElementVisitor<MethodSpec, Void> {
-
-    private final JavaPoetPropertyNamingFactory propertyNamingFactory;
+    private final MethodSourceFactory methodFactory;
+    private final PropertyTypeReferenceSourceFactory propertyReferenceFactory;
 
     @Inject
-    private EntityPropertiesMethodVisitor(@MetaTypeAPI final JavaPoetPropertyNamingFactory namingFactory) {
-        this.propertyNamingFactory = namingFactory;
+    private EntityPropertiesMethodVisitor(
+            final MethodSourceFactory methodFactory,
+            @MetaTypeAPI final PropertyTypeReferenceSourceFactory namingFactory) {
+        this.methodFactory = methodFactory;
+        this.propertyReferenceFactory = namingFactory;
     }
 
     @Override
-    public StreamEx<MethodSpec> visitConventionType(final ConventionTypeElement element, final Void parameter) {
+    public StreamEx<MethodSource> visitConventionType(final ConventionTypeElement element, final Void parameter) {
         return StreamEx.of(element.properties())
-                .map(property -> MethodSpec.methodBuilder(property.name())
-                        .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-                        .returns(this.propertyNamingFactory.typeNameFor(element, property))
-                        .build());
+                .map(property -> this.methodFactory.createMutableMethod(property.name())
+                        .makePublic()
+                        .makeAbstract()
+                        .withReturnType(this.propertyReferenceFactory.create(element, property))
+                );
     }
 
     @Override
     public String toString() {
         return "EntityPropertiesMethodVisitor{" +
-                "propertyNamingFactory=" + this.propertyNamingFactory +
+                "methodFactory=" + this.methodFactory +
+                ", propertyReferenceFactory=" + this.propertyReferenceFactory +
                 "}";
     }
+
 }

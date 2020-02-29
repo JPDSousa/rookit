@@ -21,57 +21,60 @@
  ******************************************************************************/
 package org.rookit.convention.auto.javapoet.method;
 
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterizedTypeName;
-import com.squareup.javapoet.TypeName;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javax.visitor.StreamExtendedElementVisitor;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
-import org.rookit.auto.javax.type.ExtendedTypeMirror;
+import org.rookit.auto.javax.visitor.StreamExtendedElementVisitor;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.method.MethodSourceFactory;
+import org.rookit.auto.source.type.parameter.TypeParameterSourceFactory;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 
-import javax.lang.model.element.TypeElement;
+final class Parameter1GetterMethodVisitor<P> implements ConventionTypeElementVisitor<StreamEx<MethodSource>, P>,
+        StreamExtendedElementVisitor<MethodSource, P> {
 
-final class Parameter1GetterMethodVisitor<P> implements ConventionTypeElementVisitor<StreamEx<MethodSpec>, P>,
-        StreamExtendedElementVisitor<MethodSpec, P> {
-
+    private final TypeParameterSourceFactory parameterFactory;
+    private final MethodSourceFactory methodSourceFactory;
     private final ExtendedExecutableElement method;
 
-    Parameter1GetterMethodVisitor(final ExtendedExecutableElement method) {
+    Parameter1GetterMethodVisitor(
+            final TypeParameterSourceFactory parameterFactory,
+            final MethodSourceFactory methodSourceFactory,
+            final ExtendedExecutableElement method) {
+        this.parameterFactory = parameterFactory;
+        this.methodSourceFactory = methodSourceFactory;
         this.method = method;
     }
 
     @Override
-    public StreamEx<MethodSpec> visitType(final ExtendedTypeElement extendedType, final P parameter) {
-        final ExtendedTypeMirror returnType = this.method.getReturnType();
-        final TypeName returnTypeName = returnType.toElement()
-                .select(TypeElement.class)
-                .map(ClassName::get)
-                .map(className -> ParameterizedTypeName.get(className, ClassName.get(extendedType)))
-                .map(TypeName.class::cast)
-                .orElseGet(() -> TypeName.get(returnType));
+    public StreamEx<MethodSource> visitType(final ExtendedTypeElement extendedType, final P parameter) {
+        // TODO we might need to consider the visited type, otherwise this is a constant value.
+        return createMethod(extendedType);
+    }
+
+    private StreamEx<MethodSource> createMethod(final ExtendedTypeElement extendedType) {
+        final TypeReferenceSource returnType = this.parameterFactory.create(this.method.getReturnType(), extendedType);
 
         return StreamEx.of(
-                MethodSpec.overriding(this.method)
-                        .returns(returnTypeName)
-                        .addStatement("return this.$L", this.method.getSimpleName().toString())
-                        .build()
+                this.methodSourceFactory.createMutableOverride(this.method)
+                        .returnInstanceField(returnType, this.method.getSimpleName())
         );
     }
 
     @Override
-    public StreamEx<MethodSpec> visitConventionType(
+    public StreamEx<MethodSource> visitConventionType(
             final ConventionTypeElement element, final P parameter) {
-        return visitType(element, parameter);
+        return createMethod(element);
     }
 
     @Override
     public String toString() {
         return "Parameter1GetterMethodVisitor{" +
-                "method=" + this.method +
+                "parameterFactory=" + this.parameterFactory +
+                ", methodSourceFactory=" + this.methodSourceFactory +
+                ", method=" + this.method +
                 "}";
     }
 
