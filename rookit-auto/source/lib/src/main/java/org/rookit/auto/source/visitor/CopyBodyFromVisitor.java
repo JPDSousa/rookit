@@ -67,7 +67,7 @@ final class CopyBodyFromVisitor<P> implements ExtendedElementVisitor<StreamEx<Ty
     }
 
     private MethodSource buildMethodFrom(final ExtendedExecutableElement property) {
-        return this.methodFactory.from(property)
+        return this.methodFactory.fromExecutableElement(property)
                 .makePublic()
                 .makeAbstract()
                 .defaultValue("$L", ImmutableList.of(property.getDefaultValue().getValue()));

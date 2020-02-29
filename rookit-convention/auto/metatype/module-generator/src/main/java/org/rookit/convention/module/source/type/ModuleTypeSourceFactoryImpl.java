@@ -23,7 +23,7 @@ package org.rookit.convention.module.source.type;
 
 import com.google.inject.Inject;
 import org.rookit.auto.javax.aggregator.ExtendedElementAggregatorFactory;
-import org.rookit.auto.javax.aggregator.ExtendedTypeElementAggregator;
+import org.rookit.auto.javax.aggregator.ExtendedElementAggregator;
 import org.rookit.auto.javax.naming.Identifier;
 import org.rookit.auto.source.identifier.IdentifierFieldAggregator;
 import org.rookit.auto.source.identifier.IdentifierFieldAggregatorFactory;
@@ -31,26 +31,27 @@ import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.type.MutableTypeSource;
 import org.rookit.auto.source.type.TypeSourceFactory;
 import org.rookit.convention.auto.module.ModuleTypeSource;
+import org.rookit.convention.auto.module.ModuleTypeSourceFactory;
 
 import java.util.Collection;
 
 final class ModuleTypeSourceFactoryImpl implements ModuleTypeSourceFactory {
 
     private final TypeSourceFactory delegate;
-    private final ExtendedElementAggregatorFactory<MethodSource,
-            ExtendedTypeElementAggregator<MethodSource>> methodAggregatorFactory;
+    private final ExtendedElementAggregatorFactory<MethodSource
+            > methodAggregatorFactory;
     private final IdentifierFieldAggregatorFactory moduleAggregatorFactory;
-    private final ExtendedElementAggregatorFactory<Collection<MethodSource>,
-            ExtendedTypeElementAggregator<Collection<MethodSource>>> propertyAggregatorFactory;
+    private final ExtendedElementAggregatorFactory<Collection<MethodSource>
+            > propertyAggregatorFactory;
 
     @Inject
     private ModuleTypeSourceFactoryImpl(
             final TypeSourceFactory delegate,
-            final ExtendedElementAggregatorFactory<MethodSource,
-                    ExtendedTypeElementAggregator<MethodSource>> methodFactory,
+            final ExtendedElementAggregatorFactory<MethodSource
+                    > methodFactory,
             final IdentifierFieldAggregatorFactory moduleFactory,
-            final ExtendedElementAggregatorFactory<Collection<MethodSource>,
-                    ExtendedTypeElementAggregator<Collection<MethodSource>>> propAggFactory) {
+            final ExtendedElementAggregatorFactory<Collection<MethodSource>
+                    > propAggFactory) {
         this.delegate = delegate;
         this.methodAggregatorFactory = methodFactory;
         this.moduleAggregatorFactory = moduleFactory;
@@ -60,9 +61,9 @@ final class ModuleTypeSourceFactoryImpl implements ModuleTypeSourceFactory {
     @Override
     public ModuleTypeSource createClass(final Identifier identifier) {
         final MutableTypeSource delegate = this.delegate.createMutableClass(identifier);
-        final ExtendedTypeElementAggregator<MethodSource> methodAggregator = this.methodAggregatorFactory.create();
+        final ExtendedElementAggregator<MethodSource> methodAggregator = this.methodAggregatorFactory.create();
         final IdentifierFieldAggregator moduleAggregator = this.moduleAggregatorFactory.create(identifier);
-        final ExtendedTypeElementAggregator<Collection<MethodSource>> propertyAggregator
+        final ExtendedElementAggregator<Collection<MethodSource>> propertyAggregator
                 = this.propertyAggregatorFactory.create();
         return new ModuleTypeSourceImpl(delegate, methodAggregator, moduleAggregator, propertyAggregator);
     }

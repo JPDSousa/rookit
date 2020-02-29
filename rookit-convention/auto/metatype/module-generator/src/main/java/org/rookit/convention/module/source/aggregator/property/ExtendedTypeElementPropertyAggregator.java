@@ -23,7 +23,7 @@ package org.rookit.convention.module.source.aggregator.property;
 
 import com.google.common.collect.Maps;
 import org.rookit.auto.javax.ExtendedElement;
-import org.rookit.auto.javax.aggregator.ExtendedTypeElementAggregator;
+import org.rookit.auto.javax.aggregator.ExtendedElementAggregator;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
@@ -37,7 +37,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-final class ExtendedTypeElementPropertyAggregator implements ExtendedTypeElementAggregator<Collection<MethodSource>> {
+final class ExtendedTypeElementPropertyAggregator implements ExtendedElementAggregator<Collection<MethodSource>> {
 
     private final Map<String, ExtendedPropertyAggregator<Collection<MethodSource>>> subAggregators;
     private final ExtendedPropertyAggregatorFactory<Collection<MethodSource>> aggregatorFactory;
@@ -69,8 +69,8 @@ final class ExtendedTypeElementPropertyAggregator implements ExtendedTypeElement
     }
 
     @Override
-    public ExtendedTypeElementAggregator<Collection<MethodSource>> reduce(
-            final ExtendedTypeElementAggregator<Collection<MethodSource>> aggregator) {
+    public ExtendedElementAggregator<Collection<MethodSource>> reduce(
+            final ExtendedElementAggregator<Collection<MethodSource>> aggregator) {
 
         return new ReducedExtendedTypeElementPropertyAggregator(this, aggregator, this.messager);
     }

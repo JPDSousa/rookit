@@ -19,13 +19,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.convention.module.source.type;
+package org.rookit.guice.auto.bind;
 
-import org.rookit.auto.javax.naming.Identifier;
-import org.rookit.convention.auto.module.ModuleTypeSource;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
 
-public interface ModuleTypeSourceFactory {
+public interface BindingStatementFactory {
 
-    ModuleTypeSource createClass(Identifier identifier);
+    SourceBindingStatement bind(TypeReferenceSource reference);
+
+    SourceBindingStatement bindSingleton(TypeReferenceSource reference);
 
 }

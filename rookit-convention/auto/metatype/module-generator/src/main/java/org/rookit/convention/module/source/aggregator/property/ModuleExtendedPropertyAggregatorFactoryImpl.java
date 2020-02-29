@@ -23,7 +23,7 @@ package org.rookit.convention.module.source.aggregator.property;
 
 import com.google.inject.Inject;
 import org.rookit.auto.javax.aggregator.ExtendedElementAggregatorFactory;
-import org.rookit.auto.javax.aggregator.ExtendedTypeElementAggregator;
+import org.rookit.auto.javax.aggregator.ExtendedElementAggregator;
 import org.rookit.auto.javax.guice.QualifiedName;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.source.method.MethodSource;
@@ -35,7 +35,7 @@ import javax.lang.model.element.Name;
 import java.util.Collection;
 
 final class ModuleExtendedPropertyAggregatorFactoryImpl implements ExtendedElementAggregatorFactory<
-        Collection<MethodSource>, ExtendedTypeElementAggregator<Collection<MethodSource>>> {
+        Collection<MethodSource>> {
 
     private final ExtendedPropertyAggregatorFactory<Collection<MethodSource>> aggregatorFactory;
     private final VoidUtils voidUtils;
@@ -55,7 +55,7 @@ final class ModuleExtendedPropertyAggregatorFactoryImpl implements ExtendedEleme
     }
 
     @Override
-    public ExtendedTypeElementAggregator<Collection<MethodSource>> create() {
+    public ExtendedElementAggregator<Collection<MethodSource>> create() {
         return new ExtendedTypeElementPropertyAggregator(
                 this.aggregatorFactory,
                 this.voidUtils,

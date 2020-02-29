@@ -22,11 +22,9 @@
 package org.rookit.convention.auto.module;
 
 import org.rookit.auto.javax.naming.Identifier;
-import org.rookit.auto.source.type.TypeSourceFactory;
 
-public interface ModuleTypeSourceFactory extends TypeSourceFactory {
+public interface ModuleTypeSourceFactory {
 
-    @Override
     ModuleTypeSource createClass(Identifier identifier);
 
 }

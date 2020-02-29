@@ -19,14 +19,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.aggregator;
+package org.rookit.guice.auto.aggregator;
 
-import org.rookit.auto.javax.pack.ExtendedPackageElement;
+import org.rookit.auto.javax.aggregator.GenericExtendedElementAggregator;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.guice.auto.bind.BindingStatement;
 
-// TODO work on the naming, please
-@FunctionalInterface
-public interface ExtendedPackageElementAggregatorFactory<R, A extends GenericExtendedElementAggregator<R, A>> {
+import java.util.Collection;
 
-    A create(ExtendedPackageElement packageElement);
+public interface ConfigureMethodAggregator extends
+        GenericExtendedElementAggregator<MethodSource, ConfigureMethodAggregator> {
+
+    Collection<BindingStatement> bindStatements();
 
 }

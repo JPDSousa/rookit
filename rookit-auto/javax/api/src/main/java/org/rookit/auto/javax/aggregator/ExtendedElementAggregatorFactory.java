@@ -22,8 +22,8 @@
 package org.rookit.auto.javax.aggregator;
 
 @FunctionalInterface
-public interface ExtendedElementAggregatorFactory<R, A extends ExtendedElementAggregator<R, A>> {
+public interface ExtendedElementAggregatorFactory<R> {
 
-    A create();
+    ExtendedElementAggregator<R> create();
 
 }

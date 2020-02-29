@@ -19,14 +19,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.aggregator;
+package org.rookit.guice.auto.bind;
 
-import org.rookit.auto.javax.pack.ExtendedPackageElement;
+import org.rookit.auto.source.arbitrary.ArbitraryCodeSource;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
 
-// TODO work on the naming, please
-@FunctionalInterface
-public interface ExtendedPackageElementAggregatorFactory<R, A extends GenericExtendedElementAggregator<R, A>> {
+import java.util.Collection;
 
-    A create(ExtendedPackageElement packageElement);
+final class BindingStatementImpl implements BindingStatement {
+
+    private final ArbitraryCodeSource codeSource;
+    private final TypeReferenceSource source;
+
+    BindingStatementImpl(
+            final ArbitraryCodeSource codeSource,
+            final TypeReferenceSource source) {
+        this.codeSource = codeSource;
+        this.source = source;
+    }
+
+    @Override
+    public TypeReferenceSource source() {
+        return this.source;
+    }
+
+    @Override
+    public CharSequence format() {
+        return this.codeSource.format();
+    }
+
+    @Override
+    public Collection<Object> arguments() {
+        return this.codeSource.arguments();
+    }
 
 }

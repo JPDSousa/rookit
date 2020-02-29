@@ -22,12 +22,12 @@
 package org.rookit.auto.source.type.container;
 
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javax.aggregator.ExtendedElementAggregator;
+import org.rookit.auto.javax.aggregator.GenericExtendedElementAggregator;
 import org.rookit.auto.source.type.TypeSource;
 
 public interface TypeSourceContainerExtendedElementAggregator<T extends TypeSource>
-        extends TypeSourceContainer<T>, ExtendedElementAggregator<TypeSourceContainer<T>,
-        TypeSourceContainerExtendedElementAggregator<T>> {
+        extends TypeSourceContainer<T>, GenericExtendedElementAggregator<TypeSourceContainer<T>,
+                TypeSourceContainerExtendedElementAggregator<T>> {
 
     @Override
     default StreamEx<T> stream() {

@@ -41,7 +41,7 @@ import org.rookit.storage.guice.TopUpdate;
 import org.rookit.storage.update.UpdateQuery;
 import org.rookit.utils.primitive.VoidUtils;
 
-// TODO semi copy-pasted from PropertyBasedTypeSourceFactory
+// TODO semi copy-pasted fromExecutableElement PropertyBasedTypeSourceFactory
 final class PartialUpdateTypeSourceFactory implements SingleTypeSourceFactory {
 
     private final TypeSourceFactory typeSourceFactory;

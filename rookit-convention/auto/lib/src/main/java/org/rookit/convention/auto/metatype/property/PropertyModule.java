@@ -112,7 +112,7 @@ public final class PropertyModule extends AbstractModule
     }
 
     // TODO this is generic enough to not belong here.
-    // TODO also, copied from MetaTypeModule
+    // TODO also, copied fromExecutableElement MetaTypeModule
     private ExtendedExecutableElement getMethodOrFail(final ExtendedTypeElement typeElement, final String name) {
         return typeElement.getMethod(name)
                 .orElseThrow(() -> new IllegalArgumentException(

@@ -28,8 +28,10 @@ import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
 import org.rookit.auto.javax.naming.NamingFactories;
 import org.rookit.auto.javax.naming.NamingFactory;
+import org.rookit.guice.auto.aggregator.AggregatorModule;
 import org.rookit.guice.auto.annotation.AnnotationModule;
 import org.rookit.guice.auto.annotation.Guice;
+import org.rookit.guice.auto.bind.BindModule;
 import org.rookit.guice.auto.config.ConfigModule;
 import org.rookit.guice.auto.config.GuiceConfig;
 import org.rookit.utils.guice.Self;
@@ -40,7 +42,9 @@ public final class GuiceAutoLibModule extends AbstractModule {
 
     private static final Module MODULE = Modules.combine(
             new GuiceAutoLibModule(),
+            AggregatorModule.getModule(),
             AnnotationModule.getModule(),
+            BindModule.getModule(),
             ConfigModule.getModule()
     );
 

@@ -88,7 +88,7 @@ final class CodeBlockAdapter implements CodeSourceVisitor<CodeBlock, Void> {
     @Override
     public CodeBlock visitMethod(final MethodSource source, final Void parameter) {
 
-        logger.warn("Cannot create code blocks from methods");
+        logger.warn("Cannot create code blocks fromExecutableElement methods");
         return CodeBlock.builder().build();
     }
 

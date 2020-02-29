@@ -19,26 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.convention.module.source.method;
+package org.rookit.guice.auto.aggregator;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Module;
-import com.google.inject.Singleton;
-import org.rookit.auto.javax.aggregator.ExtendedElementAggregatorFactory;
+public interface ConfigureMethodAggregatorFactory {
 
-public final class MethodModule extends AbstractModule {
+    ConfigureMethodAggregator createAggregator();
 
-    private static final Module MODULE = new MethodModule();
-
-    public static Module getModule() {
-        return MODULE;
-    }
-
-    private MethodModule() {}
-
-    @Override
-    protected void configure() {
-        bind(ExtendedElementAggregatorFactory.class)
-                .to(ConfigureMethodAggregatorFactory.class).in(Singleton.class);;
-    }
 }

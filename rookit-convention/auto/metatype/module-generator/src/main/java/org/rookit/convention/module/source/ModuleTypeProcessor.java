@@ -25,20 +25,19 @@ import com.google.inject.Inject;
 import org.rookit.auto.AbstractConfigAwareTypeProcessor;
 import org.rookit.auto.config.ProcessorConfig;
 import org.rookit.auto.javax.type.ExtendedTypeElementFactory;
-import org.rookit.auto.source.CodeSource;
-import org.rookit.auto.javax.aggregator.ExtendedElementAggregator;
+import org.rookit.auto.source.type.TypeSource;
+import org.rookit.auto.source.type.container.TypeSourceContainerExtendedElementAggregator;
 import org.rookit.failsafe.Failsafe;
 
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
-import java.util.Collection;
 import java.util.concurrent.ExecutionException;
 
 final class ModuleTypeProcessor extends AbstractConfigAwareTypeProcessor {
 
-    private final ExtendedElementAggregator<Collection<CodeSource>> aggregator;
+    private final TypeSourceContainerExtendedElementAggregator<TypeSource> aggregator;
     private final ExtendedTypeElementFactory typeFactory;
     private final Filer filer;
     private final Messager messager;
@@ -47,7 +46,7 @@ final class ModuleTypeProcessor extends AbstractConfigAwareTypeProcessor {
     @Inject
     private ModuleTypeProcessor(final ProcessorConfig config,
                                 final Messager messager,
-                                final ExtendedElementAggregator<Collection<CodeSource>> aggregator,
+                                final TypeSourceContainerExtendedElementAggregator<TypeSource> aggregator,
                                 final ExtendedTypeElementFactory typeFactory,
                                 final Filer filer,
                                 final Failsafe failsafe) {

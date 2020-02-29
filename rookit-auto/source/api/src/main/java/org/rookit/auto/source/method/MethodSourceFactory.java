@@ -25,12 +25,14 @@ import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 
 public interface MethodSourceFactory {
 
-    MutableMethodSource from(ExtendedExecutableElement source);
+    MutableMethodSource fromExecutableElement(ExtendedExecutableElement source);
 
     MutableMethodSource createMutableConstructor();
 
     MutableMethodSource createMutableMethod(CharSequence name);
 
     MutableMethodSource createMutableOverride(ExtendedExecutableElement method);
+
+    MutableMethodSource makeMutable(MethodSource method);
 
 }

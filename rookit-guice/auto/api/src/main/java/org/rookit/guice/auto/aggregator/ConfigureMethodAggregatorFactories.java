@@ -19,10 +19,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.aggregator;
+package org.rookit.guice.auto.aggregator;
 
-// TODO the TypeElement part in the name doesn't make much sense, as we're still accepting ExtendedElement s
-public interface ExtendedTypeElementAggregator<R> extends ExtendedElementAggregator<R,
-        ExtendedTypeElementAggregator<R>> {
+import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
+
+public interface ConfigureMethodAggregatorFactories {
+
+    ConfigureMethodAggregatorFactory withReferenceFactories(
+            TypeReferenceSourceFactory apiFactory,
+            TypeReferenceSourceFactory implFactory
+    );
 
 }

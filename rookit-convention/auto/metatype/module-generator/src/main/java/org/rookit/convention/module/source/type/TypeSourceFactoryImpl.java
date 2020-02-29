@@ -44,7 +44,7 @@ import static java.lang.String.format;
 
 final class TypeSourceFactoryImpl implements TypeSourceFactory {
 
-    // TODO copied from ModuleTypeSourceFactoryImpl
+    // TODO copied fromExecutableElement ModuleTypeSourceFactoryImpl
     private static final String WARN_DELEGATE = "No specification for module %s on generator '%s'. " +
             "Falling back to default implementation";
 

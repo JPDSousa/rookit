@@ -35,6 +35,7 @@ import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.javax.mirror.variable.ExtendedTypeVariable;
 import org.rookit.auto.javax.type.parameter.ExtendedTypeParameterElement;
 import org.rookit.auto.source.arbitrary.ArbitraryCodeSourceAdapter;
+import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.method.MethodSourceFactory;
 import org.rookit.auto.source.method.MutableMethodSource;
 import org.rookit.auto.source.parameter.ParameterSourceAdapter;
@@ -47,6 +48,7 @@ import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
 import javax.lang.model.element.Modifier;
 import java.util.Set;
 
+import static java.lang.String.format;
 import static javax.lang.model.element.Modifier.ABSTRACT;
 import static javax.lang.model.element.Modifier.DEFAULT;
 
@@ -85,7 +87,7 @@ final class JavaPoetMethodFactory implements MethodSourceFactory {
     }
 
     @Override
-    public MutableMethodSource from(final ExtendedExecutableElement method) {
+    public MutableMethodSource fromExecutableElement(final ExtendedExecutableElement method) {
 
         final ExtendedElement enclosingClass = method.getEnclosingElement();
         if (enclosingClass.getModifiers().contains(Modifier.FINAL)) {
@@ -145,8 +147,20 @@ final class JavaPoetMethodFactory implements MethodSourceFactory {
     @Override
     public MutableMethodSource createMutableOverride(final ExtendedExecutableElement method) {
 
-        return from(method)
+        return fromExecutableElement(method)
                 .addAnnotationByClass(Override.class);
+    }
+
+    @Override
+    public MutableMethodSource makeMutable(final MethodSource method) {
+
+        if (method instanceof MutableMethodSource) {
+            return (MutableMethodSource) method;
+        }
+
+        // TODO use failsafe
+        final String errMsg = format("Cannot make %s mutable.", method);
+        throw new IllegalArgumentException(errMsg);
     }
 
 }

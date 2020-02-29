@@ -23,7 +23,7 @@ package org.rookit.convention.module.source.aggregator.property;
 
 import com.google.common.collect.ImmutableSet;
 import org.rookit.auto.javax.ExtendedElement;
-import org.rookit.auto.javax.aggregator.ExtendedTypeElementAggregator;
+import org.rookit.auto.javax.aggregator.ExtendedElementAggregator;
 import org.rookit.auto.source.method.MethodSource;
 
 import javax.annotation.processing.Messager;
@@ -31,14 +31,14 @@ import javax.tools.Diagnostic;
 import java.util.Collection;
 
 final class ReducedExtendedTypeElementPropertyAggregator
-        implements ExtendedTypeElementAggregator<Collection<MethodSource>> {
+        implements ExtendedElementAggregator<Collection<MethodSource>> {
 
-    private final ExtendedTypeElementAggregator<Collection<MethodSource>> left;
-    private final ExtendedTypeElementAggregator<Collection<MethodSource>> right;
+    private final ExtendedElementAggregator<Collection<MethodSource>> left;
+    private final ExtendedElementAggregator<Collection<MethodSource>> right;
     private final Messager messager;
 
-    ReducedExtendedTypeElementPropertyAggregator(final ExtendedTypeElementAggregator<Collection<MethodSource>> left,
-                                                 final ExtendedTypeElementAggregator<Collection<MethodSource>> right,
+    ReducedExtendedTypeElementPropertyAggregator(final ExtendedElementAggregator<Collection<MethodSource>> left,
+                                                 final ExtendedElementAggregator<Collection<MethodSource>> right,
                                                  final Messager messager) {
         this.left = left;
         this.right = right;
@@ -53,8 +53,8 @@ final class ReducedExtendedTypeElementPropertyAggregator
     }
 
     @Override
-    public ExtendedTypeElementAggregator<Collection<MethodSource>> reduce(
-            final ExtendedTypeElementAggregator<Collection<MethodSource>> aggregator) {
+    public ExtendedElementAggregator<Collection<MethodSource>> reduce(
+            final ExtendedElementAggregator<Collection<MethodSource>> aggregator) {
 
         return new ReducedExtendedTypeElementPropertyAggregator(this, aggregator, this.messager);
     }

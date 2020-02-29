@@ -29,7 +29,6 @@ import org.rookit.auto.TypeProcessor;
 import org.rookit.convention.module.source.aggregator.AggregatorModule;
 import org.rookit.convention.module.source.config.ConfigurationModule;
 import org.rookit.convention.module.source.identifier.IdentifierModule;
-import org.rookit.convention.module.source.method.MethodModule;
 import org.rookit.convention.module.source.naming.NamingModule;
 import org.rookit.convention.module.source.type.TypeModule;
 
@@ -42,7 +41,6 @@ public final class SourceModule extends AbstractModule {
             NamingModule.getModule(),
             TypeModule.getModule(),
             IdentifierModule.getModule(),
-            MethodModule.getModule(),
             ConfigurationModule.getModule());
 
     public static Module getModule() {

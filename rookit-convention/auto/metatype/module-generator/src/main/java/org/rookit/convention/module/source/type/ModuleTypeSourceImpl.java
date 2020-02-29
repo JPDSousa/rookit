@@ -22,7 +22,7 @@
 package org.rookit.convention.module.source.type;
 
 import org.rookit.auto.javax.ExtendedElement;
-import org.rookit.auto.javax.aggregator.ExtendedTypeElementAggregator;
+import org.rookit.auto.javax.aggregator.ExtendedElementAggregator;
 import org.rookit.auto.javax.naming.Identifier;
 import org.rookit.auto.source.identifier.IdentifierFieldAggregator;
 import org.rookit.auto.source.method.MethodSource;
@@ -39,14 +39,14 @@ final class ModuleTypeSourceImpl implements ModuleTypeSource {
 
     private boolean written;
     private final MutableTypeSource delegate;
-    private final ExtendedTypeElementAggregator<MethodSource> configureAggregator;
+    private final ExtendedElementAggregator<MethodSource> configureAggregator;
     private final IdentifierFieldAggregator subModules;
-    private final ExtendedTypeElementAggregator<Collection<MethodSource>> propertyAggregator;
+    private final ExtendedElementAggregator<Collection<MethodSource>> propertyAggregator;
 
     ModuleTypeSourceImpl(final MutableTypeSource delegate,
-                         final ExtendedTypeElementAggregator<MethodSource> configureAggregator,
+                         final ExtendedElementAggregator<MethodSource> configureAggregator,
                          final IdentifierFieldAggregator subModules,
-                         final ExtendedTypeElementAggregator<Collection<MethodSource>> propertyAggregator) {
+                         final ExtendedElementAggregator<Collection<MethodSource>> propertyAggregator) {
         this.configureAggregator = configureAggregator;
         this.propertyAggregator = propertyAggregator;
         this.written = false;

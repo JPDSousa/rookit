@@ -21,10 +21,7 @@
  ******************************************************************************/
 package org.rookit.auto.javax.aggregator;
 
-import org.rookit.auto.javax.ExtendedElement;
-import org.rookit.utils.aggregate.Aggregator;
-
-public interface ExtendedElementAggregator<R, A extends ExtendedElementAggregator<R, A>>
-        extends Aggregator<ExtendedElement, A, R> {
+public interface ExtendedElementAggregator<R> extends GenericExtendedElementAggregator<R,
+        ExtendedElementAggregator<R>> {
 
 }

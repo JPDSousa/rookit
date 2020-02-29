@@ -45,7 +45,7 @@ final class RecursiveExtendedPropertyExtractor implements ExtendedPropertyExtrac
 
     @Override
     public StreamEx<Property> fromType(final TypeElement element) {
-        // TODO copied from AbstractTypeElementDecorator#conventionInterfaces
+        // TODO copied fromExecutableElement AbstractTypeElementDecorator#conventionInterfaces
         return StreamEx.of(element.getInterfaces())
                 .map(this.mirrorFactory::extend)
                 .map(ExtendedTypeMirror::toElement)

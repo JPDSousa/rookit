@@ -19,14 +19,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.aggregator;
+package org.rookit.guice.auto.aggregator;
 
-import org.rookit.auto.javax.pack.ExtendedPackageElement;
+import com.google.inject.AbstractModule;
+import com.google.inject.Module;
+import com.google.inject.Singleton;
 
-// TODO work on the naming, please
-@FunctionalInterface
-public interface ExtendedPackageElementAggregatorFactory<R, A extends GenericExtendedElementAggregator<R, A>> {
+public final class AggregatorModule extends AbstractModule {
 
-    A create(ExtendedPackageElement packageElement);
+    private static final Module MODULE = new AggregatorModule();
+
+    public static Module getModule() {
+        return MODULE;
+    }
+
+    private AggregatorModule() {}
+
+    @Override
+    protected void configure() {
+        bind(ConfigureMethodAggregatorFactories.class)
+                .to(ConfigureMethodAggregatorFactoriesImpl.class).in(Singleton.class);
+    }
 
 }

@@ -29,6 +29,7 @@ import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
 import org.rookit.auto.config.DependencyAwareProcessorConfig;
 import org.rookit.auto.config.ProcessorConfig;
+import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
 import org.rookit.convention.auto.config.ConventionConfig;
 import org.rookit.guice.auto.config.GuiceConfig;
 import org.rookit.convention.auto.config.MetatypeApiConfig;
@@ -73,10 +74,18 @@ public final class ConfigurationModule extends AbstractModule {
 
     @Provides
     @Singleton
-    PropertyConfig config(final ConventionConfig config, final TemplateFactory templateFactory) {
+    PropertyConfig config(final ConventionConfig config,
+                          final TemplateFactory templateFactory,
+                          final TypeVariableSourceFactory typeVariableFactory) {
+
         final String name = "property";
-        return new PropertyConfigImpl(config.getProcessorConfig(name), config, name, templateFactory,
-                                      typeVariableFactory);
+        return new PropertyConfigImpl(
+                config.getProcessorConfig(name),
+                config,
+                name,
+                templateFactory,
+                typeVariableFactory
+        );
     }
 
     @Provides

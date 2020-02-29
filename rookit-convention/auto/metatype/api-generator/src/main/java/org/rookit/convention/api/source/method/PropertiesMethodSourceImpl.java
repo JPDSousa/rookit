@@ -24,6 +24,7 @@ package org.rookit.convention.api.source.method;
 import com.google.common.collect.ImmutableList;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
+import org.rookit.auto.source.arbitrary.ArbitraryCodeSource;
 import org.rookit.auto.source.method.MutableMethodSource;
 import org.rookit.auto.source.parameter.ParameterSource;
 import org.rookit.auto.source.type.annotation.AnnotationSource;
@@ -205,6 +206,13 @@ final class PropertiesMethodSourceImpl implements PropertiesMethodSource {
     }
 
     @Override
+    public PropertiesMethodSource addStatement(final ArbitraryCodeSource statement) {
+
+        this.delegate.addStatement(statement);
+        return self();
+    }
+
+    @Override
     public PropertiesMethodSource varArgs(final boolean varArgs) {
 
         this.delegate.varArgs(varArgs);
@@ -222,6 +230,14 @@ final class PropertiesMethodSourceImpl implements PropertiesMethodSource {
     public PropertiesMethodSource addThrownType(final ExtendedTypeMirror exceptionType) {
 
         this.delegate.addThrownType(exceptionType);
+        return self();
+    }
+
+    @Override
+    public PropertiesMethodSource returnStaticField(final TypeReferenceSource returnType,
+                                                    final CharSequence fieldName) {
+
+        this.delegate.returnStaticField(returnType, fieldName);
         return self();
     }
 

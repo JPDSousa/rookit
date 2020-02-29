@@ -41,11 +41,11 @@ final class JavadocTemplate1FactoryImpl implements JavadocTemplate1Factory {
 
     @Override
     public Maybe<JavadocTemplate1> create(final String rawFormat) {
-        // TODO this validation is highly shotgun surgerish, given that it "copies" logic from JavaPoet's CodeBlock.
+        // TODO this validation is highly shotgun surgerish, given that it "copies" logic fromExecutableElement JavaPoet's CodeBlock.
         final int tokensCount = StringUtils.countMatches(rawFormat, '$');
         if (tokensCount != 1) {
             //noinspection AutoBoxing
-            logger.info("Attempting to create a javadoc template with 1 token from a format with {} tokens. Skipping.",
+            logger.info("Attempting to create a javadoc template with 1 token fromExecutableElement a format with {} tokens. Skipping.",
                     tokensCount);
             return Maybe.empty();
         }

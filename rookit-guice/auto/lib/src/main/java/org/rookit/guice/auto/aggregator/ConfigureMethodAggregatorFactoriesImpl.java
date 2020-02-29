@@ -19,14 +19,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.auto.javax.aggregator;
+package org.rookit.guice.auto.aggregator;
 
-import org.rookit.auto.javax.pack.ExtendedPackageElement;
+import com.google.inject.Inject;
+import org.rookit.auto.source.method.MethodSourceFactory;
+import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
+import org.rookit.guice.auto.bind.BindingStatementFactory;
 
-// TODO work on the naming, please
-@FunctionalInterface
-public interface ExtendedPackageElementAggregatorFactory<R, A extends GenericExtendedElementAggregator<R, A>> {
+final class ConfigureMethodAggregatorFactoriesImpl implements ConfigureMethodAggregatorFactories {
 
-    A create(ExtendedPackageElement packageElement);
+    private final BindingStatementFactory bindingFactory;
+    private final MethodSourceFactory methodFactory;
+
+    @Inject
+    private ConfigureMethodAggregatorFactoriesImpl(
+            final BindingStatementFactory bindingFactory,
+            final MethodSourceFactory methodFactory) {
+        this.bindingFactory = bindingFactory;
+        this.methodFactory = methodFactory;
+    }
+
+    @Override
+    public ConfigureMethodAggregatorFactory withReferenceFactories(
+            final TypeReferenceSourceFactory apiFactory,
+            final TypeReferenceSourceFactory implFactory) {
+
+        return new ConfigureMethodAggregatorFactoryImpl(
+                apiFactory,
+                implFactory,
+                this.methodFactory,
+                this.bindingFactory
+        );
+    }
 
 }

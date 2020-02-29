@@ -21,12 +21,10 @@
  ******************************************************************************/
 package org.rookit.auto.javax.aggregator;
 
-import org.rookit.auto.javax.pack.ExtendedPackageElement;
+import org.rookit.auto.javax.ExtendedElement;
+import org.rookit.utils.aggregate.Aggregator;
 
-// TODO work on the naming, please
-@FunctionalInterface
-public interface ExtendedPackageElementAggregatorFactory<R, A extends GenericExtendedElementAggregator<R, A>> {
-
-    A create(ExtendedPackageElement packageElement);
+public interface GenericExtendedElementAggregator<R, A extends GenericExtendedElementAggregator<R, A>>
+        extends Aggregator<ExtendedElement, A, R> {
 
 }
