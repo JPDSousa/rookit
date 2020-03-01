@@ -53,4 +53,9 @@ public interface ExtendedPackageElement extends PackageElement, ExtendedElement 
         return visitor.visitPackage(this, parameter);
     }
 
+    @Override
+    default ExtendedPackageElement packageInfo() {
+        return this;
+    }
+
 }

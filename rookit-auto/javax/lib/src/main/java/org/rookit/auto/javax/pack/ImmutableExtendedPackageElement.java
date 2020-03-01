@@ -118,11 +118,6 @@ class ImmutableExtendedPackageElement extends AbstractExtendedPackageElement {
     }
 
     @Override
-    public ExtendedPackageElement packageInfo() {
-        return this.extendedElement.packageInfo();
-    }
-
-    @Override
     public ExtendedTypeMirror asType() {
         return this.extendedElement.asType();
     }
