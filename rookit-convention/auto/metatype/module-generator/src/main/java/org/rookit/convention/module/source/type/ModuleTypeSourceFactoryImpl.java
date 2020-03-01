@@ -30,8 +30,8 @@ import org.rookit.auto.source.identifier.IdentifierFieldAggregatorFactory;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.type.MutableTypeSource;
 import org.rookit.auto.source.type.TypeSourceFactory;
-import org.rookit.convention.auto.module.ModuleTypeSource;
-import org.rookit.convention.auto.module.ModuleTypeSourceFactory;
+import org.rookit.convention.auto.metatype.module.ModuleTypeSource;
+import org.rookit.convention.auto.metatype.module.ModuleTypeSourceFactory;
 
 import java.util.Collection;
 

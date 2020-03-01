@@ -33,7 +33,7 @@ import org.rookit.auto.source.type.TypeSource;
 import org.rookit.auto.source.type.TypeSourceFactory;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
-import org.rookit.convention.auto.config.MetatypeModuleConfig;
+import org.rookit.convention.auto.metatype.config.MetatypeModuleConfig;
 import org.rookit.utils.guice.Proxied;
 
 import javax.annotation.processing.Messager;

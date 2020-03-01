@@ -29,12 +29,12 @@ import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
 import org.rookit.auto.config.DependencyAwareProcessorConfig;
 import org.rookit.auto.config.ProcessorConfig;
-import org.rookit.convention.auto.config.ConventionConfig;
-import org.rookit.convention.auto.config.ConventionMetatypeConfig;
+import org.rookit.convention.auto.metatype.config.ConventionConfig;
+import org.rookit.convention.auto.metatype.config.ConventionMetatypeConfig;
+import org.rookit.convention.auto.metatype.config.MetaTypeApiConfig;
 import org.rookit.guice.auto.config.GuiceConfig;
-import org.rookit.convention.auto.config.MetatypeApiConfig;
-import org.rookit.convention.auto.config.MetatypeModuleConfig;
-import org.rookit.convention.auto.config.PropertyConfig;
+import org.rookit.convention.auto.metatype.config.MetatypeModuleConfig;
+import org.rookit.convention.auto.metatype.config.PropertyConfig;
 import org.rookit.utils.string.template.TemplateFactory;
 
 import javax.annotation.processing.Messager;
@@ -56,7 +56,7 @@ public final class ConfigurationModule extends AbstractModule {
     @Provides
     @Singleton
     ProcessorConfig processorConfig(final MetatypeModuleConfig delegate,
-                                    final MetatypeApiConfig apiDependency,
+                                    final MetaTypeApiConfig apiDependency,
                                     final ConventionMetatypeConfig metatypeDependency,
                                     final GuiceConfig guiceDependency,
                                     final PropertyConfig propertyDependency,

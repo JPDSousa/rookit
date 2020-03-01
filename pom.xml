@@ -13,7 +13,7 @@
     <version>-SNAPSHOT</version>
 
     <modules>
-<!--        <module>rookit-api</module>-->
+        <module>rookit-api</module>
         <module>rookit-auto</module>
         <module>rookit-config</module>
         <module>rookit-convention</module>

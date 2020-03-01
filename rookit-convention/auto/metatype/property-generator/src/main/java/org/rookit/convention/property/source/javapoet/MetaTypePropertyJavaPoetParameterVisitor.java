@@ -32,9 +32,9 @@ import org.rookit.auto.source.type.parameter.TypeParameterSourceFactory;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
-import org.rookit.convention.auto.config.NamingConfig;
-import org.rookit.convention.auto.javax.ConventionTypeElement;
-import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.auto.metatype.config.NamingConfig;
+import org.rookit.convention.auto.metatype.javax.ConventionTypeElement;
+import org.rookit.convention.auto.metatype.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.convention.guice.MetaType;
 import org.rookit.serialization.Serializer;
 

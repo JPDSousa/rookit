@@ -26,12 +26,9 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
-import org.rookit.auto.javax.naming.IdentifierFactories;
-import org.rookit.auto.javax.naming.IdentifierFactory;
 import org.rookit.auto.javax.naming.NamingFactories;
 import org.rookit.auto.javax.naming.NamingFactory;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.auto.source.type.SingleTypeSourceFactory;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.storage.api.config.UpdateFilterConfig;
 import org.rookit.storage.guice.PartialUpdateFilter;
@@ -53,12 +50,6 @@ public final class SourceModule extends AbstractModule {
     }
 
     private SourceModule() {}
-
-    @Override
-    protected void configure() {
-        bind(SingleTypeSourceFactory.class).annotatedWith(PartialUpdateFilter.class)
-                .to(UpdateFilterPartialTypeSourceFactory.class).in(Singleton.class);
-    }
 
     @Singleton
     @Provides
@@ -92,23 +83,6 @@ public final class SourceModule extends AbstractModule {
     @PartialUpdateFilter
     TypeVariableSource parameterName(final UpdateFilterConfig config) {
         return config.parameterName();
-    }
-
-    @Singleton
-    @Provides
-    @UpdateFilter
-    IdentifierFactory updateFilterIdentifierFactory(final IdentifierFactories factories,
-                                                    @UpdateFilter final NamingFactory namingFactory) {
-        return factories.create(namingFactory);
-    }
-
-    @Singleton
-    @Provides
-    @PartialUpdateFilter
-    IdentifierFactory partialUpdateFilterIdentifierFactory(
-            final IdentifierFactories factories,
-            @PartialUpdateFilter final NamingFactory namingFactory) {
-        return factories.create(namingFactory);
     }
 
 }

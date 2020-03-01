@@ -28,6 +28,7 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import org.rookit.auto.config.DependencyAwareProcessorConfig;
 import org.rookit.auto.config.ProcessorConfig;
+import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
 import org.rookit.storage.api.config.FilterConfig;
 import org.rookit.storage.api.config.QueryConfig;
 import org.rookit.storage.api.config.StorageConfig;
@@ -51,7 +52,6 @@ public final class ConfigurationModule extends AbstractModule {
 
     }
 
-    @SuppressWarnings("TypeMayBeWeakened") // due to guice
     @Provides
     @Singleton
     ProcessorConfig processorConfig(final QueryConfig delegate,
@@ -66,14 +66,19 @@ public final class ConfigurationModule extends AbstractModule {
 
     @Provides
     @Singleton
-    QueryConfig config(final StorageConfig config, final TemplateFactory templateFactory) {
+    QueryConfig config(final StorageConfig config,
+                       final TemplateFactory templateFactory,
+                       final TypeVariableSourceFactory typeVariableFactory) {
+
         final String name = "query";
         return new QueryConfigImpl(
                 config.getProcessorConfig(name),
                 config.basePackage(),
                 config.partialEntityTemplate(),
                 name,
-                templateFactory, typeVariableFactory);
+                templateFactory,
+                typeVariableFactory
+        );
     }
 
 }

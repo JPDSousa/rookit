@@ -26,23 +26,11 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
-import one.util.streamex.StreamEx;
-import org.rookit.auto.javax.naming.IdentifierFactories;
-import org.rookit.auto.javax.naming.IdentifierFactory;
-import org.rookit.auto.javax.naming.NamingFactory;
-import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
-import org.rookit.auto.source.method.MethodSource;
-import org.rookit.auto.source.type.SingleTypeSourceFactory;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
-import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
-import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
-import org.rookit.convention.auto.source.type.ConventionSingleTypeSourceFactories;
 import org.rookit.storage.api.config.FilterConfig;
 import org.rookit.storage.filter.source.config.ConfigurationModule;
 import org.rookit.storage.filter.source.method.FilterMethodModule;
 import org.rookit.storage.filter.source.naming.NamingModule;
-import org.rookit.storage.guice.TopFilter;
-import org.rookit.storage.guice.filter.Filter;
 import org.rookit.storage.guice.filter.PartialFilter;
 
 @SuppressWarnings("MethodMayBeStatic")
@@ -66,33 +54,6 @@ public final class SourceModule extends AbstractModule {
     @PartialFilter
     TypeVariableSource typeVariableName(final FilterConfig config) {
         return config.parameterName();
-    }
-
-    @Provides
-    @PartialFilter
-    @Singleton
-    IdentifierFactory filterIdentifier(final IdentifierFactories factories,
-                                       @PartialFilter final NamingFactory namingFactory) {
-        return factories.create(namingFactory);
-    }
-
-    @Provides
-    @Filter
-    @Singleton
-    IdentifierFactory filterEntityIdentifier(final IdentifierFactories factories,
-                                             @Filter final NamingFactory namingFactory) {
-        return factories.create(namingFactory);
-    }
-
-    @Singleton
-    @Provides
-    @PartialFilter
-    SingleTypeSourceFactory filterTypeSourceFactory(
-            final ConventionSingleTypeSourceFactories factories,
-            final TypeVariableSourceFactory parameterResolver,
-            @TopFilter final ExtendedElementVisitor<StreamEx<MethodSource>, Void> specFactory,
-            final ConventionTypeElementFactory elementFactory) {
-        return factories.propertyBasedTypeSourceFactory(parameterResolver, specFactory, elementFactory);
     }
 
 }

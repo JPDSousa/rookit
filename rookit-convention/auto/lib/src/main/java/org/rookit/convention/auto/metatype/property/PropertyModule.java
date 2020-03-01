@@ -22,32 +22,19 @@
 package org.rookit.convention.auto.metatype.property;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Key;
 import com.google.inject.Module;
-import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
-import org.rookit.auto.javax.executable.ExtendedExecutableElement;
-import org.rookit.auto.javax.type.ExtendedTypeElement;
-import org.rookit.auto.javax.type.ExtendedTypeElementFactory;
-import org.rookit.auto.javax.type.mirror.ExtendedTypeMirrorFactory;
-import org.rookit.convention.auto.guice.PropertyModelModuleMixin;
-import org.rookit.convention.property.guice.ImmutablePropertyModel;
-import org.rookit.convention.property.guice.ImmutablePropertyModelGet;
-import org.rookit.convention.property.guice.PropertyModel;
-import org.rookit.convention.property.guice.PropertyModelPropertyName;
+import com.google.inject.util.Modules;
+import org.rookit.convention.auto.metatype.property.filter.FilterModule;
+import org.rookit.convention.auto.metatype.property.resolver.ResolverModule;
 
-import javax.lang.model.element.TypeElement;
+public final class PropertyModule extends AbstractModule {
 
-import static java.lang.String.format;
-
-public final class PropertyModule extends AbstractModule
-        implements PropertyModelModuleMixin<ExtendedExecutableElement> {
-
-    private static final String NO_META_TYPE_METHOD = "Cannot find '%s' method in meta type '%s'.";
-    private static final String INVALID_META_TYPE_CLASS = "Something went wrong when using '%s' as a meta type class.";
-
-    private static final Module MODULE = new PropertyModule();
+    private static final Module MODULE = Modules.combine(
+            new PropertyModule(),
+            FilterModule.getModule(),
+            ResolverModule.getModule()
+    );
 
     public static Module getModule() {
         return MODULE;
@@ -55,67 +42,10 @@ public final class PropertyModule extends AbstractModule
 
     private PropertyModule() {}
 
-    @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
     @Override
     protected void configure() {
-        bindPropertyModelProperties(binder());
-        bind(new TypeLiteral<Class<?>>() {}).annotatedWith(PropertyModel.class)
-                .toInstance(org.rookit.convention.property.PropertyModel.class);
-        bind(new TypeLiteral<Class<?>>() {}).annotatedWith(ImmutablePropertyModel.class)
-                .toInstance(org.rookit.convention.property.ImmutablePropertyModel.class);
+        bind(PropertyFactory.class).to(BasePropertyFactory.class).in(Singleton.class);
+        bind(ExtendedPropertyExtractorFactory.class).to(ExtendedPropertyExtractorFactoryImpl.class).in(Singleton.class);
     }
 
-    @Provides
-    @Singleton
-    @ImmutablePropertyModelGet
-    ExtendedExecutableElement getterMethod(@ImmutablePropertyModel final ExtendedTypeElement propertyElement) {
-        return getMethodOrFail(propertyElement, "get");
-    }
-
-    @Provides
-    @Singleton
-    @PropertyModelPropertyName
-    ExtendedExecutableElement propertyNameMethod(@PropertyModel final ExtendedTypeElement metaTypeElement) {
-        return getMethodOrFail(metaTypeElement, "propertyName");
-    }
-
-    @Override
-    public Key<ExtendedExecutableElement> key() {
-        return Key.get(ExtendedExecutableElement.class, PropertyModel.class);
-    }
-
-    @Provides
-    @Singleton
-    @ImmutablePropertyModel
-    ExtendedTypeElement immutablePropertyModel(@ImmutablePropertyModel final Class<?> clazz,
-                                               final ExtendedTypeMirrorFactory mirrorFactory,
-                                               final ExtendedTypeElementFactory typeFactory) {
-        return mirrorFactory.createWithErasure(clazz)
-                .toElement()
-                .select(TypeElement.class)
-                .map(typeFactory::extend)
-                .orElseThrow(() -> new IllegalArgumentException(format(INVALID_META_TYPE_CLASS, clazz)));
-    }
-
-    @Provides
-    @Singleton
-    @PropertyModel
-    ExtendedTypeElement propertyModel(@PropertyModel final Class<?> propertyModelClass,
-                                      final ExtendedTypeMirrorFactory mirrorFactory,
-                                      final ExtendedTypeElementFactory typeFactory) {
-        // TODO this can be generified with the method above
-        return mirrorFactory.createWithErasure(propertyModelClass)
-                .toElement()
-                .select(TypeElement.class)
-                .map(typeFactory::extend)
-                .orElseThrow(() -> new IllegalArgumentException(format(INVALID_META_TYPE_CLASS, propertyModelClass)));
-    }
-
-    // TODO this is generic enough to not belong here.
-    // TODO also, copied fromExecutableElement MetaTypeModule
-    private ExtendedExecutableElement getMethodOrFail(final ExtendedTypeElement typeElement, final String name) {
-        return typeElement.getMethod(name)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        format(NO_META_TYPE_METHOD, name, typeElement.getSimpleName())));
-    }
 }

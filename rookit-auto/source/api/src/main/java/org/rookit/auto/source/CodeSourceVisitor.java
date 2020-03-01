@@ -28,6 +28,7 @@ import org.rookit.auto.source.parameter.ParameterSource;
 import org.rookit.auto.source.type.container.TypeSourceContainer;
 import org.rookit.auto.source.type.annotation.AnnotationSource;
 import org.rookit.auto.source.type.TypeSource;
+import org.rookit.auto.source.type.parameter.TypeParameterSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.auto.source.type.variable.WildcardVariableSource;
@@ -53,5 +54,7 @@ public interface CodeSourceVisitor<R, P> {
     R visitField(FieldSource fieldSource, P parameter);
 
     R visitArbitraryCode(ArbitraryCodeSource codeBlock, P parameter);
+
+    R visitTypeParameter(TypeParameterSource typeParameterSource, P parameter);
 
 }

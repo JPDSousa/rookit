@@ -25,8 +25,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import org.rookit.convention.auto.property.ExtendedPropertyExtractor;
-import org.rookit.convention.auto.property.ExtendedPropertyExtractorFactory;
+import org.rookit.convention.auto.metatype.property.ExtendedPropertyExtractor;
+import org.rookit.convention.auto.metatype.property.ExtendedPropertyExtractorFactory;
 
 public final class JavaxModule extends AbstractModule {
 

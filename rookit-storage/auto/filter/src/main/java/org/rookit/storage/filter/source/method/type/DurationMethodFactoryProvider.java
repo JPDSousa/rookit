@@ -27,9 +27,9 @@ import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.auto.javax.type.mirror.ExtendedTypeMirrorFactory;
 import org.rookit.auto.source.method.MethodSource;
-import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
-import org.rookit.convention.auto.javax.visitor.TypeBasedMethodVisitor;
-import org.rookit.convention.auto.source.method.ConventionTypeElementMethodSourceVisitors;
+import org.rookit.convention.auto.metatype.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.auto.metatype.javax.visitor.TypeBasedMethodVisitor;
+import org.rookit.convention.auto.metatype.source.method.ConventionTypeElementMethodSourceVisitors;
 import org.rookit.storage.filter.source.guice.Time;
 
 import java.time.Duration;

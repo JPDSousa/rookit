@@ -32,7 +32,7 @@ import org.rookit.auto.source.type.parameter.TypeParameterSource;
 import org.rookit.auto.source.type.parameter.TypeParameterSourceFactory;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
-import org.rookit.convention.auto.config.NamingConfig;
+import org.rookit.convention.auto.metatype.config.NamingConfig;
 import org.rookit.convention.guice.MetaType;
 
 import java.util.function.Function;

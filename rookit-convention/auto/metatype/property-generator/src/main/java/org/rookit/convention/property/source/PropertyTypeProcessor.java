@@ -24,9 +24,9 @@ package org.rookit.convention.property.source;
 import com.google.inject.Inject;
 import org.rookit.auto.AbstractConfigAwareTypeProcessor;
 import org.rookit.auto.config.ProcessorConfig;
-import org.rookit.convention.auto.entity.PropertyEntityFactory;
-import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
-import org.rookit.convention.auto.property.PropertyFactory;
+import org.rookit.convention.auto.metatype.entity.PropertyEntityFactory;
+import org.rookit.convention.auto.metatype.javax.ConventionTypeElementFactory;
+import org.rookit.convention.auto.metatype.property.PropertyFactory;
 import org.rookit.utils.optional.Optional;
 
 import javax.annotation.processing.Filer;

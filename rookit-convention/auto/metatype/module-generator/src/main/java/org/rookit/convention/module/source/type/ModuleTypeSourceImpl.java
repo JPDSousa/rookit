@@ -28,7 +28,7 @@ import org.rookit.auto.source.identifier.IdentifierFieldAggregator;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.type.MutableTypeSource;
 import org.rookit.auto.source.type.annotation.AnnotationSource;
-import org.rookit.convention.auto.module.ModuleTypeSource;
+import org.rookit.convention.auto.metatype.module.ModuleTypeSource;
 
 import javax.annotation.processing.Filer;
 import javax.lang.model.element.Modifier;

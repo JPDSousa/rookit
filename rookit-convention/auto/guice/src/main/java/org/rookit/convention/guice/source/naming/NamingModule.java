@@ -27,8 +27,8 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import org.rookit.auto.javax.naming.NamingFactory;
-import org.rookit.convention.auto.javax.naming.PropertyIdentifierFactories;
-import org.rookit.convention.auto.javax.naming.PropertyIdentifierFactory;
+import org.rookit.convention.auto.metatype.javax.naming.PropertyIdentifierFactories;
+import org.rookit.convention.auto.metatype.javax.naming.PropertyIdentifierFactory;
 import org.rookit.convention.guice.source.config.GuiceConventionConfig;
 import org.rookit.guice.auto.annotation.Guice;
 

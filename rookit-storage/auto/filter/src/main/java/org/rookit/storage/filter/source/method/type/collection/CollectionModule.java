@@ -27,7 +27,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.Multibinder;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.source.method.MethodSource;
-import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.auto.metatype.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.storage.guice.filter.Filter;
 
 public final class CollectionModule extends AbstractModule {

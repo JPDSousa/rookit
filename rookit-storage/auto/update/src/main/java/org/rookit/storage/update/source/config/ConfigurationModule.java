@@ -28,6 +28,7 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import org.rookit.auto.config.DependencyAwareProcessorConfig;
 import org.rookit.auto.config.ProcessorConfig;
+import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
 import org.rookit.utils.object.DynamicObject;
 import org.rookit.storage.api.config.StorageConfig;
 import org.rookit.storage.api.config.UpdateConfig;
@@ -53,7 +54,6 @@ public final class ConfigurationModule extends AbstractModule {
 
     }
 
-    @SuppressWarnings("TypeMayBeWeakened")
     @Provides
     @Singleton
     ProcessorConfig processorConfig(final UpdateConfig delegate,
@@ -68,11 +68,20 @@ public final class ConfigurationModule extends AbstractModule {
 
     @Provides
     @Singleton
-    UpdateConfig updateConfig(final StorageConfig config, final TemplateFactory templateFactory) {
+    UpdateConfig updateConfig(final StorageConfig config,
+                              final TemplateFactory templateFactory,
+                              final TypeVariableSourceFactory typeVariableFactory) {
+
         final String name = "update";
         final DynamicObject rawConfig = config.getProcessorConfig(name);
-        final Template1 partialEnttiyPrefix = config.partialEntityTemplate();
-        return new UpdateConfigImpl(rawConfig, name, partialEnttiyPrefix, config.basePackage(), templateFactory,
-                                    typeVariableFactory);
+        final Template1 partialEntityPrefix = config.partialEntityTemplate();
+        return new UpdateConfigImpl(
+                rawConfig,
+                name,
+                partialEntityPrefix,
+                config.basePackage(),
+                templateFactory,
+                typeVariableFactory
+        );
     }
 }

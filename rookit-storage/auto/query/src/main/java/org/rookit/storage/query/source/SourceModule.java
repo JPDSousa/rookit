@@ -26,12 +26,9 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
-import org.rookit.auto.javax.naming.IdentifierFactories;
-import org.rookit.auto.javax.naming.IdentifierFactory;
 import org.rookit.auto.javax.naming.NamingFactories;
 import org.rookit.auto.javax.naming.NamingFactory;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.auto.source.type.SingleTypeSourceFactory;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.storage.api.config.QueryConfig;
 import org.rookit.storage.guice.ElementQuery;
@@ -56,13 +53,6 @@ public final class SourceModule extends AbstractModule {
 
     private SourceModule() {}
 
-    @Override
-    protected void configure() {
-
-        bind(SingleTypeSourceFactory.class).annotatedWith(PartialQuery.class).to(QueryPartialTypeSourceFactory.class)
-                .in(Singleton.class);
-    }
-
     @Singleton
     @Provides
     @PartialQuery
@@ -82,22 +72,6 @@ public final class SourceModule extends AbstractModule {
     @ElementQuery
     TypeVariableSource elementTypeVariableName(final QueryConfig config) {
         return config.elementParameterName();
-    }
-
-    @Provides
-    @PartialQuery
-    @Singleton
-    IdentifierFactory queryIdentifier(final IdentifierFactories factories,
-                                      @PartialQuery final NamingFactory namingFactory) {
-        return factories.create(namingFactory);
-    }
-
-    @Provides
-    @Query
-    @Singleton
-    IdentifierFactory queryEntityIdentifier(final IdentifierFactories factories,
-                                            @Query final NamingFactory namingFactory) {
-        return factories.create(namingFactory);
     }
 
     @Singleton

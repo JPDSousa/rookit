@@ -33,15 +33,12 @@ import org.rookit.auto.source.SourceLibModule;
 import org.rookit.convention.ConventionModule;
 import org.rookit.convention.api.guice.Container;
 import org.rookit.convention.api.source.config.ConfigurationModule;
-import org.rookit.convention.api.source.entity.EntityModule;
-import org.rookit.convention.api.source.identifier.IdentifierModule;
 import org.rookit.convention.api.source.method.MethodModule;
-import org.rookit.convention.api.source.naming.NamingModule;
 import org.rookit.convention.api.source.type.TypeModule;
-import org.rookit.convention.auto.ConventionLibModule;
-import org.rookit.convention.auto.property.ExtendedPropertyExtractor;
-import org.rookit.convention.auto.property.ExtendedPropertyExtractorFactory;
-import org.rookit.convention.auto.property.PropertyFactory;
+import org.rookit.convention.auto.metatype.ConventionLibModule;
+import org.rookit.convention.auto.metatype.property.ExtendedPropertyExtractor;
+import org.rookit.convention.auto.metatype.property.ExtendedPropertyExtractorFactory;
+import org.rookit.convention.auto.metatype.property.PropertyFactory;
 import org.rookit.failsafe.FailsafeModule;
 import org.rookit.guice.auto.GuiceAutoLibModule;
 import org.rookit.io.IOLibModule;
@@ -59,13 +56,10 @@ public final class SourceModule extends AbstractModule {
             ConfigurationModule.getModule(),
             ConventionModule.getModule(),
             ConventionLibModule.getModule(),
-            EntityModule.getModule(),
             FailsafeModule.getModule(),
             GuiceAutoLibModule.getModule(),
-            IdentifierModule.getModule(),
             IOLibModule.getModule(),
             MethodModule.getModule(),
-            NamingModule.getModule(),
             PathLibModule.getModule(),
             SerializationBundleModule.getModule(),
             SourceLibModule.getModule(),

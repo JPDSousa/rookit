@@ -29,7 +29,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.Multibinder;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.source.method.MethodSource;
-import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.auto.metatype.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.storage.filter.source.guice.Any;
 import org.rookit.storage.filter.source.guice.No;
 import org.rookit.storage.filter.source.guice.Optional;

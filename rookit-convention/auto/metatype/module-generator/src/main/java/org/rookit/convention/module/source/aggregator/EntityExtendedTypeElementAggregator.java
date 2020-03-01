@@ -31,7 +31,7 @@ import org.rookit.auto.source.type.TypeSource;
 import org.rookit.auto.source.type.container.TypeSourceContainer;
 import org.rookit.auto.source.type.container.TypeSourceContainerExtendedElementAggregator;
 import org.rookit.auto.source.type.container.TypeSourceContainerFactory;
-import org.rookit.convention.auto.module.ModuleTypeSource;
+import org.rookit.convention.auto.metatype.module.ModuleTypeSource;
 import org.rookit.utils.optional.OptionalFactory;
 
 import javax.annotation.processing.Filer;

@@ -24,7 +24,7 @@ package org.rookit.auto.javapoet.type.reference;
 import com.google.inject.Inject;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.TypeName;
-import org.rookit.auto.javax.naming.Identifier;
+import org.rookit.auto.javax.pack.ExtendedPackageElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
@@ -47,26 +47,20 @@ final class JavaPoetReferenceFactory implements TypeReferenceSourceFactory {
     }
 
     @Override
-    public TypeReferenceSource fromIdentifier(final Identifier identifier) {
-
-        final ClassName className = ClassName.get(identifier.packageElement()
-                                                          .getQualifiedName()
-                                                          .toString(),
-                                                  identifier.name());
-
-        return new JavaPoetReference(className);
-    }
-
-    @Override
     public TypeReferenceSource fromClass(final Class<?> clazz) {
 
         return new JavaPoetReference(ClassName.get(clazz));
     }
 
     @Override
-    public TypeReferenceSource create(final ExtendedTypeElement element) {
+    public TypeReferenceSource fromSplitPackageAndName(final ExtendedPackageElement packageReference,
+                                                       final CharSequence name) {
 
-        return new JavaPoetReference(ClassName.get(element));
+        return new JavaPoetReference(
+                ClassName.get(
+                        packageReference.getQualifiedName().toString(),
+                        name.toString())
+        );
     }
 
     @Override

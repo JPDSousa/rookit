@@ -23,7 +23,7 @@ package org.rookit.convention.api.source.method;
 
 import org.rookit.auto.source.method.GenericMutableMethodSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
-import org.rookit.convention.auto.property.Property;
+import org.rookit.convention.auto.metatype.property.Property;
 
 public interface PropertiesMethodSource extends GenericMutableMethodSource<PropertiesMethodSource> {
 

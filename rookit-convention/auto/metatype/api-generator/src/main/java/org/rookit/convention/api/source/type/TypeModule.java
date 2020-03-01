@@ -30,19 +30,9 @@ import org.rookit.auto.javax.naming.IdentifierFactory;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.type.ExtendedElementTypeSourceVisitors;
-import org.rookit.auto.source.type.SingleTypeSourceFactory;
 import org.rookit.auto.source.type.TypeSource;
-import org.rookit.auto.source.type.TypeSourceFactory;
-import org.rookit.auto.source.type.parameter.TypeParameterSourceFactory;
-import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
-import org.rookit.auto.source.type.variable.TypeVariableSource;
-import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
 import org.rookit.convention.annotation.LaConvention;
-import org.rookit.convention.api.guice.Container;
-import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
-import org.rookit.convention.auto.metatype.guice.MetaTypeAPI;
-import org.rookit.convention.auto.metatype.guice.PartialMetaTypeAPI;
-import org.rookit.utils.primitive.VoidUtils;
+import org.rookit.convention.auto.metatype.source.method.ConventionTypeElementMethodSourceVisitors;
 
 import java.lang.annotation.Annotation;
 import java.util.Set;
@@ -63,53 +53,13 @@ public final class TypeModule extends AbstractModule {
 
     }
 
-    @Singleton
     @Provides
-    @Container
-    SingleTypeSourceFactory baseTypeSourceFactory(
-            final TypeSourceFactory typeFactory,
-            final TypeVariableSourceFactory variableFactory,
-            final TypeReferenceSourceFactory referenceFactory,
-            final TypeParameterSourceFactory typeParameterFactory,
-            final VoidUtils voidUtils,
-            final ExtendedElementVisitor<StreamEx<MethodSource>, Void> methodVisitor,
-            @MetaTypeAPI final TypeVariableSource variableSource,
-            final ConventionTypeElementFactory elementFactory) {
-        return new BaseTypeSourceFactory(
-                typeFactory,
-                variableFactory,
-                referenceFactory,
-                typeParameterFactory,
-                voidUtils,
-                methodVisitor,
-                variableSource,
-                elementFactory
-        );
-    }
-
     @Singleton
-    @Provides
-    @PartialMetaTypeAPI
-    SingleTypeSourceFactory partialMetaTypeProvider(
-            final TypeSourceFactory typeFactory,
-            final TypeVariableSourceFactory variableFactory,
-            final TypeReferenceSourceFactory referenceFactory,
-            final TypeParameterSourceFactory typeParameterFactory,
-            final VoidUtils voidUtils,
-            final ExtendedElementVisitor<StreamEx<MethodSource>, Void> methodVisitor,
-            @MetaTypeAPI final TypeVariableSource typeVariableName,
-            final ConventionTypeElementFactory elementFactory) {
+    ExtendedElementVisitor<StreamEx<MethodSource>, Void> methodVisitor(
+            final ConventionTypeElementMethodSourceVisitors visitors) {
 
-        return new BaseTypeSourceFactory(
-                typeFactory,
-                variableFactory,
-                referenceFactory,
-                typeParameterFactory,
-                voidUtils,
-                methodVisitor,
-                typeVariableName,
-                elementFactory
-        );
+        // TODO go from here
+        return visitors.emptyStreamVisitor();
     }
 
 

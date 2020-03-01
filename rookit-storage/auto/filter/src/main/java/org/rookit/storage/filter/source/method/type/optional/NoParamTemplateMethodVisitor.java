@@ -25,9 +25,9 @@ import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.visitor.StreamExtendedElementVisitor;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.method.MethodSourceFactory;
-import org.rookit.convention.auto.javax.ConventionTypeElement;
-import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
-import org.rookit.convention.auto.property.Property;
+import org.rookit.convention.auto.metatype.javax.ConventionTypeElement;
+import org.rookit.convention.auto.metatype.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.auto.metatype.property.Property;
 import org.rookit.utils.adapt.Adapter;
 import org.rookit.utils.string.template.Template1;
 

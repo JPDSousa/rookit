@@ -28,6 +28,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.util.Modules;
 import com.squareup.javapoet.TypeSpec;
 import org.rookit.auto.javapoet.type.annotation.AnnotationModule;
+import org.rookit.auto.javapoet.type.parameter.ParameterModule;
 import org.rookit.auto.javapoet.type.reference.ReferenceModule;
 import org.rookit.auto.javapoet.type.variable.VariableModule;
 import org.rookit.auto.source.type.TypeSourceAdapter;
@@ -39,6 +40,7 @@ public final class TypeModule extends AbstractModule {
     private static final Module MODULE = Modules.combine(
             new TypeModule(),
             AnnotationModule.getModule(),
+            ParameterModule.getModule(),
             ReferenceModule.getModule(),
             VariableModule.getModule()
     );

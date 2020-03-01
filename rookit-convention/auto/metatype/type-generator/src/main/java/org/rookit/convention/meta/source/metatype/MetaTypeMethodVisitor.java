@@ -28,10 +28,10 @@ import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.method.MethodSourceFactory;
 import org.rookit.auto.source.method.MutableMethodSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
-import org.rookit.convention.auto.javax.ConventionTypeElement;
-import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
-import org.rookit.convention.auto.property.Property;
-import org.rookit.convention.auto.source.PropertyTypeReferenceSourceFactory;
+import org.rookit.convention.auto.metatype.javax.ConventionTypeElement;
+import org.rookit.convention.auto.metatype.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.auto.metatype.property.Property;
+import org.rookit.convention.auto.metatype.source.PropertyTypeReferenceSourceFactory;
 import org.rookit.convention.guice.MetaType;
 
 final class MetaTypeMethodVisitor implements ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>,

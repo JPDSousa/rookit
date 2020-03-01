@@ -24,13 +24,13 @@ package org.rookit.convention.api.source.config;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
-import org.rookit.convention.auto.config.ConventionConfig;
-import org.rookit.convention.auto.config.MetatypeApiConfig;
+import org.rookit.convention.auto.metatype.config.ConventionConfig;
+import org.rookit.convention.auto.metatype.config.MetaTypeApiConfig;
 import org.rookit.utils.object.DynamicObject;
 import org.rookit.utils.string.template.Template1;
 import org.rookit.utils.string.template.TemplateFactory;
 
-final class MetatypeApiConfigImpl implements MetatypeApiConfig {
+final class MetaTypeApiConfigImpl implements MetaTypeApiConfig {
 
     private final DynamicObject configuration;
     private final String name;
@@ -38,7 +38,7 @@ final class MetatypeApiConfigImpl implements MetatypeApiConfig {
     private final TemplateFactory templateFactory;
     private final TypeVariableSourceFactory variableFactory;
 
-    MetatypeApiConfigImpl(
+    MetaTypeApiConfigImpl(
             final DynamicObject configuration,
             final String name,
             final ConventionConfig parent,
@@ -83,7 +83,7 @@ final class MetatypeApiConfigImpl implements MetatypeApiConfig {
 
     @Override
     public String toString() {
-        return "MetatypeApiConfigImpl{" +
+        return "MetaTypeApiConfigImpl{" +
                 "configuration=" + this.configuration +
                 ", name='" + this.name + '\'' +
                 ", parent=" + this.parent +

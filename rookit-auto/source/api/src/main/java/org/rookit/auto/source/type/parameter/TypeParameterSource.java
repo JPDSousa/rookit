@@ -21,8 +21,14 @@
  ******************************************************************************/
 package org.rookit.auto.source.type.parameter;
 
+import org.rookit.auto.source.CodeSourceVisitor;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
 
 public interface TypeParameterSource extends TypeReferenceSource {
+
+    @Override
+    default <R, P> R accept(final CodeSourceVisitor<R, P> visitor, final P parameter) {
+        return visitor.visitTypeParameter(this, parameter);
+    }
 
 }

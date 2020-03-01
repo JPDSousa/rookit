@@ -23,8 +23,8 @@ package org.rookit.convention.module.source.aggregator.property;
 
 import com.google.common.collect.ImmutableList;
 import org.rookit.auto.source.method.MethodSource;
-import org.rookit.convention.auto.property.ExtendedProperty;
-import org.rookit.convention.auto.property.aggregator.ExtendedPropertyAggregator;
+import org.rookit.convention.auto.metatype.property.ExtendedProperty;
+import org.rookit.convention.auto.metatype.property.aggregator.ExtendedPropertyAggregator;
 
 import javax.annotation.processing.Messager;
 import javax.tools.Diagnostic;

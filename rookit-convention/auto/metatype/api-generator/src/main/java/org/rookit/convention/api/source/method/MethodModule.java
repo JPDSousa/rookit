@@ -30,10 +30,10 @@ import one.util.streamex.StreamEx;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
-import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.auto.metatype.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.convention.auto.metatype.guice.MetaTypeAPI;
-import org.rookit.convention.auto.source.PropertyTypeReferenceSourceFactories;
-import org.rookit.convention.auto.source.PropertyTypeReferenceSourceFactory;
+import org.rookit.convention.auto.metatype.source.PropertyTypeReferenceSourceFactories;
+import org.rookit.convention.auto.metatype.source.PropertyTypeReferenceSourceFactory;
 
 @SuppressWarnings("MethodMayBeStatic")
 public final class MethodModule extends AbstractModule {

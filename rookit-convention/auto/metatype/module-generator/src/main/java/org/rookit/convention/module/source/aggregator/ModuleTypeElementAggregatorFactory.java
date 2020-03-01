@@ -32,8 +32,8 @@ import org.rookit.auto.source.type.TypeSource;
 import org.rookit.auto.source.type.container.TypeSourceContainer;
 import org.rookit.auto.source.type.container.TypeSourceContainerExtendedElementAggregator;
 import org.rookit.auto.source.type.container.TypeSourceContainerFactory;
-import org.rookit.convention.auto.module.ModuleTypeSource;
-import org.rookit.convention.auto.module.ModuleTypeSourceFactory;
+import org.rookit.convention.auto.metatype.module.ModuleTypeSource;
+import org.rookit.convention.auto.metatype.module.ModuleTypeSourceFactory;
 import org.rookit.utils.optional.OptionalFactory;
 
 final class ModuleTypeElementAggregatorFactory implements ExtendedPackageElementAggregatorFactory<

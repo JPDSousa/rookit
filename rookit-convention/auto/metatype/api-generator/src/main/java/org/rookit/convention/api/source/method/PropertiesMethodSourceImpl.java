@@ -30,7 +30,7 @@ import org.rookit.auto.source.parameter.ParameterSource;
 import org.rookit.auto.source.type.annotation.AnnotationSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
-import org.rookit.convention.auto.property.Property;
+import org.rookit.convention.auto.metatype.property.Property;
 
 import javax.lang.model.element.Modifier;
 import java.lang.annotation.Annotation;

@@ -24,6 +24,7 @@ package org.rookit.auto.javapoet;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.squareup.javapoet.CodeBlock;
+import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import one.util.streamex.EntryStream;
@@ -38,6 +39,8 @@ import org.rookit.auto.source.parameter.ParameterSource;
 import org.rookit.auto.source.type.TypeSourceAdapter;
 import org.rookit.auto.source.type.TypeSource;
 import org.rookit.auto.source.type.annotation.AnnotationSource;
+import org.rookit.auto.source.type.parameter.TypeParameterSource;
+import org.rookit.auto.source.type.parameter.TypeParamterAdapter;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceAdapter;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
@@ -63,18 +66,20 @@ final class CodeBlockAdapter implements CodeSourceVisitor<CodeBlock, Void> {
 
     private final TypeSourceAdapter<TypeSpec> typeAdapter;
     private final TypeReferenceSourceAdapter<TypeName> referenceAdapter;
+    private final TypeParamterAdapter<ParameterizedTypeName> typeParameterAdapter;
     private final ArbitraryCodeSourceAdapter<CodeBlock> codeSourceAdapter;
-    @SuppressWarnings("FieldNotUsedInToString")
     private final String separator;
 
     @Inject
     private CodeBlockAdapter(
             final TypeSourceAdapter<TypeSpec> typeAdapter,
             final TypeReferenceSourceAdapter<TypeName> referenceAdapter,
+            final TypeParamterAdapter<ParameterizedTypeName> typeParameterAdapter,
             final ArbitraryCodeSourceAdapter<CodeBlock> codeSourceAdapter,
             @Separator final String separator) {
         this.typeAdapter = typeAdapter;
         this.referenceAdapter = referenceAdapter;
+        this.typeParameterAdapter = typeParameterAdapter;
         this.codeSourceAdapter = codeSourceAdapter;
         this.separator = separator;
     }
@@ -126,13 +131,13 @@ final class CodeBlockAdapter implements CodeSourceVisitor<CodeBlock, Void> {
     @Override
     public CodeBlock visitTypeVariable(final TypeVariableSource source, final Void parameter) {
 
-        return CodeBlock.of("&L", source.name());
+        return CodeBlock.of("$L", source.name());
     }
 
     @Override
     public CodeBlock visitParameter(final ParameterSource source, final Void parameter) {
 
-        return CodeBlock.of("&L", source.name());
+        return CodeBlock.of("$L", source.name());
     }
 
     @Override
@@ -154,13 +159,13 @@ final class CodeBlockAdapter implements CodeSourceVisitor<CodeBlock, Void> {
     public CodeBlock visitReference(
             final TypeReferenceSource reference, final Void parameter) {
 
-        return CodeBlock.of("&T", this.referenceAdapter.adaptTypeReference(reference));
+        return CodeBlock.of("$T", this.referenceAdapter.adaptTypeReference(reference));
     }
 
     @Override
     public CodeBlock visitField(final FieldSource fieldSource, final Void parameter) {
 
-        return CodeBlock.of("this.&L", fieldSource.name());
+        return CodeBlock.of("this.$L", fieldSource.name());
     }
 
     @Override
@@ -170,11 +175,9 @@ final class CodeBlockAdapter implements CodeSourceVisitor<CodeBlock, Void> {
     }
 
     @Override
-    public String toString() {
-        return "CodeBlockAdapter{" +
-                "typeAdapter=" + this.typeAdapter +
-                ", referenceAdapter=" + this.referenceAdapter +
-                "}";
+    public CodeBlock visitTypeParameter(final TypeParameterSource typeParameterSource, final Void parameter) {
+
+        return CodeBlock.of("$T", this.typeParameterAdapter.adaptTypeParameter(typeParameterSource));
     }
 
 }

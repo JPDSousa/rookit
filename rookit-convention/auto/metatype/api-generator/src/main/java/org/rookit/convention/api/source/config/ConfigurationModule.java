@@ -28,9 +28,9 @@ import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
 import org.rookit.auto.config.ProcessorConfig;
 import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
+import org.rookit.convention.auto.metatype.config.MetaTypeApiConfig;
 import org.rookit.utils.object.DynamicObject;
-import org.rookit.convention.auto.config.ConventionConfig;
-import org.rookit.convention.auto.config.MetatypeApiConfig;
+import org.rookit.convention.auto.metatype.config.ConventionConfig;
 import org.rookit.utils.string.template.TemplateFactory;
 
 @SuppressWarnings("MethodMayBeStatic")
@@ -38,7 +38,7 @@ public final class ConfigurationModule extends AbstractModule {
 
     private static final Module MODULE = Modules.combine(
             new ConfigurationModule(),
-            org.rookit.convention.auto.config.ConfigurationModule.getModule(),
+            org.rookit.convention.auto.metatype.config.ConfigurationModule.getModule(),
             org.rookit.auto.config.ConfigurationModule.getModule()
     );
 
@@ -50,17 +50,17 @@ public final class ConfigurationModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(ProcessorConfig.class).to(MetatypeApiConfig.class).in(Singleton.class);
+        bind(ProcessorConfig.class).to(MetaTypeApiConfig.class).in(Singleton.class);
     }
 
     @Provides
     @Singleton
-    MetatypeApiConfig config(final ConventionConfig config,
+    MetaTypeApiConfig config(final ConventionConfig config,
                              final TemplateFactory templateFactory,
                              final TypeVariableSourceFactory variableFactory) {
 
         final String name = "api";
         final DynamicObject rawConfig = config.getProcessorConfig(name);
-        return new MetatypeApiConfigImpl(rawConfig, name, config, templateFactory, variableFactory);
+        return new MetaTypeApiConfigImpl(rawConfig, name, config, templateFactory, variableFactory);
     }
 }

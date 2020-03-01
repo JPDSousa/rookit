@@ -22,7 +22,6 @@
 package org.rookit.auto.javax.naming;
 
 import org.rookit.auto.javax.ExtendedElement;
-import org.rookit.auto.javax.naming.NamingFactory;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.utils.primitive.VoidUtils;

@@ -23,7 +23,7 @@ package org.rookit.convention.guice.source.entity;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
-import org.rookit.convention.auto.property.ExtendedPropertyEvaluator;
+import org.rookit.convention.auto.metatype.property.ExtendedPropertyEvaluator;
 
 public final class EntityModule extends AbstractModule {
 

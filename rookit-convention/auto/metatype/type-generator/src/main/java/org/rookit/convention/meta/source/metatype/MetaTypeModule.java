@@ -27,24 +27,20 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javax.naming.IdentifierFactories;
-import org.rookit.auto.javax.naming.IdentifierFactory;
 import org.rookit.auto.javax.naming.NamingFactories;
 import org.rookit.auto.javax.naming.NamingFactory;
 import org.rookit.auto.source.field.FieldSource;
 import org.rookit.auto.source.method.MethodSource;
-import org.rookit.auto.source.type.SingleTypeSourceFactory;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
-import org.rookit.convention.auto.config.ConventionMetatypeConfig;
-import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.auto.metatype.config.ConventionMetatypeConfig;
 import org.rookit.convention.auto.metatype.guice.MetaTypeAPI;
-import org.rookit.convention.auto.property.PropertyTypeResolver;
-import org.rookit.convention.auto.source.PropertyTypeReferenceSourceFactories;
-import org.rookit.convention.auto.source.PropertyTypeReferenceSourceFactory;
+import org.rookit.convention.auto.metatype.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.auto.metatype.property.PropertyTypeResolver;
+import org.rookit.convention.auto.metatype.source.PropertyTypeReferenceSourceFactories;
+import org.rookit.convention.auto.metatype.source.PropertyTypeReferenceSourceFactory;
 import org.rookit.convention.guice.MetaType;
-import org.rookit.convention.meta.guice.PartialMetatype;
 import org.rookit.utils.guice.Self;
 import org.rookit.utils.string.template.Template1;
 
@@ -62,10 +58,6 @@ public final class MetaTypeModule extends AbstractModule {
     @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
     @Override
     protected void configure() {
-        bind(SingleTypeSourceFactory.class).annotatedWith(PartialMetatype.class)
-                .to(MetaTypePartialTypeSourceFactory.class).in(Singleton.class);
-        bind(SingleTypeSourceFactory.class).annotatedWith(MetaType.class)
-                .to(MetaTypeSingleTypeSourceFactory.class).in(Singleton.class);
         bind(new TypeLiteral<ConventionTypeElementVisitor<StreamEx<FieldSource>, Void>>() {})
                 .annotatedWith(MetaType.class).to(MetaTypeFieldVisitor.class).in(Singleton.class);
         bind(new TypeLiteral<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>>() {})
@@ -88,14 +80,6 @@ public final class MetaTypeModule extends AbstractModule {
                                 final ConventionMetatypeConfig config,
                                 @Self final Template1 noopTemplate) {
         return factories.create(config.basePackage(), config.entityTemplate(), noopTemplate);
-    }
-
-    @Provides
-    @Singleton
-    @MetaType
-    IdentifierFactory identifierFactory(final IdentifierFactories factories,
-                                        @MetaType final NamingFactory namingFactory) {
-        return factories.create(namingFactory);
     }
 
     @Provides

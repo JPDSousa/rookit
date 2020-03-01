@@ -24,7 +24,7 @@ package org.rookit.storage.filter;
 import com.google.auto.service.AutoService;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import org.rookit.convention.auto.AbstractConventionProcessor;
+import org.rookit.convention.auto.metatype.AbstractConventionProcessor;
 import org.rookit.storage.filter.source.SourceModule;
 
 import javax.annotation.processing.Processor;

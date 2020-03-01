@@ -22,6 +22,7 @@
 package org.rookit.auto.source.type.reference;
 
 import org.rookit.auto.javax.naming.Identifier;
+import org.rookit.auto.javax.pack.ExtendedPackageElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 
@@ -29,11 +30,19 @@ public interface TypeReferenceSourceFactory {
 
     TypeReferenceSource create(ExtendedTypeMirror element);
 
-    TypeReferenceSource fromIdentifier(Identifier identifier);
+    default TypeReferenceSource fromIdentifier(final Identifier identifier) {
+
+        return fromSplitPackageAndName(identifier.packageElement(), identifier.name());
+    }
 
     TypeReferenceSource fromClass(Class<?> clazz);
 
-    TypeReferenceSource create(ExtendedTypeElement element);
+    default TypeReferenceSource create(final ExtendedTypeElement element) {
+
+        return fromSplitPackageAndName(element.packageInfo(), element.getSimpleName());
+    }
+
+    TypeReferenceSource fromSplitPackageAndName(ExtendedPackageElement packageReference, CharSequence name);
 
     TypeReferenceSource resolveParameters(ExtendedTypeElement element, TypeReferenceSource... parameters);
 

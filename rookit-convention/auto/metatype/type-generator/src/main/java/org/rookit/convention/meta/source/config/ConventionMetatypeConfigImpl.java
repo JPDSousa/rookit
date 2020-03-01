@@ -23,8 +23,8 @@ package org.rookit.convention.meta.source.config;
 
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
 import org.rookit.utils.object.DynamicObject;
-import org.rookit.convention.auto.config.ConventionConfig;
-import org.rookit.convention.auto.config.ConventionMetatypeConfig;
+import org.rookit.convention.auto.metatype.config.ConventionConfig;
+import org.rookit.convention.auto.metatype.config.ConventionMetatypeConfig;
 import org.rookit.utils.string.template.Template1;
 import org.rookit.utils.string.template.TemplateFactory;
 

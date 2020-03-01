@@ -29,8 +29,8 @@ import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.naming.IdentifierFactory;
 import org.rookit.auto.source.type.TypeSource;
 import org.rookit.convention.annotation.LaConvention;
-import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
-import org.rookit.convention.auto.source.type.ConventionTypeElementTypeSourceVisitors;
+import org.rookit.convention.auto.metatype.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.auto.metatype.source.type.ConventionTypeElementTypeSourceVisitors;
 
 import java.lang.annotation.Annotation;
 import java.util.Set;

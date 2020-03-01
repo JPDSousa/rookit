@@ -27,13 +27,11 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.auto.source.type.SingleTypeSourceFactory;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.storage.api.config.UpdateConfig;
 import org.rookit.storage.guice.PartialUpdate;
 import org.rookit.storage.guice.Update;
 import org.rookit.storage.update.source.config.ConfigurationModule;
-import org.rookit.storage.update.source.identifier.IdentifierModule;
 import org.rookit.storage.update.source.method.MethodModule;
 import org.rookit.storage.update.source.naming.NamingModule;
 
@@ -46,8 +44,7 @@ public final class SourceModule extends AbstractModule {
             new SourceModule(),
             ConfigurationModule.getModule(),
             MethodModule.getModule(),
-            NamingModule.getModule(),
-            IdentifierModule.getModule()
+            NamingModule.getModule()
     );
 
     public static Module getModule() {
@@ -55,12 +52,6 @@ public final class SourceModule extends AbstractModule {
     }
 
     private SourceModule() {}
-
-    @Override
-    protected void configure() {
-        bind(SingleTypeSourceFactory.class).annotatedWith(PartialUpdate.class)
-                .to(PartialUpdateTypeSourceFactory.class).in(Singleton.class);
-    }
 
     @Provides
     @Singleton

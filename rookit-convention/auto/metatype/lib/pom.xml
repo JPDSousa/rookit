@@ -15,10 +15,22 @@
     <name>Rookit Convention Auto MetaType Lib</name>
 
     <dependencies>
+
         <dependency>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-auto-source-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-convention-auto-api</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

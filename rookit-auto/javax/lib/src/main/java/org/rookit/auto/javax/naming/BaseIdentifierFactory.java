@@ -47,11 +47,4 @@ final class BaseIdentifierFactory implements IdentifierFactory {
                 .name(typeName.toString())
                 .build();
     }
-
-    @Override
-    public String toString() {
-        return "BaseIdentifierFactory{" +
-                "namingFactory=" + this.namingFactory +
-                "}";
-    }
 }

@@ -27,7 +27,7 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import org.rookit.auto.javax.naming.NamingFactories;
 import org.rookit.auto.javax.naming.NamingFactory;
-import org.rookit.convention.auto.config.MetatypeModuleConfig;
+import org.rookit.convention.auto.metatype.config.MetatypeModuleConfig;
 import org.rookit.utils.guice.Self;
 import org.rookit.utils.string.template.Template1;
 

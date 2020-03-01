@@ -25,7 +25,7 @@ import com.google.auto.service.AutoService;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.util.Modules;
-import org.rookit.convention.auto.AbstractConventionProcessor;
+import org.rookit.convention.auto.metatype.AbstractConventionProcessor;
 import org.rookit.convention.meta.source.SourceModule;
 
 import javax.annotation.processing.Processor;
