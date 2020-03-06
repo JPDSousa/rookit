@@ -31,7 +31,7 @@ import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.type.ExtendedTypeElementFactory;
 import org.rookit.auto.javax.type.mirror.ExtendedTypeMirrorFactory;
-import org.rookit.convention.auto.metatype.guice.PropertyModelModuleMixin;
+import org.rookit.convention.auto.guice.PropertyModelModuleMixin;
 import org.rookit.convention.property.guice.ImmutablePropertyModel;
 import org.rookit.convention.property.guice.ImmutablePropertyModelGet;
 import org.rookit.convention.property.guice.PropertyModel;

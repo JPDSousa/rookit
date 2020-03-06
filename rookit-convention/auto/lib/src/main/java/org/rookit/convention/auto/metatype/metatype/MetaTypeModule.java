@@ -32,7 +32,7 @@ import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.type.ExtendedTypeElementFactory;
 import org.rookit.auto.javax.type.mirror.ExtendedTypeMirrorFactory;
-import org.rookit.convention.auto.metatype.guice.MetaTypeModuleMixin;
+import org.rookit.convention.auto.guice.MetaTypeModuleMixin;
 import org.rookit.convention.auto.metatype.metatype.property.PropertyModule;
 import org.rookit.convention.guice.MetaType;
 import org.rookit.convention.guice.MetaTypeModelSerializer;

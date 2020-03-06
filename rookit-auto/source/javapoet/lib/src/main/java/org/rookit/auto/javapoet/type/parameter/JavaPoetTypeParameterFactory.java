@@ -30,16 +30,21 @@ import org.rookit.auto.source.type.parameter.TypeParameterSource;
 import org.rookit.auto.source.type.parameter.TypeParameterSourceFactory;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceAdapter;
+import org.rookit.utils.optional.OptionalFactory;
 
 import java.util.function.Function;
 
 final class JavaPoetTypeParameterFactory implements TypeParameterSourceFactory {
 
     private final TypeReferenceSourceAdapter<TypeName> referenceAdapter;
+    private final OptionalFactory optionalFactory;
 
     @Inject
-    private JavaPoetTypeParameterFactory(final TypeReferenceSourceAdapter<TypeName> referenceAdapter) {
+    private JavaPoetTypeParameterFactory(
+            final TypeReferenceSourceAdapter<TypeName> referenceAdapter,
+            final OptionalFactory optionalFactory) {
         this.referenceAdapter = referenceAdapter;
+        this.optionalFactory = optionalFactory;
     }
 
     private TypeParameterSource newInstance(final TypeName parameterizable, final TypeName[] parameters) {
@@ -48,6 +53,7 @@ final class JavaPoetTypeParameterFactory implements TypeParameterSourceFactory {
             throw new IllegalArgumentException(parameterizable + " is not a parameterizable type.");
         }
         return new JavaPoetTypeParameter(
+                this.optionalFactory,
                 (ClassName) parameterizable,
                 parameters
         );
@@ -58,6 +64,7 @@ final class JavaPoetTypeParameterFactory implements TypeParameterSourceFactory {
             final ExtendedTypeElement erasure, final ExtendedTypeElement... parameters) {
 
         return new JavaPoetTypeParameter(
+                this.optionalFactory,
                 ClassName.get(erasure),
                 createParams(parameters)
         );
@@ -120,7 +127,7 @@ final class JavaPoetTypeParameterFactory implements TypeParameterSourceFactory {
             final Class<?> erasure, final TypeReferenceSource... parameters) {
 
         return new JavaPoetTypeParameter(
-                ClassName.get(erasure),
+                this.optionalFactory, ClassName.get(erasure),
                 createParams(parameters)
         );
     }

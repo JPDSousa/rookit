@@ -28,7 +28,7 @@ import org.rookit.auto.javapoet.SourceJavaPoetLibModule;
 import org.rookit.auto.javax.JavaxLibModule;
 import org.rookit.auto.source.SourceLibModule;
 import org.rookit.convention.ConventionModule;
-import org.rookit.convention.auto.metatype.ConventionLibModule;
+import org.rookit.convention.auto.ConventionLibModule;
 import org.rookit.convention.guice.source.config.ConfigModule;
 import org.rookit.convention.guice.source.entity.EntityModule;
 import org.rookit.convention.guice.source.javapoet.JavaPoetModule;

@@ -23,10 +23,8 @@ package org.rookit.auto.javax.naming;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
-import com.google.inject.Provides;
 import com.google.inject.Singleton;
 
-@SuppressWarnings("MethodMayBeStatic")
 public final class NamingModule extends AbstractModule {
 
     private static final Module MODULE = new NamingModule();
@@ -39,14 +37,8 @@ public final class NamingModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(IdentifierFactories.class).to(IdentifierFactoriesImpl.class).in(Singleton.class);
-        bind(NamingFactories.class).to(NamingFactoriesImpl.class).in(Singleton.class);
-    }
-
-    @Provides
-    @Singleton
-    IdentifierFactory identifierFactory(final IdentifierFactories factories,
-                                        final NamingFactory namingFactory) {
-        return factories.create(namingFactory);
+        bind(IdentifierFactory.class).to(BaseIdentifierFactory.class).in(Singleton.class);
+        bind(IdentifierTransformers.class).to(BaseIdentifierTransformers.class).in(Singleton.class);
+        bind(MethodNameTransformers.class).to(MethodNameTransformersImpl.class).in(Singleton.class);
     }
 }

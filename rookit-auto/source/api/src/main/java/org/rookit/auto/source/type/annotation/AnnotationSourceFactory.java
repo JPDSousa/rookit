@@ -21,11 +21,19 @@
  ******************************************************************************/
 package org.rookit.auto.source.type.annotation;
 
-import org.rookit.auto.javax.naming.Identifier;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
+
+import java.util.Collection;
+
+import static com.google.common.collect.Collections2.transform;
 
 public interface AnnotationSourceFactory {
 
-    AnnotationSource create(Identifier identifier);
+    AnnotationSource fromReference(TypeReferenceSource reference);
+
+    default Collection<AnnotationSource> fromReference(final Collection<TypeReferenceSource> references) {
+        return transform(references, this::fromReference);
+    }
 
     AnnotationSource create(Class<?> clazz);
 

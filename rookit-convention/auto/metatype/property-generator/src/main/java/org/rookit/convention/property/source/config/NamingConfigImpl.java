@@ -22,7 +22,7 @@
 package org.rookit.convention.property.source.config;
 
 import org.rookit.utils.object.DynamicObject;
-import org.rookit.convention.auto.metatype.config.NamingConfig;
+import org.rookit.convention.auto.config.NamingConfig;
 
 final class NamingConfigImpl implements NamingConfig {
 

@@ -26,9 +26,10 @@ import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import org.rookit.auto.javax.naming.NamingFactory;
-import org.rookit.convention.auto.metatype.javax.naming.PropertyIdentifierFactories;
-import org.rookit.convention.auto.metatype.javax.naming.PropertyIdentifierFactory;
+import org.rookit.auto.javax.naming.MethodNameTransformer;
+import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
+import org.rookit.convention.auto.source.type.reference.PropertyTypeReferenceSourceFactories;
+import org.rookit.convention.auto.source.type.reference.PropertyTypeReferenceSourceFactory;
 import org.rookit.convention.guice.source.config.GuiceConventionConfig;
 import org.rookit.guice.auto.annotation.Guice;
 
@@ -45,18 +46,19 @@ public final class NamingModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(PropertyIdentifierFactory.class).to(Key.get(PropertyIdentifierFactory.class, Guice.class))
+        bind(PropertyTypeReferenceSourceFactory.class)
+                .to(Key.get(PropertyTypeReferenceSourceFactory.class, Guice.class))
                 .in(Singleton.class);
-        bind(NamingFactory.class).to(Key.get(NamingFactory.class, Guice.class));
+        bind(MethodNameTransformer.class).to(Key.get(MethodNameTransformer.class, Guice.class));
     }
 
     @Provides
     @Singleton
     @Guice
-    PropertyIdentifierFactory propertyIdentifierFactory(final PropertyIdentifierFactories factories,
-                                                        final NamingFactory namingFactory,
-                                                        final GuiceConventionConfig config) {
-        return factories.baseFactory(namingFactory, config.propertyPackage());
+    PropertyTypeReferenceSourceFactory propertyIdentifierFactory(final PropertyTypeReferenceSourceFactories factories,
+                                                                 final TypeReferenceSourceFactory referenceFactory,
+                                                                 final GuiceConventionConfig config) {
+        return factories.createDispatcherFactory(referenceFactory, config.propertyPackage());
     }
 
 }

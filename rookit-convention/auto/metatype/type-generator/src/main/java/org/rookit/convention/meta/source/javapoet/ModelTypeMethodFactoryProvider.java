@@ -26,8 +26,8 @@ import com.google.inject.Provider;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.source.method.MethodSource;
-import org.rookit.convention.auto.metatype.javax.visitor.ConventionTypeElementVisitor;
-import org.rookit.convention.auto.metatype.source.method.ConventionTypeElementMethodSourceVisitors;
+import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.auto.source.method.ConventionTypeElementMethodSourceVisitors;
 import org.rookit.convention.guice.MetaTypeModelType;
 
 final class ModelTypeMethodFactoryProvider

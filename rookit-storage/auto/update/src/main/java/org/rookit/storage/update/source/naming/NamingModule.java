@@ -23,8 +23,11 @@ package org.rookit.storage.update.source.naming;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
+import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import org.rookit.auto.javax.naming.NamingFactory;
+import org.rookit.auto.javax.naming.MethodNameTransformer;
+import org.rookit.auto.javax.naming.MethodNameTransformers;
+import org.rookit.storage.api.config.UpdateConfig;
 import org.rookit.storage.guice.PartialUpdate;
 import org.rookit.storage.guice.Update;
 
@@ -38,12 +41,19 @@ public final class NamingModule extends AbstractModule {
 
     private NamingModule() {}
 
-    @Override
-    protected void configure() {
-        bind(NamingFactory.class).annotatedWith(Update.class)
-                .toProvider(UpdateJavaPoetNamingFactoryProvider.class).in(Singleton.class);
-        bind(NamingFactory.class).annotatedWith(PartialUpdate.class)
-                .toProvider(PartialUpdateJavaPoetNamingFactoryProvider.class)
-                .in(Singleton.class);
+    @Provides
+    @Singleton
+    @Update
+    MethodNameTransformer updateTransformer(final MethodNameTransformers transformers,
+                                            final UpdateConfig config) {
+        return transformers.fromTemplate(config.methodTemplate());
+    }
+
+    @Provides
+    @Singleton
+    @PartialUpdate
+    MethodNameTransformer partialUpdateTransformer(final MethodNameTransformers transformers,
+                                            final UpdateConfig config) {
+        return transformers.fromTemplate(config.methodTemplate());
     }
 }

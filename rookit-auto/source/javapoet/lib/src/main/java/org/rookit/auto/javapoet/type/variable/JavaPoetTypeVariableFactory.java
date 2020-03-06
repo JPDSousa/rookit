@@ -31,7 +31,7 @@ import org.rookit.auto.source.type.reference.TypeReferenceSourceAdapter;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
-import org.rookit.utils.primitive.VoidUtils;
+import org.rookit.utils.optional.OptionalFactory;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
@@ -41,22 +41,22 @@ final class JavaPoetTypeVariableFactory implements TypeVariableSourceFactory {
 
     private final TypeReferenceSourceFactory referenceFactory;
     private final TypeReferenceSourceAdapter<TypeName> referenceAdapter;
-    private final VoidUtils voidUtils;
+    private final OptionalFactory optionalFactory;
 
     @Inject
     private JavaPoetTypeVariableFactory(
             final TypeReferenceSourceFactory referenceFactory,
             final TypeReferenceSourceAdapter<TypeName> referenceAdapter,
-            final VoidUtils voidUtils) {
+            final OptionalFactory optionalFactory) {
         this.referenceFactory = referenceFactory;
         this.referenceAdapter = referenceAdapter;
-        this.voidUtils = voidUtils;
+        this.optionalFactory = optionalFactory;
     }
 
     private TypeVariableSource createFromJavaPoet(final TypeVariableName typeVariable) {
 
         return new JavaPoetTypeVariable(
-                this.referenceFactory,
+                this.optionalFactory, this.referenceFactory,
                 Lists.newArrayListWithExpectedSize(AVG_N_BOUNDS),
                 this.referenceAdapter,
                 typeVariable
@@ -82,15 +82,6 @@ final class JavaPoetTypeVariableFactory implements TypeVariableSourceFactory {
     public TypeVariableSource createFromJavaX(final ExtendedTypeVariable typeVariable) {
 
         return createFromJavaPoet(TypeVariableName.get(typeVariable));
-    }
-
-    @Override
-    public String toString() {
-        return "JavaPoetTypeVariableFactory{" +
-                "referenceFactory=" + this.referenceFactory +
-                ", referenceAdapter=" + this.referenceAdapter +
-                ", voidUtils=" + this.voidUtils +
-                "}";
     }
 
 }

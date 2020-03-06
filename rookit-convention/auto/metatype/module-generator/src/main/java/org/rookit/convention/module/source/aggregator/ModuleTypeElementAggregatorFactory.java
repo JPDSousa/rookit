@@ -23,7 +23,6 @@ package org.rookit.convention.module.source.aggregator;
 
 import com.google.inject.Inject;
 import org.rookit.auto.javax.aggregator.ExtendedPackageElementAggregatorFactory;
-import org.rookit.auto.javax.naming.Identifier;
 import org.rookit.auto.javax.naming.IdentifierFactory;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
 import org.rookit.auto.javax.pack.PackageReferenceWalker;
@@ -32,8 +31,10 @@ import org.rookit.auto.source.type.TypeSource;
 import org.rookit.auto.source.type.container.TypeSourceContainer;
 import org.rookit.auto.source.type.container.TypeSourceContainerExtendedElementAggregator;
 import org.rookit.auto.source.type.container.TypeSourceContainerFactory;
-import org.rookit.convention.auto.metatype.module.ModuleTypeSource;
-import org.rookit.convention.auto.metatype.module.ModuleTypeSourceFactory;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
+import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
+import org.rookit.guice.auto.module.ModuleTypeSource;
+import org.rookit.guice.auto.module.ModuleTypeSourceFactory;
 import org.rookit.utils.optional.OptionalFactory;
 
 final class ModuleTypeElementAggregatorFactory implements ExtendedPackageElementAggregatorFactory<
@@ -44,6 +45,7 @@ final class ModuleTypeElementAggregatorFactory implements ExtendedPackageElement
     private final IdentifierFactory identifierFactory;
     private final PackageReferenceWalkerFactory walkerFactory;
     private final TypeSourceContainerFactory containerFactory;
+    private final TypeReferenceSourceFactory referenceFactory;
 
     @Inject
     private ModuleTypeElementAggregatorFactory(
@@ -51,31 +53,33 @@ final class ModuleTypeElementAggregatorFactory implements ExtendedPackageElement
             final OptionalFactory optionalFactory,
             final IdentifierFactory identifierFactory,
             final PackageReferenceWalkerFactory walkerFactory,
-            final TypeSourceContainerFactory containerFactory) {
+            final TypeSourceContainerFactory containerFactory,
+            final TypeReferenceSourceFactory referenceFactory) {
         this.sourceFactory = sourceFactory;
         this.optionalFactory = optionalFactory;
         this.identifierFactory = identifierFactory;
         this.walkerFactory = walkerFactory;
         this.containerFactory = containerFactory;
+        this.referenceFactory = referenceFactory;
     }
 
     @Override
     public TypeSourceContainerExtendedElementAggregator<TypeSource> create(
             final ExtendedPackageElement packageElement) {
 
-        final Identifier identifier = this.identifierFactory.create(packageElement);
-        final ModuleTypeSource typeSource = this.sourceFactory.createClass(identifier);
+        final TypeReferenceSource reference = this.referenceFactory.fromSplitPackageAndName(
+                packageElement,
+                packageElement.getSimpleName()
+        );
+        final ModuleTypeSource typeSource = this.sourceFactory.fromReference(reference);
         final PackageReferenceWalker step = this.walkerFactory.create(packageElement);
 
         return new EntityExtendedTypeElementAggregator(
                 step,
                 packageElement,
-                this.identifierFactory,
                 typeSource,
-                this.optionalFactory,
-                identifier,
-                this.containerFactory
-        );
+                this.containerFactory,
+                this.referenceFactory);
     }
 
 }

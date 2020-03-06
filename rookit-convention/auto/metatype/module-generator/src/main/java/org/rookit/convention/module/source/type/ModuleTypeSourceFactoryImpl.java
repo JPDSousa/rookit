@@ -24,14 +24,14 @@ package org.rookit.convention.module.source.type;
 import com.google.inject.Inject;
 import org.rookit.auto.javax.aggregator.ExtendedElementAggregatorFactory;
 import org.rookit.auto.javax.aggregator.ExtendedElementAggregator;
-import org.rookit.auto.javax.naming.Identifier;
-import org.rookit.auto.source.identifier.IdentifierFieldAggregator;
-import org.rookit.auto.source.identifier.IdentifierFieldAggregatorFactory;
+import org.rookit.auto.source.identifier.ReferenceFieldAggregator;
+import org.rookit.auto.source.identifier.ReferenceFieldAggregatorFactory;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.type.MutableTypeSource;
 import org.rookit.auto.source.type.TypeSourceFactory;
-import org.rookit.convention.auto.metatype.module.ModuleTypeSource;
-import org.rookit.convention.auto.metatype.module.ModuleTypeSourceFactory;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
+import org.rookit.guice.auto.module.ModuleTypeSource;
+import org.rookit.guice.auto.module.ModuleTypeSourceFactory;
 
 import java.util.Collection;
 
@@ -40,7 +40,7 @@ final class ModuleTypeSourceFactoryImpl implements ModuleTypeSourceFactory {
     private final TypeSourceFactory delegate;
     private final ExtendedElementAggregatorFactory<MethodSource
             > methodAggregatorFactory;
-    private final IdentifierFieldAggregatorFactory moduleAggregatorFactory;
+    private final ReferenceFieldAggregatorFactory moduleAggregatorFactory;
     private final ExtendedElementAggregatorFactory<Collection<MethodSource>
             > propertyAggregatorFactory;
 
@@ -49,7 +49,7 @@ final class ModuleTypeSourceFactoryImpl implements ModuleTypeSourceFactory {
             final TypeSourceFactory delegate,
             final ExtendedElementAggregatorFactory<MethodSource
                     > methodFactory,
-            final IdentifierFieldAggregatorFactory moduleFactory,
+            final ReferenceFieldAggregatorFactory moduleFactory,
             final ExtendedElementAggregatorFactory<Collection<MethodSource>
                     > propAggFactory) {
         this.delegate = delegate;
@@ -59,10 +59,10 @@ final class ModuleTypeSourceFactoryImpl implements ModuleTypeSourceFactory {
     }
 
     @Override
-    public ModuleTypeSource createClass(final Identifier identifier) {
-        final MutableTypeSource delegate = this.delegate.createMutableClass(identifier);
+    public ModuleTypeSource fromReference(final TypeReferenceSource reference) {
+        final MutableTypeSource delegate = this.delegate.createMutableClass(reference);
         final ExtendedElementAggregator<MethodSource> methodAggregator = this.methodAggregatorFactory.create();
-        final IdentifierFieldAggregator moduleAggregator = this.moduleAggregatorFactory.create(identifier);
+        final ReferenceFieldAggregator moduleAggregator = this.moduleAggregatorFactory.createAggregator(reference);
         final ExtendedElementAggregator<Collection<MethodSource>> propertyAggregator
                 = this.propertyAggregatorFactory.create();
         return new ModuleTypeSourceImpl(delegate, methodAggregator, moduleAggregator, propertyAggregator);

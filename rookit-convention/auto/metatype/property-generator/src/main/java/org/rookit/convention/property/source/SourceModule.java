@@ -29,19 +29,17 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.util.Modules;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.TypeProcessor;
-import org.rookit.auto.javax.naming.IdentifierFactories;
-import org.rookit.auto.javax.naming.IdentifierFactory;
-import org.rookit.auto.javax.naming.NamingFactories;
-import org.rookit.auto.javax.naming.NamingFactory;
+import org.rookit.auto.javax.naming.MethodNameTransformer;
+import org.rookit.auto.javax.naming.MethodNameTransformers;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.source.field.FieldSource;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
-import org.rookit.convention.auto.metatype.ConventionLibModule;
-import org.rookit.convention.auto.metatype.config.PropertyConfig;
-import org.rookit.convention.auto.metatype.property.ExtendedPropertyEvaluator;
-import org.rookit.convention.auto.metatype.property.ExtendedPropertyExtractor;
-import org.rookit.convention.auto.metatype.property.ExtendedPropertyExtractorFactory;
-import org.rookit.convention.auto.metatype.property.Property;
+import org.rookit.convention.auto.ConventionLibModule;
+import org.rookit.convention.auto.config.PropertyConfig;
+import org.rookit.convention.auto.property.ExtendedPropertyEvaluator;
+import org.rookit.convention.auto.property.ExtendedPropertyExtractor;
+import org.rookit.convention.auto.property.ExtendedPropertyExtractorFactory;
+import org.rookit.convention.auto.property.Property;
 import org.rookit.convention.property.source.config.ConfigurationModule;
 import org.rookit.convention.property.source.javapoet.JavaPoetModule;
 import org.rookit.failsafe.FailsafeModule;
@@ -88,13 +86,6 @@ public final class SourceModule extends AbstractModule {
 
     @Provides
     @Singleton
-    IdentifierFactory identifierFactory(final IdentifierFactories factories,
-                                        final NamingFactory namingFactory) {
-        return factories.create(namingFactory);
-    }
-
-    @Provides
-    @Singleton
     ExtendedPropertyExtractor propertyExtractor(final ExtendedPropertyExtractorFactory factory) {
         final ExtendedPropertyExtractor baseExtractor = factory.create(executableElement -> true);
         return factory.createRecursive(baseExtractor);
@@ -102,10 +93,8 @@ public final class SourceModule extends AbstractModule {
 
     @Provides
     @Singleton
-    NamingFactory namingFactory(final NamingFactories factories,
-                                final PropertyConfig config,
-                                @Self final Template1 noopTemplate) {
-        return factories.create(config.basePackage(), config.entityTemplate(), noopTemplate);
+    MethodNameTransformer namingFactory(final MethodNameTransformers factories, @Self final Template1 noopTemplate) {
+        return factories.fromTemplate(noopTemplate);
     }
 
     @Provides

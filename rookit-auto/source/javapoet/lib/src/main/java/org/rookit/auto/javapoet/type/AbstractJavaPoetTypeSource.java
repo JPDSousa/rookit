@@ -31,6 +31,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.Executor;
 
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+
 public abstract class AbstractJavaPoetTypeSource implements MutableTypeSource {
 
     private final Executor executor;
@@ -48,7 +50,10 @@ public abstract class AbstractJavaPoetTypeSource implements MutableTypeSource {
 
     private void writeTypeTo(final Filer filer) {
         try {
-            JavaFile.builder(identifier().packageElement().getQualifiedName().toString(), typeSpec())
+            final String packageName = reference().packageName()
+                    .orElse(EMPTY);
+
+            JavaFile.builder(packageName, typeSpec())
                     .build()
                     .writeTo(filer);
         } catch (final IOException e) {

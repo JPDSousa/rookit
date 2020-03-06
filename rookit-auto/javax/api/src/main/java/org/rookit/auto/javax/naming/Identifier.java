@@ -27,7 +27,7 @@ import org.rookit.auto.javax.pack.ExtendedPackageElement;
 @Value.Immutable
 public interface Identifier {
 
-    String name();
+    CharSequence name();
 
     ExtendedPackageElement packageElement();
 

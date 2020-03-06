@@ -29,12 +29,12 @@ import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
 import org.rookit.auto.config.DependencyAwareProcessorConfig;
 import org.rookit.auto.config.ProcessorConfig;
-import org.rookit.convention.auto.metatype.config.ConventionConfig;
-import org.rookit.convention.auto.metatype.config.ConventionMetatypeConfig;
+import org.rookit.convention.auto.config.ConventionConfig;
+import org.rookit.convention.auto.metatype.config.ConventionMetaTypeConfig;
 import org.rookit.convention.auto.metatype.config.MetaTypeApiConfig;
 import org.rookit.guice.auto.config.GuiceConfig;
-import org.rookit.convention.auto.metatype.config.MetatypeModuleConfig;
-import org.rookit.convention.auto.metatype.config.PropertyConfig;
+import org.rookit.convention.auto.metatype.config.MetaTypeModuleConfig;
+import org.rookit.convention.auto.config.PropertyConfig;
 import org.rookit.utils.string.template.TemplateFactory;
 
 import javax.annotation.processing.Messager;
@@ -55,9 +55,9 @@ public final class ConfigurationModule extends AbstractModule {
     @SuppressWarnings("TypeMayBeWeakened") // due to guice
     @Provides
     @Singleton
-    ProcessorConfig processorConfig(final MetatypeModuleConfig delegate,
+    ProcessorConfig processorConfig(final MetaTypeModuleConfig delegate,
                                     final MetaTypeApiConfig apiDependency,
-                                    final ConventionMetatypeConfig metatypeDependency,
+                                    final ConventionMetaTypeConfig metatypeDependency,
                                     final GuiceConfig guiceDependency,
                                     final PropertyConfig propertyDependency,
                                     final Messager messager) {
@@ -70,7 +70,7 @@ public final class ConfigurationModule extends AbstractModule {
 
     @Provides
     @Singleton
-    MetatypeModuleConfig config(final ConventionConfig parent, final TemplateFactory templateFactory) {
+    MetaTypeModuleConfig config(final ConventionConfig parent, final TemplateFactory templateFactory) {
         final String name = "module";
         return new MetaTypeModuleConfigImpl(parent.getProcessorConfig(name), parent, name, templateFactory);
     }

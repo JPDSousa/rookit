@@ -26,8 +26,8 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
-import org.rookit.auto.javax.naming.NamingFactories;
-import org.rookit.auto.javax.naming.NamingFactory;
+import org.rookit.auto.javax.naming.MethodNameTransformer;
+import org.rookit.auto.javax.naming.MethodNameTransformers;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.storage.api.config.UpdateFilterConfig;
@@ -54,21 +54,17 @@ public final class SourceModule extends AbstractModule {
     @Singleton
     @Provides
     @PartialUpdateFilter
-    NamingFactory partialUpdateFilterNamingFactory(final NamingFactories factories,
-                                                   @UpdateFilter final ExtendedPackageElement packageElement,
-                                                   final UpdateFilterConfig config,
-                                                   @Self final Template1 noopTemplate) {
-        return factories.create(packageElement, config.entityTemplate(), noopTemplate);
+    MethodNameTransformer partialUpdateFilterNamingFactory(final MethodNameTransformers factories,
+                                                           @Self final Template1 noopTemplate) {
+        return factories.fromTemplate(noopTemplate);
     }
 
     @Singleton
     @Provides
     @UpdateFilter
-    NamingFactory updateFilterNamingFactory(final NamingFactories factories,
-                                            @UpdateFilter final ExtendedPackageElement packageElement,
-                                            final UpdateFilterConfig config,
-                                            @Self final Template1 noopTemplate) {
-        return factories.create(packageElement, config.entityTemplate(), noopTemplate);
+    MethodNameTransformer updateFilterNamingFactory(final MethodNameTransformers factories,
+                                                    @Self final Template1 noopTemplate) {
+        return factories.fromTemplate(noopTemplate);
     }
 
     @Singleton

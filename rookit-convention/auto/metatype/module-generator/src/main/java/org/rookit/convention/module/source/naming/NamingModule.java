@@ -25,9 +25,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import org.rookit.auto.javax.naming.NamingFactories;
-import org.rookit.auto.javax.naming.NamingFactory;
-import org.rookit.convention.auto.metatype.config.MetatypeModuleConfig;
+import org.rookit.auto.javax.naming.MethodNameTransformer;
+import org.rookit.auto.javax.naming.MethodNameTransformers;
 import org.rookit.utils.guice.Self;
 import org.rookit.utils.string.template.Template1;
 
@@ -43,10 +42,8 @@ public final class NamingModule extends AbstractModule {
 
     @Provides
     @Singleton
-    NamingFactory namingFactory(final NamingFactories factories,
-                                final MetatypeModuleConfig config,
-                                @Self final Template1 noopTemplate) {
-        return factories.create(config.basePackage(), config.entityTemplate(), noopTemplate);
+    MethodNameTransformer namingFactory(final MethodNameTransformers factories, @Self final Template1 noopTemplate) {
+        return factories.fromTemplate(noopTemplate);
     }
 
 }

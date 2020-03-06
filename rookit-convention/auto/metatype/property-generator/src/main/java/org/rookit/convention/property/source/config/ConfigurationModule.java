@@ -30,11 +30,11 @@ import com.google.inject.util.Modules;
 import org.rookit.auto.config.DependencyAwareProcessorConfig;
 import org.rookit.auto.config.ProcessorConfig;
 import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
-import org.rookit.convention.auto.metatype.config.ConventionConfig;
+import org.rookit.convention.auto.config.ConventionConfig;
 import org.rookit.convention.auto.metatype.config.MetaTypeApiConfig;
 import org.rookit.guice.auto.config.GuiceConfig;
-import org.rookit.convention.auto.metatype.config.NamingConfig;
-import org.rookit.convention.auto.metatype.config.PropertyConfig;
+import org.rookit.convention.auto.config.NamingConfig;
+import org.rookit.convention.auto.config.PropertyConfig;
 import org.rookit.utils.string.template.TemplateFactory;
 
 import javax.annotation.processing.Messager;

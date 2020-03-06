@@ -26,13 +26,13 @@ import com.google.inject.Inject;
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
-import org.rookit.auto.javax.naming.Identifier;
 import org.rookit.auto.source.CodeSource;
 import org.rookit.auto.source.CodeSourceVisitor;
 import org.rookit.auto.source.type.annotation.AnnotationSource;
 import org.rookit.auto.source.type.annotation.AnnotationSourceFactory;
 import org.rookit.auto.source.type.annotation.MutableAnnotationSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
+import org.rookit.auto.source.type.reference.TypeReferenceSourceAdapter;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 import org.rookit.utils.primitive.VoidUtils;
 
@@ -42,26 +42,25 @@ final class JavaPoetAnnotationFactory implements AnnotationSourceFactory {
 
     private final VoidUtils voidUtils;
     private final TypeReferenceSourceFactory referenceFactory;
+    private final TypeReferenceSourceAdapter<ClassName> classNameAdapter;
     private final CodeSourceVisitor<CodeBlock, Void> javaPoetVisitor;
 
     @Inject
     private JavaPoetAnnotationFactory(
             final VoidUtils voidUtils,
             final TypeReferenceSourceFactory referenceFactory,
+            final TypeReferenceSourceAdapter<ClassName> classNameAdapter,
             final CodeSourceVisitor<CodeBlock, Void> javaPoetVisitor) {
         this.voidUtils = voidUtils;
         this.referenceFactory = referenceFactory;
+        this.classNameAdapter = classNameAdapter;
         this.javaPoetVisitor = javaPoetVisitor;
     }
 
     @Override
-    public AnnotationSource create(final Identifier identifier) {
+    public AnnotationSource fromReference(final TypeReferenceSource reference) {
 
-        final TypeReferenceSource reference = this.referenceFactory.fromIdentifier(identifier);
-        final ClassName className = ClassName.get(identifier.packageElement()
-                                                          .getQualifiedName()
-                                                          .toString(),
-                                                  identifier.name());
+        final ClassName className = this.classNameAdapter.adaptTypeReference(reference);
         final AnnotationSpec.Builder builder = AnnotationSpec.builder(className);
         // TODO 1 is a magic number -> extract into a proper place
         final Map<String, CodeSource> members = Maps.newHashMapWithExpectedSize(1);
@@ -84,15 +83,6 @@ final class JavaPoetAnnotationFactory implements AnnotationSourceFactory {
         return new JavaPoetAnnotation(reference, AnnotationSpec.builder(clazz), this.voidUtils,
                                       this.javaPoetVisitor,
                                       members);
-    }
-
-    @Override
-    public String toString() {
-        return "JavaPoetAnnotationFactory{" +
-                "voidUtils=" + this.voidUtils +
-                ", referenceFactory=" + this.referenceFactory +
-                ", javaPoetVisitor=" + this.javaPoetVisitor +
-                "}";
     }
 
 }

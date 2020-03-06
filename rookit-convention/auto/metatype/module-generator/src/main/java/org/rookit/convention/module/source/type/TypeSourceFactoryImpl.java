@@ -25,7 +25,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
-import org.rookit.auto.javax.naming.Identifier;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.method.MethodSourceFactory;
 import org.rookit.auto.source.type.MutableTypeSource;
@@ -33,7 +32,7 @@ import org.rookit.auto.source.type.TypeSource;
 import org.rookit.auto.source.type.TypeSourceFactory;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
-import org.rookit.convention.auto.metatype.config.MetatypeModuleConfig;
+import org.rookit.convention.auto.metatype.config.MetaTypeModuleConfig;
 import org.rookit.utils.guice.Proxied;
 
 import javax.annotation.processing.Messager;
@@ -51,13 +50,13 @@ final class TypeSourceFactoryImpl implements TypeSourceFactory {
     private final TypeSourceFactory delegate;
     private final Collection<MethodSource> methods;
     private final Messager messager;
-    private final MetatypeModuleConfig config;
+    private final MetaTypeModuleConfig config;
     private final TypeReferenceSource abstractModule;
 
     @Inject
     private TypeSourceFactoryImpl(
             @Proxied final TypeSourceFactory delegate,
-            final MetatypeModuleConfig config,
+            final MetaTypeModuleConfig config,
             final Messager messager,
             final TypeReferenceSourceFactory referenceFactory,
             final MethodSourceFactory methodFactory) {
@@ -77,22 +76,22 @@ final class TypeSourceFactoryImpl implements TypeSourceFactory {
     }
 
     @Override
-    public MutableTypeSource createMutableClass(final Identifier identifier) {
-        return this.delegate.createMutableClass(identifier)
+    public MutableTypeSource createMutableClass(final TypeReferenceSource referenceSource) {
+        return this.delegate.createMutableClass(referenceSource)
                 .withSuperclass(this.abstractModule)
                 .addMethods(this.methods);
     }
 
     @Override
-    public MutableTypeSource createMutableInterface(final Identifier identifier) {
+    public MutableTypeSource createMutableInterface(final TypeReferenceSource reference) {
         this.messager.printMessage(Diagnostic.Kind.NOTE, format(WARN_DELEGATE, "interfaces", this.config.name()));
-        return this.delegate.createMutableInterface(identifier);
+        return this.delegate.createMutableInterface(reference);
     }
 
     @Override
-    public MutableTypeSource createMutableAnnotation(final Identifier identifier) {
+    public MutableTypeSource createMutableAnnotation(final TypeReferenceSource reference) {
         this.messager.printMessage(Diagnostic.Kind.NOTE, format(WARN_DELEGATE, "annotations", this.config.name()));
-        return this.delegate.createMutableAnnotation(identifier);
+        return this.delegate.createMutableAnnotation(reference);
     }
 
     @Override

@@ -25,7 +25,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import org.rookit.auto.source.parameter.ParameterSource;
 import org.rookit.auto.source.parameter.ParameterSourceFactory;
-import org.rookit.convention.auto.metatype.property.Property;
+import org.rookit.convention.auto.property.Property;
 
 import java.util.Collection;
 import java.util.function.Function;

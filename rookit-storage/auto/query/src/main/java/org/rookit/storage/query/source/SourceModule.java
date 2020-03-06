@@ -26,8 +26,8 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
-import org.rookit.auto.javax.naming.NamingFactories;
-import org.rookit.auto.javax.naming.NamingFactory;
+import org.rookit.auto.javax.naming.MethodNameTransformer;
+import org.rookit.auto.javax.naming.MethodNameTransformers;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.storage.api.config.QueryConfig;
@@ -77,20 +77,16 @@ public final class SourceModule extends AbstractModule {
     @Singleton
     @Provides
     @PartialQuery
-    NamingFactory queryNamingFactory(final NamingFactories factories,
-                                     @PartialQuery final ExtendedPackageElement packageElement,
-                                     final QueryConfig config) {
-        return factories.create(packageElement, config.entityTemplate(), config.methodTemplate());
+    MethodNameTransformer queryNamingFactory(final MethodNameTransformers factories, final QueryConfig config) {
+        return factories.fromTemplate(config.methodTemplate());
     }
 
     @Singleton
     @Provides
     @Query
-    NamingFactory queryEntityNamingFactory(final NamingFactories factories,
-                                           @PartialQuery final ExtendedPackageElement packageElement,
-                                           final QueryConfig config) {
+    MethodNameTransformer queryEntityNamingFactory(final MethodNameTransformers factories, final QueryConfig config) {
         // TODO should this have the exact same binding as the one above??????
-        return factories.create(packageElement, config.entityTemplate(), config.methodTemplate());
+        return factories.fromTemplate(config.methodTemplate());
     }
 
     @Provides

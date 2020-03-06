@@ -26,9 +26,9 @@ import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.aggregator.ExtendedElementAggregator;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.source.method.MethodSource;
-import org.rookit.convention.auto.metatype.javax.ConventionTypeElement;
-import org.rookit.convention.auto.metatype.property.aggregator.ExtendedPropertyAggregator;
-import org.rookit.convention.auto.metatype.property.aggregator.ExtendedPropertyAggregatorFactory;
+import org.rookit.convention.auto.javax.ConventionTypeElement;
+import org.rookit.convention.auto.property.aggregator.ExtendedPropertyAggregator;
+import org.rookit.convention.auto.property.aggregator.ExtendedPropertyAggregatorFactory;
 import org.rookit.utils.primitive.VoidUtils;
 
 import javax.annotation.processing.Messager;

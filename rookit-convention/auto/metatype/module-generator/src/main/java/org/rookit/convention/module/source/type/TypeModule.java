@@ -25,7 +25,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import org.rookit.auto.source.type.TypeSourceFactory;
-import org.rookit.convention.auto.metatype.module.ModuleTypeSourceFactory;
+import org.rookit.guice.auto.module.ModuleTypeSourceFactory;
 
 public final class TypeModule extends AbstractModule {
 

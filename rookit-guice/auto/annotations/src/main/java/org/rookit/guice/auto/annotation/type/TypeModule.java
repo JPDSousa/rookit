@@ -29,12 +29,12 @@ import com.google.inject.TypeLiteral;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.guice.GuiceBindAnnotation;
 import org.rookit.auto.javax.ExtendedElement;
-import org.rookit.auto.javax.naming.IdentifierFactory;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.source.doc.JavadocTemplate1;
 import org.rookit.auto.source.type.ExtendedElementTypeSourceVisitors;
 import org.rookit.auto.source.type.TypeSource;
+import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 import org.rookit.guice.auto.annotation.BindingAnnotationGenerator;
 import org.rookit.utils.registry.Registry;
 
@@ -62,10 +62,10 @@ public final class TypeModule extends AbstractModule {
     @Singleton
     ExtendedElementVisitor<StreamEx<TypeSource>, Void> visitor(
             final ExtendedElementTypeSourceVisitors visitors,
-            final IdentifierFactory idFactory,
+            final TypeReferenceSourceFactory referenceFactory,
             final Function<ExtendedElement, ExtendedTypeElement> extractionFunction,
             @GuiceBindAnnotation final JavadocTemplate1 javadoc) {
-        return visitors.annotationBuilder(idFactory, Void.class)
+        return visitors.annotationBuilder(referenceFactory, Void.class)
                 .withRecursiveVisiting(StreamEx::append)
                 .filterIfAnnotationPresent(BindingAnnotationGenerator.class)
                 .bindingAnnotation()

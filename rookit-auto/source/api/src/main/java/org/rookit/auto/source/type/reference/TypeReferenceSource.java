@@ -22,7 +22,10 @@
 package org.rookit.auto.source.type.reference;
 
 import org.rookit.auto.source.CodeSource;
+import org.rookit.utils.optional.Optional;
 
 public interface TypeReferenceSource extends CodeSource {
+
+    Optional<String> packageName();
 
 }

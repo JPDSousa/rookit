@@ -29,8 +29,8 @@ import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
 import org.rookit.auto.config.DependencyAwareProcessorConfig;
 import org.rookit.auto.config.ProcessorConfig;
-import org.rookit.convention.auto.metatype.config.ConventionConfig;
-import org.rookit.convention.auto.metatype.config.ConventionMetatypeConfig;
+import org.rookit.convention.auto.config.ConventionConfig;
+import org.rookit.convention.auto.metatype.config.ConventionMetaTypeConfig;
 import org.rookit.convention.auto.metatype.config.MetaTypeApiConfig;
 import org.rookit.guice.auto.config.GuiceConfig;
 import org.rookit.utils.string.template.TemplateFactory;
@@ -54,7 +54,7 @@ public final class ConfigurationModule extends AbstractModule {
     @SuppressWarnings("TypeMayBeWeakened") // due to guice
     @Provides
     @Singleton
-    ProcessorConfig processorConfig (final ConventionMetatypeConfig delegate,
+    ProcessorConfig processorConfig (final ConventionMetaTypeConfig delegate,
                                      final MetaTypeApiConfig apiDependency,
                                      final GuiceConfig guiceDependency,
                                      final Messager messager) {
@@ -67,10 +67,10 @@ public final class ConfigurationModule extends AbstractModule {
 
     @Provides
     @Singleton
-    ConventionMetatypeConfig conventionMetatypeConfig(final ConventionConfig config,
+    ConventionMetaTypeConfig conventionMetatypeConfig(final ConventionConfig config,
                                                       final TemplateFactory templateFactory) {
         final String name = "metatype";
-        return new ConventionMetatypeConfigImpl(config.getProcessorConfig(name), config, name, templateFactory);
+        return new ConventionMetaTypeConfigImpl(config.getProcessorConfig(name), config, name, templateFactory);
     }
 }
 

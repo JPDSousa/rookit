@@ -21,27 +21,27 @@
  ******************************************************************************/
 package org.rookit.auto.source.type;
 
-import org.rookit.auto.javax.naming.Identifier;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
 
 public interface TypeSourceFactory {
 
-    default TypeSource createClass(final Identifier identifier) {
-        return createMutableClass(identifier);
+    default TypeSource createClass(final TypeReferenceSource reference) {
+        return createMutableClass(reference);
     }
 
-    MutableTypeSource createMutableClass(Identifier identifier);
+    MutableTypeSource createMutableClass(TypeReferenceSource referenceSource);
 
-    default TypeSource createInterface(final Identifier identifier) {
-        return createMutableInterface(identifier);
+    default TypeSource createInterface(final TypeReferenceSource reference) {
+        return createMutableInterface(reference);
     }
 
-    MutableTypeSource createMutableInterface(Identifier identifier);
+    MutableTypeSource createMutableInterface(TypeReferenceSource reference);
 
-    default TypeSource createAnnotation(final Identifier identifier) {
-        return createMutableAnnotation(identifier);
+    default TypeSource createAnnotation(final TypeReferenceSource reference) {
+        return createMutableAnnotation(reference);
     }
 
-    MutableTypeSource createMutableAnnotation(Identifier identifier);
+    MutableTypeSource createMutableAnnotation(TypeReferenceSource reference);
 
     MutableTypeSource makeMutable(TypeSource typeSource);
 

@@ -26,13 +26,13 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javax.naming.IdentifierFactory;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.type.ExtendedElementTypeSourceVisitors;
 import org.rookit.auto.source.type.TypeSource;
+import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 import org.rookit.convention.annotation.LaConvention;
-import org.rookit.convention.auto.metatype.source.method.ConventionTypeElementMethodSourceVisitors;
+import org.rookit.convention.auto.source.method.ConventionTypeElementMethodSourceVisitors;
 
 import java.lang.annotation.Annotation;
 import java.util.Set;
@@ -68,9 +68,9 @@ public final class TypeModule extends AbstractModule {
     ExtendedElementVisitor<StreamEx<TypeSource>, Void> visitor(
             @LaConvention final Set<Class<? extends Annotation>> annotations,
             final ExtendedElementTypeSourceVisitors visitors,
-            final IdentifierFactory idFactory) {
+            final TypeReferenceSourceFactory referenceFactory) {
 
-        return visitors.interfaceBuilder(idFactory, Void.class)
+        return visitors.interfaceBuilder(referenceFactory, Void.class)
                 .withRecursiveVisiting(StreamEx::append)
                 .filterIfAnyAnnotationPresent(annotations)
                 .build();

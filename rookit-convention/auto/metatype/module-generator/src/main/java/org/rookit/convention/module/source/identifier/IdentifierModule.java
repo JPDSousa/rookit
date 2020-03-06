@@ -24,7 +24,7 @@ package org.rookit.convention.module.source.identifier;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
-import org.rookit.auto.source.identifier.IdentifierFieldAggregatorFactory;
+import org.rookit.auto.source.identifier.ReferenceFieldAggregatorFactory;
 
 public final class IdentifierModule extends AbstractModule {
 
@@ -38,6 +38,6 @@ public final class IdentifierModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(IdentifierFieldAggregatorFactory.class).to(SubModuleFieldAggregatorFactory.class).in(Singleton.class);
+        bind(ReferenceFieldAggregatorFactory.class).to(SubModuleFieldAggregatorFactory.class).in(Singleton.class);
     }
 }

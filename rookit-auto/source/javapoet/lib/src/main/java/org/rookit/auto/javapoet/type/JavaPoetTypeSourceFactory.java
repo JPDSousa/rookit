@@ -29,12 +29,12 @@ import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeVariableName;
 import org.rookit.auto.javapoet.JavaPoetMutableAnnotatableFactory;
-import org.rookit.auto.javax.naming.Identifier;
 import org.rookit.auto.source.field.FieldAdapter;
 import org.rookit.auto.source.method.MethodSourceAdapter;
 import org.rookit.auto.source.type.MutableTypeSource;
 import org.rookit.auto.source.type.TypeSource;
 import org.rookit.auto.source.type.TypeSourceFactory;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceAdapter;
 import org.rookit.auto.source.type.variable.TypeVariableSourceAdapter;
 import org.rookit.utils.guice.Separator;
@@ -51,8 +51,8 @@ final class JavaPoetTypeSourceFactory implements TypeSourceFactory {
     private final TypeReferenceSourceAdapter<TypeName> typeReferenceAdapter;
     private final TypeVariableSourceAdapter<TypeVariableName> typeVariableAdapter;
     private final JavaPoetMutableAnnotatableFactory annotatableFactory;
-    @SuppressWarnings("FieldNotUsedInToString")
     private final String separator;
+    private final TypeReferenceSourceAdapter<ClassName> referenceAdapter;
 
     @Inject
     private JavaPoetTypeSourceFactory(
@@ -62,7 +62,8 @@ final class JavaPoetTypeSourceFactory implements TypeSourceFactory {
             final TypeReferenceSourceAdapter<TypeName> typeReferenceAdapter,
             final TypeVariableSourceAdapter<TypeVariableName> typeVariableAdapter,
             final JavaPoetMutableAnnotatableFactory annotatableFactory,
-            @Separator final String separator) {
+            @Separator final String separator,
+            final TypeReferenceSourceAdapter<ClassName> referenceAdapter) {
         this.executor = executor;
         this.fieldAdapter = fieldAdapter;
         this.methodAdapter = methodAdapter;
@@ -70,26 +71,29 @@ final class JavaPoetTypeSourceFactory implements TypeSourceFactory {
         this.typeVariableAdapter = typeVariableAdapter;
         this.annotatableFactory = annotatableFactory;
         this.separator = separator;
+        this.referenceAdapter = referenceAdapter;
     }
 
 
     @Override
-    public MutableTypeSource createMutableClass(final Identifier identifier) {
-        return createTypeSource(identifier, TypeSpec.classBuilder(fromIdentifier(identifier)).build());
-    }
+    public MutableTypeSource createMutableClass(final TypeReferenceSource reference) {
 
-    private ClassName fromIdentifier(final Identifier identifier) {
-        return ClassName.get(identifier.packageElement().getQualifiedName().toString(), identifier.name());
-    }
-
-    @Override
-    public MutableTypeSource createMutableInterface(final Identifier identifier) {
-        return createTypeSource(identifier, TypeSpec.interfaceBuilder(fromIdentifier(identifier)).build());
+        final ClassName className = this.referenceAdapter.adaptTypeReference(reference);
+        return createTypeSource(reference, TypeSpec.classBuilder(className).build());
     }
 
     @Override
-    public MutableTypeSource createMutableAnnotation(final Identifier identifier) {
-        return createTypeSource(identifier, TypeSpec.annotationBuilder(fromIdentifier(identifier)).build());
+    public MutableTypeSource createMutableInterface(final TypeReferenceSource reference) {
+
+        final ClassName className = this.referenceAdapter.adaptTypeReference(reference);
+        return createTypeSource(reference, TypeSpec.interfaceBuilder(className).build());
+    }
+
+    @Override
+    public MutableTypeSource createMutableAnnotation(final TypeReferenceSource reference) {
+
+        final ClassName className = this.referenceAdapter.adaptTypeReference(reference);
+        return createTypeSource(reference, TypeSpec.annotationBuilder(className).build());
     }
 
     @Override
@@ -104,9 +108,9 @@ final class JavaPoetTypeSourceFactory implements TypeSourceFactory {
         throw new IllegalArgumentException(errMsg);
     }
 
-    private MutableTypeSource createTypeSource(final Identifier identifier, final TypeSpec source) {
+    private MutableTypeSource createTypeSource(final TypeReferenceSource reference, final TypeSpec source) {
         return new JavaPoetTypeSource(
-                identifier,
+                reference,
                 source.toBuilder(),
                 this.executor,
                 this.fieldAdapter,
@@ -116,18 +120,6 @@ final class JavaPoetTypeSourceFactory implements TypeSourceFactory {
                 this.annotatableFactory.createEmpty(),
                 this.separator
         );
-    }
-
-    @Override
-    public String toString() {
-        return "JavaPoetTypeSourceFactory{" +
-                "executor=" + this.executor +
-                ", fieldAdapter=" + this.fieldAdapter +
-                ", methodAdapter=" + this.methodAdapter +
-                ", typeReferenceAdapter=" + this.typeReferenceAdapter +
-                ", typeVariableAdapter=" + this.typeVariableAdapter +
-                ", annotatableFactory=" + this.annotatableFactory +
-                "}";
     }
 
 }

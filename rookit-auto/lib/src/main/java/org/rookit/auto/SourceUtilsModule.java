@@ -24,21 +24,16 @@ package org.rookit.auto;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
-import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
 import org.rookit.auto.config.ConfigurationModule;
-import org.rookit.auto.javax.naming.NamingFactories;
-import org.rookit.auto.javax.naming.NamingFactory;
 import org.rookit.auto.source.SourceModule;
 import org.rookit.utils.guice.Dummy;
-import org.rookit.utils.guice.Self;
 
 import javax.annotation.processing.Filer;
 import javax.tools.JavaFileObject;
 import java.util.concurrent.Executor;
 
-@SuppressWarnings("MethodMayBeStatic")
 public final class SourceUtilsModule extends AbstractModule {
 
     private static final Module MODULE = Modules.combine(
@@ -61,13 +56,6 @@ public final class SourceUtilsModule extends AbstractModule {
         bind(TypeProcessor.class).to(StatelessTypeProcessor.class).in(Singleton.class);
 
         bind(Executor.class).toInstance(MoreExecutors.directExecutor());
-    }
-
-    @Singleton
-    @Provides
-    @Self
-    NamingFactory selfNamingFactory(final NamingFactories factories) {
-        return factories.selfFactory();
     }
 
 }

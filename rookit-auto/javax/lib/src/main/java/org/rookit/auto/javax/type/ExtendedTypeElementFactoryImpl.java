@@ -78,7 +78,7 @@ final class ExtendedTypeElementFactoryImpl implements ExtendedTypeElementFactory
         final ExtendedElement extendedElement = this.elementFactory.extend(element);
         final ExtendedPackageElement packageElement = this.packageFactory
                 .extend(this.elements.getPackageOf(element));
-        final Identifier identifier = this.identifierFactory.create(packageElement, element.getSimpleName());
+        final Identifier identifier = this.identifierFactory.fromSplitPackageAndName(packageElement, element.getSimpleName());
 
         return new ExtendedTypeElementImpl(
                 extendedElement,

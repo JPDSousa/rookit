@@ -26,14 +26,15 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
-import org.rookit.auto.javax.naming.NamingFactories;
-import org.rookit.auto.javax.naming.NamingFactory;
+import org.rookit.auto.javax.naming.MethodNameTransformers;
+import org.rookit.auto.javax.naming.MethodNameTransformer;
 import org.rookit.guice.auto.aggregator.AggregatorModule;
 import org.rookit.guice.auto.annotation.AnnotationModule;
 import org.rookit.guice.auto.annotation.Guice;
 import org.rookit.guice.auto.bind.BindModule;
 import org.rookit.guice.auto.config.ConfigModule;
-import org.rookit.guice.auto.config.GuiceConfig;
+import org.rookit.guice.auto.module.ModuleModule;
+import org.rookit.guice.auto.source.SourceModule;
 import org.rookit.utils.guice.Self;
 import org.rookit.utils.string.template.Template1;
 
@@ -45,7 +46,9 @@ public final class GuiceAutoLibModule extends AbstractModule {
             AggregatorModule.getModule(),
             AnnotationModule.getModule(),
             BindModule.getModule(),
-            ConfigModule.getModule()
+            ConfigModule.getModule(),
+            ModuleModule.getModule(),
+            SourceModule.getModule()
     );
 
     public static Module getModule() {
@@ -57,9 +60,7 @@ public final class GuiceAutoLibModule extends AbstractModule {
     @Provides
     @Singleton
     @Guice
-    NamingFactory namingFactory(final NamingFactories factories,
-                                final GuiceConfig config,
-                                @Self final Template1 noopTemplate) {
-        return factories.create(config.basePackage(), noopTemplate, noopTemplate);
+    MethodNameTransformer namingFactory(final MethodNameTransformers factories, @Self final Template1 noopTemplate) {
+        return factories.fromTemplate(noopTemplate);
     }
 }

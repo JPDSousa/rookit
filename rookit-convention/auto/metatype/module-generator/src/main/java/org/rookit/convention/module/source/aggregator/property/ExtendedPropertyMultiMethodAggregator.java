@@ -22,12 +22,8 @@
 package org.rookit.convention.module.source.aggregator.property;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
-import com.google.inject.Provides;
-import com.google.inject.Singleton;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javax.naming.Identifier;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.method.MethodSourceFactory;
@@ -37,13 +33,13 @@ import org.rookit.auto.source.type.annotation.AnnotationSourceFactory;
 import org.rookit.auto.source.type.parameter.TypeParameterSourceFactory;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
-import org.rookit.convention.auto.metatype.javax.naming.PropertyIdentifierFactory;
-import org.rookit.convention.auto.metatype.javax.visitor.ConventionTypeElementVisitor;
-import org.rookit.convention.auto.metatype.property.ContainerProperty;
-import org.rookit.convention.auto.metatype.property.ExtendedProperty;
-import org.rookit.convention.auto.metatype.property.aggregator.ExtendedPropertyAggregator;
-import org.rookit.convention.auto.metatype.property.Property;
-import org.rookit.convention.auto.metatype.property.PropertyFactory;
+import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.auto.property.ContainerProperty;
+import org.rookit.convention.auto.property.ExtendedProperty;
+import org.rookit.convention.auto.property.Property;
+import org.rookit.convention.auto.property.PropertyFactory;
+import org.rookit.convention.auto.property.aggregator.ExtendedPropertyAggregator;
+import org.rookit.convention.auto.source.type.reference.PropertyTypeReferenceSourceFactory;
 import org.rookit.utils.optional.Optional;
 import org.rookit.utils.primitive.VoidUtils;
 
@@ -61,12 +57,15 @@ final class ExtendedPropertyMultiMethodAggregator implements ExtendedPropertyAgg
     private final ExtendedTypeElement element;
     private final Collection<Property> properties;
     private final PropertyFactory propertyFactory;
-    private final PropertyIdentifierFactory identifierFactory;
+    private final PropertyTypeReferenceSourceFactory propertyReferenceFactory;
     private final Messager messager;
     private final TypeReferenceSourceFactory apiReferenceFactory;
     private final TypeReferenceSourceFactory implReferenceFactory;
     private final TypeParameterSourceFactory parameterFactory;
     private final VoidUtils voidUtils;
+
+    private final TypeReferenceSource provides;
+    private final TypeReferenceSource singleton;
 
     ExtendedPropertyMultiMethodAggregator(
             final MethodSourceFactory methodFactory,
@@ -75,24 +74,28 @@ final class ExtendedPropertyMultiMethodAggregator implements ExtendedPropertyAgg
             final ExtendedTypeElement element,
             final Iterable<Property> properties,
             final PropertyFactory propertyFactory,
-            final PropertyIdentifierFactory identifierFactory,
+            final PropertyTypeReferenceSourceFactory propertyReferenceFactory,
             final Messager messager,
             final TypeReferenceSourceFactory apiReferenceFactory,
             final TypeReferenceSourceFactory implReferenceFactory,
             final TypeParameterSourceFactory parameterFactory,
-            final VoidUtils voidUtils) {
+            final VoidUtils voidUtils,
+            final TypeReferenceSource provides,
+            final TypeReferenceSource singleton) {
         this.methodFactory = methodFactory;
         this.annotationFactory = annotationFactory;
         this.parameterVisitor = parameterVisitor;
         this.element = element;
         this.properties = Lists.newArrayList(properties);
         this.propertyFactory = propertyFactory;
-        this.identifierFactory = identifierFactory;
+        this.propertyReferenceFactory = propertyReferenceFactory;
         this.messager = messager;
         this.apiReferenceFactory = apiReferenceFactory;
         this.implReferenceFactory = implReferenceFactory;
         this.parameterFactory = parameterFactory;
         this.voidUtils = voidUtils;
+        this.provides = provides;
+        this.singleton = singleton;
     }
 
     @Override
@@ -121,7 +124,7 @@ final class ExtendedPropertyMultiMethodAggregator implements ExtendedPropertyAgg
 
         final String methodName = uncapitalize(this.element.getSimpleName().toString()) + property.name();
 
-        final Identifier identifier = this.identifierFactory.create(property);
+        final TypeReferenceSource reference = this.propertyReferenceFactory.fromProperty(property);
 
         final ExtendedTypeElement propertyType = property.typeAsElement();
 
@@ -132,17 +135,18 @@ final class ExtendedPropertyMultiMethodAggregator implements ExtendedPropertyAgg
 
         final TypeReferenceSource implReference = this.implReferenceFactory.create(propertyType);
         return this.methodFactory.createMutableMethod(methodName)
-                .addAnnotations(annotations(identifier))
+                .addAnnotations(annotations(reference))
                 .addParameters(propertyType.accept(this.parameterVisitor, this.voidUtils.returnVoid()))
                 .returnMethodCall(returnType, "$T.create", ImmutableList.of(implReference));
     }
 
-    private Collection<AnnotationSource> annotations(final Identifier identifier) {
-        return ImmutableSet.of(
-                this.annotationFactory.create(Provides.class),
-                this.annotationFactory.create(Singleton.class),
-                this.annotationFactory.create(identifier)
-        );
+    private Collection<AnnotationSource> annotations(final TypeReferenceSource reference) {
+
+        return this.annotationFactory.fromReference(ImmutableList.of(
+                this.provides,
+                this.singleton,
+                reference
+        ));
     }
 
 }

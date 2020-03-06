@@ -23,12 +23,12 @@ package org.rookit.convention.module.source.type;
 
 import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.aggregator.ExtendedElementAggregator;
-import org.rookit.auto.javax.naming.Identifier;
-import org.rookit.auto.source.identifier.IdentifierFieldAggregator;
+import org.rookit.auto.source.identifier.ReferenceFieldAggregator;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.type.MutableTypeSource;
 import org.rookit.auto.source.type.annotation.AnnotationSource;
-import org.rookit.convention.auto.metatype.module.ModuleTypeSource;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
+import org.rookit.guice.auto.module.ModuleTypeSource;
 
 import javax.annotation.processing.Filer;
 import javax.lang.model.element.Modifier;
@@ -40,12 +40,12 @@ final class ModuleTypeSourceImpl implements ModuleTypeSource {
     private boolean written;
     private final MutableTypeSource delegate;
     private final ExtendedElementAggregator<MethodSource> configureAggregator;
-    private final IdentifierFieldAggregator subModules;
+    private final ReferenceFieldAggregator subModules;
     private final ExtendedElementAggregator<Collection<MethodSource>> propertyAggregator;
 
     ModuleTypeSourceImpl(final MutableTypeSource delegate,
                          final ExtendedElementAggregator<MethodSource> configureAggregator,
-                         final IdentifierFieldAggregator subModules,
+                         final ReferenceFieldAggregator subModules,
                          final ExtendedElementAggregator<Collection<MethodSource>> propertyAggregator) {
         this.configureAggregator = configureAggregator;
         this.propertyAggregator = propertyAggregator;
@@ -55,9 +55,10 @@ final class ModuleTypeSourceImpl implements ModuleTypeSource {
     }
 
     @Override
-    public void addModule(final Identifier identifier) {
+    public boolean addModule(final TypeReferenceSource reference) {
+
         attemptToWrite();
-        this.subModules.accept(identifier);
+        return this.subModules.accept(reference);
     }
 
     @Override
@@ -69,8 +70,8 @@ final class ModuleTypeSourceImpl implements ModuleTypeSource {
     }
 
     @Override
-    public Identifier identifier() {
-        return this.delegate.identifier();
+    public TypeReferenceSource reference() {
+        return this.delegate.reference();
     }
 
     private void attemptToWrite() {

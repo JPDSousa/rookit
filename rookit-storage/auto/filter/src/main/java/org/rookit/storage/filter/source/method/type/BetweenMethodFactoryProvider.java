@@ -30,9 +30,9 @@ import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.method.MethodSourceFactory;
 import org.rookit.auto.source.parameter.ParameterSource;
 import org.rookit.auto.source.parameter.ParameterSourceFactory;
-import org.rookit.convention.auto.metatype.javax.visitor.ConventionTypeElementVisitor;
-import org.rookit.convention.auto.metatype.property.Property;
-import org.rookit.convention.auto.metatype.source.method.ConventionTypeElementMethodSourceVisitors;
+import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.auto.property.Property;
+import org.rookit.convention.auto.source.method.ConventionTypeElementMethodSourceVisitors;
 import org.rookit.storage.filter.source.guice.Between;
 import org.rookit.utils.string.template.Template1;
 

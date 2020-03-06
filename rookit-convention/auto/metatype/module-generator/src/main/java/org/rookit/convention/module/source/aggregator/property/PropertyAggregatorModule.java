@@ -25,7 +25,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import org.rookit.auto.javax.aggregator.ExtendedElementAggregatorFactory;
-import org.rookit.convention.auto.metatype.property.aggregator.ExtendedPropertyAggregatorFactory;
+import org.rookit.convention.auto.property.aggregator.ExtendedPropertyAggregatorFactory;
 
 public final class PropertyAggregatorModule extends AbstractModule {
 

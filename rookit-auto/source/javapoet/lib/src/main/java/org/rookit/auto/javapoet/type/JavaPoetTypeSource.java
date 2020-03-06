@@ -31,7 +31,6 @@ import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeVariableName;
 import org.rookit.auto.javapoet.JavaPoetMutableAnnotatable;
-import org.rookit.auto.javax.naming.Identifier;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.source.field.FieldAdapter;
 import org.rookit.auto.source.field.FieldSource;
@@ -58,16 +57,14 @@ final class JavaPoetTypeSource extends AbstractJavaPoetTypeSource {
     private final TypeVariableSourceAdapter<TypeVariableName> typeVariableAdapter;
     private final TypeReferenceSourceAdapter<TypeName> typeReferenceAdapter;
 
-    private final Identifier identifier;
-    @SuppressWarnings("FieldNotUsedInToString")
+    private final TypeReferenceSource reference;
     private final TypeSpec.Builder source;
     private final Collection<Modifier> modifiers;
     private final JavaPoetMutableAnnotatable annotatable;
-    @SuppressWarnings("FieldNotUsedInToString")
     private final String separator;
 
     JavaPoetTypeSource(
-            final Identifier identifier,
+            final TypeReferenceSource reference,
             final TypeSpec.Builder source,
             final Executor executor,
             final FieldAdapter<FieldSpec> fieldAdapter,
@@ -78,7 +75,7 @@ final class JavaPoetTypeSource extends AbstractJavaPoetTypeSource {
             final String separator) {
         super(executor);
         this.source = source;
-        this.identifier = identifier;
+        this.reference = reference;
         this.fieldAdapter = fieldAdapter;
         this.methodAdapter = methodAdapter;
         this.typeVariableAdapter = typeVariableAdapter;
@@ -89,9 +86,9 @@ final class JavaPoetTypeSource extends AbstractJavaPoetTypeSource {
     }
 
     @Override
-    public Identifier identifier() {
+    public TypeReferenceSource reference() {
 
-        return this.identifier;
+        return this.reference;
     }
 
     @Override
@@ -247,21 +244,6 @@ final class JavaPoetTypeSource extends AbstractJavaPoetTypeSource {
     public Collection<Modifier> modifiers() {
 
         return unmodifiableCollection(this.modifiers);
-    }
-
-    @Override
-    public String toString() {
-        return "JavaPoetTypeSource{" +
-                "fieldAdapter=" + this.fieldAdapter +
-                ", methodAdapter=" + this.methodAdapter +
-                ", typeVariableAdapter=" + this.typeVariableAdapter +
-                ", typeReferenceAdapter=" + this.typeReferenceAdapter +
-                ", identifier=" + this.identifier +
-                ", source=" + this.source +
-                ", modifiers=" + this.modifiers +
-                ", annotatable=" + this.annotatable +
-                ", separator='" + this.separator + '\'' +
-                "} " + super.toString();
     }
 
 }

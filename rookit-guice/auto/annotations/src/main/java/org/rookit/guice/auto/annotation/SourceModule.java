@@ -29,11 +29,12 @@ import com.google.inject.util.Modules;
 import org.rookit.auto.SourceUtilsModule;
 import org.rookit.auto.javapoet.SourceJavaPoetLibModule;
 import org.rookit.auto.javax.JavaxLibModule;
-import org.rookit.auto.javax.naming.NamingFactory;
+import org.rookit.auto.javax.naming.MethodNameTransformer;
 import org.rookit.auto.source.SourceLibModule;
 import org.rookit.failsafe.FailsafeModule;
 import org.rookit.guice.auto.GuiceAutoLibModule;
 import org.rookit.guice.auto.annotation.config.ConfigurationModule;
+import org.rookit.guice.auto.annotation.naming.NamingModule;
 import org.rookit.guice.auto.annotation.type.TypeModule;
 import org.rookit.io.IOLibModule;
 import org.rookit.io.PathLibModule;
@@ -41,7 +42,6 @@ import org.rookit.serializer.SerializationBundleModule;
 import org.rookit.utils.guice.UtilsModule;
 
 
-@SuppressWarnings("MethodMayBeStatic")
 public final class SourceModule extends AbstractModule {
 
     private static final Module MODULE = Modules.override(
@@ -54,6 +54,7 @@ public final class SourceModule extends AbstractModule {
             GuiceAutoLibModule.getModule(),
             IOLibModule.getModule(),
             JavaxLibModule.getModule(),
+            NamingModule.getModule(),
             PathLibModule.getModule(),
             SerializationBundleModule.getModule(),
             SourceJavaPoetLibModule.getModule(),
@@ -69,7 +70,7 @@ public final class SourceModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(NamingFactory.class).to(Key.get(NamingFactory.class, Guice.class)).in(Singleton.class);
+        bind(MethodNameTransformer.class).to(Key.get(MethodNameTransformer.class, Guice.class)).in(Singleton.class);
     }
 
 }

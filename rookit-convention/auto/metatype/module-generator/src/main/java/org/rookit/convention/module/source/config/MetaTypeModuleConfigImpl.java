@@ -23,12 +23,12 @@ package org.rookit.convention.module.source.config;
 
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
 import org.rookit.utils.object.DynamicObject;
-import org.rookit.convention.auto.metatype.config.ConventionConfig;
-import org.rookit.convention.auto.metatype.config.MetatypeModuleConfig;
+import org.rookit.convention.auto.config.ConventionConfig;
+import org.rookit.convention.auto.metatype.config.MetaTypeModuleConfig;
 import org.rookit.utils.string.template.Template1;
 import org.rookit.utils.string.template.TemplateFactory;
 
-final class MetaTypeModuleConfigImpl implements MetatypeModuleConfig {
+final class MetaTypeModuleConfigImpl implements MetaTypeModuleConfig {
 
     private final DynamicObject configuration;
     private final ConventionConfig parent;
@@ -56,8 +56,8 @@ final class MetaTypeModuleConfigImpl implements MetatypeModuleConfig {
     }
 
     @Override
-    public Template1 entityTemplate() {
-        return this.templateFactory.template1(this.configuration.getString("entityTemplate"));
+    public Template1 typeTemplate() {
+        return this.templateFactory.template1(this.configuration.getString("typeTemplate"));
     }
 
     @Override

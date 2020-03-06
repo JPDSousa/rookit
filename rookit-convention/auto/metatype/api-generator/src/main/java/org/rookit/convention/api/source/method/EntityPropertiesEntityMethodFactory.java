@@ -26,10 +26,10 @@ import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.visitor.StreamExtendedElementVisitor;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
-import org.rookit.convention.auto.metatype.javax.ConventionTypeElement;
-import org.rookit.convention.auto.metatype.javax.ConventionTypeElementFactory;
-import org.rookit.convention.auto.metatype.javax.visitor.ConventionTypeElementVisitor;
-import org.rookit.convention.auto.metatype.property.ExtendedPropertyExtractor;
+import org.rookit.convention.auto.javax.ConventionTypeElement;
+import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
+import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.auto.property.ExtendedPropertyExtractor;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 
 final class EntityPropertiesEntityMethodFactory implements ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>,

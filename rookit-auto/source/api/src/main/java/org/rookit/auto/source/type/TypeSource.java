@@ -21,18 +21,23 @@
  ******************************************************************************/
 package org.rookit.auto.source.type;
 
-import org.rookit.auto.javax.naming.Identifier;
 import org.rookit.auto.source.type.annotation.Annotatable;
 import org.rookit.auto.source.CodeSourceVisitor;
 import org.rookit.auto.source.modifier.Modifiable;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
+import org.rookit.utils.optional.Optional;
 
 import javax.annotation.processing.Filer;
 import java.util.concurrent.CompletableFuture;
 
 public interface TypeSource extends TypeReferenceSource, Modifiable, Annotatable {
 
-    Identifier identifier();
+    TypeReferenceSource reference();
+
+    @Override
+    default Optional<String> packageName() {
+        return reference().packageName();
+    }
 
     @Override
     default <R, P> R accept(final CodeSourceVisitor<R, P> visitor, final P parameter) {

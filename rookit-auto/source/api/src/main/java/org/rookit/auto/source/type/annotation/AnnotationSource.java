@@ -24,12 +24,18 @@ package org.rookit.auto.source.type.annotation;
 import org.rookit.auto.source.CodeSource;
 import org.rookit.auto.source.CodeSourceVisitor;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
+import org.rookit.utils.optional.Optional;
 
 import java.util.Map;
 
 public interface AnnotationSource extends TypeReferenceSource {
 
     TypeReferenceSource reference();
+
+    @Override
+    default Optional<String> packageName() {
+        return reference().packageName();
+    }
 
     Map<String, CodeSource> members();
 

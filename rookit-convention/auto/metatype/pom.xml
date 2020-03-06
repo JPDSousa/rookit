@@ -19,6 +19,7 @@
         <module>type-generator</module>
         <module>module-generator</module>
         <module>lib</module>
+        <module>api</module>
     </modules>
 
     <artifactId>rookit-convention-auto-metatype</artifactId>

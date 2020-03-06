@@ -28,6 +28,8 @@ import org.rookit.auto.source.type.reference.TypeReferenceSourceAdapter;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
+import org.rookit.utils.optional.Optional;
+import org.rookit.utils.optional.OptionalFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,16 +37,19 @@ import java.util.Collections;
 
 final class JavaPoetTypeVariable implements TypeVariableSource {
 
+    private final OptionalFactory optionalFactory;
     private final TypeReferenceSourceFactory referenceFactory;
     private final Collection<TypeReferenceSource> bounds;
     private final TypeReferenceSourceAdapter<TypeName> referenceAdapter;
     private final TypeVariableName typeVariable;
 
     JavaPoetTypeVariable(
+            final OptionalFactory optionalFactory,
             final TypeReferenceSourceFactory referenceFactory,
             final Collection<TypeReferenceSource> bounds,
             final TypeReferenceSourceAdapter<TypeName> referenceAdapter,
             final TypeVariableName typeVariable) {
+        this.optionalFactory = optionalFactory;
         this.referenceFactory = referenceFactory;
         this.bounds = new ArrayList<>(bounds);
         this.referenceAdapter = referenceAdapter;
@@ -55,6 +60,7 @@ final class JavaPoetTypeVariable implements TypeVariableSource {
             final TypeVariableName typeVariable,
             final Collection<TypeReferenceSource> bounds) {
         return new JavaPoetTypeVariable(
+                this.optionalFactory,
                 this.referenceFactory,
                 bounds,
                 this.referenceAdapter,
@@ -94,13 +100,8 @@ final class JavaPoetTypeVariable implements TypeVariableSource {
     }
 
     @Override
-    public String toString() {
-        return "JavaPoetTypeVariable{" +
-                "referenceFactory=" + this.referenceFactory +
-                ", bounds=" + this.bounds +
-                ", referenceAdapter=" + this.referenceAdapter +
-                ", typeVariable=" + this.typeVariable +
-                "}";
+    public Optional<String> packageName() {
+        return this.optionalFactory.empty();
     }
 
 }

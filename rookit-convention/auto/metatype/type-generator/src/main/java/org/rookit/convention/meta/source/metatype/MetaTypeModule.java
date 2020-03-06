@@ -27,19 +27,18 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javax.naming.NamingFactories;
-import org.rookit.auto.javax.naming.NamingFactory;
+import org.rookit.auto.javax.naming.MethodNameTransformer;
+import org.rookit.auto.javax.naming.MethodNameTransformers;
 import org.rookit.auto.source.field.FieldSource;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
-import org.rookit.convention.auto.metatype.config.ConventionMetatypeConfig;
 import org.rookit.convention.auto.metatype.guice.MetaTypeAPI;
-import org.rookit.convention.auto.metatype.javax.visitor.ConventionTypeElementVisitor;
-import org.rookit.convention.auto.metatype.property.PropertyTypeResolver;
-import org.rookit.convention.auto.metatype.source.PropertyTypeReferenceSourceFactories;
-import org.rookit.convention.auto.metatype.source.PropertyTypeReferenceSourceFactory;
+import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.auto.property.PropertyTypeResolver;
+import org.rookit.convention.auto.source.type.reference.PropertyTypeReferenceSourceFactories;
+import org.rookit.convention.auto.source.type.reference.PropertyTypeReferenceSourceFactory;
 import org.rookit.convention.guice.MetaType;
 import org.rookit.utils.guice.Self;
 import org.rookit.utils.string.template.Template1;
@@ -76,10 +75,8 @@ public final class MetaTypeModule extends AbstractModule {
     @Provides
     @Singleton
     @MetaType
-    NamingFactory namingFactory(final NamingFactories factories,
-                                final ConventionMetatypeConfig config,
-                                @Self final Template1 noopTemplate) {
-        return factories.create(config.basePackage(), config.entityTemplate(), noopTemplate);
+    MethodNameTransformer namingFactory(final MethodNameTransformers factories, @Self final Template1 noopTemplate) {
+        return factories.fromTemplate(noopTemplate);
     }
 
     @Provides
@@ -90,7 +87,7 @@ public final class MetaTypeModule extends AbstractModule {
             @MetaTypeAPI final TypeReferenceSourceFactory referenceFactory,
             @MetaType final TypeVariableSource variableSource,
             @MetaType final PropertyTypeResolver resolver) {
-        return factories.createDispatcherFactory(factories.parameterWithoutVariableEntity(variableSource),
+        return factories.createDispatcherFactory(factories.parameterWithoutVariable(variableSource),
                                                  resolver,
                                                  referenceFactory);
     }

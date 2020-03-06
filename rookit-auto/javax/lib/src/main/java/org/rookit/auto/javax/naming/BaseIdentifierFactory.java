@@ -21,29 +21,19 @@
  ******************************************************************************/
 package org.rookit.auto.javax.naming;
 
-import org.rookit.auto.javax.ExtendedElement;
+import com.google.inject.Inject;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
 
 final class BaseIdentifierFactory implements IdentifierFactory {
 
-    private final NamingFactory namingFactory;
-
-    BaseIdentifierFactory(final NamingFactory namingFactory) {
-        this.namingFactory = namingFactory;
-    }
+    @Inject
+    private BaseIdentifierFactory() {}
 
     @Override
-    public Identifier create(final ExtendedElement typeElement) {
+    public Identifier fromSplitPackageAndName(final ExtendedPackageElement packageReference,
+                                              final CharSequence typeName) {
         return ImmutableIdentifier.builder()
-                .packageElement(this.namingFactory.packageName(typeElement))
-                .name(this.namingFactory.type(typeElement))
-                .build();
-    }
-
-    @Override
-    public Identifier create(final ExtendedPackageElement pckg, final CharSequence typeName) {
-        return ImmutableIdentifier.builder()
-                .packageElement(pckg)
+                .packageElement(packageReference)
                 .name(typeName.toString())
                 .build();
     }

@@ -23,16 +23,15 @@ package org.rookit.convention.module.source.aggregator;
 
 import com.google.common.collect.ImmutableList;
 import org.rookit.auto.javax.ExtendedElement;
-import org.rookit.auto.javax.naming.Identifier;
-import org.rookit.auto.javax.naming.IdentifierFactory;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
 import org.rookit.auto.javax.pack.PackageReferenceWalker;
 import org.rookit.auto.source.type.TypeSource;
 import org.rookit.auto.source.type.container.TypeSourceContainer;
 import org.rookit.auto.source.type.container.TypeSourceContainerExtendedElementAggregator;
 import org.rookit.auto.source.type.container.TypeSourceContainerFactory;
-import org.rookit.convention.auto.metatype.module.ModuleTypeSource;
-import org.rookit.utils.optional.OptionalFactory;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
+import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
+import org.rookit.guice.auto.module.ModuleTypeSource;
 
 import javax.annotation.processing.Filer;
 import java.util.Objects;
@@ -42,10 +41,8 @@ final class EntityExtendedTypeElementAggregator implements TypeSourceContainerEx
 
     private final PackageReferenceWalker step;
     private final ExtendedPackageElement packageId;
-    private final IdentifierFactory identifierFactory;
-    private final OptionalFactory optionalFactory;
-    private final Identifier identifier;
     private final TypeSourceContainerFactory containerFactory;
+    private final TypeReferenceSourceFactory referenceFactory;
 
     private final ModuleTypeSource source;
 
@@ -53,18 +50,14 @@ final class EntityExtendedTypeElementAggregator implements TypeSourceContainerEx
     EntityExtendedTypeElementAggregator(
             final PackageReferenceWalker step,
             final ExtendedPackageElement packageId,
-            final IdentifierFactory identifierFactory,
             final ModuleTypeSource source,
-            final OptionalFactory optionalFactory,
-            final Identifier identifier,
-            final TypeSourceContainerFactory containerFactory) {
+            final TypeSourceContainerFactory containerFactory,
+            final TypeReferenceSourceFactory referenceFactory) {
         this.step = step;
         this.packageId = packageId;
-        this.identifierFactory = identifierFactory;
         this.source = source;
-        this.identifier = identifier;
-        this.optionalFactory = optionalFactory;
         this.containerFactory = containerFactory;
+        this.referenceFactory = referenceFactory;
     }
 
     @Override
@@ -82,11 +75,17 @@ final class EntityExtendedTypeElementAggregator implements TypeSourceContainerEx
         }
         return this.step.nextStepFrom(packageElement)
                 .map(PackageReferenceWalker::materialize)
-                .map(this.identifierFactory::create)
-                .mapToBoolean(moduleIdentifier -> {
-                    this.source.addModule(moduleIdentifier);
-                    return true;
-                }).orElse(false);
+                .map(this::createModuleReference)
+                .mapToBoolean(this.source::addModule)
+                .orElse(false);
+    }
+
+    private TypeReferenceSource createModuleReference(final ExtendedPackageElement packageReference) {
+
+        return this.referenceFactory.fromSplitPackageAndName(
+                packageReference,
+                packageReference.getSimpleName()
+        );
     }
 
     @Override
@@ -100,19 +99,6 @@ final class EntityExtendedTypeElementAggregator implements TypeSourceContainerEx
     @Override
     public TypeSourceContainer<TypeSource> result() {
         return this.containerFactory.createFromTypeSource(ImmutableList.of(this.source));
-    }
-
-    @Override
-    public String toString() {
-        return "EntityExtendedTypeElementAggregator{" +
-                "step=" + this.step +
-                ", packageId=" + this.packageId +
-                ", identifierFactory=" + this.identifierFactory +
-                ", optionalFactory=" + this.optionalFactory +
-                ", identifier=" + this.identifier +
-                ", containerFactory=" + this.containerFactory +
-                ", source=" + this.source +
-                "}";
     }
 
 }

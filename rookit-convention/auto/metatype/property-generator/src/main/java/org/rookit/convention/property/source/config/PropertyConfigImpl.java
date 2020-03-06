@@ -24,11 +24,10 @@ package org.rookit.convention.property.source.config;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
-import org.rookit.convention.auto.metatype.config.ConventionConfig;
-import org.rookit.convention.auto.metatype.config.NamingConfig;
-import org.rookit.convention.auto.metatype.config.PropertyConfig;
+import org.rookit.convention.auto.config.ConventionConfig;
+import org.rookit.convention.auto.config.NamingConfig;
+import org.rookit.convention.auto.config.PropertyConfig;
 import org.rookit.utils.object.DynamicObject;
-import org.rookit.utils.string.template.Template1;
 import org.rookit.utils.string.template.TemplateFactory;
 
 final class PropertyConfigImpl implements PropertyConfig {
@@ -60,11 +59,6 @@ final class PropertyConfigImpl implements PropertyConfig {
     @Override
     public TypeVariableSource parameterName() {
         return this.typeVariableFactory.createFromName(this.configuration.getString("parameterName"));
-    }
-
-    @Override
-    public Template1 entityTemplate() {
-        return this.templateFactory.template1(this.configuration.getString("entityTemplate"));
     }
 
     @Override

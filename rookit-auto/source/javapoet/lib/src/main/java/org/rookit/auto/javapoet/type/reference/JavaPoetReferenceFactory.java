@@ -29,38 +29,56 @@ import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
-import org.rookit.utils.primitive.VoidUtils;
+import org.rookit.utils.optional.OptionalFactory;
+
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 final class JavaPoetReferenceFactory implements TypeReferenceSourceFactory {
 
-    private final VoidUtils voidUtils;
+    private final OptionalFactory optionalFactory;
+    private final TypeName2ClassName classNameUtil;
 
     @Inject
-    private JavaPoetReferenceFactory(final VoidUtils voidUtils) {
-        this.voidUtils = voidUtils;
+    private JavaPoetReferenceFactory(
+            final OptionalFactory optionalFactory,
+            final TypeName2ClassName classNameUtil) {
+        this.optionalFactory = optionalFactory;
+        this.classNameUtil = classNameUtil;
     }
 
     @Override
     public TypeReferenceSource create(final ExtendedTypeMirror element) {
 
-        return new JavaPoetReference(TypeName.get(element));
+        final TypeName typeName = TypeName.get(element);
+        final String packageName = this.classNameUtil.extractClass(typeName)
+                .map(ClassName::packageName)
+                .orElse(EMPTY);
+        return new JavaPoetReference(packageName, typeName, this.optionalFactory);
     }
 
     @Override
     public TypeReferenceSource fromClass(final Class<?> clazz) {
 
-        return new JavaPoetReference(ClassName.get(clazz));
+        final ClassName className = ClassName.get(clazz);
+        return new JavaPoetReference(
+                className.packageName(),
+                className,
+                this.optionalFactory
+        );
     }
 
     @Override
     public TypeReferenceSource fromSplitPackageAndName(final ExtendedPackageElement packageReference,
                                                        final CharSequence name) {
 
+        final String packageName = packageReference.getQualifiedName()
+                .toString();
         return new JavaPoetReference(
+                packageName,
                 ClassName.get(
-                        packageReference.getQualifiedName().toString(),
-                        name.toString())
-        );
+                        packageName,
+                        name.toString()),
+                this.optionalFactory);
     }
 
     @Override
@@ -69,13 +87,6 @@ final class JavaPoetReferenceFactory implements TypeReferenceSourceFactory {
 
         // TODO dummy implementation, because this method is a bad design decision
         return create(element);
-    }
-
-    @Override
-    public String toString() {
-        return "JavaPoetReferenceFactory{" +
-                "voidUtils=" + this.voidUtils +
-                "}";
     }
 
 }

@@ -70,7 +70,7 @@ final class QueryConfigImpl implements QueryConfig {
 
     @Override
     public Template1 entityTemplate() {
-        return this.templateFactory.template1(this.configuration.getString("entityTemplate"));
+        return this.templateFactory.template1(this.configuration.getString("typeTemplate"));
     }
 
     @Override

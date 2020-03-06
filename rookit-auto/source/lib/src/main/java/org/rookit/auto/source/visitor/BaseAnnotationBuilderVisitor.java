@@ -23,7 +23,7 @@ package org.rookit.auto.source.visitor;
 
 import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
-import org.rookit.auto.javax.naming.IdentifierFactory;
+import org.rookit.auto.javax.naming.IdentifierTransformer;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
 import org.rookit.auto.javax.type.parameter.ExtendedTypeParameterElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
@@ -31,60 +31,78 @@ import org.rookit.auto.javax.variable.ExtendedVariableElement;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.source.type.TypeSource;
 import org.rookit.auto.source.type.TypeSourceFactory;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
+import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
+import org.rookit.utils.string.StringUtils;
 
 final class BaseAnnotationBuilderVisitor<P> implements ExtendedElementVisitor<TypeSource, P> {
 
     private final TypeSourceFactory sourceFactory;
-    private final IdentifierFactory factory;
+    private final TypeReferenceSourceFactory factory;
+    private final IdentifierTransformer idTransformer;
+    private final StringUtils stringUtils;
 
     BaseAnnotationBuilderVisitor(
             final TypeSourceFactory sourceFactory,
-            final IdentifierFactory factory) {
+            final TypeReferenceSourceFactory factory,
+            final IdentifierTransformer idTransformer,
+            final StringUtils stringUtils) {
         this.sourceFactory = sourceFactory;
         this.factory = factory;
+        this.idTransformer = idTransformer;
+        this.stringUtils = stringUtils;
     }
 
-    private TypeSource create(final ExtendedElement element) {
-        return this.sourceFactory.createMutableAnnotation(this.factory.create(element))
+    private TypeSource createMutableAnnotation(final ExtendedElement element) {
+
+        return createMutableAnnotation(element.packageInfo(), element.getSimpleName());
+    }
+
+    private TypeSource createMutableAnnotation(final ExtendedPackageElement packageReference,
+                                               final CharSequence name) {
+
+        final ExtendedPackageElement transformedPackage = this.idTransformer.transformPackage(packageReference);
+        final CharSequence transformedName = this.idTransformer.transformName(name);
+        final TypeReferenceSource reference = this.factory.fromSplitPackageAndName(transformedPackage, transformedName);
+
+        return this.sourceFactory.createMutableAnnotation(reference)
                 .makePublic();
     }
 
     @Override
     public TypeSource visitPackage(final ExtendedPackageElement packageElement, final P parameter) {
-        return create(packageElement);
+        return createMutableAnnotation(packageElement);
     }
 
     @Override
     public TypeSource visitType(final ExtendedTypeElement extendedType, final P parameter) {
-        return create(extendedType);
+        return createMutableAnnotation(extendedType);
     }
 
     @Override
     public TypeSource visitExecutable(final ExtendedExecutableElement extendedExecutable, final P parameter) {
-        return create(extendedExecutable);
+
+        final String executableName = extendedExecutable.getSimpleName()
+                .toString();
+        final String name = extendedExecutable.getEnclosingElement().getSimpleName()
+                + this.stringUtils.capitalizeFirstChar(executableName);
+
+        return createMutableAnnotation(extendedExecutable.packageInfo(), name);
     }
 
     @Override
     public TypeSource visitTypeParameter(final ExtendedTypeParameterElement extendedParameter, final P parameter) {
-        return create(extendedParameter);
+        return createMutableAnnotation(extendedParameter);
     }
 
     @Override
     public TypeSource visitVariable(final ExtendedVariableElement extendedElement, final P parameter) {
-        return create(extendedElement);
+        return createMutableAnnotation(extendedElement);
     }
 
     @Override
     public TypeSource visitUnknown(final ExtendedElement extendedElement, final P parameter) {
-        return create(extendedElement);
-    }
-
-    @Override
-    public String toString() {
-        return "BaseAnnotationBuilderVisitor{" +
-                "sourceFactory=" + this.sourceFactory +
-                ", factory=" + this.factory +
-                "}";
+        return createMutableAnnotation(extendedElement);
     }
 
 }

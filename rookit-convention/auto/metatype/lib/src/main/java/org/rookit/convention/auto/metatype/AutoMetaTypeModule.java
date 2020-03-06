@@ -24,12 +24,14 @@ package org.rookit.convention.auto.metatype;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.util.Modules;
+import org.rookit.convention.auto.metatype.config.ConfigModule;
 import org.rookit.convention.auto.metatype.source.SourceModule;
 
 public final class AutoMetaTypeModule extends AbstractModule {
 
     private static final Module MODULE = Modules.combine(
             new AutoMetaTypeModule(),
+            ConfigModule.getModule(),
             SourceModule.getModule()
     );
 

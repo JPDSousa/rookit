@@ -24,9 +24,9 @@ package org.rookit.convention.property.source;
 import com.google.inject.Inject;
 import org.rookit.auto.AbstractConfigAwareTypeProcessor;
 import org.rookit.auto.config.ProcessorConfig;
-import org.rookit.convention.auto.metatype.entity.PropertyEntityFactory;
-import org.rookit.convention.auto.metatype.javax.ConventionTypeElementFactory;
-import org.rookit.convention.auto.metatype.property.PropertyFactory;
+import org.rookit.convention.auto.source.type.PropertyTypeSourceFactory;
+import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
+import org.rookit.convention.auto.property.PropertyFactory;
 import org.rookit.utils.optional.Optional;
 
 import javax.annotation.processing.Filer;
@@ -35,7 +35,7 @@ import javax.lang.model.element.TypeElement;
 
 final class PropertyTypeProcessor extends AbstractConfigAwareTypeProcessor {
 
-    private final PropertyEntityFactory propertyEntityFactory;
+    private final PropertyTypeSourceFactory propertyEntityFactory;
     private final ConventionTypeElementFactory elementFactory;
     private final Filer filer;
     private final PropertyFactory propertyFactory;
@@ -43,7 +43,7 @@ final class PropertyTypeProcessor extends AbstractConfigAwareTypeProcessor {
     @Inject
     private PropertyTypeProcessor(final ProcessorConfig config,
                                   final Messager messager,
-                                  final PropertyEntityFactory propEntityFactory,
+                                  final PropertyTypeSourceFactory propEntityFactory,
                                   final ConventionTypeElementFactory elementFactory,
                                   final Filer filer,
                                   final PropertyFactory propertyFactory) {

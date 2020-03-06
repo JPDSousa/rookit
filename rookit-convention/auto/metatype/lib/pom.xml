@@ -31,6 +31,11 @@
             <artifactId>rookit-convention-auto-api</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-convention-auto-metatype-api</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

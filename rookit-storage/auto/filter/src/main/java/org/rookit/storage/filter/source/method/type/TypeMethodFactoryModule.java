@@ -28,7 +28,7 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.multibindings.Multibinder;
 import com.google.inject.util.Modules;
-import org.rookit.convention.auto.metatype.javax.visitor.TypeBasedMethodVisitor;
+import org.rookit.convention.auto.javax.visitor.TypeBasedMethodVisitor;
 import org.rookit.storage.filter.source.guice.After;
 import org.rookit.storage.filter.source.guice.Before;
 import org.rookit.storage.filter.source.guice.Between;

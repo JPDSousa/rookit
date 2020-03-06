@@ -30,8 +30,9 @@ import org.rookit.auto.source.type.annotation.MutableAnnotationSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
 import org.rookit.utils.primitive.VoidUtils;
 
-import java.util.Collections;
 import java.util.Map;
+
+import static java.util.Collections.unmodifiableMap;
 
 final class JavaPoetAnnotation implements MutableAnnotationSource {
 
@@ -75,15 +76,7 @@ final class JavaPoetAnnotation implements MutableAnnotationSource {
 
     @Override
     public Map<String, CodeSource> members() {
-        return Collections.unmodifiableMap(this.members);
-    }
-
-    @Override
-    public String toString() {
-        return "JavaPoetAnnotation{" +
-                "reference=" + this.reference +
-                ", voidUtils=" + this.voidUtils +
-                "}";
+        return unmodifiableMap(this.members);
     }
 
 }
