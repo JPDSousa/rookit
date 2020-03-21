@@ -24,12 +24,20 @@ package org.rookit.convention.auto.metatype.source;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.util.Modules;
+import org.rookit.convention.auto.metatype.source.annotation.AnnotationModule;
+import org.rookit.convention.auto.metatype.source.method.MethodModule;
+import org.rookit.convention.auto.metatype.source.parameter.ParameterModule;
+import org.rookit.convention.auto.metatype.source.prototype.PrototypeModule;
 import org.rookit.convention.auto.metatype.source.type.TypeModule;
 
 public final class SourceModule extends AbstractModule {
 
     private static final Module MODULE = Modules.combine(
             new SourceModule(),
+            AnnotationModule.getModule(),
+            MethodModule.getModule(),
+            ParameterModule.getModule(),
+            PrototypeModule.getModule(),
             TypeModule.getModule()
     );
 

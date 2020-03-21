@@ -24,7 +24,6 @@ package org.rookit.convention.auto.source.type;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.source.type.ExtendedElementTypeSourceVisitors;
 import org.rookit.auto.source.type.TypeSource;
-import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitors;
 
@@ -33,6 +32,18 @@ import java.util.function.Function;
 public interface ConventionTypeElementTypeSourceVisitors extends ExtendedElementTypeSourceVisitors,
         ConventionTypeElementVisitors {
 
+    default <P> ConventionTypeSourceBuilder<ConventionTypeElementVisitor<StreamEx<TypeSource>, P>, P>
+    conventionTypeSourceBuilder(final ConventionTypeSourceCreator... creators) {
+
+        return conventionTypeSourceBuilder(element -> element, creators);
+    }
+
+    <V extends ConventionTypeElementVisitor<StreamEx<TypeSource>, P>, P> ConventionTypeSourceBuilder<V, P>
+    conventionTypeSourceBuilder(
+            Function<ConventionTypeElementVisitor<StreamEx<TypeSource>, P>, V> downcastAdapter,
+            ConventionTypeSourceCreator... creators
+    );
+
     <V extends ConventionTypeElementVisitor<StreamEx<TypeSource>, P>, P> ConventionTypeSourceBuilder<V, P>
     conventionTypeSourceBuilder(
             V visitor,
@@ -40,25 +51,22 @@ public interface ConventionTypeElementTypeSourceVisitors extends ExtendedElement
 
     <V extends ConventionTypeElementVisitor<StreamEx<TypeSource>, P>, P> ConventionAnnotationBuilder<V, P>
     conventionAnnotationBuilder(
-            TypeReferenceSourceFactory referenceFactory,
             Function<ConventionTypeElementVisitor<StreamEx<TypeSource>, P>, V> downcastAdapter);
 
     default <P> ConventionAnnotationBuilder<ConventionTypeElementVisitor<StreamEx<TypeSource>, P>, P>
-    conventionAnnotationBuilder(final TypeReferenceSourceFactory referenceFactory) {
-        return conventionAnnotationBuilder(referenceFactory, element -> element);
+    conventionAnnotationBuilder() {
+        return conventionAnnotationBuilder(element -> element);
     }
 
     <V extends ConventionTypeElementVisitor<StreamEx<TypeSource>, P>, P> ConventionAnnotationBuilder<V, P>
     conventionAnnotationBuilder(
-            TypeReferenceSourceFactory referenceFactory,
             Class<P> parameterClass,
             Function<ConventionTypeElementVisitor<StreamEx<TypeSource>, P>, V> downcastAdapter);
 
     default <P> ConventionAnnotationBuilder<ConventionTypeElementVisitor<StreamEx<TypeSource>, P>, P>
     conventionAnnotationBuilder(
-            final TypeReferenceSourceFactory referenceFactory,
             final Class<P> parameterClass) {
-        return conventionAnnotationBuilder(referenceFactory, parameterClass, element -> element);
+        return conventionAnnotationBuilder(parameterClass, element -> element);
     }
 
 }

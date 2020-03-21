@@ -24,16 +24,16 @@ package org.rookit.guice.auto.aggregator;
 import com.google.inject.Inject;
 import org.rookit.auto.source.method.MethodSourceFactory;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
-import org.rookit.guice.auto.bind.BindingStatementFactory;
+import org.rookit.guice.auto.bind.BindingFactory;
 
 final class ConfigureMethodAggregatorFactoriesImpl implements ConfigureMethodAggregatorFactories {
 
-    private final BindingStatementFactory bindingFactory;
+    private final BindingFactory bindingFactory;
     private final MethodSourceFactory methodFactory;
 
     @Inject
     private ConfigureMethodAggregatorFactoriesImpl(
-            final BindingStatementFactory bindingFactory,
+            final BindingFactory bindingFactory,
             final MethodSourceFactory methodFactory) {
         this.bindingFactory = bindingFactory;
         this.methodFactory = methodFactory;

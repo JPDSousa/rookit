@@ -27,8 +27,7 @@ public interface Disc extends Iterable<Track> {
         return asTrackCollection()
                 .stream()
                 .map(Track::duration)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+                .flatMap(Optional::stream)
                 .reduce(Duration.ZERO, Duration::plus);
     }
 

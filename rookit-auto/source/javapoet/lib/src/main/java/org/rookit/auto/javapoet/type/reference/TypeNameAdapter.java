@@ -31,12 +31,11 @@ final class TypeNameAdapter implements TypeReferenceSourceAdapter<TypeName> {
     @Inject
     private TypeNameAdapter() {}
 
-    @SuppressWarnings({"InstanceofConcreteClass", "CastToConcreteClass"})
     @Override
     public TypeName adaptTypeReference(final TypeReferenceSource typeReference) {
 
         if (typeReference instanceof JavaPoetReference) {
-            return ((JavaPoetReference) typeReference).getJavaPoet();
+            return ((JavaPoetReference) typeReference).buildTypeName();
         }
 
         final String errMsg = String.format("This adapter only supports javapoet-based objects, but an object of type"

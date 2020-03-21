@@ -32,7 +32,6 @@ public interface MetaTypeApiConfig extends ProcessorConfig {
 
     TypeVariableSource parameterName();
 
-    Template1 entityTemplate();
+    Template1 typeTemplate();
 
-    Template1 partialEntityTemplate();
 }

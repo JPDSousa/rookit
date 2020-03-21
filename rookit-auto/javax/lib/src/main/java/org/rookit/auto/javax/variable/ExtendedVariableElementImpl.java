@@ -106,11 +106,4 @@ final class ExtendedVariableElementImpl implements ExtendedVariableElement {
         return this.extendedElement.accept(v, p);
     }
 
-    @Override
-    public String toString() {
-        return "ExtendedVariableElementImpl{" +
-                "extendedElement=" + this.extendedElement +
-                ", delegate=" + this.delegate +
-                "}";
-    }
 }

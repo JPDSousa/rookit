@@ -47,11 +47,12 @@ public interface ConventionTypeElementVisitors extends ExtendedElementVisitors {
     <R, P> ConventionTypeElementVisitor<StreamEx<R>, P> emptyStreamVisitor();
 
     <V extends ConventionTypeElementVisitor<StreamEx<R>, P>, R, P> StreamExConventionBuilder<V, R, P>
-    createPropertyLevelVisitor(BiFunction<ConventionTypeElement, Property, StreamEx<R>> transformation,
-                               Function<ConventionTypeElementVisitor<StreamEx<R>, P>, V> downcastAdapter);
+    createPropertyLevelVisitor(
+            BiFunction<ConventionTypeElement, Property, R> transformation,
+            Function<ConventionTypeElementVisitor<StreamEx<R>, P>, V> downcastAdapter);
 
     default <R, P> StreamExConventionBuilder<ConventionTypeElementVisitor<StreamEx<R>, P>, R, P>
-    createPropertyLevelVisitor(final BiFunction<ConventionTypeElement, Property, StreamEx<R>> transformation) {
+    createPropertyLevelVisitor(final BiFunction<ConventionTypeElement, Property, R> transformation) {
         return createPropertyLevelVisitor(transformation, element -> element);
     }
 

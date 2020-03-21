@@ -57,18 +57,31 @@ final class ConventionTypeElementTypeSourceVisitorsImpl implements ConventionTyp
     private final ConventionTypeElementVisitors conventionDelegate;
     private final ExtendedElementTypeSourceVisitors typeSourceDelegate;
     private final Collection<AnnotationSource> annotations;
+    private final TypeReferenceSourceFactory referenceFactory;
 
     @Inject
     private ConventionTypeElementTypeSourceVisitorsImpl(
             final TypeSourceFactory typeFactory,
             final ConventionTypeElementVisitors conventionDelegate,
             final ExtendedElementTypeSourceVisitors typeSourceDelegate,
-            @GuiceBindAnnotation final Set<AnnotationSource> annotations) {
+            @GuiceBindAnnotation final Set<AnnotationSource> annotations,
+            final TypeReferenceSourceFactory referenceFactory) {
 
         this.typeFactory = typeFactory;
         this.conventionDelegate = conventionDelegate;
         this.typeSourceDelegate = typeSourceDelegate;
         this.annotations = ImmutableList.copyOf(annotations);
+        this.referenceFactory = referenceFactory;
+    }
+
+    @Override
+    public <V extends ConventionTypeElementVisitor<StreamEx<TypeSource>, P>, P> ConventionTypeSourceBuilder<V, P>
+    conventionTypeSourceBuilder(
+            final Function<ConventionTypeElementVisitor<StreamEx<TypeSource>, P>, V> downcastAdapter,
+            final ConventionTypeSourceCreator... creators) {
+
+        return conventionTypeSourceBuilder(downcastAdapter.apply(new TypeElementOnlyVisitor<>(creators)),
+                                           downcastAdapter);
     }
 
     @Override
@@ -86,11 +99,10 @@ final class ConventionTypeElementTypeSourceVisitorsImpl implements ConventionTyp
     @Override
     public <V extends ConventionTypeElementVisitor<StreamEx<TypeSource>, P>, P>
     ConventionAnnotationBuilder<V, P> conventionAnnotationBuilder(
-            final TypeReferenceSourceFactory referenceFactory,
             final Function<ConventionTypeElementVisitor<StreamEx<TypeSource>, P>, V> downcastAdapter) {
 
         final V visitor = downcastAdapter.apply(this.conventionDelegate.streamExConvention(new BaseAnnotationVisitor<>(
-                referenceFactory, this.typeFactory)));
+                this.referenceFactory, this.typeFactory)));
         return new ConventionAnnotationBuilderImpl<>(conventionTypeSourceBuilder(visitor, downcastAdapter),
                                                      this.annotations);
     }
@@ -98,11 +110,10 @@ final class ConventionTypeElementTypeSourceVisitorsImpl implements ConventionTyp
     @Override
     public <V extends ConventionTypeElementVisitor<StreamEx<TypeSource>, P>, P>
     ConventionAnnotationBuilder<V, P> conventionAnnotationBuilder(
-            final TypeReferenceSourceFactory referenceFactory,
             final Class<P> parameterClass,
             final Function<ConventionTypeElementVisitor<StreamEx<TypeSource>, P>, V> downcastAdapter) {
 
-        return conventionAnnotationBuilder(referenceFactory, downcastAdapter);
+        return conventionAnnotationBuilder(downcastAdapter);
     }
 
     @Override
@@ -117,29 +128,26 @@ final class ConventionTypeElementTypeSourceVisitorsImpl implements ConventionTyp
     @Override
     public <V extends ExtendedElementVisitor<StreamEx<TypeSource>, P>, P> AnnotationBuilder<V, P>
     annotationBuilder(
-            final TypeReferenceSourceFactory referenceFactory,
             final Function<ExtendedElementVisitor<StreamEx<TypeSource>, P>, V> downcastAdapter) {
 
-        return this.typeSourceDelegate.annotationBuilder(referenceFactory, downcastAdapter);
+        return this.typeSourceDelegate.annotationBuilder(downcastAdapter);
     }
 
     @Override
     public <V extends ExtendedElementVisitor<StreamEx<TypeSource>, P>, P> AnnotationBuilder<V, P>
     annotationBuilder(
-            final TypeReferenceSourceFactory referenceFactory,
             final Function<ExtendedElementVisitor<StreamEx<TypeSource>, P>, V> downcastAdapter,
             final Class<P> parameterClass) {
 
-        return this.typeSourceDelegate.annotationBuilder(referenceFactory, downcastAdapter, parameterClass);
+        return this.typeSourceDelegate.annotationBuilder(downcastAdapter, parameterClass);
     }
 
     @Override
     public <V extends ExtendedElementVisitor<StreamEx<TypeSource>, P>, P> InterfaceBuilder<V, P> interfaceBuilder(
-            final TypeReferenceSourceFactory referenceFactory,
             final Function<ExtendedElementVisitor<StreamEx<TypeSource>, P>, V> downcastAdapter,
             final Class<P> parameterClass) {
 
-        return this.typeSourceDelegate.interfaceBuilder(referenceFactory, downcastAdapter, parameterClass);
+        return this.typeSourceDelegate.interfaceBuilder(downcastAdapter, parameterClass);
     }
 
     @Override
@@ -222,7 +230,7 @@ final class ConventionTypeElementTypeSourceVisitorsImpl implements ConventionTyp
     @Override
     public <V extends ConventionTypeElementVisitor<StreamEx<R>, P>, R, P> StreamExConventionBuilder<V, R, P>
     createPropertyLevelVisitor(
-            final BiFunction<ConventionTypeElement, Property, StreamEx<R>> transformation,
+            final BiFunction<ConventionTypeElement, Property, R> transformation,
             final Function<ConventionTypeElementVisitor<StreamEx<R>, P>, V> downcastAdapter) {
 
         return this.conventionDelegate.createPropertyLevelVisitor(transformation, downcastAdapter);
@@ -260,16 +268,6 @@ final class ConventionTypeElementTypeSourceVisitorsImpl implements ConventionTyp
             final ConventionTypeElementVisitor<R, P> visitor) {
 
         return this.conventionDelegate.streamExConvention(visitor);
-    }
-
-    @Override
-    public String toString() {
-        return "ConventionTypeElementTypeSourceVisitorsImpl{" +
-                "typeFactory=" + this.typeFactory +
-                ", conventionDelegate=" + this.conventionDelegate +
-                ", typeSourceDelegate=" + this.typeSourceDelegate +
-                ", annotations=" + this.annotations +
-                "}";
     }
 
 }

@@ -21,37 +21,13 @@
  ******************************************************************************/
 package org.rookit.auto.javapoet.type.parameter;
 
-import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.ParameterizedTypeName;
-import com.squareup.javapoet.TypeName;
+import org.rookit.auto.javapoet.type.reference.JavaPoetReference;
 import org.rookit.auto.source.type.parameter.TypeParameterSource;
-import org.rookit.utils.optional.Optional;
-import org.rookit.utils.optional.OptionalFactory;
 
-import static java.util.Arrays.copyOf;
-
-final class JavaPoetTypeParameter implements TypeParameterSource {
-
-    private final OptionalFactory optionalFactory;
-    private final ClassName className;
-    private final TypeName[] arguments;
-
-    JavaPoetTypeParameter(
-            final OptionalFactory optionalFactory,
-            final ClassName className,
-            final TypeName[] arguments) {
-        this.optionalFactory = optionalFactory;
-        this.className = className;
-        this.arguments = copyOf(arguments, arguments.length);
-    }
-
-    ParameterizedTypeName getJavaPoet() {
-        return ParameterizedTypeName.get(this.className, this.arguments);
-    }
+public interface JavaPoetTypeParameter extends TypeParameterSource, JavaPoetReference {
 
     @Override
-    public Optional<String> packageName() {
-        return this.optionalFactory.of(this.className.packageName());
-    }
+    ParameterizedTypeName buildTypeName();
 
 }

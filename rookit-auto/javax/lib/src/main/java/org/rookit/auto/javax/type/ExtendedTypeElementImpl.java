@@ -188,17 +188,4 @@ final class ExtendedTypeElementImpl implements ExtendedTypeElement {
         return com.google.common.base.Objects.hashCode(this.delegate, this.extendedElement);
     }
 
-    @Override
-    public String toString() {
-        return "ExtendedTypeElementImpl{" +
-                "extendedElement=" + this.extendedElement +
-                ", delegate=" + this.delegate +
-                ", optionalFactory=" + this.optionalFactory +
-                ", factory=" + this.factory +
-                ", identifier=" + this.identifier +
-                ", executableFactory=" + this.executableFactory +
-                ", typeParameterFactory=" + this.typeParameterFactory +
-                "}";
-    }
-
 }

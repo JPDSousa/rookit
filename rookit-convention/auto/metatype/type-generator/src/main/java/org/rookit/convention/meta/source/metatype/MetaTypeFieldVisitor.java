@@ -33,8 +33,8 @@ import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.auto.metatype.source.type.reference.PropertyTypeReferenceSourceFactory;
 import org.rookit.convention.auto.property.Property;
-import org.rookit.convention.auto.source.type.reference.PropertyTypeReferenceSourceFactory;
 import org.rookit.convention.guice.MetaType;
 
 final class MetaTypeFieldVisitor implements ConventionTypeElementVisitor<StreamEx<FieldSource>, Void>,
@@ -43,7 +43,7 @@ final class MetaTypeFieldVisitor implements ConventionTypeElementVisitor<StreamE
     private final FieldSourceFactory fieldFactory;
     private final TypeParameterSourceFactory parameterFactory;
     private final TypeReferenceSourceFactory referenceFactory;
-    private final PropertyTypeReferenceSourceFactory propertyReferenceFactory;
+    private final PropertyTypeReferenceSourceFactory propertyProto;
     private final TypeReferenceSource metaTypeName;
     private final TypeVariableSource variableSource;
 
@@ -52,12 +52,12 @@ final class MetaTypeFieldVisitor implements ConventionTypeElementVisitor<StreamE
             final FieldSourceFactory fieldFactory,
             final TypeParameterSourceFactory parameterFactory,
             final TypeReferenceSourceFactory referenceFactory,
-            @MetaType final PropertyTypeReferenceSourceFactory propRefFactory,
+            final PropertyTypeReferenceSourceFactory propertyProto,
             @MetaType final TypeVariableSource variableSource) {
         this.fieldFactory = fieldFactory;
         this.parameterFactory = parameterFactory;
         this.referenceFactory = referenceFactory;
-        this.propertyReferenceFactory = propRefFactory;
+        this.propertyProto = propertyProto;
         this.variableSource = variableSource;
         this.metaTypeName = referenceFactory.fromClass(org.rookit.convention.MetaType.class);
     }
@@ -82,20 +82,10 @@ final class MetaTypeFieldVisitor implements ConventionTypeElementVisitor<StreamE
     }
 
     private FieldSource createProperty(final ConventionTypeElement owner, final Property property) {
-        final TypeReferenceSource type = this.propertyReferenceFactory.create(owner, property);
-        return this.fieldFactory.createMutable(type, property.name());
-    }
-
-    @Override
-    public String toString() {
-        return "MetaTypeFieldVisitor{" +
-                "fieldFactory=" + this.fieldFactory +
-                ", parameterFactory=" + this.parameterFactory +
-                ", referenceFactory=" + this.referenceFactory +
-                ", propertyReferenceFactory=" + this.propertyReferenceFactory +
-                ", metaTypeName=" + this.metaTypeName +
-                ", variableSource=" + this.variableSource +
-                "}";
+        return this.fieldFactory.createMutable(
+                this.propertyProto.apiForProperty(owner, property),
+                property.name()
+        );
     }
 
 }

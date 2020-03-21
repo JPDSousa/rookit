@@ -37,7 +37,7 @@ public final class BindModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(BindingStatementFactory.class).to(BindStatementFactoryImpl.class).in(Singleton.class);
+        bind(BindingFactory.class).to(BindFactoryImpl.class).in(Singleton.class);
     }
 
 }

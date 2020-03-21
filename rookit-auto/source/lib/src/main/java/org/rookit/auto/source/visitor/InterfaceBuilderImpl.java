@@ -64,7 +64,8 @@ final class InterfaceBuilderImpl<V extends ExtendedElementVisitor<StreamEx<TypeS
     }
 
     @Override
-    public InterfaceBuilder<V, P> copyBodyFrom(final Function<ExtendedElement, ExtendedTypeElement> extractionFunction) {
+    public InterfaceBuilder<V, P> copyBodyFrom(
+            final Function<ExtendedElement, ExtendedTypeElement> extractionFunction) {
 
         return newStage(this.builder.copyBodyFrom(extractionFunction));
     }

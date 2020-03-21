@@ -25,8 +25,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.util.Modules;
 import org.rookit.convention.auto.javax.JavaxModule;
-import org.rookit.convention.auto.metatype.metatype.MetaTypeModule;
-import org.rookit.convention.auto.naming.NamingModule;
 import org.rookit.convention.auto.source.JavaPoetModule;
 
 public final class ConventionLibModule extends AbstractModule {
@@ -34,9 +32,7 @@ public final class ConventionLibModule extends AbstractModule {
     private static final Module MODULE = Modules.combine(
             new ConventionLibModule(),
             JavaPoetModule.getModule(),
-            JavaxModule.getModule(),
-            MetaTypeModule.getModule(),
-            NamingModule.getModule()
+            JavaxModule.getModule()
     );
 
     public static Module getModule() {

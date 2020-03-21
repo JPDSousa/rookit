@@ -26,7 +26,6 @@ import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitors;
 import org.rookit.auto.source.type.annotation.AnnotationBuilder;
 import org.rookit.auto.source.type.inter.face.InterfaceBuilder;
-import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 
 import java.util.function.Function;
 
@@ -42,34 +41,28 @@ public interface ExtendedElementTypeSourceVisitors extends ExtendedElementVisito
     }
 
     <V extends ExtendedElementVisitor<StreamEx<TypeSource>, P>, P> AnnotationBuilder<V, P> annotationBuilder(
-            TypeReferenceSourceFactory referenceFactory,
             Function<ExtendedElementVisitor<StreamEx<TypeSource>, P>, V> downcastAdapter);
 
-    default <P> AnnotationBuilder<ExtendedElementVisitor<StreamEx<TypeSource>, P>, P> annotationBuilder(
-            final TypeReferenceSourceFactory referenceFactory) {
-        return annotationBuilder(referenceFactory, element -> element);
+    default <P> AnnotationBuilder<ExtendedElementVisitor<StreamEx<TypeSource>, P>, P> annotationBuilder() {
+        return annotationBuilder(element -> element);
     }
 
     <V extends ExtendedElementVisitor<StreamEx<TypeSource>, P>, P> AnnotationBuilder<V, P> annotationBuilder(
-            TypeReferenceSourceFactory referenceFactory,
             Function<ExtendedElementVisitor<StreamEx<TypeSource>, P>, V> downcastAdapter,
             Class<P> parameterClass);
 
     default <P> AnnotationBuilder<ExtendedElementVisitor<StreamEx<TypeSource>, P>, P> annotationBuilder(
-            final TypeReferenceSourceFactory referenceFactory,
             final Class<P> parameterClass) {
-        return annotationBuilder(referenceFactory, element -> element, parameterClass);
-    }
-
-    default <P> InterfaceBuilder<ExtendedElementVisitor<StreamEx<TypeSource>, P>, P> interfaceBuilder(
-            final TypeReferenceSourceFactory referenceFactory,
-            final Class<P> parameterClass) {
-        return interfaceBuilder(referenceFactory, element -> element, parameterClass);
+        return annotationBuilder(element -> element, parameterClass);
     }
 
     <V extends ExtendedElementVisitor<StreamEx<TypeSource>, P>, P> InterfaceBuilder<V, P> interfaceBuilder(
-            TypeReferenceSourceFactory referenceFactory,
             Function<ExtendedElementVisitor<StreamEx<TypeSource>, P>, V> downcastAdapter,
             Class<P> parameterClass);
+
+    default <P> InterfaceBuilder<ExtendedElementVisitor<StreamEx<TypeSource>, P>, P> interfaceBuilder(
+            final Class<P> parameterClass) {
+        return interfaceBuilder(element -> element, parameterClass);
+    }
 
 }

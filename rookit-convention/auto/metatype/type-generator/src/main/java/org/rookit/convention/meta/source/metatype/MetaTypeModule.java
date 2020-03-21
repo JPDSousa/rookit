@@ -31,14 +31,10 @@ import org.rookit.auto.javax.naming.MethodNameTransformer;
 import org.rookit.auto.javax.naming.MethodNameTransformers;
 import org.rookit.auto.source.field.FieldSource;
 import org.rookit.auto.source.method.MethodSource;
-import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
-import org.rookit.convention.auto.metatype.guice.MetaTypeAPI;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.convention.auto.property.PropertyTypeResolver;
-import org.rookit.convention.auto.source.type.reference.PropertyTypeReferenceSourceFactories;
-import org.rookit.convention.auto.source.type.reference.PropertyTypeReferenceSourceFactory;
 import org.rookit.convention.guice.MetaType;
 import org.rookit.utils.guice.Self;
 import org.rookit.utils.string.template.Template1;
@@ -77,19 +73,6 @@ public final class MetaTypeModule extends AbstractModule {
     @MetaType
     MethodNameTransformer namingFactory(final MethodNameTransformers factories, @Self final Template1 noopTemplate) {
         return factories.fromTemplate(noopTemplate);
-    }
-
-    @Provides
-    @Singleton
-    @MetaType
-    PropertyTypeReferenceSourceFactory propertyNamingFactory(
-            final PropertyTypeReferenceSourceFactories factories,
-            @MetaTypeAPI final TypeReferenceSourceFactory referenceFactory,
-            @MetaType final TypeVariableSource variableSource,
-            @MetaType final PropertyTypeResolver resolver) {
-        return factories.createDispatcherFactory(factories.parameterWithoutVariable(variableSource),
-                                                 resolver,
-                                                 referenceFactory);
     }
 
 }

@@ -11,23 +11,6 @@
     <artifactId>api-dm</artifactId>
     <name>Rookit Data Model API</name>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <configuration combine.self="override">
-                            <annotationProcessorPaths>
-                            </annotationProcessorPaths>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-
     <dependencies>
         <dependency>
             <groupId>com.github.Andy671</groupId>
@@ -43,9 +26,14 @@
             <artifactId>rookit-convention-auto-metatype-api-generator</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-convention-auto-guice</artifactId>
+            <scope>provided</scope>
+        </dependency>
 <!--        <dependency>-->
 <!--            <groupId>${rookit.group}</groupId>-->
-<!--            <artifactId>auto-metatype-type</artifactId>-->
+<!--            <artifactId>rookit-convention-auto-metatype-type-generator</artifactId>-->
 <!--            <scope>provided</scope>-->
 <!--        </dependency>-->
 <!--        <dependency>-->

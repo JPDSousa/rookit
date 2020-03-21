@@ -25,7 +25,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
-import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.TypeName;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceAdapter;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
@@ -45,8 +44,6 @@ public final class ReferenceModule extends AbstractModule {
     protected void configure() {
         bind(TypeReferenceSourceFactory.class).to(JavaPoetReferenceFactory.class).in(Singleton.class);
         bind(new TypeLiteral<TypeReferenceSourceAdapter<TypeName>>() {}).to(TypeNameAdapter.class)
-                .in(Singleton.class);
-        bind(new TypeLiteral<TypeReferenceSourceAdapter<ClassName>>() {}).to(ClassNameAdapter.class)
                 .in(Singleton.class);
         bind(TypeName2ClassName.class).in(Singleton.class);
     }

@@ -23,6 +23,7 @@ package org.rookit.utils.optional;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableSet;
+import io.reactivex.Maybe;
 import one.util.streamex.StreamEx;
 import org.rookit.utils.function.ToBooleanFunction;
 import org.rookit.utils.function.ToShortFunction;
@@ -71,6 +72,11 @@ final class Present<T> implements Optional<T> {
     @Override
     public StreamEx<T> stream() {
         return StreamEx.of(this.value);
+    }
+
+    @Override
+    public Maybe<T> maybe() {
+        return Maybe.just(this.value);
     }
 
     @Override

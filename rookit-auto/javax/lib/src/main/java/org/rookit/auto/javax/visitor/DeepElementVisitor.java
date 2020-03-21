@@ -21,62 +21,82 @@
  ******************************************************************************/
 package org.rookit.auto.javax.visitor;
 
+import com.google.common.collect.ImmutableSet;
 import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
 import org.rookit.auto.javax.type.parameter.ExtendedTypeParameterElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.variable.ExtendedVariableElement;
+import org.rookit.utils.optional.OptionalFactory;
+import org.rookit.utils.primitive.VoidUtils;
 
 import java.util.function.BinaryOperator;
 
 final class DeepElementVisitor<R, P> implements ExtendedElementVisitor<R, P> {
 
-    private final ExtendedElementVisitor<R, P> delegate;
-    private final BinaryOperator<R> reductionFunction;
+    private final ExtendedElementVisitor<R, VisitorContext<P>> nonCyclicVisitor;
+    private final ExtendedElementVisitor<String, Void> idVisitor;
+    private final VoidUtils voidUtils;
+    private final OptionalFactory optionalFactory;
 
-    DeepElementVisitor(final ExtendedElementVisitor<R, P> delegate, final BinaryOperator<R> reductionFunction) {
-        this.delegate = delegate;
-        this.reductionFunction = reductionFunction;
+    DeepElementVisitor(
+            final ExtendedElementVisitor<R, P> delegate,
+            final BinaryOperator<R> reductionFunction,
+            final ExtendedElementVisitor<String, Void> idVisitor,
+            final VoidUtils voidUtils,
+            final OptionalFactory optionalFactory) {
+
+        this.idVisitor = idVisitor;
+        this.voidUtils = voidUtils;
+        this.optionalFactory = optionalFactory;
+        this.nonCyclicVisitor = new NonCyclicDeepElementVisitor<>(delegate, reductionFunction);
     }
 
-    private R visitEnclosedElements(final ExtendedElement element, final P param) {
-        return element.getEnclosedElements().stream()
-                .map(nestedElement -> nestedElement.accept(this, param))
-                .reduce(element.accept(this.delegate, param), this.reductionFunction);
+    private VisitorContext<P> contextFor(final P param) {
+
+        return new RecursiveContext<>(
+                param,
+                ImmutableSet.of(),
+                this.idVisitor,
+                this.voidUtils,
+                this.optionalFactory
+        );
     }
 
     @Override
     public R visitPackage(final ExtendedPackageElement packageElement, final P parameter) {
-        return visitEnclosedElements(packageElement, parameter);
+
+        return packageElement.accept(this.nonCyclicVisitor, contextFor(parameter));
     }
 
     @Override
     public R visitType(final ExtendedTypeElement extendedType, final P parameter) {
-        // TODO not sure if this includes
-        // TODO 1 - type params
-        // TODO 2 - inner classes (anonymous or nested)
-        // TODO 3 - inherited members
-        return visitEnclosedElements(extendedType, parameter);
+
+        return extendedType.accept(this.nonCyclicVisitor, contextFor(parameter));
     }
 
     @Override
     public R visitExecutable(final ExtendedExecutableElement extendedExecutable, final P parameter) {
-        return visitEnclosedElements(extendedExecutable, parameter);
+
+        return extendedExecutable.accept(this.nonCyclicVisitor, contextFor(parameter));
     }
 
     @Override
     public R visitTypeParameter(final ExtendedTypeParameterElement extendedParameter, final P parameter) {
-        return visitEnclosedElements(extendedParameter, parameter);
+
+        return extendedParameter.accept(this.nonCyclicVisitor, contextFor(parameter));
     }
 
     @Override
     public R visitVariable(final ExtendedVariableElement extendedElement, final P parameter) {
-        return visitEnclosedElements(extendedElement, parameter);
+
+        return extendedElement.accept(this.nonCyclicVisitor, contextFor(parameter));
     }
 
     @Override
     public R visitUnknown(final ExtendedElement extendedElement, final P parameter) {
-        return visitEnclosedElements(extendedElement, parameter);
+
+        return extendedElement.accept(this.nonCyclicVisitor, contextFor(parameter));
     }
 }

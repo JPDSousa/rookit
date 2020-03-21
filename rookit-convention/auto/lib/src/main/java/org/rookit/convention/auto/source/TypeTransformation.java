@@ -22,7 +22,6 @@
 package org.rookit.convention.auto.source;
 
 import com.google.inject.Inject;
-import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.method.MethodSourceFactory;
@@ -35,7 +34,7 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.Name;
 import java.util.function.BiFunction;
 
-final class TypeTransformation implements BiFunction<ConventionTypeElement, Property, StreamEx<MethodSource>> {
+final class TypeTransformation implements BiFunction<ConventionTypeElement, Property, MethodSource> {
 
     private static final String ERR_MSG = "This transformation function requires all properties to declare a declared" +
             " type";
@@ -52,7 +51,7 @@ final class TypeTransformation implements BiFunction<ConventionTypeElement, Prop
     }
 
     @Override
-    public StreamEx<MethodSource> apply(final ConventionTypeElement owner, final Property property) {
+    public MethodSource apply(final ConventionTypeElement owner, final Property property) {
 
         final ExtendedTypeMirror propertyType = property.type();
         final Element propertyElement = propertyType
@@ -62,18 +61,8 @@ final class TypeTransformation implements BiFunction<ConventionTypeElement, Prop
         final Name elementName = propertyElement.getSimpleName();
         final ParameterSource parameter = this.parameterFactory.createMutable(elementName, propertyType);
 
-        return StreamEx.of(
-                this.methodFactory.createMutableMethod(elementName)
-                .addParameter(parameter)
-        );
-    }
-
-    @Override
-    public String toString() {
-        return "TypeTransformation{" +
-                "methodFactory=" + this.methodFactory +
-                ", parameterFactory=" + this.parameterFactory +
-                "}";
+        return this.methodFactory.createMutableMethod(elementName)
+                .addParameter(parameter);
     }
 
 }

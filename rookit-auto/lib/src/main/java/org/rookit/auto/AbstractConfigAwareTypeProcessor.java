@@ -61,11 +61,4 @@ public abstract class AbstractConfigAwareTypeProcessor implements TypeProcessor 
 
     protected abstract void doProcessEntity(final TypeElement element);
 
-    @Override
-    public String toString() {
-        return "AbstractConfigAwareTypeProcessor{" +
-                "config=" + this.config +
-                ", messager=" + this.messager +
-                "}";
-    }
 }

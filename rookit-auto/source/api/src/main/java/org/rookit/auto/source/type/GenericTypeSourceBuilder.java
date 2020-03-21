@@ -28,6 +28,8 @@ import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.javax.visitor.GenericStreamExBuilder;
 import org.rookit.auto.source.doc.JavadocTemplate1;
 import org.rookit.auto.source.type.annotation.AnnotationSource;
+import org.rookit.auto.source.type.extension.ExtensionStrategy;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
 
 import java.util.function.Function;
 

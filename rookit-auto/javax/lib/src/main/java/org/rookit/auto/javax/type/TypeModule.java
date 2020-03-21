@@ -22,6 +22,7 @@
 package org.rookit.auto.javax.type;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
@@ -30,6 +31,7 @@ import org.rookit.auto.javax.type.filter.FilterModule;
 import org.rookit.auto.javax.type.mirror.ExtendedTypeMirrorFactory;
 import org.rookit.auto.javax.type.parameter.ParameterModule;
 import org.rookit.auto.javax.type.parameter.TypeParameterExtractor;
+import org.rookit.utils.guice.Base;
 
 public final class TypeModule extends AbstractModule {
 
@@ -50,7 +52,10 @@ public final class TypeModule extends AbstractModule {
     protected void configure() {
         bind(TypeParameterExtractor.class).to(TypeVisitorParameterExtractor.class).in(Singleton.class);
         bind(ExtendedTypeMirrorFactory.class).to(BaseExtendedTypeMirrorFactory.class).in(Singleton.class);
-        bind(ExtendedTypeElementFactory.class).to(ExtendedTypeElementFactoryImpl.class).in(Singleton.class);
+
+        bind(ExtendedTypeElementFactory.class).annotatedWith(Base.class)
+                .to(ExtendedTypeElementFactoryImpl.class).in(Singleton.class);
+        bind(ExtendedTypeElementFactory.class).to(Key.get(ExtendedTypeElementFactory.class, Base.class));
     }
 
 }

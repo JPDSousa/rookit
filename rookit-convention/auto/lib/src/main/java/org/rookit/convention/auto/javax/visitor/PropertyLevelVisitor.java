@@ -24,7 +24,6 @@ package org.rookit.convention.auto.javax.visitor;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.visitor.StreamExtendedElementVisitor;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
-import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.convention.auto.property.Property;
 
 import java.util.function.BiFunction;
@@ -32,16 +31,16 @@ import java.util.function.BiFunction;
 final class PropertyLevelVisitor<T, P> implements ConventionTypeElementVisitor<StreamEx<T>, P>,
         StreamExtendedElementVisitor<T, P> {
 
-    private final BiFunction<ConventionTypeElement, Property, StreamEx<T>> transformation;
+    private final BiFunction<ConventionTypeElement, Property, T> transformation;
 
-    PropertyLevelVisitor(final BiFunction<ConventionTypeElement, Property, StreamEx<T>> transformation) {
+    PropertyLevelVisitor(final BiFunction<ConventionTypeElement, Property, T> transformation) {
         this.transformation = transformation;
     }
 
     @Override
     public StreamEx<T> visitConventionType(final ConventionTypeElement element, final P parameter) {
         return StreamEx.of(element.properties())
-                .flatMap(property -> this.transformation.apply(element, property));
+                .map(property -> this.transformation.apply(element, property));
     }
 
     @Override

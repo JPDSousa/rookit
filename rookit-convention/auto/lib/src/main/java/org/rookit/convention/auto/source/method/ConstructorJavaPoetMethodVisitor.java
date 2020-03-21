@@ -64,12 +64,4 @@ final class ConstructorJavaPoetMethodVisitor<P> implements StreamExtendedElement
         return StreamEx.of(createConstructor(element, parameter));
     }
 
-    @Override
-    public String toString() {
-        return "ConstructorJavaPoetMethodVisitor{" +
-                "methodSourceFactory=" + this.methodSourceFactory +
-                ", annotationParameterVisitor=" + this.annotationParameterVisitor +
-                "}";
-    }
-
 }

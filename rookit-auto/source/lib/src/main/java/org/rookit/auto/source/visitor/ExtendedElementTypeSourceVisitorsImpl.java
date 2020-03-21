@@ -42,7 +42,6 @@ import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 import org.rookit.utils.string.StringUtils;
 
 import javax.lang.model.element.Name;
-import javax.lang.model.util.Types;
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.Set;
@@ -54,9 +53,9 @@ final class ExtendedElementTypeSourceVisitorsImpl implements ExtendedElementType
     private final TypeSourceFactory typeFactory;
     private final ExtendedElementVisitors delegate;
     private final Collection<AnnotationSource> bindingAnnotations;
-    private final Types types;
     private final IdentifierTransformer idTransformer;
     private final StringUtils stringUtils;
+    private final TypeReferenceSourceFactory referenceFactory;
 
     @Inject
     private ExtendedElementTypeSourceVisitorsImpl(
@@ -64,17 +63,17 @@ final class ExtendedElementTypeSourceVisitorsImpl implements ExtendedElementType
             final TypeSourceFactory typeFactory,
             final ExtendedElementVisitors delegate,
             @GuiceBindAnnotation final Set<AnnotationSource> bindingAnnotations,
-            final Types types,
             final IdentifierTransformer idTransformer,
-            final StringUtils stringUtils) {
+            final StringUtils stringUtils,
+            final TypeReferenceSourceFactory referenceFactory) {
 
         this.methodFactory = methodFactory;
         this.typeFactory = typeFactory;
         this.delegate = delegate;
         this.bindingAnnotations = bindingAnnotations;
-        this.types = types;
         this.idTransformer = idTransformer;
         this.stringUtils = stringUtils;
+        this.referenceFactory = referenceFactory;
     }
 
     @Override
@@ -86,21 +85,21 @@ final class ExtendedElementTypeSourceVisitorsImpl implements ExtendedElementType
                                            this.methodFactory,
                                            this.delegate.streamExBuilder(visitor, downcastAdapter),
                                            this.delegate,
-                                           this.types,
                                            downcastAdapter);
     }
 
     @Override
     public <V extends ExtendedElementVisitor<StreamEx<TypeSource>, P>, P> AnnotationBuilder<V, P>
     annotationBuilder(
-            final TypeReferenceSourceFactory referenceFactory,
             final Function<ExtendedElementVisitor<StreamEx<TypeSource>, P>, V> downcastAdapter) {
 
         final ExtendedElementVisitor<StreamEx<TypeSource>, P> baseVisitor
-                = this.delegate.streamEx(new BaseAnnotationBuilderVisitor<>(this.typeFactory,
-                                                                            referenceFactory,
-                                                                            this.idTransformer,
-                                                                            this.stringUtils));
+                = this.delegate.streamEx(new BaseTypeSourceBuilderVisitor<>(
+                this.referenceFactory,
+                this.idTransformer,
+                this.stringUtils,
+                this.typeFactory::createMutableAnnotation
+        ));
 
         return new AnnotationBuilderImpl<>(typeSourceBuilder(downcastAdapter.apply(baseVisitor), downcastAdapter),
                                            this.bindingAnnotations);
@@ -109,24 +108,24 @@ final class ExtendedElementTypeSourceVisitorsImpl implements ExtendedElementType
     @Override
     public <V extends ExtendedElementVisitor<StreamEx<TypeSource>, P>, P> AnnotationBuilder<V, P>
     annotationBuilder(
-            final TypeReferenceSourceFactory referenceFactory,
             final Function<ExtendedElementVisitor<StreamEx<TypeSource>, P>, V> downcastAdapter,
             final Class<P> parameterClass) {
 
-        return annotationBuilder(referenceFactory, downcastAdapter);
+        return annotationBuilder(downcastAdapter);
     }
 
     @Override
     public <V extends ExtendedElementVisitor<StreamEx<TypeSource>, P>, P> InterfaceBuilder<V, P> interfaceBuilder(
-            final TypeReferenceSourceFactory referenceFactory,
             final Function<ExtendedElementVisitor<StreamEx<TypeSource>, P>, V> downcastAdapter,
             final Class<P> parameterClass) {
 
         final ExtendedElementVisitor<StreamEx<TypeSource>, P> baseVisitor
-                = this.delegate.streamEx(new BaseAnnotationBuilderVisitor<>(this.typeFactory,
-                                                                            referenceFactory,
-                                                                            this.idTransformer,
-                                                                            this.stringUtils));
+                = this.delegate.streamEx(new BaseTypeSourceBuilderVisitor<>(
+                this.referenceFactory,
+                this.idTransformer,
+                this.stringUtils,
+                this.typeFactory::createMutableInterface
+        ));
 
         return new InterfaceBuilderImpl<>(typeSourceBuilder(downcastAdapter.apply(baseVisitor), downcastAdapter));
     }

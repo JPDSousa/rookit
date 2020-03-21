@@ -31,6 +31,7 @@ import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeVariableName;
 import org.rookit.auto.javapoet.JavaPoetMutableAnnotatable;
+import org.rookit.auto.javapoet.type.reference.JavaPoetReference;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.source.field.FieldAdapter;
 import org.rookit.auto.source.field.FieldSource;
@@ -50,7 +51,7 @@ import java.util.concurrent.Executor;
 
 import static java.util.Collections.unmodifiableCollection;
 
-final class JavaPoetTypeSource extends AbstractJavaPoetTypeSource {
+final class JavaPoetTypeSource extends AbstractJavaPoetTypeSource implements JavaPoetReference {
 
     private final FieldAdapter<FieldSpec> fieldAdapter;
     private final MethodSourceAdapter<MethodSpec> methodAdapter;
@@ -244,6 +245,11 @@ final class JavaPoetTypeSource extends AbstractJavaPoetTypeSource {
     public Collection<Modifier> modifiers() {
 
         return unmodifiableCollection(this.modifiers);
+    }
+
+    @Override
+    public TypeName buildTypeName() {
+        return this.typeReferenceAdapter.adaptTypeReference(reference());
     }
 
 }

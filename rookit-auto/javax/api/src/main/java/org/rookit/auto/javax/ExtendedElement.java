@@ -25,6 +25,7 @@ import org.rookit.auto.javax.pack.ExtendedPackageElement;
 import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 
+import javax.annotation.Nullable;
 import javax.lang.model.element.Element;
 import java.util.List;
 
@@ -35,6 +36,7 @@ public interface ExtendedElement extends Element {
     @Override
     ExtendedTypeMirror asType();
 
+    @Nullable
     @Override
     ExtendedElement getEnclosingElement();
 

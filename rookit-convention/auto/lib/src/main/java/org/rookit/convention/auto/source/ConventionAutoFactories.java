@@ -21,7 +21,6 @@
  ******************************************************************************/
 package org.rookit.convention.auto.source;
 
-import one.util.streamex.StreamEx;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.method.MethodSourceFactory;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
@@ -31,7 +30,7 @@ import java.util.function.BiFunction;
 
 public interface ConventionAutoFactories {
 
-    BiFunction<ConventionTypeElement, Property, StreamEx<MethodSource>> createTypeTransformation(
+    BiFunction<ConventionTypeElement, Property, MethodSource> createTypeTransformation(
             MethodSourceFactory methodFactory);
 
 }

@@ -21,6 +21,7 @@
  ******************************************************************************/
 package org.rookit.utils.optional;
 
+import io.reactivex.Maybe;
 import one.util.streamex.StreamEx;
 import org.rookit.utils.function.ToBooleanFunction;
 import org.rookit.utils.function.ToShortFunction;
@@ -43,6 +44,8 @@ public interface Optional<T> {
     java.util.Optional<T> toJavaOptional();
 
     StreamEx<T> stream();
+
+    Maybe<T> maybe();
 
     Set<T> toImmutableSet();
 

@@ -23,19 +23,15 @@ package org.rookit.convention.api.source.method;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
-import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
+import com.google.inject.multibindings.Multibinder;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.source.method.MethodSource;
-import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
-import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
-import org.rookit.convention.auto.metatype.guice.MetaTypeAPI;
-import org.rookit.convention.auto.source.type.reference.PropertyTypeReferenceSourceFactories;
-import org.rookit.convention.auto.source.type.reference.PropertyTypeReferenceSourceFactory;
 
-@SuppressWarnings("MethodMayBeStatic")
+import static com.google.inject.multibindings.Multibinder.newSetBinder;
+
 public final class MethodModule extends AbstractModule {
 
     private static final Module MODULE = new MethodModule();
@@ -46,23 +42,20 @@ public final class MethodModule extends AbstractModule {
 
     private MethodModule() {}
 
-    @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
     @Override
     protected void configure() {
-        bind(new TypeLiteral<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>>() {})
-                .to(EntityPropertiesMethodVisitor.class).in(Singleton.class);
-        bind(new TypeLiteral<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>>() {})
-                .to(EntityPropertiesEntityMethodFactory.class).in(Singleton.class);
+
+        final Multibinder<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>> mBinder = newMethodMultiBinder();
+
+        mBinder.addBinding().to(PropertiesMethodVisitor.class).in(Singleton.class);
+        mBinder.addBinding().to(EntityPropertiesEntityMethodFactory.class).in(Singleton.class);
     }
 
-    @Provides
-    @Singleton
-    @MetaTypeAPI
-    PropertyTypeReferenceSourceFactory propertyNamingFactory(
-            final PropertyTypeReferenceSourceFactories factories,
-            @MetaTypeAPI final TypeReferenceSourceFactory referenceFactory,
-            @MetaTypeAPI final TypeVariableSource variableName) {
-        return factories.createDispatcherFactory(factories.parameterWithVariable(variableName), referenceFactory);
+    @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
+    private Multibinder<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>> newMethodMultiBinder() {
+
+        return newSetBinder(binder(), new TypeLiteral<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>>() {
+        });
     }
 
 }

@@ -49,10 +49,4 @@ public abstract class AbstractMetaType<T> implements MetaType<T> {
         return this.properties.values();
     }
 
-    @Override
-    public String toString() {
-        return "AbstractMetaType{" +
-                "properties=" + this.properties +
-                "}";
-    }
 }

@@ -26,4 +26,8 @@ public interface Adapter<E> {
 
     E adapt(E source);
 
+    static <E> Adapter<E> identity() {
+        return source -> source;
+    }
+
 }

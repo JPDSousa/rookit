@@ -28,22 +28,11 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.Multibinder;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.source.parameter.ParameterSource;
-import org.rookit.auto.source.parameter.ParameterSourceFactory;
-import org.rookit.auto.source.parameter.ParameterVisitors;
-import org.rookit.auto.source.type.annotation.AnnotationSourceFactory;
-import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
-import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitors;
-import org.rookit.convention.auto.property.Property;
-import org.rookit.convention.auto.source.type.reference.PropertyTypeReferenceSourceFactory;
-import org.rookit.convention.guice.MetaType;
 import org.rookit.convention.property.guice.PropertyModel;
-import org.rookit.guice.auto.annotation.Guice;
 
 import java.util.Set;
-import java.util.function.BiFunction;
 
 @SuppressWarnings("MethodMayBeStatic")
 public final class ParameterModule extends AbstractModule {
@@ -68,78 +57,6 @@ public final class ParameterModule extends AbstractModule {
                 .newSetBinder(binder(), new TypeLiteral<ConventionTypeElementVisitor<
                         StreamEx<ParameterSource>, Void>>() {}, PropertyModel.class);
         mBinder.addBinding().toProvider(EmptyParameterProvider.class);
-    }
-
-    @Provides
-    @Singleton
-    @MetaType(includeAnnotations = true)
-    BiFunction<Property, ParameterSource, ParameterSource> conversionFunction(
-            @Guice final PropertyTypeReferenceSourceFactory identifierFactory,
-            final ParameterSourceFactory parameterFactory,
-            final AnnotationSourceFactory annotationFactory) {
-        return new MetaTypeParameterWithAnnotationsResultAccumulator(identifierFactory,
-                                                                     parameterFactory,
-                                                                     annotationFactory);
-    }
-
-
-    @Provides
-    @Singleton
-    @MetaType
-    ExtendedElementVisitor<StreamEx<ParameterSource>, Void> createMetaTypeFactory(
-            final ConventionTypeElementVisitors visitors,
-            @MetaType final BiFunction<ConventionTypeElement, Property, StreamEx<ParameterSource>> transformation) {
-        return visitors.<ParameterSource, Void>createPropertyLevelVisitor(transformation)
-                .build();
-    }
-
-    @Provides
-    @Singleton
-    @MetaType(includeAnnotations = true)
-    ExtendedElementVisitor<StreamEx<ParameterSource>, Void> createAnnotatedExtendedParameterFactory(
-            final ParameterVisitors visitors,
-            @MetaType(includeAnnotations = true)
-            final ExtendedElementVisitor<StreamEx<ParameterSource>, Void> visitor) {
-        return visitors.parameterBuilder(visitor)
-                .build();
-    }
-
-
-    @Provides
-    @Singleton
-    @MetaType(includeAnnotations = true)
-    ExtendedElementVisitor<StreamEx<ParameterSource>, Void> createAnnotatedMetaTypeFactory(
-            final ConventionTypeElementVisitors visitors,
-            @MetaType(includeAnnotations = true) final BiFunction<ConventionTypeElement, Property,
-                    StreamEx<ParameterSource>> transformation) {
-        return visitors.<ParameterSource, Void>createPropertyLevelVisitor(transformation)
-                .build();
-    }
-
-    @Provides
-    @Singleton
-    @MetaType
-    BiFunction<ConventionTypeElement, Property, StreamEx<ParameterSource>> baseTransformation(
-            @MetaType final PropertyTypeReferenceSourceFactory factory,
-            final ParameterSourceFactory parameterFactory) {
-        return new MetaTypeParameterTransformation(
-                factory,
-                (property, parameter) -> parameter,
-                parameterFactory);
-    }
-
-    @Provides
-    @Singleton
-    @MetaType(includeAnnotations = true)
-    BiFunction<ConventionTypeElement, Property, StreamEx<ParameterSource>> annotationTransformation(
-            @MetaType final PropertyTypeReferenceSourceFactory factory,
-            @MetaType(includeAnnotations = true) final BiFunction<Property,
-                    ParameterSource, ParameterSource> resultAccumulator,
-            final ParameterSourceFactory parameterFactory) {
-        return new MetaTypeParameterTransformation(
-                factory,
-                resultAccumulator,
-                parameterFactory);
     }
 
     @Provides

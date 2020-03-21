@@ -52,3 +52,4 @@ public interface ExtendedTypeElement extends ExtendedElement, TypeElement {
         return visitor.visitType(this, parameter);
     }
 }
+

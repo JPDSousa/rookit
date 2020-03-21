@@ -189,11 +189,4 @@ final class PropertyOverridingExtendedTypeElement implements ConventionTypeEleme
         return this.delegate.getModifiers();
     }
 
-    @Override
-    public String toString() {
-        return "PropertyOverridingExtendedTypeElement{" +
-                "delegate=" + this.delegate +
-                ", overriddenProperties=" + this.overriddenProperties +
-                "}";
-    }
 }

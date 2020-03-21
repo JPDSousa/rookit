@@ -27,12 +27,10 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
-import org.rookit.auto.source.method.MethodSource;
-import org.rookit.auto.source.type.ExtendedElementTypeSourceVisitors;
 import org.rookit.auto.source.type.TypeSource;
-import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 import org.rookit.convention.annotation.LaConvention;
-import org.rookit.convention.auto.source.method.ConventionTypeElementMethodSourceVisitors;
+import org.rookit.convention.auto.metatype.source.type.MetaTypeSourceFactory;
+import org.rookit.convention.auto.source.type.ConventionTypeElementTypeSourceVisitors;
 
 import java.lang.annotation.Annotation;
 import java.util.Set;
@@ -55,22 +53,12 @@ public final class TypeModule extends AbstractModule {
 
     @Provides
     @Singleton
-    ExtendedElementVisitor<StreamEx<MethodSource>, Void> methodVisitor(
-            final ConventionTypeElementMethodSourceVisitors visitors) {
-
-        // TODO go from here
-        return visitors.emptyStreamVisitor();
-    }
-
-
-    @Provides
-    @Singleton
     ExtendedElementVisitor<StreamEx<TypeSource>, Void> visitor(
+            final MetaTypeSourceFactory typeFactory,
             @LaConvention final Set<Class<? extends Annotation>> annotations,
-            final ExtendedElementTypeSourceVisitors visitors,
-            final TypeReferenceSourceFactory referenceFactory) {
+            final ConventionTypeElementTypeSourceVisitors visitors) {
 
-        return visitors.interfaceBuilder(referenceFactory, Void.class)
+        return visitors.<Void>conventionTypeSourceBuilder(typeFactory::apiFor, typeFactory::genericApiFor)
                 .withRecursiveVisiting(StreamEx::append)
                 .filterIfAnyAnnotationPresent(annotations)
                 .build();

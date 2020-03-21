@@ -61,10 +61,4 @@ public abstract class AbstractJavaPoetTypeSource implements MutableTypeSource {
         }
     }
 
-    @Override
-    public String toString() {
-        return "AbstractJavaPoetTypeSource{" +
-                "executor=" + this.executor +
-                "}";
-    }
 }

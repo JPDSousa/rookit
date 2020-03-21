@@ -140,16 +140,4 @@ final class ExtendedElementImpl implements ExtendedElement {
         return this.element.accept(v, p);
     }
 
-    @Override
-    public String toString() {
-        return "ExtendedElementImpl{" +
-                "elements=" + this.elements +
-                ", element=" + this.element +
-                ", mirrorFactory=" + this.mirrorFactory +
-                ", effectiveTypeVisitor=" + this.effectiveTypeVisitor +
-                ", voidUtils=" + this.voidUtils +
-                ", packageFactory=" + this.packageFactory +
-                "}";
-    }
-
 }

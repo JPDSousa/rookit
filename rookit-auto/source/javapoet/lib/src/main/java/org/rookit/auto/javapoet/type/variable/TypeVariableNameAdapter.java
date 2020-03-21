@@ -44,14 +44,12 @@ final class TypeVariableNameAdapter implements TypeVariableSourceAdapter<TypeVar
         this.referenceAdapter = referenceAdapter;
     }
 
-    // TODO create a JavaPoetTypeVariable interface, so that we can get rid of these supressions
-    @SuppressWarnings({"InstanceofConcreteClass", "CastToConcreteClass"}) // performance improvement
     @Override
     public TypeVariableName adaptTypeVariable(final TypeVariableSource typeVariable) {
 
         if (typeVariable instanceof JavaPoetTypeVariable) {
             logger.trace("{} is already a javapoet implementation. Unwrapping.", typeVariable);
-            return ((JavaPoetTypeVariable) typeVariable).getTypeVariable();
+            return ((JavaPoetTypeVariable) typeVariable).buildTypeName();
         }
 
         final TypeName[] bounds = typeVariable.bounds()

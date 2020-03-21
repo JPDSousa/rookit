@@ -22,7 +22,6 @@
 package org.rookit.convention.auto.source;
 
 import com.google.inject.Inject;
-import one.util.streamex.StreamEx;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.method.MethodSourceFactory;
 import org.rookit.auto.source.parameter.ParameterSourceFactory;
@@ -42,16 +41,10 @@ final class ConventionAutoFactoriesImpl implements ConventionAutoFactories {
     }
 
     @Override
-    public BiFunction<ConventionTypeElement, Property, StreamEx<MethodSource>> createTypeTransformation(
+    public BiFunction<ConventionTypeElement, Property, MethodSource> createTypeTransformation(
             final MethodSourceFactory methodFactory) {
-        return new TypeTransformation(methodFactory, this.parameterFactory);
-    }
 
-    @Override
-    public String toString() {
-        return "ConventionAutoFactoriesImpl{" +
-                "parameterFactory=" + this.parameterFactory +
-                "}";
+        return new TypeTransformation(methodFactory, this.parameterFactory);
     }
 
 }

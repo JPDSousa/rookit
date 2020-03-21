@@ -197,16 +197,4 @@ final class ImmutableParentExtendedPackageElement extends AbstractExtendedPackag
         return this.delegate.accept(v, p);
     }
 
-    @Override
-    public String toString() {
-        return "ImmutableParentExtendedPackageElement{" +
-                ", parent=" + this.parent +
-                ", extendedElement=" + this.extendedElement +
-                ", delegate=" + this.delegate +
-                ", length=" + this.length +
-                ", name='" + this.name + '\'' +
-                ", fullName=" + this.fullName +
-                ", optionalFactory=" + this.optionalFactory +
-                "} " + super.toString();
-    }
 }

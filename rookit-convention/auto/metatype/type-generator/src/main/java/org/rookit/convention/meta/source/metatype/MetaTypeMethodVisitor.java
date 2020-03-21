@@ -25,51 +25,26 @@ import com.google.inject.Inject;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.visitor.StreamExtendedElementVisitor;
 import org.rookit.auto.source.method.MethodSource;
-import org.rookit.auto.source.method.MethodSourceFactory;
-import org.rookit.auto.source.method.MutableMethodSource;
-import org.rookit.auto.source.type.reference.TypeReferenceSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
-import org.rookit.convention.auto.property.Property;
-import org.rookit.convention.auto.source.type.reference.PropertyTypeReferenceSourceFactory;
-import org.rookit.convention.guice.MetaType;
+import org.rookit.convention.auto.metatype.source.method.PropertyMethodSourceFactory;
 
 final class MetaTypeMethodVisitor implements ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>,
         StreamExtendedElementVisitor<MethodSource, Void> {
 
-    private final MethodSourceFactory methodFactory;
-    private final PropertyTypeReferenceSourceFactory propertyReferenceFactory;
+    private final PropertyMethodSourceFactory propertyFactory;
 
     @Inject
-    private MetaTypeMethodVisitor(
-            final MethodSourceFactory methodFactory,
-            @MetaType final PropertyTypeReferenceSourceFactory referenceFactory) {
-        this.methodFactory = methodFactory;
-        this.propertyReferenceFactory = referenceFactory;
+    private MetaTypeMethodVisitor(final PropertyMethodSourceFactory propertyFactory) {
+
+        this.propertyFactory = propertyFactory;
     }
 
     @Override
     public StreamEx<MethodSource> visitConventionType(final ConventionTypeElement element, final Void parameter) {
+
         return StreamEx.of(element.properties())
-                .map(property -> createMethod(element, property));
-    }
-
-    private MutableMethodSource createMethod(final ConventionTypeElement element, final Property property) {
-
-        final TypeReferenceSource returnType = this.propertyReferenceFactory.create(element, property);
-
-        return this.methodFactory.createMutableMethod(property.name())
-                .makePublic()
-                .addAnnotationByClass(Override.class)
-                .returnInstanceField(returnType, property.name());
-    }
-
-    @Override
-    public String toString() {
-        return "MetaTypeMethodVisitor{" +
-                "methodFactory=" + this.methodFactory +
-                ", propertyReferenceFactory=" + this.propertyReferenceFactory +
-                "}";
+                .map(property -> this.propertyFactory.implFor(element, property));
     }
 
 }

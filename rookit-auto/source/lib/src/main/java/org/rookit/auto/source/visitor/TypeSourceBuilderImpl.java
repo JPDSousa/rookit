@@ -30,13 +30,12 @@ import org.rookit.auto.javax.visitor.ExtendedElementVisitors;
 import org.rookit.auto.javax.visitor.StreamExBuilder;
 import org.rookit.auto.source.doc.JavadocTemplate1;
 import org.rookit.auto.source.method.MethodSourceFactory;
-import org.rookit.auto.source.type.annotation.AnnotationSource;
 import org.rookit.auto.source.type.TypeSource;
 import org.rookit.auto.source.type.TypeSourceBuilder;
 import org.rookit.auto.source.type.TypeSourceFactory;
+import org.rookit.auto.source.type.annotation.AnnotationSource;
 import org.rookit.utils.adapt.Adapter;
 
-import javax.lang.model.util.Types;
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.function.BinaryOperator;
@@ -49,7 +48,6 @@ final class TypeSourceBuilderImpl<V extends ExtendedElementVisitor<StreamEx<Type
     private final MethodSourceFactory methodFactory;
     private final StreamExBuilder<V, TypeSource, P> builder;
     private final ExtendedElementVisitors visitors;
-    private final Types types;
     private final Function<ExtendedElementVisitor<StreamEx<TypeSource>, P>, V> downcastAdapter;
 
     TypeSourceBuilderImpl(
@@ -57,13 +55,12 @@ final class TypeSourceBuilderImpl<V extends ExtendedElementVisitor<StreamEx<Type
             final MethodSourceFactory methodFactory,
             final StreamExBuilder<V, TypeSource, P> builder,
             final ExtendedElementVisitors visitors,
-            final Types types,
             final Function<ExtendedElementVisitor<StreamEx<TypeSource>, P>, V> downcastAdapter) {
+
         this.typeFactory = typeFactory;
         this.methodFactory = methodFactory;
         this.builder = builder;
         this.visitors = visitors;
-        this.types = types;
         this.downcastAdapter = downcastAdapter;
     }
 
@@ -75,7 +72,6 @@ final class TypeSourceBuilderImpl<V extends ExtendedElementVisitor<StreamEx<Type
                 this.methodFactory,
                 builder,
                 this.visitors,
-                this.types,
                 this.downcastAdapter
         );
     }
@@ -92,12 +88,14 @@ final class TypeSourceBuilderImpl<V extends ExtendedElementVisitor<StreamEx<Type
 
     @Override
     public TypeSourceBuilder<V, P> copyBodyFrom(final ExtendedTypeElement source) {
+
         return copyBodyFrom(construct -> source);
     }
 
     @Override
     public TypeSourceBuilder<V, P> copyBodyFrom(
             final Function<ExtendedElement, ExtendedTypeElement> extractionFunction) {
+
         return newStage(this.visitors.streamExBuilder(
                 this.downcastAdapter.apply(new CopyBodyFromVisitor<>(this.typeFactory,
                                                                      this.methodFactory,
@@ -110,6 +108,7 @@ final class TypeSourceBuilderImpl<V extends ExtendedElementVisitor<StreamEx<Type
     @Override
     public TypeSourceBuilder<V, P> withClassJavadoc(
             final JavadocTemplate1 template) {
+
         return newStage(this.visitors.streamExBuilder(
                 this.downcastAdapter.apply(new ClassJavadocVisitor<>(this.typeFactory,
                                                                      build(), template)
@@ -119,6 +118,7 @@ final class TypeSourceBuilderImpl<V extends ExtendedElementVisitor<StreamEx<Type
     @Override
     public TypeSourceBuilder<V, P> withTypeAdapter(
             final Adapter<ExtendedTypeElement> adapter) {
+
         return newStage(this.builder.withTypeAdapter(adapter));
     }
 
@@ -164,18 +164,6 @@ final class TypeSourceBuilderImpl<V extends ExtendedElementVisitor<StreamEx<Type
     public TypeSourceBuilder<V, P> filterIfAnyAnnotationPresent(
             final Iterable<? extends Class<? extends Annotation>> annotationClasses) {
         return newStage(this.builder.filterIfAnyAnnotationPresent(annotationClasses));
-    }
-
-    @Override
-    public String toString() {
-        return "TypeSourceBuilderImpl{" +
-                "typeFactory=" + this.typeFactory +
-                ", methodFactory=" + this.methodFactory +
-                ", builder=" + this.builder +
-                ", visitors=" + this.visitors +
-                ", types=" + this.types +
-                ", downcastAdapter=" + this.downcastAdapter +
-                "}";
     }
 
 }

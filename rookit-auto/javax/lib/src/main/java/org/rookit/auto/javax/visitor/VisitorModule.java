@@ -25,7 +25,9 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
 import org.rookit.auto.javax.guice.QualifiedName;
+import org.rookit.utils.guice.Id;
 
 import javax.lang.model.element.Name;
 
@@ -40,9 +42,16 @@ public final class VisitorModule extends AbstractModule {
 
     private VisitorModule() {}
 
+    @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
     @Override
     protected void configure() {
-        bind(ExtendedElementVisitors.class).to(ExtendedElementVisitorsImpl.class).in(Singleton.class);
+
+        bind(ExtendedElementVisitors.class).to(ExtendedElementVisitorsImpl.class)
+                .in(Singleton.class);
+        bind(new TypeLiteral<ExtendedElementVisitor<String, Void>>() {
+        }).annotatedWith(Id.class)
+                .to(IdVisitor.class)
+                .in(Singleton.class);
     }
 
     @Provides

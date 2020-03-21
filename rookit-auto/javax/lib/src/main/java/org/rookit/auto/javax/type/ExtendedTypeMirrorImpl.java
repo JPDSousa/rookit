@@ -102,15 +102,4 @@ final class ExtendedTypeMirrorImpl implements ExtendedTypeMirror {
         return this;
     }
 
-    @Override
-    public String toString() {
-        return "ExtendedTypeMirrorImpl{" +
-                "delegate=" + this.delegate +
-                ", types=" + this.types +
-                ", factory=" + this.factory +
-                ", typeParameters=" + this.typeParameters +
-                ", optionalFactory=" + this.optionalFactory +
-                ", repetition=" + this.repetition +
-                "}";
-    }
 }

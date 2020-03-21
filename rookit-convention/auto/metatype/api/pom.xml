@@ -30,6 +30,14 @@
             <groupId>${rookit.group}</groupId>
             <artifactId>rookit-auto-source-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-convention-auto-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-guice-auto-api</artifactId>
+        </dependency>
     </dependencies>
 
 

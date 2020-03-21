@@ -55,7 +55,7 @@ final class JavaPoetTypeVariableFactory implements TypeVariableSourceFactory {
 
     private TypeVariableSource createFromJavaPoet(final TypeVariableName typeVariable) {
 
-        return new JavaPoetTypeVariable(
+        return new BaseJavaPoetTypeVariable(
                 this.optionalFactory, this.referenceFactory,
                 Lists.newArrayListWithExpectedSize(AVG_N_BOUNDS),
                 this.referenceAdapter,

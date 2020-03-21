@@ -53,8 +53,7 @@ final class SuperClass implements MultiRegistry<RuntimeClassEntity, Dependency<?
     @Override
     public Observable<Dependency<?>> fetch(final RuntimeClassEntity key) {
         return Maybe.just(key.superClass())
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+                .flatMap(Optional::maybe)
                 .flatMapSingleElement(this.typeFactory::createFromClass)
                 .<Dependency<?>>map(this.dependencyFactory::createSuperClassDependency)
                 .toObservable();

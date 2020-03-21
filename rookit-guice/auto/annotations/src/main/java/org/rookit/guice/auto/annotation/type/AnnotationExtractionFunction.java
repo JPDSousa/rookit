@@ -89,14 +89,4 @@ final class AnnotationExtractionFunction implements Function<ExtendedElement, Ex
         }
     }
 
-    @Override
-    public String toString() {
-        return "AnnotationExtractionFunction{" +
-                "elements=" + this.elements +
-                ", qualifiedNameVisitor=" + this.qualifiedNameVisitor +
-                ", voidUtils=" + this.voidUtils +
-                ", typeFactory=" + this.typeFactory +
-                "}";
-    }
-
 }

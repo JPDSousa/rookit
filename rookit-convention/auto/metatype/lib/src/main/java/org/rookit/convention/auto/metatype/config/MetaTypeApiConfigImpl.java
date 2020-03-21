@@ -61,13 +61,8 @@ final class MetaTypeApiConfigImpl implements MetaTypeApiConfig {
     }
 
     @Override
-    public Template1 entityTemplate() {
+    public Template1 typeTemplate() {
         return this.templateFactory.template1(this.configuration.getString("typeTemplate"));
-    }
-
-    @Override
-    public Template1 partialEntityTemplate() {
-        return this.templateFactory.template1(this.configuration.getString("partialEntityTemplate"));
     }
 
     @Override
@@ -78,17 +73,6 @@ final class MetaTypeApiConfigImpl implements MetaTypeApiConfig {
     @Override
     public boolean isEnabled() {
         return this.configuration.getBoolean("enabled");
-    }
-
-    @Override
-    public String toString() {
-        return "MetaTypeApiConfigImpl{" +
-                "configuration=" + this.configuration +
-                ", name='" + this.name + '\'' +
-                ", parent=" + this.parent +
-                ", templateFactory=" + this.templateFactory +
-                ", variableFactory=" + this.variableFactory +
-                "}";
     }
 
 }

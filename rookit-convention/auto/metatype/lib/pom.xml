@@ -33,7 +33,17 @@
 
         <dependency>
             <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-convention-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
             <artifactId>rookit-convention-auto-metatype-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
 
     </dependencies>

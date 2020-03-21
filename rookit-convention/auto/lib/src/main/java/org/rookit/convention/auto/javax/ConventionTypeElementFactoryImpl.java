@@ -27,6 +27,7 @@ import org.rookit.auto.javax.type.ExtendedTypeElementFactory;
 import org.rookit.auto.javax.type.mirror.ExtendedTypeMirrorFactory;
 import org.rookit.convention.auto.property.ExtendedPropertyExtractor;
 import org.rookit.convention.auto.property.Property;
+import org.rookit.utils.guice.Base;
 import org.rookit.utils.optional.OptionalFactory;
 
 import javax.lang.model.element.TypeElement;
@@ -42,7 +43,7 @@ final class ConventionTypeElementFactoryImpl implements ConventionTypeElementFac
 
     @Inject
     private ConventionTypeElementFactoryImpl(
-            final ExtendedTypeElementFactory delegate,
+            @Base final ExtendedTypeElementFactory delegate,
             final OptionalFactory optionalFactory,
             final ConventionElementUtils utils,
             final ExtendedTypeMirrorFactory mirrorFactory,

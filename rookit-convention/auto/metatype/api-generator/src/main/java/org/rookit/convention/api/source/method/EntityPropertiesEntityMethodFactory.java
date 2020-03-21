@@ -29,13 +29,15 @@ import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
+import org.rookit.convention.auto.metatype.source.method.PropertiesImplMethodSource;
+import org.rookit.convention.auto.metatype.source.method.PropertiesMethodSourceFactory;
 import org.rookit.convention.auto.property.ExtendedPropertyExtractor;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 
 final class EntityPropertiesEntityMethodFactory implements ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>,
         StreamExtendedElementVisitor<MethodSource, Void> {
 
-    private final MetaTypeAPIMethodSourceFactory methodFactory;
+    private final PropertiesMethodSourceFactory methodFactory;
     private final TypeReferenceSourceFactory referenceFactory;
 
     private final ExtendedPropertyExtractor extractor;
@@ -43,7 +45,7 @@ final class EntityPropertiesEntityMethodFactory implements ConventionTypeElement
 
     @Inject
     private EntityPropertiesEntityMethodFactory(
-            final MetaTypeAPIMethodSourceFactory methodFactory,
+            final PropertiesMethodSourceFactory methodFactory,
             final TypeReferenceSourceFactory referenceFactory,
             final ExtendedPropertyExtractor extractor,
             final ConventionTypeElementFactory elementFactory) {
@@ -58,7 +60,7 @@ final class EntityPropertiesEntityMethodFactory implements ConventionTypeElement
     public StreamEx<MethodSource> visitConventionType(final ConventionTypeElement conventionElement,
                                                       final Void parameter) {
 
-        final PropertiesMethodSource properties = this.methodFactory.createPropertiesMethod("properties");
+        final PropertiesImplMethodSource properties = this.methodFactory.createPropertiesMethod("properties");
 
         // add supertypes
         if (!conventionElement.isTopLevel()) {

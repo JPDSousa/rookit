@@ -44,6 +44,14 @@ public final class TypeModule extends AbstractModule {
 
     private TypeModule() {}
 
+    @Override
+    protected void configure() {
+
+        bind(MetaTypeSourceFactory.class).to(MetaTypeSourceFactoryImpl.class).in(Singleton.class);
+        bind(MetaTypeImplTypeSourceFactory.class).to(MetaTypeImplTypeSourceFactoryImpl.class).in(Singleton.class);
+
+    }
+
     @Provides
     @Singleton
     @MetaTypeAPI

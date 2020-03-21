@@ -24,8 +24,7 @@ package org.rookit.convention.auto.property;
 
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 
-public interface
-ContainerProperty extends Property {
+public interface ContainerProperty extends Property {
 
     ConventionTypeElement typeAsElement();
 

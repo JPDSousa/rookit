@@ -52,7 +52,7 @@ final class JavaPoetTypeParameterFactory implements TypeParameterSourceFactory {
         if (!(parameterizable instanceof ClassName)) {
             throw new IllegalArgumentException(parameterizable + " is not a parameterizable type.");
         }
-        return new JavaPoetTypeParameter(
+        return new BaseJavaPoetTypeParameter(
                 this.optionalFactory,
                 (ClassName) parameterizable,
                 parameters
@@ -63,7 +63,7 @@ final class JavaPoetTypeParameterFactory implements TypeParameterSourceFactory {
     public TypeParameterSource create(
             final ExtendedTypeElement erasure, final ExtendedTypeElement... parameters) {
 
-        return new JavaPoetTypeParameter(
+        return new BaseJavaPoetTypeParameter(
                 this.optionalFactory,
                 ClassName.get(erasure),
                 createParams(parameters)
@@ -126,7 +126,7 @@ final class JavaPoetTypeParameterFactory implements TypeParameterSourceFactory {
     public TypeParameterSource create(
             final Class<?> erasure, final TypeReferenceSource... parameters) {
 
-        return new JavaPoetTypeParameter(
+        return new BaseJavaPoetTypeParameter(
                 this.optionalFactory, ClassName.get(erasure),
                 createParams(parameters)
         );

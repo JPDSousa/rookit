@@ -22,6 +22,7 @@
 package org.rookit.utils.optional;
 
 import com.google.common.collect.ImmutableSet;
+import io.reactivex.Maybe;
 import one.util.streamex.StreamEx;
 import org.rookit.utils.function.ToBooleanFunction;
 import org.rookit.utils.function.ToShortFunction;
@@ -57,6 +58,11 @@ final class Absent<T> implements Optional<T> {
     @Override
     public StreamEx<T> stream() {
         return StreamEx.empty();
+    }
+
+    @Override
+    public Maybe<T> maybe() {
+        return Maybe.empty();
     }
 
     @Override

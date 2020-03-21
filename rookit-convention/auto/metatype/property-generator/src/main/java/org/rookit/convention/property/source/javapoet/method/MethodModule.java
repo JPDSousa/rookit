@@ -29,7 +29,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.Multibinder;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.source.method.MethodSource;
-import org.rookit.convention.auto.guice.PropertyModelModuleMixin;
+import org.rookit.convention.auto.metatype.guice.PropertyModelModuleMixin;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.convention.property.guice.PropertyModel;
 

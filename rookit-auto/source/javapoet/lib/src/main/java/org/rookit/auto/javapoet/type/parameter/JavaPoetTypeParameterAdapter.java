@@ -35,7 +35,7 @@ final class JavaPoetTypeParameterAdapter implements TypeParamterAdapter<Paramete
     public ParameterizedTypeName adaptTypeParameter(final TypeParameterSource typeParameter) {
 
         if (typeParameter instanceof JavaPoetTypeParameter) {
-            return ((JavaPoetTypeParameter) typeParameter).getJavaPoet();
+            return ((JavaPoetTypeParameter) typeParameter).buildTypeName();
         }
 
         final String errMsg = String.format("This adapter only supports javapoet-based objects, but an object of type"

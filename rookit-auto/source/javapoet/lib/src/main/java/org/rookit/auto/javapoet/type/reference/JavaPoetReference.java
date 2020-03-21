@@ -22,39 +22,10 @@
 package org.rookit.auto.javapoet.type.reference;
 
 import com.squareup.javapoet.TypeName;
-import org.rookit.auto.source.CodeSourceVisitor;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
-import org.rookit.utils.optional.Optional;
-import org.rookit.utils.optional.OptionalFactory;
 
-final class JavaPoetReference implements TypeReferenceSource {
+public interface JavaPoetReference extends TypeReferenceSource {
 
-    private final String packageName;
-    private final TypeName javaPoet;
-    private final OptionalFactory optionalFactory;
-
-    JavaPoetReference(final String packageName, final TypeName javaPoet, final OptionalFactory optionalFactory) {
-        this.packageName = packageName;
-        this.javaPoet = javaPoet;
-        this.optionalFactory = optionalFactory;
-    }
-
-    TypeName getJavaPoet() {
-        return this.javaPoet;
-    }
-
-    @Override
-    public <R, P> R accept(final CodeSourceVisitor<R, P> visitor, final P parameter) {
-
-        return visitor.visitReference(this, parameter);
-    }
-
-    @Override
-    public Optional<String> packageName() {
-
-        return this.packageName.isEmpty()
-                ? this.optionalFactory.empty()
-                : this.optionalFactory.of(this.packageName);
-    }
+    TypeName buildTypeName();
 
 }

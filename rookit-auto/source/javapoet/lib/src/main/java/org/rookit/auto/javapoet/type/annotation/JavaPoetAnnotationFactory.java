@@ -26,6 +26,7 @@ import com.google.inject.Inject;
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
+import com.squareup.javapoet.TypeName;
 import org.rookit.auto.source.CodeSource;
 import org.rookit.auto.source.CodeSourceVisitor;
 import org.rookit.auto.source.type.annotation.AnnotationSource;
@@ -38,18 +39,20 @@ import org.rookit.utils.primitive.VoidUtils;
 
 import java.util.Map;
 
+import static java.lang.String.format;
+
 final class JavaPoetAnnotationFactory implements AnnotationSourceFactory {
 
     private final VoidUtils voidUtils;
     private final TypeReferenceSourceFactory referenceFactory;
-    private final TypeReferenceSourceAdapter<ClassName> classNameAdapter;
+    private final TypeReferenceSourceAdapter<TypeName> classNameAdapter;
     private final CodeSourceVisitor<CodeBlock, Void> javaPoetVisitor;
 
     @Inject
     private JavaPoetAnnotationFactory(
             final VoidUtils voidUtils,
             final TypeReferenceSourceFactory referenceFactory,
-            final TypeReferenceSourceAdapter<ClassName> classNameAdapter,
+            final TypeReferenceSourceAdapter<TypeName> classNameAdapter,
             final CodeSourceVisitor<CodeBlock, Void> javaPoetVisitor) {
         this.voidUtils = voidUtils;
         this.referenceFactory = referenceFactory;
@@ -60,12 +63,23 @@ final class JavaPoetAnnotationFactory implements AnnotationSourceFactory {
     @Override
     public AnnotationSource fromReference(final TypeReferenceSource reference) {
 
-        final ClassName className = this.classNameAdapter.adaptTypeReference(reference);
-        final AnnotationSpec.Builder builder = AnnotationSpec.builder(className);
+        final TypeName typeName = this.classNameAdapter.adaptTypeReference(reference);
+        final AnnotationSpec.Builder builder = createBuilder(typeName);
         // TODO 1 is a magic number -> extract into a proper place
         final Map<String, CodeSource> members = Maps.newHashMapWithExpectedSize(1);
 
         return new JavaPoetAnnotation(reference, builder, this.voidUtils, this.javaPoetVisitor, members);
+    }
+
+    private AnnotationSpec.Builder createBuilder(final TypeName typeName) {
+
+        if (typeName instanceof ClassName) {
+            return AnnotationSpec.builder((ClassName) typeName);
+        }
+
+        final String errMsg = format("%s is a %s, which cannot be used to build annotations.", typeName,
+                                     typeName.getClass());
+        throw new IllegalArgumentException(errMsg);
     }
 
     @Override

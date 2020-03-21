@@ -21,87 +21,13 @@
  ******************************************************************************/
 package org.rookit.auto.javapoet.type.variable;
 
-import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeVariableName;
-import org.rookit.auto.javax.type.ExtendedTypeElement;
-import org.rookit.auto.source.type.reference.TypeReferenceSourceAdapter;
-import org.rookit.auto.source.type.reference.TypeReferenceSource;
-import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
+import org.rookit.auto.javapoet.type.reference.JavaPoetReference;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
-import org.rookit.utils.optional.Optional;
-import org.rookit.utils.optional.OptionalFactory;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-
-final class JavaPoetTypeVariable implements TypeVariableSource {
-
-    private final OptionalFactory optionalFactory;
-    private final TypeReferenceSourceFactory referenceFactory;
-    private final Collection<TypeReferenceSource> bounds;
-    private final TypeReferenceSourceAdapter<TypeName> referenceAdapter;
-    private final TypeVariableName typeVariable;
-
-    JavaPoetTypeVariable(
-            final OptionalFactory optionalFactory,
-            final TypeReferenceSourceFactory referenceFactory,
-            final Collection<TypeReferenceSource> bounds,
-            final TypeReferenceSourceAdapter<TypeName> referenceAdapter,
-            final TypeVariableName typeVariable) {
-        this.optionalFactory = optionalFactory;
-        this.referenceFactory = referenceFactory;
-        this.bounds = new ArrayList<>(bounds);
-        this.referenceAdapter = referenceAdapter;
-        this.typeVariable = typeVariable;
-    }
-
-    private TypeVariableSource newInstance(
-            final TypeVariableName typeVariable,
-            final Collection<TypeReferenceSource> bounds) {
-        return new JavaPoetTypeVariable(
-                this.optionalFactory,
-                this.referenceFactory,
-                bounds,
-                this.referenceAdapter,
-                typeVariable
-        );
-    }
-
-    TypeVariableName getTypeVariable() {
-        return this.typeVariable;
-    }
+public interface JavaPoetTypeVariable extends TypeVariableSource, JavaPoetReference {
 
     @Override
-    public TypeVariableSource withBound(final TypeReferenceSource reference) {
-
-        final TypeName bound = this.referenceAdapter.adaptTypeReference(reference);
-        final TypeVariableName boundedTypeVariable = this.typeVariable.withBounds(bound);
-        final Collection<TypeReferenceSource> newBounds = new ArrayList<>(this.bounds);
-        newBounds.add(reference);
-
-        return newInstance(boundedTypeVariable, newBounds);
-    }
-
-    @Override
-    public TypeVariableSource withBound(final ExtendedTypeElement reference) {
-
-        return withBound(this.referenceFactory.create(reference));
-    }
-
-    @Override
-    public CharSequence name() {
-        return this.typeVariable.name;
-    }
-
-    @Override
-    public Collection<TypeReferenceSource> bounds() {
-        return Collections.unmodifiableCollection(this.bounds);
-    }
-
-    @Override
-    public Optional<String> packageName() {
-        return this.optionalFactory.empty();
-    }
+    TypeVariableName buildTypeName();
 
 }

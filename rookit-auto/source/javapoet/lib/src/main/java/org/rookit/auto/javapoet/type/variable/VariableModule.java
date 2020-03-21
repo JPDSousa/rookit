@@ -28,6 +28,7 @@ import com.google.inject.TypeLiteral;
 import com.squareup.javapoet.TypeVariableName;
 import org.rookit.auto.source.type.variable.TypeVariableSourceAdapter;
 import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
+import org.rookit.auto.source.type.variable.WildcardVariableSourceFactory;
 
 public final class VariableModule extends AbstractModule {
 
@@ -45,6 +46,7 @@ public final class VariableModule extends AbstractModule {
         bind(TypeVariableSourceFactory.class).to(JavaPoetTypeVariableFactory.class).in(Singleton.class);
         bind(new TypeLiteral<TypeVariableSourceAdapter<TypeVariableName>>() {}).to(TypeVariableNameAdapter.class)
                 .in(Singleton.class);
+        bind(WildcardVariableSourceFactory.class).to(WildcardVariableSourceFactoryImpl.class).in(Singleton.class);
     }
 
 }

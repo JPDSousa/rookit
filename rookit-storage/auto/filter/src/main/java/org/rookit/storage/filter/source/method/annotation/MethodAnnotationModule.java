@@ -70,12 +70,12 @@ public final class MethodAnnotationModule extends AbstractModule {
             final ConventionTypeElementMethodSourceVisitors visitors,
             final ConventionAutoFactories javaPoetFactories,
             final ConventionTypeAdapters conventionAdapters,
-            @PartialFilter final MethodSourceFactory MethodSourceFactory,
+            @PartialFilter final MethodSourceFactory methodFactory,
             final ConventionTypeElementFactory elementFactory,
             final PropertyFactory propertyFactory) {
         final Predicate<Property> propertyFilter = ConventionPropertyFilters.createEntityFilter(propertyFactory);
-        final BiFunction<ConventionTypeElement, Property, StreamEx<MethodSource>> typeTransformation =
-                javaPoetFactories.createTypeTransformation(MethodSourceFactory);
+        final BiFunction<ConventionTypeElement, Property, MethodSource> typeTransformation =
+                javaPoetFactories.createTypeTransformation(methodFactory);
 
         return visitors.<MethodSource, Void>createPropertyLevelVisitor(typeTransformation)
                 .withConventionTypeAdapter(conventionAdapters

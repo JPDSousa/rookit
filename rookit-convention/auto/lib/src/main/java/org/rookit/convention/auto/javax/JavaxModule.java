@@ -25,6 +25,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
+import org.rookit.auto.javax.type.ExtendedTypeElementFactory;
 import org.rookit.convention.auto.javax.visitor.VisitorModule;
 import org.rookit.convention.auto.property.PropertyModule;
 
@@ -45,6 +46,7 @@ public final class JavaxModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(ConventionTypeElementFactory.class).to(ConventionTypeElementFactoryImpl.class).in(Singleton.class);
+        bind(ExtendedTypeElementFactory.class).to(ConventionTypeElementFactory.class).in(Singleton.class);
         bind(ConventionElementUtils.class).to(ConventionElementUtilsImpl.class).in(Singleton.class);
     }
 }

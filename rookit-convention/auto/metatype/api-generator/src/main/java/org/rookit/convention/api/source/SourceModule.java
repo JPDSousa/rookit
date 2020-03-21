@@ -34,8 +34,10 @@ import org.rookit.convention.ConventionModule;
 import org.rookit.convention.api.guice.Container;
 import org.rookit.convention.api.source.config.ConfigurationModule;
 import org.rookit.convention.api.source.method.MethodModule;
+import org.rookit.convention.api.source.naming.NamingModule;
 import org.rookit.convention.api.source.type.TypeModule;
 import org.rookit.convention.auto.ConventionLibModule;
+import org.rookit.convention.auto.metatype.AutoMetaTypeModule;
 import org.rookit.convention.auto.property.ExtendedPropertyExtractor;
 import org.rookit.convention.auto.property.ExtendedPropertyExtractorFactory;
 import org.rookit.convention.auto.property.PropertyFactory;
@@ -53,6 +55,7 @@ public final class SourceModule extends AbstractModule {
             JavaxLibModule.getModule()
     ).with(
             new SourceModule(),
+            AutoMetaTypeModule.getModule(),
             ConfigurationModule.getModule(),
             ConventionModule.getModule(),
             ConventionLibModule.getModule(),
@@ -60,6 +63,7 @@ public final class SourceModule extends AbstractModule {
             GuiceAutoLibModule.getModule(),
             IOLibModule.getModule(),
             MethodModule.getModule(),
+            NamingModule.getModule(),
             PathLibModule.getModule(),
             SerializationBundleModule.getModule(),
             SourceLibModule.getModule(),

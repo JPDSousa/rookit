@@ -23,7 +23,6 @@ package org.rookit.convention.auto.source.method;
 
 import com.google.common.collect.ImmutableList;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.method.MethodSourceFactory;
@@ -109,16 +108,6 @@ public interface ConventionTypeElementMethodSourceVisitors extends ConventionTyp
     StreamExMethodSourceBuilder<ConventionTypeElementVisitor<StreamEx<MethodSource>, P>, P> streamExMethodBuilder(
             final ConventionTypeElementVisitor<StreamEx<MethodSource>, P> visitor) {
         return streamExMethodBuilder(visitor, element -> element);
-    }
-
-    <V extends ConventionTypeElementVisitor<StreamEx<MethodSource>, P>, P>
-    StreamExMethodSourceBuilder<V, P> getterMethodBuilder(
-            ExtendedExecutableElement executable,
-            Function<ConventionTypeElementVisitor<StreamEx<MethodSource>, P>, V> downcastAdapter);
-
-    default <P> StreamExMethodSourceBuilder<ConventionTypeElementVisitor<StreamEx<MethodSource>, P>, P>
-    getterMethodBuilder(final ExtendedExecutableElement executable) {
-        return getterMethodBuilder(executable, element -> element);
     }
 
 }

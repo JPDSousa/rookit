@@ -30,7 +30,6 @@ import io.reactivex.Maybe;
 import io.reactivex.Single;
 import org.rookit.auto.source.guice.JavadocTemplate;
 import org.rookit.auto.source.spec.SpecModule;
-import org.rookit.auto.source.type.TypeModule;
 import org.rookit.auto.source.visitor.VisitorModule;
 import org.rookit.io.path.registry.PathRegistries;
 import org.rookit.io.url.URLUtils;
@@ -46,7 +45,6 @@ public final class SourceLibModule extends AbstractModule {
     private static final Module MODULE = Modules.combine(
             new SourceLibModule(),
             SpecModule.getModule(),
-            TypeModule.getModule(),
             VisitorModule.getModule()
     );
 

@@ -24,20 +24,20 @@ package org.rookit.guice.auto.aggregator;
 import com.google.common.collect.ImmutableSet;
 import org.rookit.auto.source.method.MethodSourceFactory;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
-import org.rookit.guice.auto.bind.BindingStatementFactory;
+import org.rookit.guice.auto.bind.BindingFactory;
 
 final class ConfigureMethodAggregatorFactoryImpl implements ConfigureMethodAggregatorFactory {
 
     private final TypeReferenceSourceFactory apiFactory;
     private final TypeReferenceSourceFactory implFactory;
     private final MethodSourceFactory methodFactory;
-    private final BindingStatementFactory bindingFactory;
+    private final BindingFactory bindingFactory;
 
     ConfigureMethodAggregatorFactoryImpl(
             final TypeReferenceSourceFactory apiFactory,
             final TypeReferenceSourceFactory implFactory,
             final MethodSourceFactory methodFactory,
-            final BindingStatementFactory bindingFactory) {
+            final BindingFactory bindingFactory) {
         this.apiFactory = apiFactory;
         this.implFactory = implFactory;
         this.methodFactory = methodFactory;

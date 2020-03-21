@@ -29,6 +29,4 @@ public interface PropertyContainerTypeReferenceSourceFactory {
 
     TypeReferenceSource create(ConventionTypeElement owner, ContainerProperty property);
 
-    TypeReferenceSource fromProperty(ContainerProperty property);
-
 }

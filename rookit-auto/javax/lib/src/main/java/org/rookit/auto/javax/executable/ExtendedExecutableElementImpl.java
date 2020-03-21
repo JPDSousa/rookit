@@ -168,16 +168,4 @@ final class ExtendedExecutableElementImpl implements ExtendedExecutableElement {
         return this.extendedElement.accept(v, p);
     }
 
-    @Override
-    public String toString() {
-        return "ExtendedExecutableElementImpl{" +
-                "extendedElement=" + this.extendedElement +
-                ", delegate=" + this.delegate +
-                ", returnType=" + this.returnType +
-                ", typeParameters=" + this.typeParameters +
-                ", parameters=" + this.parameters +
-                ", thrownTypes=" + this.thrownTypes +
-                "}";
-    }
-
 }

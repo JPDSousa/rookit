@@ -26,10 +26,9 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javax.naming.IdentifierFactory;
+import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.source.type.TypeSource;
 import org.rookit.convention.annotation.LaConvention;
-import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
 import org.rookit.convention.auto.source.type.ConventionTypeElementTypeSourceVisitors;
 
 import java.lang.annotation.Annotation;
@@ -53,13 +52,14 @@ public final class JavaPoetModule extends AbstractModule {
 
     @Provides
     @Singleton
-    ConventionTypeElementVisitor<StreamEx<TypeSource>, Void> typeElementVisitor(
+    ExtendedElementVisitor<StreamEx<TypeSource>, Void> typeElementVisitor(
             final ConventionTypeElementTypeSourceVisitors visitors,
-            final IdentifierFactory identifierFactory,
             @LaConvention final Set<Class<? extends Annotation>> annotations) {
-        return visitors.conventionAnnotationBuilder(identifierFactory, Void.class)
+
+        return visitors.annotationBuilder(Void.class)
                 .withRecursiveVisiting(StreamEx::append)
                 .filterIfAnyAnnotationPresent(annotations)
+                .bindingAnnotation()
                 .build();
     }
 }

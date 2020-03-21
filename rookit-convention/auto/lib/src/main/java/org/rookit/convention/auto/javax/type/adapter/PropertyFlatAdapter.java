@@ -64,8 +64,7 @@ final class PropertyFlatAdapter implements Adapter<ConventionTypeElement> {
         return StreamEx.of(element.properties())
                 .filter(Property::isContainer)
                 .map(this.propertyFactory::toContainer)
-                .filter(Optional::isPresent)
-                .map(Optional::get);
+                .flatMap(Optional::stream);
     }
 
     private ContainerProperty concat(final Property property, final ContainerProperty nestedProperty) {

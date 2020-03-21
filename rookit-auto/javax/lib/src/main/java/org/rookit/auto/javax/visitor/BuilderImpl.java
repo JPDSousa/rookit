@@ -23,6 +23,8 @@ package org.rookit.auto.javax.visitor;
 
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.utils.adapt.Adapter;
+import org.rookit.utils.optional.OptionalFactory;
+import org.rookit.utils.primitive.VoidUtils;
 
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
@@ -32,16 +34,31 @@ final class BuilderImpl<V extends ExtendedElementVisitor<R, P>, R, P>
 
     private final V visitor;
     private final Function<ExtendedElementVisitor<R, P>, V> downcastAdapter;
+    private final ExtendedElementVisitor<String, Void> idVisitor;
+    private final VoidUtils voidUtils;
+    private final OptionalFactory optionalFactory;
 
     BuilderImpl(
             final V visitor,
-            final Function<ExtendedElementVisitor<R, P>, V> downcastAdapter) {
+            final Function<ExtendedElementVisitor<R, P>, V> downcastAdapter,
+            final ExtendedElementVisitor<String, Void> idVisitor,
+            final VoidUtils voidUtils,
+            final OptionalFactory optionalFactory) {
         this.visitor = visitor;
         this.downcastAdapter = downcastAdapter;
+        this.idVisitor = idVisitor;
+        this.voidUtils = voidUtils;
+        this.optionalFactory = optionalFactory;
     }
 
     private Builder<V, R, P> newStage(final V visitor) {
-        return new BuilderImpl<>(visitor, this.downcastAdapter);
+        return new BuilderImpl<>(
+                visitor,
+                this.downcastAdapter,
+                this.idVisitor,
+                this.voidUtils,
+                this.optionalFactory
+        );
     }
 
     @Override
@@ -51,20 +68,15 @@ final class BuilderImpl<V extends ExtendedElementVisitor<R, P>, R, P>
 
     @Override
     public Builder<V, R, P> withRecursiveVisiting(final BinaryOperator<R> resultReducer) {
-        return newStage(this.downcastAdapter.apply(new DeepElementVisitor<>(build(), resultReducer)));
+        return newStage(this.downcastAdapter.apply(new DeepElementVisitor<>(build(), resultReducer,
+                                                                            this.idVisitor,
+                                                                            this.voidUtils,
+                                                                            this.optionalFactory)));
     }
 
     @Override
     public V build() {
         return this.visitor;
-    }
-
-    @Override
-    public String toString() {
-        return "BuilderImpl{" +
-                "visitor=" + this.visitor +
-                ", downcastAdapter=" + this.downcastAdapter +
-                "}";
     }
 
 }

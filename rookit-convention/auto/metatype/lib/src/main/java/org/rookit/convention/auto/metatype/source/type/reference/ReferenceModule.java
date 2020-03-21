@@ -23,11 +23,14 @@ package org.rookit.convention.auto.metatype.source.type.reference;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
+import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import org.rookit.auto.source.type.reference.From;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
-import org.rookit.convention.auto.metatype.guice.MetaTypeAPI;
-import org.rookit.convention.auto.metatype.guice.PartialMetaTypeAPI;
+import org.rookit.convention.MetaType;
 
+@SuppressWarnings("MethodMayBeStatic")
 public final class ReferenceModule extends AbstractModule {
 
     private static final Module MODULE = new ReferenceModule();
@@ -40,12 +43,17 @@ public final class ReferenceModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(TypeReferenceSourceFactory.class).annotatedWith(MetaTypeAPI.class)
-                .toProvider(MetaTypeAPITypeReferenceFactoryProvider.class)
+        bind(PropertyTypeReferenceSourceFactory.class).to(PropertyTypeReferenceSourceFactoryImpl.class)
                 .in(Singleton.class);
-        bind(TypeReferenceSourceFactory.class).annotatedWith(PartialMetaTypeAPI.class)
-                .toProvider(PartialMetaTypeAPITypeReferenceFactoryProvider.class)
-                .in(Singleton.class);
+        bind(MetaTypeReferenceSourceFactory.class).to(MetaTypeReferenceSourceFactoryImpl.class).in(Singleton.class);
+    }
+
+    @Provides
+    @Singleton
+    @From(MetaType.class)
+    TypeReferenceSource metaTypeReference(final TypeReferenceSourceFactory referenceFactory) {
+
+        return referenceFactory.fromClass(MetaType.class);
     }
 
 }

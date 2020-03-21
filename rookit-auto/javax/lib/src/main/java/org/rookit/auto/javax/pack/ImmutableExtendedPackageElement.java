@@ -161,14 +161,4 @@ class ImmutableExtendedPackageElement extends AbstractExtendedPackageElement {
     public <A extends Annotation> A[] getAnnotationsByType(final Class<A> annotationType) {
         return this.extendedElement.getAnnotationsByType(annotationType);
     }
-
-    @Override
-    public String toString() {
-        return "ImmutableExtendedPackageElement{" +
-                ", element=" + this.element +
-                ", extendedElement=" + this.extendedElement +
-                ", fullName=" + this.fullName +
-                ", optionalFactory=" + this.optionalFactory +
-                "} ";
-    }
 }

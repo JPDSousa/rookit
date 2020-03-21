@@ -28,6 +28,7 @@ import com.google.inject.Singleton;
 import org.rookit.auto.javax.naming.IdentifierTransformer;
 import org.rookit.auto.javax.naming.IdentifierTransformers;
 import org.rookit.guice.auto.config.GuiceConfig;
+import org.rookit.utils.adapt.Adapter;
 
 @SuppressWarnings("MethodMayBeStatic")
 public final class NamingModule extends AbstractModule {
@@ -47,7 +48,7 @@ public final class NamingModule extends AbstractModule {
 
         return transformers.fromFunctions(
                 reference -> reference.resolve(config.basePackage()),
-                name -> name
+                Adapter.identity()
         ) ;
     }
 

@@ -22,16 +22,39 @@
 package org.rookit.convention.auto.metatype;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Key;
 import com.google.inject.Module;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
 import com.google.inject.util.Modules;
+import org.rookit.auto.javax.executable.ExtendedExecutableElement;
+import org.rookit.auto.javax.type.ExtendedTypeElement;
+import org.rookit.auto.javax.type.ExtendedTypeElementFactory;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirrorFactory;
 import org.rookit.convention.auto.metatype.config.ConfigModule;
+import org.rookit.convention.auto.metatype.guice.MetaTypeModuleMixin;
+import org.rookit.convention.auto.metatype.property.PropertyModule;
 import org.rookit.convention.auto.metatype.source.SourceModule;
+import org.rookit.convention.guice.MetaType;
+import org.rookit.convention.guice.MetaTypeModelSerializer;
+import org.rookit.convention.guice.MetaTypeModelType;
+import org.rookit.convention.guice.MetaTypeProperties;
+import org.rookit.convention.guice.MetaTypeProperty;
 
-public final class AutoMetaTypeModule extends AbstractModule {
+import javax.lang.model.element.TypeElement;
+
+import static java.lang.String.format;
+
+public final class AutoMetaTypeModule extends AbstractModule implements MetaTypeModuleMixin<ExtendedExecutableElement> {
+
+    private static final String NO_META_TYPE_METHOD = "Cannot find '%s' method in meta type '%s'.";
+    private static final String INVALID_META_TYPE_CLASS = "Something went wrong when using '%s' as a meta type class.";
 
     private static final Module MODULE = Modules.combine(
             new AutoMetaTypeModule(),
             ConfigModule.getModule(),
+            PropertyModule.getModule(),
             SourceModule.getModule()
     );
 
@@ -40,5 +63,68 @@ public final class AutoMetaTypeModule extends AbstractModule {
     }
 
     private AutoMetaTypeModule() {}
+    @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
+    @Override
+    protected void configure() {
+        bindMetaTypeProperties(binder());
+        bind(new TypeLiteral<Class<?>>() {}).annotatedWith(MetaType.class)
+                .toInstance(org.rookit.convention.MetaType.class);
+    }
+
+    @Provides
+    @Singleton
+    @MetaTypeModelSerializer
+    ExtendedExecutableElement serializerMethod(@MetaType final ExtendedTypeElement metaTypeElement) {
+        return getMethodOrFail(metaTypeElement, "modelSerializer");
+
+    }
+
+    @Provides
+    @Singleton
+    @MetaTypeModelType
+    ExtendedExecutableElement typeMethod(@MetaType final ExtendedTypeElement metaTypeElement) {
+        return getMethodOrFail(metaTypeElement, "modelType");
+
+    }
+
+    @Provides
+    @Singleton
+    @MetaTypeProperties
+    ExtendedExecutableElement propertiesMethod(@MetaType final ExtendedTypeElement metaTypeElement) {
+        return getMethodOrFail(metaTypeElement, "properties");
+    }
+
+    @Provides
+    @Singleton
+    @MetaTypeProperty
+    ExtendedExecutableElement propertyMethod(@MetaType final ExtendedTypeElement metaTypeElement) {
+        return getMethodOrFail(metaTypeElement, "property");
+    }
+
+    @Provides
+    @Singleton
+    @MetaType
+    ExtendedTypeElement metaType(@MetaType final Class<?> metaTypeClass,
+                                 final ExtendedTypeMirrorFactory mirrorFactory,
+                                 final ExtendedTypeElementFactory elementFactory) {
+        return mirrorFactory.createWithErasure(metaTypeClass)
+                .toElement()
+                .select(TypeElement.class)
+                .map(elementFactory::extend)
+                .orElseThrow(() -> new IllegalArgumentException(format(INVALID_META_TYPE_CLASS, metaTypeClass)));
+    }
+
+    // TODO this is generic enough to not belong here.
+    // TODO also, copied fromExecutableElement PropertyModule
+    private ExtendedExecutableElement getMethodOrFail(final ExtendedTypeElement typeElement, final String name) {
+        return typeElement.getMethod(name)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        format(NO_META_TYPE_METHOD, name, typeElement.getSimpleName())));
+    }
+
+    @Override
+    public Key<ExtendedExecutableElement> key() {
+        return Key.get(ExtendedExecutableElement.class, MetaType.class);
+    }
 
 }

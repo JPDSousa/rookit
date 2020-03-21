@@ -75,8 +75,9 @@ final class ConventionTypeElementVisitorsImpl implements ConventionTypeElementVi
     @Override
     public <V extends ConventionTypeElementVisitor<StreamEx<R>, P>, R, P> StreamExConventionBuilder<V, R, P>
     createPropertyLevelVisitor(
-            final BiFunction<ConventionTypeElement, Property, StreamEx<R>> transformation,
+            final BiFunction<ConventionTypeElement, Property, R> transformation,
             final Function<ConventionTypeElementVisitor<StreamEx<R>, P>, V> downcastAdapter) {
+
         return new StreamExConventionBuilderImpl<>(
                 streamExBuilder(downcastAdapter.apply(new PropertyLevelVisitor<>(transformation)),
                                 element -> downcastToV(element, downcastAdapter)),

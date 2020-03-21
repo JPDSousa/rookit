@@ -30,7 +30,6 @@ import org.rookit.convention.auto.ConventionLibModule;
 import org.rookit.convention.auto.property.ExtendedPropertyExtractor;
 import org.rookit.convention.auto.property.ExtendedPropertyExtractorFactory;
 import org.rookit.convention.meta.source.config.ConfigurationModule;
-import org.rookit.convention.meta.source.javapoet.JavaPoetModule;
 import org.rookit.convention.meta.source.metatype.MetaTypeModule;
 import org.rookit.failsafe.FailsafeModule;
 import org.rookit.io.PathLibModule;
@@ -45,7 +44,6 @@ public final class SourceModule extends AbstractModule {
             MetaTypeModule.getModule(),
             ConfigurationModule.getModule(),
             FailsafeModule.getModule(),
-            JavaPoetModule.getModule(),
             PathLibModule.getModule(),
             UtilsModule.getModule()
     );

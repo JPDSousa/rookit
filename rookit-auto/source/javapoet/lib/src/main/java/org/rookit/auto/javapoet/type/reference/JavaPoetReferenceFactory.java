@@ -53,14 +53,14 @@ final class JavaPoetReferenceFactory implements TypeReferenceSourceFactory {
         final String packageName = this.classNameUtil.extractClass(typeName)
                 .map(ClassName::packageName)
                 .orElse(EMPTY);
-        return new JavaPoetReference(packageName, typeName, this.optionalFactory);
+        return new BaseJavaPoetReference(packageName, typeName, this.optionalFactory);
     }
 
     @Override
     public TypeReferenceSource fromClass(final Class<?> clazz) {
 
         final ClassName className = ClassName.get(clazz);
-        return new JavaPoetReference(
+        return new BaseJavaPoetReference(
                 className.packageName(),
                 className,
                 this.optionalFactory
@@ -73,7 +73,7 @@ final class JavaPoetReferenceFactory implements TypeReferenceSourceFactory {
 
         final String packageName = packageReference.getQualifiedName()
                 .toString();
-        return new JavaPoetReference(
+        return new BaseJavaPoetReference(
                 packageName,
                 ClassName.get(
                         packageName,

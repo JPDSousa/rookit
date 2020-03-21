@@ -27,8 +27,8 @@ import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.javax.visitor.GenericBuilder;
 import org.rookit.auto.javax.visitor.StreamExBuilder;
-import org.rookit.auto.source.parameter.ParameterSource;
 import org.rookit.auto.source.parameter.GenericParameterBuilder;
+import org.rookit.auto.source.parameter.ParameterSource;
 import org.rookit.auto.source.parameter.ParameterVisitors;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
@@ -36,7 +36,6 @@ import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitors;
 import org.rookit.convention.auto.javax.visitor.GenericStreamExConventionBuilder;
 import org.rookit.convention.auto.javax.visitor.StreamExConventionBuilder;
 import org.rookit.convention.auto.property.Property;
-import org.rookit.convention.auto.source.parameter.ConventionParameterVisitors;
 
 import javax.lang.model.element.Name;
 import java.lang.annotation.Annotation;
@@ -135,8 +134,9 @@ final class ConventionParameterVisitorsImpl implements ConventionParameterVisito
     @Override
     public <V extends ConventionTypeElementVisitor<StreamEx<R>, P>,
             R, P> StreamExConventionBuilder<V, R, P> createPropertyLevelVisitor(
-            final BiFunction<ConventionTypeElement, Property, StreamEx<R>> transformation,
+            final BiFunction<ConventionTypeElement, Property, R> transformation,
             final Function<ConventionTypeElementVisitor<StreamEx<R>, P>, V> downcastAdapter) {
+
         return this.conventionDelegate.createPropertyLevelVisitor(transformation, downcastAdapter);
     }
 

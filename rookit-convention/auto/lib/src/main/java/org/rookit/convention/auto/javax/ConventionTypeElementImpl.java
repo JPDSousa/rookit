@@ -27,17 +27,14 @@ import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.javax.naming.Identifier;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.auto.javax.type.parameter.ExtendedTypeParameterElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.auto.javax.type.mirror.ExtendedTypeMirrorFactory;
+import org.rookit.auto.javax.type.parameter.ExtendedTypeParameterElement;
 import org.rookit.convention.annotation.Entity;
 import org.rookit.convention.annotation.EntityExtension;
 import org.rookit.convention.annotation.PartialEntity;
 import org.rookit.convention.annotation.PropertyContainer;
-import org.rookit.convention.auto.javax.ConventionElementUtils;
-import org.rookit.convention.auto.javax.ConventionTypeElement;
-import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
 import org.rookit.convention.auto.property.Property;
 import org.rookit.utils.optional.Optional;
 import org.rookit.utils.optional.OptionalFactory;
@@ -101,8 +98,7 @@ final class ConventionTypeElementImpl implements ConventionTypeElement {
         return StreamEx.of(getInterfaces())
                 .map(this.mirrorFactory::extend)
                 .map(ExtendedTypeMirror::toElement)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+                .flatMap(Optional::stream)
                 .select(TypeElement.class)
                 .filter(this.utils::isConventionElement)
                 .map(this.factory::extend);
@@ -139,8 +135,7 @@ final class ConventionTypeElementImpl implements ConventionTypeElement {
         if (isEntityExtension()) {
             return this.optionalFactory.fromJavaOptional(conventionInterfaces()
                     .map(ConventionTypeElement::upstreamEntity)
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
+                    .flatMap(Optional::stream)
                     .findFirst());
         }
         if (isEntity()) {
@@ -240,15 +235,4 @@ final class ConventionTypeElementImpl implements ConventionTypeElement {
         return this.delegate.getMethod(name);
     }
 
-    @Override
-    public String toString() {
-        return "ConventionTypeElementImpl{" +
-                "delegate=" + this.delegate +
-                ", optionalFactory=" + this.optionalFactory +
-                ", utils=" + this.utils +
-                ", properties=" + this.properties +
-                ", mirrorFactory=" + this.mirrorFactory +
-                ", factory=" + this.factory +
-                "}";
-    }
 }

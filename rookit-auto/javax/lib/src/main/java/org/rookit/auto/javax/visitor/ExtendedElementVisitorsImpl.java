@@ -25,6 +25,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import one.util.streamex.StreamEx;
+import org.rookit.utils.guice.Id;
+import org.rookit.utils.optional.OptionalFactory;
+import org.rookit.utils.primitive.VoidUtils;
 
 import javax.lang.model.element.Name;
 import java.lang.annotation.Annotation;
@@ -35,8 +38,19 @@ import java.util.stream.Collectors;
 
 final class ExtendedElementVisitorsImpl implements ExtendedElementVisitors {
 
+    private final ExtendedElementVisitor<String, Void> idVisitor;
+    private final VoidUtils voidUtils;
+    private final OptionalFactory optionalFactory;
+
     @Inject
-    private ExtendedElementVisitorsImpl() {  }
+    private ExtendedElementVisitorsImpl(
+            @Id final ExtendedElementVisitor<String, Void> idVisitor,
+            final VoidUtils voidUtils,
+            final OptionalFactory optionalFactory) {
+        this.idVisitor = idVisitor;
+        this.voidUtils = voidUtils;
+        this.optionalFactory = optionalFactory;
+    }
 
     @Override
     public <P> ExtendedElementVisitor<Boolean, P> isPresent(final Class<? extends Annotation> annotationClass) {
@@ -58,7 +72,10 @@ final class ExtendedElementVisitorsImpl implements ExtendedElementVisitors {
     public <B extends GenericBuilder<B, V, R, P>, V extends ExtendedElementVisitor<R, P>, R, P> B builder(
             final V visitor,
             final Function<ExtendedElementVisitor<R, P>, V> downcastAdapter) {
-        return (B) new BuilderImpl<>(visitor, downcastAdapter);
+        return (B) new BuilderImpl<>(visitor, downcastAdapter, this.idVisitor,
+                                     this.voidUtils,
+                                     this.optionalFactory
+        );
     }
 
     @SuppressWarnings("unchecked")
@@ -66,14 +83,16 @@ final class ExtendedElementVisitorsImpl implements ExtendedElementVisitors {
     public <B extends GenericBuilder<B, V, R, P>, V extends ExtendedElementVisitor<R, P>, R, P> B builder(
             final Provider<V> visitor,
             final Function<ExtendedElementVisitor<R, P>, V> downcastAdapter) {
-        return (B) new BuilderImpl<>(downcastAdapter.apply(new LazyVisitor<>(visitor)), downcastAdapter);
+        return (B) new BuilderImpl<>(downcastAdapter.apply(new LazyVisitor<>(visitor)), downcastAdapter,
+                                     this.idVisitor, this.voidUtils,
+                                     this.optionalFactory);
     }
 
     @Override
     public <V extends ExtendedElementVisitor<StreamEx<R>, P>, R, P> StreamExBuilder<V, R, P> streamExBuilder(
             final V visitor,
             final Function<ExtendedElementVisitor<StreamEx<R>, P>, V> downcastAdapter) {
-        return new StreamExBuilderImpl<>(visitor, downcastAdapter);
+        return new StreamExBuilderImpl<>(visitor, downcastAdapter, idVisitor, voidUtils, optionalFactory);
     }
 
     @Override

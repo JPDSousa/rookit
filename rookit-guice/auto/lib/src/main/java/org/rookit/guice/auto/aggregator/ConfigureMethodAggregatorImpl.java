@@ -30,7 +30,7 @@ import org.rookit.auto.source.method.MethodSourceFactory;
 import org.rookit.auto.source.method.MutableMethodSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 import org.rookit.guice.auto.bind.BindingStatement;
-import org.rookit.guice.auto.bind.BindingStatementFactory;
+import org.rookit.guice.auto.bind.BindingFactory;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -42,13 +42,13 @@ final class ConfigureMethodAggregatorImpl implements ConfigureMethodAggregator {
     private final TypeReferenceSourceFactory apiNamingFactory;
     private final TypeReferenceSourceFactory implNamingFactory;
     private final MethodSourceFactory methodFactory;
-    private final BindingStatementFactory bindingFactory;
+    private final BindingFactory bindingFactory;
 
     ConfigureMethodAggregatorImpl(
             final TypeReferenceSourceFactory apiNamingFactory,
             final TypeReferenceSourceFactory implNamingFactory,
             final MethodSourceFactory methodFactory,
-            final BindingStatementFactory bindingFactory,
+            final BindingFactory bindingFactory,
             final Iterable<BindingStatement> configureBindings) {
         this.apiNamingFactory = apiNamingFactory;
         this.implNamingFactory = implNamingFactory;

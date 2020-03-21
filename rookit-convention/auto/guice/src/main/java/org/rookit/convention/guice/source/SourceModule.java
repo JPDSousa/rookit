@@ -29,8 +29,7 @@ import org.rookit.auto.javax.JavaxLibModule;
 import org.rookit.auto.source.SourceLibModule;
 import org.rookit.convention.ConventionModule;
 import org.rookit.convention.auto.ConventionLibModule;
-import org.rookit.convention.guice.source.config.ConfigModule;
-import org.rookit.convention.guice.source.entity.EntityModule;
+import org.rookit.convention.auto.property.ExtendedPropertyEvaluator;
 import org.rookit.convention.guice.source.javapoet.JavaPoetModule;
 import org.rookit.convention.guice.source.javax.JavaxModule;
 import org.rookit.convention.guice.source.naming.NamingModule;
@@ -42,21 +41,19 @@ import org.rookit.io.PathLibModule;
 import org.rookit.serializer.SerializationBundleModule;
 import org.rookit.utils.guice.UtilsModule;
 
-@SuppressWarnings("MethodMayBeStatic")
 public final class SourceModule extends AbstractModule {
 
-    private static final Module MODULE = Modules.combine(
-            ConfigModule.getModule(),
+    private static final Module MODULE = Modules.override(
+            JavaxLibModule.getModule()
+    ).with(
             ConfigurationModule.getModule(),
             ConventionLibModule.getModule(),
             ConventionModule.getModule(),
-            EntityModule.getModule(),
             FailsafeModule.getModule(),
             GuiceAutoLibModule.getModule(),
             IOLibModule.getModule(),
             JavaPoetModule.getModule(),
             JavaxModule.getModule(),
-            JavaxLibModule.getModule(),
             NamingModule.getModule(),
             PathLibModule.getModule(),
             SerializationBundleModule.getModule(),
@@ -71,5 +68,10 @@ public final class SourceModule extends AbstractModule {
     }
 
     private SourceModule() {}
+
+    @Override
+    protected void configure() {
+        bind(ExtendedPropertyEvaluator.class).toInstance(property -> true);
+    }
 
 }

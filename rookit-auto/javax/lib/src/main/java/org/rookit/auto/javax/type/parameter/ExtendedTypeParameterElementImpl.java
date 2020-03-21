@@ -127,15 +127,4 @@ final class ExtendedTypeParameterElementImpl implements ExtendedTypeParameterEle
         return this.extendedElement.accept(v, p);
     }
 
-    @Override
-    public String toString() {
-        return "ExtendedTypeParameterElementImpl{" +
-                "extendedElement=" + this.extendedElement +
-                ", typeParameter=" + this.typeParameter +
-                ", mirrorFactory=" + this.mirrorFactory +
-                ", effectiveTypeVisitor=" + this.effectiveTypeVisitor +
-                ", voidUtils=" + this.voidUtils +
-                "}";
-    }
-
 }

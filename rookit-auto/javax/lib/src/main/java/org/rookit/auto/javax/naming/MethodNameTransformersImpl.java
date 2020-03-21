@@ -22,49 +22,16 @@
 package org.rookit.auto.javax.naming;
 
 import com.google.inject.Inject;
-import org.rookit.auto.javax.pack.ExtendedPackageElementFactory;
-import org.rookit.utils.guice.Self;
-import org.rookit.utils.primitive.VoidUtils;
-import org.rookit.utils.string.StringUtils;
 import org.rookit.utils.string.template.Template1;
-
-import javax.lang.model.util.Elements;
 
 final class MethodNameTransformersImpl implements MethodNameTransformers {
 
-    private final Elements elements;
-    private final StringUtils stringUtils;
-    private final VoidUtils voidUtils;
-    private final Template1 noopTemplate;
-    private final ExtendedPackageElementFactory factory;
-
     @Inject
-    private MethodNameTransformersImpl(
-            final Elements elements,
-            final StringUtils stringUtils,
-            final VoidUtils voidUtils, @Self final Template1 noopTemplate,
-            final ExtendedPackageElementFactory factory) {
-        this.elements = elements;
-        this.stringUtils = stringUtils;
-        this.voidUtils = voidUtils;
-        this.noopTemplate = noopTemplate;
-        this.factory = factory;
-    }
+    private MethodNameTransformersImpl() { }
 
     @Override
     public MethodNameTransformer fromTemplate(final Template1 methodTemplate) {
         return new BaseMethodNameTransformer(methodTemplate);
-    }
-
-    @Override
-    public String toString() {
-        return "NamingFactoriesImpl{" +
-                "elements=" + this.elements +
-                ", stringUtils=" + this.stringUtils +
-                ", voidUtils=" + this.voidUtils +
-                ", noopTemplate=" + this.noopTemplate +
-                ", factory=" + this.factory +
-                "}";
     }
 
 }

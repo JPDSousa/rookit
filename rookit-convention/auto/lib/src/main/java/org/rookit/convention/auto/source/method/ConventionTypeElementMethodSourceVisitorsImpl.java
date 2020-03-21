@@ -24,7 +24,6 @@ package org.rookit.convention.auto.source.method;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.javax.visitor.GenericBuilder;
 import org.rookit.auto.javax.visitor.StreamExBuilder;
@@ -116,22 +115,6 @@ final class ConventionTypeElementMethodSourceVisitorsImpl implements ConventionT
     }
 
     @Override
-    public <V extends ConventionTypeElementVisitor<StreamEx<MethodSource>, P>, P> StreamExMethodSourceBuilder<V, P>
-    getterMethodBuilder(
-            final ExtendedExecutableElement executable,
-            final Function<ConventionTypeElementVisitor<StreamEx<MethodSource>, P>, V> downcastAdapter) {
-        final boolean isSingleParameter = executable.getReturnType().typeParameters().size() == 1;
-        final ConventionTypeElementVisitor<StreamEx<MethodSource>, P> visitor = isSingleParameter
-                ? new Parameter1GetterMethodVisitor<>(
-                        this.typeParameterFactory,
-                        this.methodSourceFactory, executable)
-                : new GetterMethodVisitor<>(this.methodSourceFactory,
-                                            executable.getSimpleName(),
-                                            executable.getReturnType());
-        return streamExMethodBuilder(downcastAdapter.apply(visitor), downcastAdapter);
-    }
-
-    @Override
     public <P> ExtendedElementVisitor<Name, P> qualifiedNameVisitor() {
         return this.delegate.qualifiedNameVisitor();
     }
@@ -200,7 +183,7 @@ final class ConventionTypeElementMethodSourceVisitorsImpl implements ConventionT
     @Override
     public <V extends ConventionTypeElementVisitor<StreamEx<R>, P>, R, P> StreamExConventionBuilder<V, R, P>
     createPropertyLevelVisitor(
-            final BiFunction<ConventionTypeElement, Property, StreamEx<R>> transformation,
+            final BiFunction<ConventionTypeElement, Property, R> transformation,
             final Function<ConventionTypeElementVisitor<StreamEx<R>, P>, V> downcastAdapter) {
         return this.delegate.createPropertyLevelVisitor(transformation, downcastAdapter);
     }
