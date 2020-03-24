@@ -23,9 +23,9 @@ package org.rookit.convention.property;
 
 import org.rookit.convention.MetaType;
 import org.rookit.serialization.Serializer;
+import org.rookit.utils.optional.Optional;
 
 import java.util.Collection;
-import java.util.Optional;
 
 public class BasePropertyModel<T> implements PropertyModel<T> {
 

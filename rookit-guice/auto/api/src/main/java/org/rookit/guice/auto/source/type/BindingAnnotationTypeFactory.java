@@ -19,38 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.convention.auto.metatype.source.annotation;
+package org.rookit.guice.auto.source.type;
 
-import com.google.inject.Inject;
-import org.rookit.auto.source.type.annotation.AnnotationSource;
-import org.rookit.convention.auto.javax.ConventionTypeElement;
-import org.rookit.convention.auto.property.ContainerProperty;
-import org.rookit.convention.auto.property.Property;
-import org.rookit.guice.auto.source.annotation.BindingAnnotationFactory;
+import org.rookit.auto.javax.executable.ExtendedExecutableElement;
+import org.rookit.auto.javax.type.ExtendedTypeElement;
+import org.rookit.auto.source.type.TypeSource;
 
-final class PropertyAnnotationSourceFactoryImpl implements PropertyAnnotationSourceFactory {
+public interface BindingAnnotationTypeFactory {
 
-    private final BindingAnnotationFactory bindingAnnotations;
+    TypeSource fromType(ExtendedTypeElement type);
 
-    @Inject
-    private PropertyAnnotationSourceFactoryImpl(
-            final BindingAnnotationFactory bindingAnnotations) {
-        this.bindingAnnotations = bindingAnnotations;
-
-    }
-
-    @Override
-    public AnnotationSource bindingAnnotationForProperty(
-            final ConventionTypeElement enclosing, final Property property) {
-
-        return this.bindingAnnotations.annotationFromExecutable(enclosing, property.name());
-    }
-
-    @Override
-    public AnnotationSource bindingAnnotationForContainer(
-            final ConventionTypeElement enclosing, final ContainerProperty container) {
-
-        return bindingAnnotationForProperty(enclosing, container);
-    }
+    TypeSource fromExecutable(ExtendedExecutableElement executable);
 
 }

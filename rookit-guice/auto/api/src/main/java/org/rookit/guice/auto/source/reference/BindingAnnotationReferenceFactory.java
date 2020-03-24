@@ -19,30 +19,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.convention.api.source.method;
+package org.rookit.guice.auto.source.reference;
 
-import com.google.inject.Inject;
-import one.util.streamex.StreamEx;
-import org.rookit.auto.javax.visitor.StreamExtendedElementVisitor;
-import org.rookit.auto.source.method.MethodSource;
-import org.rookit.convention.auto.javax.ConventionTypeElement;
-import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
-import org.rookit.convention.auto.metatype.source.method.PropertyMethodSourceFactory;
+import org.rookit.auto.javax.ExtendedElement;
+import org.rookit.auto.javax.executable.ExtendedExecutableElement;
+import org.rookit.auto.javax.type.ExtendedTypeElement;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
 
-final class PropertiesMethodVisitor implements ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>,
-        StreamExtendedElementVisitor<MethodSource, Void> {
+public interface BindingAnnotationReferenceFactory {
 
-    private final PropertyMethodSourceFactory propertyFactory;
+    TypeReferenceSource fromType(ExtendedTypeElement typeElement);
 
-    @Inject
-    private PropertiesMethodVisitor(final PropertyMethodSourceFactory propertyFactory) {
-        this.propertyFactory = propertyFactory;
-    }
+    TypeReferenceSource fromExecutable(ExtendedExecutableElement executable);
 
-    @Override
-    public StreamEx<MethodSource> visitConventionType(final ConventionTypeElement element, final Void parameter) {
-        return StreamEx.of(element.properties())
-                .map(property -> this.propertyFactory.apiFor(element, property));
-    }
+    TypeReferenceSource fromExecutable(ExtendedElement enclosing, final CharSequence executableName);
 
 }

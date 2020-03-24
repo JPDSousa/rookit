@@ -26,7 +26,7 @@ import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.type.TypeSource;
 import org.rookit.auto.source.type.TypeSourceFactory;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
-import org.rookit.convention.auto.metatype.source.method.PropertyMethodSourceFactory;
+import org.rookit.convention.auto.metatype.source.method.PropertyMethodFactory;
 import org.rookit.convention.auto.metatype.source.type.reference.MetaTypeReferenceSourceFactory;
 
 import java.util.List;
@@ -36,13 +36,13 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 final class MetaTypeSourceFactoryImpl implements MetaTypeSourceFactory {
 
     private final TypeSourceFactory typeFactory;
-    private final PropertyMethodSourceFactory propertyMethods;
+    private final PropertyMethodFactory propertyMethods;
     private final MetaTypeReferenceSourceFactory metaTypeReferences;
 
     @Inject
     private MetaTypeSourceFactoryImpl(
             final TypeSourceFactory typeFactory,
-            final PropertyMethodSourceFactory propertyMethods,
+            final PropertyMethodFactory propertyMethods,
             final MetaTypeReferenceSourceFactory metaTypeReferences) {
 
         this.typeFactory = typeFactory;

@@ -19,47 +19,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.convention.guice.source.javapoet;
+package org.rookit.convention.auto.metatype.source.field;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
-import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import one.util.streamex.StreamEx;
-import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
-import org.rookit.auto.source.type.TypeSource;
-import org.rookit.convention.annotation.LaConvention;
-import org.rookit.convention.auto.source.type.ConventionTypeElementTypeSourceVisitors;
 
-import java.lang.annotation.Annotation;
-import java.util.Set;
+public final class FieldModule extends AbstractModule {
 
-@SuppressWarnings("MethodMayBeStatic")
-public final class JavaPoetModule extends AbstractModule {
-
-    private static final Module MODULE = new JavaPoetModule();
+    private static final Module MODULE = new FieldModule();
 
     public static Module getModule() {
         return MODULE;
     }
 
-    private JavaPoetModule() {}
+    private FieldModule() {}
 
     @Override
     protected void configure() {
 
+        bind(PropertyFieldFactory.class).to(PropertyFieldFactoryImpl.class)
+                .in(Singleton.class);
     }
 
-    @Provides
-    @Singleton
-    ExtendedElementVisitor<StreamEx<TypeSource>, Void> typeElementVisitor(
-            final ConventionTypeElementTypeSourceVisitors visitors,
-            @LaConvention final Set<Class<? extends Annotation>> annotations) {
-
-        return visitors.annotationBuilder(Void.class)
-                .withRecursiveVisiting(StreamEx::append)
-                .filterIfAnyAnnotationPresent(annotations)
-                .bindingAnnotation()
-                .build();
-    }
 }

@@ -30,6 +30,4 @@ public interface GenericAnnotationBuilder<B extends GenericAnnotationBuilder<B, 
         V extends ExtendedElementVisitor<StreamEx<TypeSource>, P>, P>
         extends GenericTypeSourceBuilder<B, V, P> {
 
-    B bindingAnnotation();
-
 }

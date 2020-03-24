@@ -25,16 +25,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
-import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.naming.MethodNameTransformer;
 import org.rookit.auto.javax.naming.MethodNameTransformers;
-import org.rookit.auto.source.field.FieldSource;
-import org.rookit.auto.source.method.MethodSource;
-import org.rookit.auto.source.type.variable.TypeVariableSource;
-import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
-import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
-import org.rookit.convention.auto.property.PropertyTypeResolver;
 import org.rookit.convention.guice.MetaType;
 import org.rookit.utils.guice.Self;
 import org.rookit.utils.string.template.Template1;
@@ -49,24 +41,6 @@ public final class MetaTypeModule extends AbstractModule {
     }
 
     private MetaTypeModule() {}
-
-    @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
-    @Override
-    protected void configure() {
-        bind(new TypeLiteral<ConventionTypeElementVisitor<StreamEx<FieldSource>, Void>>() {})
-                .annotatedWith(MetaType.class).to(MetaTypeFieldVisitor.class).in(Singleton.class);
-        bind(new TypeLiteral<ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>>() {})
-                .annotatedWith(MetaType.class).to(MetaTypeMethodVisitor.class).in(Singleton.class);
-        bind(PropertyTypeResolver.class).annotatedWith(MetaType.class)
-                .to(PropertyTypeResolver.class).in(Singleton.class);
-    }
-
-    @Provides
-    @Singleton
-    @MetaType
-    TypeVariableSource metaTypeVariableSource(final TypeVariableSourceFactory variableFactory) {
-        return variableFactory.createFromName("T");
-    }
 
     @Provides
     @Singleton

@@ -23,23 +23,32 @@ package org.rookit.convention.guice.source;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
+import one.util.streamex.StreamEx;
 import org.rookit.auto.javapoet.SourceJavaPoetLibModule;
 import org.rookit.auto.javax.JavaxLibModule;
+import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.source.SourceLibModule;
+import org.rookit.auto.source.type.TypeSource;
 import org.rookit.convention.ConventionModule;
+import org.rookit.convention.annotation.LaConvention;
 import org.rookit.convention.auto.ConventionLibModule;
-import org.rookit.convention.auto.property.ExtendedPropertyEvaluator;
-import org.rookit.convention.guice.source.javapoet.JavaPoetModule;
+import org.rookit.convention.auto.source.type.ConventionTypeElementTypeSourceVisitors;
 import org.rookit.convention.guice.source.javax.JavaxModule;
 import org.rookit.convention.guice.source.naming.NamingModule;
 import org.rookit.failsafe.FailsafeModule;
+import org.rookit.guice.auto.Guice;
 import org.rookit.guice.auto.GuiceAutoLibModule;
 import org.rookit.guice.auto.annotation.config.ConfigurationModule;
 import org.rookit.io.IOLibModule;
 import org.rookit.io.PathLibModule;
 import org.rookit.serializer.SerializationBundleModule;
 import org.rookit.utils.guice.UtilsModule;
+
+import java.lang.annotation.Annotation;
+import java.util.Set;
 
 public final class SourceModule extends AbstractModule {
 
@@ -52,7 +61,6 @@ public final class SourceModule extends AbstractModule {
             FailsafeModule.getModule(),
             GuiceAutoLibModule.getModule(),
             IOLibModule.getModule(),
-            JavaPoetModule.getModule(),
             JavaxModule.getModule(),
             NamingModule.getModule(),
             PathLibModule.getModule(),
@@ -69,9 +77,17 @@ public final class SourceModule extends AbstractModule {
 
     private SourceModule() {}
 
-    @Override
-    protected void configure() {
-        bind(ExtendedPropertyEvaluator.class).toInstance(property -> true);
+    @Provides
+    @Singleton
+    ExtendedElementVisitor<StreamEx<TypeSource>, Void> typeElementVisitor(
+            @Guice final ExtendedElementVisitor<StreamEx<TypeSource>, Void> baseVisitor,
+            final ConventionTypeElementTypeSourceVisitors visitors,
+            @LaConvention final Set<Class<? extends Annotation>> annotations) {
+
+        return visitors.typeSourceBuilder(baseVisitor)
+                .withRecursiveVisiting(StreamEx::append)
+                .filterIfAnyAnnotationPresent(annotations)
+                .build();
     }
 
 }

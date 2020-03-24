@@ -29,12 +29,13 @@ import com.google.inject.util.Modules;
 import org.rookit.auto.SourceUtilsModule;
 import org.rookit.auto.javapoet.SourceJavaPoetLibModule;
 import org.rookit.auto.javax.JavaxLibModule;
+import org.rookit.auto.javax.naming.IdentifierTransformer;
 import org.rookit.auto.javax.naming.MethodNameTransformer;
 import org.rookit.auto.source.SourceLibModule;
 import org.rookit.failsafe.FailsafeModule;
+import org.rookit.guice.auto.Guice;
 import org.rookit.guice.auto.GuiceAutoLibModule;
 import org.rookit.guice.auto.annotation.config.ConfigurationModule;
-import org.rookit.guice.auto.annotation.naming.NamingModule;
 import org.rookit.guice.auto.annotation.type.TypeModule;
 import org.rookit.io.IOLibModule;
 import org.rookit.io.PathLibModule;
@@ -54,7 +55,6 @@ public final class SourceModule extends AbstractModule {
             GuiceAutoLibModule.getModule(),
             IOLibModule.getModule(),
             JavaxLibModule.getModule(),
-            NamingModule.getModule(),
             PathLibModule.getModule(),
             SerializationBundleModule.getModule(),
             SourceJavaPoetLibModule.getModule(),
@@ -71,6 +71,7 @@ public final class SourceModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(MethodNameTransformer.class).to(Key.get(MethodNameTransformer.class, Guice.class)).in(Singleton.class);
+        bind(IdentifierTransformer.class).to(Key.get(IdentifierTransformer.class, Guice.class)).in(Singleton.class);
     }
 
 }

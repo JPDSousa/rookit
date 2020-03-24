@@ -24,14 +24,10 @@ package org.rookit.convention.guice.source.naming;
 import com.google.inject.AbstractModule;
 import com.google.inject.Key;
 import com.google.inject.Module;
-import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import org.rookit.auto.javax.naming.IdentifierTransformer;
-import org.rookit.auto.javax.naming.IdentifierTransformers;
 import org.rookit.auto.javax.naming.MethodNameTransformer;
-import org.rookit.guice.auto.annotation.Guice;
-import org.rookit.guice.auto.config.GuiceConfig;
-import org.rookit.utils.adapt.Adapter;
+import org.rookit.guice.auto.Guice;
 
 public final class NamingModule extends AbstractModule {
 
@@ -45,18 +41,11 @@ public final class NamingModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(MethodNameTransformer.class).to(Key.get(MethodNameTransformer.class, Guice.class));
-    }
 
-    @Provides
-    @Singleton
-    IdentifierTransformer identifierTransformer(final IdentifierTransformers transformers,
-                                                final GuiceConfig config) {
-
-        return transformers.fromFunctions(
-                reference -> reference.resolve(config.basePackage()),
-                Adapter.identity()
-        ) ;
+        bind(MethodNameTransformer.class).to(Key.get(MethodNameTransformer.class, Guice.class))
+                .in(Singleton.class);
+        bind(IdentifierTransformer.class).to(Key.get(IdentifierTransformer.class, Guice.class))
+                .in(Singleton.class);
     }
 
 }

@@ -24,13 +24,17 @@ package org.rookit.guice.auto.source;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.util.Modules;
+import org.rookit.guice.auto.source.annotation.AnnotationModule;
 import org.rookit.guice.auto.source.reference.ReferenceModule;
+import org.rookit.guice.auto.source.type.TypeModule;
 
 public final class SourceModule extends AbstractModule {
 
     private static final Module MODULE = Modules.combine(
             new SourceModule(),
-            ReferenceModule.getModule()
+            AnnotationModule.getModule(),
+            ReferenceModule.getModule(),
+            TypeModule.getModule()
     );
 
     public static Module getModule() {

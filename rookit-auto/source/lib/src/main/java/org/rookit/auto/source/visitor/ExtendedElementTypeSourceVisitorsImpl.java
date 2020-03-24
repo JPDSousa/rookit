@@ -24,7 +24,6 @@ package org.rookit.auto.source.visitor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import one.util.streamex.StreamEx;
-import org.rookit.auto.guice.GuiceBindAnnotation;
 import org.rookit.auto.javax.naming.IdentifierTransformer;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitors;
@@ -36,7 +35,6 @@ import org.rookit.auto.source.type.TypeSource;
 import org.rookit.auto.source.type.TypeSourceBuilder;
 import org.rookit.auto.source.type.TypeSourceFactory;
 import org.rookit.auto.source.type.annotation.AnnotationBuilder;
-import org.rookit.auto.source.type.annotation.AnnotationSource;
 import org.rookit.auto.source.type.inter.face.InterfaceBuilder;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 import org.rookit.utils.string.StringUtils;
@@ -44,7 +42,6 @@ import org.rookit.utils.string.StringUtils;
 import javax.lang.model.element.Name;
 import java.lang.annotation.Annotation;
 import java.util.Collection;
-import java.util.Set;
 import java.util.function.Function;
 
 final class ExtendedElementTypeSourceVisitorsImpl implements ExtendedElementTypeSourceVisitors {
@@ -52,7 +49,6 @@ final class ExtendedElementTypeSourceVisitorsImpl implements ExtendedElementType
     private final MethodSourceFactory methodFactory;
     private final TypeSourceFactory typeFactory;
     private final ExtendedElementVisitors delegate;
-    private final Collection<AnnotationSource> bindingAnnotations;
     private final IdentifierTransformer idTransformer;
     private final StringUtils stringUtils;
     private final TypeReferenceSourceFactory referenceFactory;
@@ -62,7 +58,6 @@ final class ExtendedElementTypeSourceVisitorsImpl implements ExtendedElementType
             final MethodSourceFactory methodFactory,
             final TypeSourceFactory typeFactory,
             final ExtendedElementVisitors delegate,
-            @GuiceBindAnnotation final Set<AnnotationSource> bindingAnnotations,
             final IdentifierTransformer idTransformer,
             final StringUtils stringUtils,
             final TypeReferenceSourceFactory referenceFactory) {
@@ -70,7 +65,6 @@ final class ExtendedElementTypeSourceVisitorsImpl implements ExtendedElementType
         this.methodFactory = methodFactory;
         this.typeFactory = typeFactory;
         this.delegate = delegate;
-        this.bindingAnnotations = bindingAnnotations;
         this.idTransformer = idTransformer;
         this.stringUtils = stringUtils;
         this.referenceFactory = referenceFactory;
@@ -101,8 +95,8 @@ final class ExtendedElementTypeSourceVisitorsImpl implements ExtendedElementType
                 this.typeFactory::createMutableAnnotation
         ));
 
-        return new AnnotationBuilderImpl<>(typeSourceBuilder(downcastAdapter.apply(baseVisitor), downcastAdapter),
-                                           this.bindingAnnotations);
+        return new AnnotationBuilderImpl<>(typeSourceBuilder(downcastAdapter.apply(baseVisitor), downcastAdapter)
+        );
     }
 
     @Override

@@ -25,40 +25,47 @@ import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.method.MethodSourceFactory;
+import org.rookit.auto.source.type.parameter.TypeParameterSourceFactory;
+import org.rookit.auto.source.type.reference.From;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
+import org.rookit.auto.source.type.variable.WildcardVariableSourceFactory;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
-import org.rookit.convention.auto.metatype.source.MetaTypeModelSerializerFactory;
 import org.rookit.convention.auto.metatype.source.MetaTypePropertyFetcherFactory;
-import org.rookit.convention.auto.metatype.source.parameter.MetaTypeParameterSourceFactory;
+import org.rookit.convention.property.PropertyModel;
 
-final class MetaTypeConstructorSourceFactoryImpl implements MetaTypeConstructorSourceFactory {
+import java.util.Collection;
 
-    private final MethodSourceFactory methodFactory;
-    private final MetaTypeParameterSourceFactory parameters;
-    private final MetaTypePropertyFetcherFactory propertyFetchers;
-    private final MetaTypeModelSerializerFactory serializers;
+final class PropertiesMethodFactory implements MetaTypePropertiesMethodFactory {
+
+    private final MethodSource propertiesMethod;
 
     @Inject
-    private MetaTypeConstructorSourceFactoryImpl(
+    private PropertiesMethodFactory(
+            final WildcardVariableSourceFactory wildcardFactory,
             final MethodSourceFactory methodFactory,
-            final MetaTypeParameterSourceFactory parameters,
-            final MetaTypePropertyFetcherFactory propertyFetchers,
-            final MetaTypeModelSerializerFactory serializers) {
-        this.methodFactory = methodFactory;
-        this.parameters = parameters;
-        this.propertyFetchers = propertyFetchers;
-        this.serializers = serializers;
+            final TypeParameterSourceFactory typeParameterFactory,
+            @From(Collection.class) final TypeReferenceSource collection,
+            final MetaTypePropertyFetcherFactory propertyFetcher) {
+
+        final TypeReferenceSource propertyModel = typeParameterFactory.create(
+                PropertyModel.class, wildcardFactory.newWildcard());
+        final TypeReferenceSource returnType = typeParameterFactory.create(collection, propertyModel);
+
+        final CharSequence propertyMapName = propertyFetcher.fields()
+                .propertyMap()
+                .name();
+
+        this.propertiesMethod = methodFactory.createMutableMethod("properties")
+                .makePublic()
+                .override()
+                .withReturnType(returnType)
+                .addStatement("return $L.values()", ImmutableList.of(propertyMapName));
     }
 
     @Override
-    public MethodSource constructorFor(final ConventionTypeElement typeElement) {
+    public MethodSource implFor(final ConventionTypeElement type) {
 
-        return this.methodFactory.createMutableConstructor()
-                .makePrivate()
-                .addAnnotationByClass(Inject.class)
-                .assignParametersToFields(this.parameters.dependenciesFor(typeElement))
-                .assignParametersToFields(this.propertyFetchers.constructorParametersFor(typeElement))
-                .assignParametersToFields(ImmutableList.of(this.serializers.parameterFor(typeElement)))
-                .addStatement(this.propertyFetchers.initializerFor(typeElement));
+        return this.propertiesMethod;
     }
 
 }

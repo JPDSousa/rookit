@@ -38,12 +38,11 @@ public final class MethodModule extends AbstractModule {
     @Override
     protected void configure() {
 
-        bind(PropertiesMethodSourceFactory.class).to(PropertiesImplMethodSourceFactory.class)
-                .in(Singleton.class);
-        bind(PropertyMethodSourceFactory.class).to(PropertyMethodSourceFactoryImpl.class)
+        bind(PropertyMethodFactory.class).to(PropertyMethodFactoryImpl.class)
                 .in(Singleton.class);
         bind(MetaTypeConstructorSourceFactory.class).to(MetaTypeConstructorSourceFactoryImpl.class)
                 .in(Singleton.class);
+        bind(MetaTypePropertiesMethodFactory.class).to(PropertiesMethodFactory.class).in(Singleton.class);
     }
 
 }

@@ -25,9 +25,9 @@ import org.rookit.convention.guice.AnnotationBody;
 import org.rookit.convention.property.PropertyModel;
 import org.rookit.guice.auto.annotation.BindingAnnotationGenerator;
 import org.rookit.serialization.Serializer;
+import org.rookit.utils.optional.Optional;
 
 import java.util.Collection;
-import java.util.Optional;
 
 @BindingAnnotationGenerator(copyBodyFrom = AnnotationBody.class)
 public interface MetaType<T> {

@@ -19,21 +19,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.convention.auto.metatype.source.type.reference;
+package org.rookit.guice.auto.source.type;
 
-import org.rookit.auto.source.type.reference.TypeReferenceSource;
-import org.rookit.convention.auto.javax.ConventionTypeElement;
-import org.rookit.convention.auto.property.ContainerProperty;
-import org.rookit.convention.auto.property.Property;
+import com.google.inject.AbstractModule;
+import com.google.inject.Module;
+import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
+import one.util.streamex.StreamEx;
+import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
+import org.rookit.auto.source.type.TypeSource;
+import org.rookit.guice.auto.Guice;
 
-public interface PropertyTypeReferenceSourceFactory {
+public final class TypeModule extends AbstractModule {
 
-    TypeReferenceSource apiForProperty(ConventionTypeElement enclosing, Property property);
+    private static final Module MODULE = new TypeModule();
 
-    TypeReferenceSource apiForContainer(ConventionTypeElement enclosing, ContainerProperty container);
+    public static Module getModule() {
+        return MODULE;
+    }
 
-    TypeReferenceSource implForProperty(ConventionTypeElement enclosing, Property property);
+    private TypeModule() {}
 
-    TypeReferenceSource implForContainer(ConventionTypeElement enclosing, ContainerProperty container);
+    @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
+    @Override
+    protected void configure() {
+
+        bind(BindingAnnotationTypeFactory.class).to(BindingAnnotationTypeFactoryImpl.class)
+                .in(Singleton.class);
+        bind(new TypeLiteral<ExtendedElementVisitor<StreamEx<TypeSource>, Void>>() {})
+                .annotatedWith(Guice.class)
+                .to(BindingAnnotationTypeVisitor.class)
+                .in(Singleton.class);
+    }
 
 }

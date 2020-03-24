@@ -26,27 +26,34 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
+import one.util.streamex.StreamEx;
 import org.rookit.auto.SourceUtilsModule;
 import org.rookit.auto.javapoet.SourceJavaPoetLibModule;
 import org.rookit.auto.javax.JavaxLibModule;
+import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.source.SourceLibModule;
+import org.rookit.auto.source.type.TypeSource;
 import org.rookit.convention.ConventionModule;
+import org.rookit.convention.annotation.LaConvention;
 import org.rookit.convention.api.guice.Container;
 import org.rookit.convention.api.source.config.ConfigurationModule;
-import org.rookit.convention.api.source.method.MethodModule;
 import org.rookit.convention.api.source.naming.NamingModule;
-import org.rookit.convention.api.source.type.TypeModule;
 import org.rookit.convention.auto.ConventionLibModule;
 import org.rookit.convention.auto.metatype.AutoMetaTypeModule;
+import org.rookit.convention.auto.metatype.source.type.MetaTypeSourceFactory;
 import org.rookit.convention.auto.property.ExtendedPropertyExtractor;
 import org.rookit.convention.auto.property.ExtendedPropertyExtractorFactory;
 import org.rookit.convention.auto.property.PropertyFactory;
+import org.rookit.convention.auto.source.type.ConventionTypeElementTypeSourceVisitors;
 import org.rookit.failsafe.FailsafeModule;
 import org.rookit.guice.auto.GuiceAutoLibModule;
 import org.rookit.io.IOLibModule;
 import org.rookit.io.PathLibModule;
 import org.rookit.serializer.SerializationBundleModule;
 import org.rookit.utils.guice.UtilsModule;
+
+import java.lang.annotation.Annotation;
+import java.util.Set;
 
 @SuppressWarnings("MethodMayBeStatic")
 public final class SourceModule extends AbstractModule {
@@ -62,14 +69,12 @@ public final class SourceModule extends AbstractModule {
             FailsafeModule.getModule(),
             GuiceAutoLibModule.getModule(),
             IOLibModule.getModule(),
-            MethodModule.getModule(),
             NamingModule.getModule(),
             PathLibModule.getModule(),
             SerializationBundleModule.getModule(),
             SourceLibModule.getModule(),
             SourceJavaPoetLibModule.getModule(),
             SourceUtilsModule.getModule(),
-            TypeModule.getModule(),
             UtilsModule.getModule()
     );
 
@@ -91,6 +96,19 @@ public final class SourceModule extends AbstractModule {
             final ExtendedPropertyExtractorFactory factory,
             @Container final PropertyFactory propertyFactory) {
         return factory.create(propertyFactory, executableElement -> true);
+    }
+
+    @Provides
+    @Singleton
+    ExtendedElementVisitor<StreamEx<TypeSource>, Void> visitor(
+            final MetaTypeSourceFactory typeFactory,
+            @LaConvention final Set<Class<? extends Annotation>> annotations,
+            final ConventionTypeElementTypeSourceVisitors visitors) {
+
+        return visitors.<Void>conventionTypeSourceBuilder(typeFactory::apiFor, typeFactory::genericApiFor)
+                .withRecursiveVisiting(StreamEx::append)
+                .filterIfAnyAnnotationPresent(annotations)
+                .build();
     }
 
 }

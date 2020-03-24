@@ -34,6 +34,7 @@ import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.source.doc.JavadocTemplate1;
 import org.rookit.auto.source.type.ExtendedElementTypeSourceVisitors;
 import org.rookit.auto.source.type.TypeSource;
+import org.rookit.guice.auto.Guice;
 import org.rookit.guice.auto.annotation.BindingAnnotationGenerator;
 import org.rookit.utils.registry.Registry;
 
@@ -60,13 +61,14 @@ public final class TypeModule extends AbstractModule {
     @Provides
     @Singleton
     ExtendedElementVisitor<StreamEx<TypeSource>, Void> visitor(
+            @Guice final ExtendedElementVisitor<StreamEx<TypeSource>, Void> baseVisitor,
             final ExtendedElementTypeSourceVisitors visitors,
             final Function<ExtendedElement, ExtendedTypeElement> extractionFunction,
             @GuiceBindAnnotation final JavadocTemplate1 javadoc) {
-        return visitors.annotationBuilder(Void.class)
+
+        return visitors.typeSourceBuilder(baseVisitor)
                 .withRecursiveVisiting(StreamEx::append)
                 .filterIfAnnotationPresent(BindingAnnotationGenerator.class)
-                .bindingAnnotation()
                 .withClassJavadoc(javadoc)
                 .copyBodyFrom(extractionFunction)
                 .build();

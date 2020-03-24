@@ -25,7 +25,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
 import org.rookit.auto.javax.ElementUtils;
 import org.rookit.convention.annotation.LaConvention;
-import org.rookit.convention.auto.javax.ConventionElementUtils;
 
 import javax.lang.model.AnnotatedConstruct;
 import javax.lang.model.type.TypeMirror;
@@ -39,7 +38,6 @@ final class ConventionElementUtilsImpl implements ConventionElementUtils {
     private final ElementUtils delegate;
     private final Collection<Class<? extends Annotation>> annotations;
 
-    @SuppressWarnings("TypeMayBeWeakened") // due to guice
     @Inject
     private ConventionElementUtilsImpl(final ElementUtils delegate,
                              @LaConvention final Set<Class<? extends Annotation>> annotations) {

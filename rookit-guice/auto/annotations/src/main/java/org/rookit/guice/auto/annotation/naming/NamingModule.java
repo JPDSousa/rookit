@@ -23,14 +23,7 @@ package org.rookit.guice.auto.annotation.naming;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
-import com.google.inject.Provides;
-import com.google.inject.Singleton;
-import org.rookit.auto.javax.naming.IdentifierTransformer;
-import org.rookit.auto.javax.naming.IdentifierTransformers;
-import org.rookit.guice.auto.config.GuiceConfig;
-import org.rookit.utils.adapt.Adapter;
 
-@SuppressWarnings("MethodMayBeStatic")
 public final class NamingModule extends AbstractModule {
 
     private static final Module MODULE = new NamingModule();
@@ -41,15 +34,8 @@ public final class NamingModule extends AbstractModule {
 
     private NamingModule() {}
 
-    @Provides
-    @Singleton
-    IdentifierTransformer identifierTransformer(final IdentifierTransformers transformers,
-                                                final GuiceConfig config) {
-
-        return transformers.fromFunctions(
-                reference -> reference.resolve(config.basePackage()),
-                Adapter.identity()
-        ) ;
+    @Override
+    protected void configure() {
     }
 
 }

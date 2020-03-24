@@ -31,11 +31,11 @@
             <artifactId>rookit-convention-auto-guice</artifactId>
             <scope>provided</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>${rookit.group}</groupId>-->
-<!--            <artifactId>rookit-convention-auto-metatype-type-generator</artifactId>-->
-<!--            <scope>provided</scope>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-convention-auto-metatype-type-generator</artifactId>
+            <scope>provided</scope>
+        </dependency>
 <!--        <dependency>-->
 <!--            <groupId>${rookit.group}</groupId>-->
 <!--            <artifactId>auto-metatype-property</artifactId>-->

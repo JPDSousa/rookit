@@ -19,10 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.convention.auto.metatype.source.method;
+package org.rookit.convention.auto.metatype.source;
 
-public interface PropertiesMethodSourceFactory {
+import org.rookit.auto.source.field.FieldSource;
 
-    PropertiesImplMethodSource createPropertiesMethod(CharSequence name);
+import java.util.Collection;
+
+public interface PropertyFetcherFields {
+
+    Collection<FieldSource> asCollection();
+
+    FieldSource propertyMap();
 
 }

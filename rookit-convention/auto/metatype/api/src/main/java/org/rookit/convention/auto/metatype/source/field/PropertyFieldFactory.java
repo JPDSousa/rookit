@@ -19,16 +19,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.convention.auto.property;
+package org.rookit.convention.auto.metatype.source.field;
 
-import java.util.function.Predicate;
+import org.rookit.auto.source.field.FieldSource;
+import org.rookit.convention.auto.javax.ConventionTypeElement;
+import org.rookit.convention.auto.property.Property;
 
-public interface ExtendedPropertyEvaluator extends Predicate<Property> {
+public interface PropertyFieldFactory {
 
-    @Override
-    default boolean test(final Property property) {
-        return isCompatible(property);
-    }
+    FieldSource fieldForProperty(ConventionTypeElement element, Property property);
 
-    boolean isCompatible(Property property);
 }

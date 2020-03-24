@@ -23,6 +23,7 @@ package org.rookit.auto.javapoet.type.parameter;
 
 import com.google.inject.Inject;
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
@@ -49,12 +50,21 @@ final class JavaPoetTypeParameterFactory implements TypeParameterSourceFactory {
 
     private TypeParameterSource newInstance(final TypeName parameterizable, final TypeName[] parameters) {
 
-        if (!(parameterizable instanceof ClassName)) {
+        final ClassName baseType;
+
+        if (parameterizable instanceof ClassName) {
+            baseType = (ClassName) parameterizable;
+        }
+        else if (parameterizable instanceof ParameterizedTypeName) {
+            baseType = ((ParameterizedTypeName) parameterizable).rawType;
+        }
+        else {
             throw new IllegalArgumentException(parameterizable + " is not a parameterizable type.");
         }
+
         return new BaseJavaPoetTypeParameter(
                 this.optionalFactory,
-                (ClassName) parameterizable,
+                baseType,
                 parameters
         );
     }

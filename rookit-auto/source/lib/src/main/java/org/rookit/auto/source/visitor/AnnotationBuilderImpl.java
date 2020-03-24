@@ -21,7 +21,6 @@
  ******************************************************************************/
 package org.rookit.auto.source.visitor;
 
-import com.google.common.collect.ImmutableList;
 import com.google.inject.Provider;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.ExtendedElement;
@@ -43,17 +42,14 @@ final class AnnotationBuilderImpl<V extends ExtendedElementVisitor<StreamEx<Type
         implements AnnotationBuilder<V, P> {
 
     private final TypeSourceBuilder<V, P> builder;
-    private final Collection<AnnotationSource> annotations;
 
-    AnnotationBuilderImpl(final TypeSourceBuilder<V, P> builder,
-                          final Collection<AnnotationSource> annotations) {
+    AnnotationBuilderImpl(final TypeSourceBuilder<V, P> builder) {
         this.builder = builder;
-        this.annotations = ImmutableList.copyOf(annotations);
     }
 
     private AnnotationBuilder<V, P> newStage(
             final TypeSourceBuilder<V, P> builder) {
-        return new AnnotationBuilderImpl<>(builder, this.annotations);
+        return new AnnotationBuilderImpl<>(builder);
     }
 
     @Override
@@ -77,11 +73,6 @@ final class AnnotationBuilderImpl<V extends ExtendedElementVisitor<StreamEx<Type
     public AnnotationBuilder<V, P> withClassJavadoc(
             final JavadocTemplate1 template) {
         return newStage(this.builder.withClassJavadoc(template));
-    }
-
-    @Override
-    public AnnotationBuilder<V, P> bindingAnnotation() {
-        return withAnnotations(this.annotations);
     }
 
     @Override
@@ -134,11 +125,4 @@ final class AnnotationBuilderImpl<V extends ExtendedElementVisitor<StreamEx<Type
         return newStage(this.builder.filterIfAnyAnnotationPresent(annotationClasses));
     }
 
-    @Override
-    public String toString() {
-        return "AnnotationBuilderImpl{" +
-                "builder=" + this.builder +
-                ", annotations=" + this.annotations +
-                "}";
-    }
 }

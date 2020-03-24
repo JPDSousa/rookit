@@ -23,11 +23,12 @@ package org.rookit.auto.javapoet.doc;
 
 import com.google.inject.Inject;
 import io.reactivex.Maybe;
-import org.apache.commons.lang3.StringUtils;
 import org.rookit.auto.source.doc.JavadocTemplate1;
 import org.rookit.auto.source.doc.JavadocTemplate1Factory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.apache.commons.lang3.StringUtils.countMatches;
 
 final class JavadocTemplate1FactoryImpl implements JavadocTemplate1Factory {
 
@@ -41,8 +42,9 @@ final class JavadocTemplate1FactoryImpl implements JavadocTemplate1Factory {
 
     @Override
     public Maybe<JavadocTemplate1> create(final String rawFormat) {
-        // TODO this validation is highly shotgun surgerish, given that it "copies" logic fromExecutableElement JavaPoet's CodeBlock.
-        final int tokensCount = StringUtils.countMatches(rawFormat, '$');
+        // TODO this validation is highly shotgun surgerish, given that it "copies" logic fromExecutableElement
+        //  JavaPoet's CodeBlock.
+        final int tokensCount = countMatches(rawFormat, '$');
         if (tokensCount != 1) {
             //noinspection AutoBoxing
             logger.info("Attempting to create a javadoc template with 1 token fromExecutableElement a format with {} tokens. Skipping.",

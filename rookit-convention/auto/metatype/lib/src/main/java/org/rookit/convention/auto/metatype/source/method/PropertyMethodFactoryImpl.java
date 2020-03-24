@@ -27,18 +27,18 @@ import org.rookit.auto.source.method.MethodSourceFactory;
 import org.rookit.auto.source.method.MutableMethodSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
-import org.rookit.convention.auto.metatype.source.type.reference.PropertyTypeReferenceSourceFactory;
+import org.rookit.convention.auto.metatype.source.type.reference.PropertyTypeReferenceFactory;
 import org.rookit.convention.auto.property.Property;
 
-final class PropertyMethodSourceFactoryImpl implements PropertyMethodSourceFactory {
+final class PropertyMethodFactoryImpl implements PropertyMethodFactory {
 
     private final MethodSourceFactory methodFactory;
-    private final PropertyTypeReferenceSourceFactory returnType;
+    private final PropertyTypeReferenceFactory returnType;
 
     @Inject
-    private PropertyMethodSourceFactoryImpl(
+    private PropertyMethodFactoryImpl(
             final MethodSourceFactory methodFactory,
-            final PropertyTypeReferenceSourceFactory returnType) {
+            final PropertyTypeReferenceFactory returnType) {
         this.methodFactory = methodFactory;
         this.returnType = returnType;
     }
@@ -52,7 +52,7 @@ final class PropertyMethodSourceFactoryImpl implements PropertyMethodSourceFacto
     public MethodSource apiFor(final ConventionTypeElement enclosing, final Property property) {
         return baseMethod(property)
                 .makeAbstract()
-                .withReturnType(this.returnType.apiForProperty(enclosing, property));
+                .withReturnType(this.returnType.genericApiForProperty(enclosing, property));
     }
 
     @Override

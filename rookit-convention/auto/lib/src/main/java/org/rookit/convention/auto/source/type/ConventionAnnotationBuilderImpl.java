@@ -82,11 +82,6 @@ final class ConventionAnnotationBuilderImpl<V extends ConventionTypeElementVisit
     }
 
     @Override
-    public ConventionAnnotationBuilder<V, P> bindingAnnotation() {
-        return newStage(this.builder.withAnnotations(this.annotations));
-    }
-
-    @Override
     public ConventionAnnotationBuilder<V, P> withTypeAdapter(
             final Adapter<ExtendedTypeElement> adapter) {
         return newStage(this.builder.withTypeAdapter(adapter));

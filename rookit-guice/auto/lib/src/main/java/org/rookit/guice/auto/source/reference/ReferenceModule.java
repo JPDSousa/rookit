@@ -41,6 +41,13 @@ public final class ReferenceModule extends AbstractModule {
 
     private ReferenceModule() {}
 
+    @Override
+    protected void configure() {
+
+        bind(BindingAnnotationReferenceFactory.class).to(BindingAnnotationReferenceFactoryImpl.class)
+                .in(Singleton.class);
+    }
+
     @Provides
     @Singleton
     @From(Module.class)

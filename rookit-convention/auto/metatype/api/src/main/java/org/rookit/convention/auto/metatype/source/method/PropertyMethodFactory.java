@@ -19,38 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.convention.auto.metatype.source.annotation;
+package org.rookit.convention.auto.metatype.source.method;
 
-import com.google.inject.Inject;
-import org.rookit.auto.source.type.annotation.AnnotationSource;
+import org.rookit.auto.source.method.MethodSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
-import org.rookit.convention.auto.property.ContainerProperty;
 import org.rookit.convention.auto.property.Property;
-import org.rookit.guice.auto.source.annotation.BindingAnnotationFactory;
 
-final class PropertyAnnotationSourceFactoryImpl implements PropertyAnnotationSourceFactory {
+public interface PropertyMethodFactory {
 
-    private final BindingAnnotationFactory bindingAnnotations;
+    MethodSource apiFor(ConventionTypeElement enclosing, Property property);
 
-    @Inject
-    private PropertyAnnotationSourceFactoryImpl(
-            final BindingAnnotationFactory bindingAnnotations) {
-        this.bindingAnnotations = bindingAnnotations;
-
-    }
-
-    @Override
-    public AnnotationSource bindingAnnotationForProperty(
-            final ConventionTypeElement enclosing, final Property property) {
-
-        return this.bindingAnnotations.annotationFromExecutable(enclosing, property.name());
-    }
-
-    @Override
-    public AnnotationSource bindingAnnotationForContainer(
-            final ConventionTypeElement enclosing, final ContainerProperty container) {
-
-        return bindingAnnotationForProperty(enclosing, container);
-    }
+    MethodSource implFor(ConventionTypeElement enclosing, Property property);
 
 }

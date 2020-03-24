@@ -37,7 +37,7 @@ import org.rookit.convention.auto.property.ContainerProperty;
 import org.rookit.convention.auto.property.Property;
 import org.rookit.convention.auto.property.PropertyTypeResolver;
 
-final class PropertyTypeReferenceSourceFactoryImpl implements PropertyTypeReferenceSourceFactory {
+final class PropertyTypeReferenceFactoryImpl implements PropertyTypeReferenceFactory {
 
     private final TypeReferenceSourceFactory referenceFactory;
     private final TypeParameterSourceFactory parameterFactory;
@@ -46,7 +46,7 @@ final class PropertyTypeReferenceSourceFactoryImpl implements PropertyTypeRefere
     private final IdentifierTransformer idTransformer;
 
     @Inject
-    private PropertyTypeReferenceSourceFactoryImpl(
+    private PropertyTypeReferenceFactoryImpl(
             final TypeReferenceSourceFactory referenceFactory,
             final TypeParameterSourceFactory parameterFactory,
             final PropertyTypeResolver propertyTypeResolver,
@@ -63,12 +63,25 @@ final class PropertyTypeReferenceSourceFactoryImpl implements PropertyTypeRefere
     public TypeReferenceSource apiForProperty(final ConventionTypeElement enclosing,
                                               final Property property) {
 
+        return apiForProperty(enclosing, property, false);
+    }
+
+    @Override
+    public TypeReferenceSource genericApiForProperty(final ConventionTypeElement enclosing, final Property property) {
+
+        return apiForProperty(enclosing, property, true);
+    }
+
+    private TypeReferenceSource apiForProperty(final ConventionTypeElement enclosing,
+                                               final Property property,
+                                               final boolean useGeneric) {
+
         if (property instanceof ContainerProperty) {
-            return apiForContainer(enclosing, (ContainerProperty) property);
+            return apiForContainer(enclosing, (ContainerProperty) property, useGeneric);
         }
 
         // FIXME the boolean is definitely not a constant value
-        final TypeReferenceSource reference = parameterFor(enclosing, true);
+        final TypeReferenceSource reference = parameterFor(enclosing, useGeneric);
         final ExtendedTypeMirror type = property.type().boxIfPrimitive();
         final TypeReferenceSource propType = unwrapIfRepetitive(type);
         final Class<?> clazz = this.propertyTypeResolver.resolve(property);
@@ -103,8 +116,22 @@ final class PropertyTypeReferenceSourceFactoryImpl implements PropertyTypeRefere
     public TypeReferenceSource apiForContainer(final ConventionTypeElement enclosing,
                                                final ContainerProperty container) {
 
+        return apiForContainer(enclosing, container, false);
+    }
+
+    @Override
+    public TypeReferenceSource genericApiForContainer(final ConventionTypeElement enclosing,
+                                                      final ContainerProperty container) {
+
+        return apiForContainer(enclosing, container, true);
+    }
+
+    private TypeReferenceSource apiForContainer(final ConventionTypeElement enclosing,
+                                                final ContainerProperty container,
+                                                final boolean useGeneric) {
+
         // FIXME the boolean is definitely not a constant value
-        final TypeReferenceSource typeName = parameterFor(enclosing, true);
+        final TypeReferenceSource typeName = parameterFor(enclosing, useGeneric);
         final TypeReferenceSource baseName = this.referenceFactory.create(container.typeAsElement());
 
         return this.parameterFactory.create(baseName, typeName);

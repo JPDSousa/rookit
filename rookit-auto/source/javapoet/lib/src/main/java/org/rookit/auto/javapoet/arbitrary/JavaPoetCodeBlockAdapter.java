@@ -23,19 +23,44 @@ package org.rookit.auto.javapoet.arbitrary;
 
 import com.google.inject.Inject;
 import com.squareup.javapoet.CodeBlock;
+import com.squareup.javapoet.TypeName;
 import org.rookit.auto.source.arbitrary.ArbitraryCodeSource;
 import org.rookit.auto.source.arbitrary.ArbitraryCodeSourceAdapter;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
+import org.rookit.auto.source.type.reference.TypeReferenceSourceAdapter;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 final class JavaPoetCodeBlockAdapter implements ArbitraryCodeSourceAdapter<CodeBlock> {
 
     private static final Object[] ARGS = new Object[0];
 
+    private final TypeReferenceSourceAdapter<TypeName> referenceAdapter;
+
     @Inject
-    private JavaPoetCodeBlockAdapter() {}
+    private JavaPoetCodeBlockAdapter(final TypeReferenceSourceAdapter<TypeName> referenceAdapter) {
+        this.referenceAdapter = referenceAdapter;
+    }
 
     @Override
     public CodeBlock adaptArbitraryCodeBlock(final ArbitraryCodeSource codeBlock) {
-        return CodeBlock.of(codeBlock.format().toString(), codeBlock.arguments().toArray(ARGS));
+        return CodeBlock.of(codeBlock.format().toString(), adaptArguments(codeBlock.arguments()));
+    }
+
+    private Object[] adaptArguments(final Collection<Object> args) {
+
+        final Collection<Object> adaptedArgs = new ArrayList<>(args.size());
+
+        for (final Object arg : args) {
+            if (arg instanceof TypeReferenceSource) {
+                adaptedArgs.add(this.referenceAdapter.adaptTypeReference((TypeReferenceSource) arg));
+            } else {
+                adaptedArgs.add(arg);
+            }
+        }
+
+        return adaptedArgs.toArray(ARGS);
     }
 
 }

@@ -30,16 +30,23 @@ import io.reactivex.Maybe;
 import io.reactivex.Single;
 import org.rookit.auto.source.guice.JavadocTemplate;
 import org.rookit.auto.source.spec.SpecModule;
+import org.rookit.auto.source.type.reference.From;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
+import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 import org.rookit.auto.source.visitor.VisitorModule;
 import org.rookit.io.path.registry.PathRegistries;
 import org.rookit.io.url.URLUtils;
 import org.rookit.utils.object.DynamicObject;
+import org.rookit.utils.optional.OptionalFactory;
 import org.rookit.utils.registry.Registry;
 
 import java.net.URI;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
+import java.util.Collection;
+import java.util.Map;
 
+@SuppressWarnings("MethodMayBeStatic")
 public final class SourceLibModule extends AbstractModule {
 
     private static final Module MODULE = Modules.combine(
@@ -72,5 +79,45 @@ public final class SourceLibModule extends AbstractModule {
         return registry.fetch(uri)
                 .map(FileSystem::provider)
                 .map(provider -> provider.getPath(uri));
+    }
+
+    @Provides
+    @Singleton
+    @From(Class.class)
+    TypeReferenceSource classReference(final TypeReferenceSourceFactory factory) {
+
+        return factory.fromClass(Class.class);
+    }
+
+    @Provides
+    @Singleton
+    @From(String.class)
+    TypeReferenceSource stringReference(final TypeReferenceSourceFactory factory) {
+
+        return factory.fromClass(String.class);
+    }
+
+    @Provides
+    @Singleton
+    @From(Collection.class)
+    TypeReferenceSource collectionReference(final TypeReferenceSourceFactory factory) {
+
+        return factory.fromClass(Collection.class);
+    }
+
+    @Provides
+    @Singleton
+    @From(Map.class)
+    TypeReferenceSource mapReference(final TypeReferenceSourceFactory factory) {
+
+        return factory.fromClass(Map.class);
+    }
+
+    @Provides
+    @Singleton
+    @From(OptionalFactory.class)
+    TypeReferenceSource optionalFactoryReference(final TypeReferenceSourceFactory factory) {
+
+        return factory.fromClass(OptionalFactory.class);
     }
 }

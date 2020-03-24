@@ -28,7 +28,6 @@ import com.google.inject.util.Modules;
 import org.rookit.auto.config.ProcessorConfig;
 import org.rookit.convention.auto.metatype.config.MetaTypeApiConfig;
 
-@SuppressWarnings("MethodMayBeStatic")
 public final class ConfigurationModule extends AbstractModule {
 
     private static final Module MODULE = Modules.combine(

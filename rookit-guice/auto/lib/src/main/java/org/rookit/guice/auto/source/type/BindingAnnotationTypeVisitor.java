@@ -19,38 +19,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.convention.auto.metatype.source.annotation;
+package org.rookit.guice.auto.source.type;
 
 import com.google.inject.Inject;
-import org.rookit.auto.source.type.annotation.AnnotationSource;
-import org.rookit.convention.auto.javax.ConventionTypeElement;
-import org.rookit.convention.auto.property.ContainerProperty;
-import org.rookit.convention.auto.property.Property;
-import org.rookit.guice.auto.source.annotation.BindingAnnotationFactory;
+import one.util.streamex.StreamEx;
+import org.rookit.auto.javax.executable.ExtendedExecutableElement;
+import org.rookit.auto.javax.type.ExtendedTypeElement;
+import org.rookit.auto.javax.visitor.StreamExtendedElementVisitor;
+import org.rookit.auto.source.type.TypeSource;
 
-final class PropertyAnnotationSourceFactoryImpl implements PropertyAnnotationSourceFactory {
+final class BindingAnnotationTypeVisitor implements StreamExtendedElementVisitor<TypeSource, Void> {
 
-    private final BindingAnnotationFactory bindingAnnotations;
+    private final BindingAnnotationTypeFactory factory;
 
     @Inject
-    private PropertyAnnotationSourceFactoryImpl(
-            final BindingAnnotationFactory bindingAnnotations) {
-        this.bindingAnnotations = bindingAnnotations;
-
+    private BindingAnnotationTypeVisitor(final BindingAnnotationTypeFactory factory) {
+        this.factory = factory;
     }
 
     @Override
-    public AnnotationSource bindingAnnotationForProperty(
-            final ConventionTypeElement enclosing, final Property property) {
+    public StreamEx<TypeSource> visitType(
+            final ExtendedTypeElement extendedType, final Void parameter) {
 
-        return this.bindingAnnotations.annotationFromExecutable(enclosing, property.name());
+        return StreamEx.of(this.factory.fromType(extendedType));
     }
 
     @Override
-    public AnnotationSource bindingAnnotationForContainer(
-            final ConventionTypeElement enclosing, final ContainerProperty container) {
+    public StreamEx<TypeSource> visitExecutable(
+            final ExtendedExecutableElement extendedExecutable, final Void parameter) {
 
-        return bindingAnnotationForProperty(enclosing, container);
+        return StreamEx.of(this.factory.fromExecutable(extendedExecutable));
     }
 
 }

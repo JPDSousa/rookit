@@ -90,7 +90,7 @@ final class MetaTypeReferenceSourceFactoryImpl implements MetaTypeReferenceSourc
 
         final TypeReferenceSource baseReference = createBaseReference(GENERIC, typeElement);
 
-        return this.parameterFactory.create(baseReference, referenceFor(typeElement));
+        return this.parameterFactory.create(baseReference, typeElement);
     }
 
     private TypeReferenceSource createBaseReference(final String prefix, final ExtendedTypeElement typeElement) {

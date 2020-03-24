@@ -19,34 +19,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.convention.metatype;
+package org.rookit.convention.auto.metatype.source;
 
-import org.rookit.convention.MetaType;
-import org.rookit.convention.property.PropertyModel;
+import com.google.common.collect.ImmutableList;
+import org.rookit.auto.source.field.FieldSource;
 
 import java.util.Collection;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
-public abstract class AbstractMetaType<T> implements MetaType<T> {
+final class PropertyFetcherFieldsImpl implements PropertyFetcherFields {
 
-    private final Map<String, PropertyModel<?>> properties;
+    private final FieldSource propertyMap;
 
-    protected AbstractMetaType(final Collection<PropertyModel<?>> properties) {
-        this.properties = properties.stream()
-                .collect(Collectors.toMap(PropertyModel::propertyName, propertyModel -> propertyModel));
+    private final Collection<FieldSource> allFields;
+
+    PropertyFetcherFieldsImpl(
+            final FieldSource propertyMap,
+            final Iterable<FieldSource> otherFields) {
+
+        this.propertyMap = propertyMap;
+        this.allFields = ImmutableList.<FieldSource>builder()
+                .add(propertyMap)
+                .addAll(otherFields)
+                .build();
     }
 
-
     @Override
-    public Optional<PropertyModel<?>> property(final String name) {
-        return Optional.ofNullable(this.properties.get(name));
+    public Collection<FieldSource> asCollection() {
+
+        return this.allFields;
     }
 
     @Override
-    public Collection<PropertyModel<?>> properties() {
-        return this.properties.values();
+    public FieldSource propertyMap() {
+
+        return this.propertyMap;
     }
 
 }

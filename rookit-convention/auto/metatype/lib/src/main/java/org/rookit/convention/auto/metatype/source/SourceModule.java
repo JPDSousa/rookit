@@ -23,8 +23,10 @@ package org.rookit.convention.auto.metatype.source;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
+import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
 import org.rookit.convention.auto.metatype.source.annotation.AnnotationModule;
+import org.rookit.convention.auto.metatype.source.field.FieldModule;
 import org.rookit.convention.auto.metatype.source.method.MethodModule;
 import org.rookit.convention.auto.metatype.source.parameter.ParameterModule;
 import org.rookit.convention.auto.metatype.source.prototype.PrototypeModule;
@@ -35,6 +37,7 @@ public final class SourceModule extends AbstractModule {
     private static final Module MODULE = Modules.combine(
             new SourceModule(),
             AnnotationModule.getModule(),
+            FieldModule.getModule(),
             MethodModule.getModule(),
             ParameterModule.getModule(),
             PrototypeModule.getModule(),
@@ -46,5 +49,17 @@ public final class SourceModule extends AbstractModule {
     }
 
     private SourceModule() {}
+
+    @Override
+    protected void configure() {
+
+        bind(MetaTypeModelTypeFactory.class).to(ModelTypeFactory.class)
+                .in(Singleton.class);
+
+        bind(MetaTypePropertyFetcherFactory.class).to(PropertyFetcherFactory.class)
+                .in(Singleton.class);
+
+        bind(MetaTypeModelSerializerFactory.class).to(ModelSerializerFactory.class).in(Singleton.class);
+    }
 
 }

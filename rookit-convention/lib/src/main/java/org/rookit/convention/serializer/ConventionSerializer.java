@@ -33,9 +33,8 @@ import org.rookit.convention.property.PropertyModel;
 import org.rookit.serialization.Serializer;
 import org.rookit.serialization.TypeReader;
 import org.rookit.serialization.TypeWriter;
+import org.rookit.utils.optional.Optional;
 import org.rookit.utils.optional.OptionalFactory;
-
-import java.util.Optional;
 
 
 public final class ConventionSerializer<T> implements Serializer<T> {

@@ -26,15 +26,18 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
-import org.rookit.auto.javax.naming.MethodNameTransformers;
+import org.rookit.auto.javax.naming.IdentifierTransformer;
+import org.rookit.auto.javax.naming.IdentifierTransformers;
 import org.rookit.auto.javax.naming.MethodNameTransformer;
+import org.rookit.auto.javax.naming.MethodNameTransformers;
 import org.rookit.guice.auto.aggregator.AggregatorModule;
 import org.rookit.guice.auto.annotation.AnnotationModule;
-import org.rookit.guice.auto.annotation.Guice;
 import org.rookit.guice.auto.bind.BindModule;
 import org.rookit.guice.auto.config.ConfigModule;
+import org.rookit.guice.auto.config.GuiceConfig;
 import org.rookit.guice.auto.module.ModuleModule;
 import org.rookit.guice.auto.source.SourceModule;
+import org.rookit.utils.adapt.Adapter;
 import org.rookit.utils.guice.Self;
 import org.rookit.utils.string.template.Template1;
 
@@ -62,5 +65,17 @@ public final class GuiceAutoLibModule extends AbstractModule {
     @Guice
     MethodNameTransformer namingFactory(final MethodNameTransformers factories, @Self final Template1 noopTemplate) {
         return factories.fromTemplate(noopTemplate);
+    }
+
+    @Provides
+    @Singleton
+    @Guice
+    IdentifierTransformer identifierTransformer(final IdentifierTransformers transformers,
+                                                final GuiceConfig config) {
+
+        return transformers.fromFunctions(
+                reference -> reference.resolve(config.basePackage()),
+                Adapter.identity()
+        ) ;
     }
 }

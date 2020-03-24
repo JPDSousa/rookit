@@ -19,16 +19,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.convention.auto.metatype.source.method;
+package org.rookit.guice.auto;
 
-import org.rookit.auto.source.method.MethodSource;
-import org.rookit.convention.auto.javax.ConventionTypeElement;
-import org.rookit.convention.auto.property.Property;
+import com.google.inject.BindingAnnotation;
 
-public interface PropertyMethodSourceFactory {
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
-    MethodSource apiFor(ConventionTypeElement enclosing, Property property);
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-    MethodSource implFor(ConventionTypeElement enclosing, Property property);
-
+@SuppressWarnings("javadoc")
+@Retention(RUNTIME)
+@BindingAnnotation
+@Target({FIELD, METHOD, PARAMETER})
+public @interface Guice {
 }

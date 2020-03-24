@@ -19,32 +19,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.convention.meta.source.metatype;
+package org.rookit.convention.auto.metatype.source.field;
 
 import com.google.inject.Inject;
-import one.util.streamex.StreamEx;
-import org.rookit.auto.javax.visitor.StreamExtendedElementVisitor;
-import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.field.FieldSource;
+import org.rookit.auto.source.field.FieldSourceFactory;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
-import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitor;
-import org.rookit.convention.auto.metatype.source.method.PropertyMethodSourceFactory;
+import org.rookit.convention.auto.metatype.source.type.reference.PropertyTypeReferenceFactory;
+import org.rookit.convention.auto.property.Property;
 
-final class MetaTypeMethodVisitor implements ConventionTypeElementVisitor<StreamEx<MethodSource>, Void>,
-        StreamExtendedElementVisitor<MethodSource, Void> {
+final class PropertyFieldFactoryImpl implements PropertyFieldFactory {
 
-    private final PropertyMethodSourceFactory propertyFactory;
+    private final FieldSourceFactory fieldFactory;
+    private final PropertyTypeReferenceFactory references;
 
     @Inject
-    private MetaTypeMethodVisitor(final PropertyMethodSourceFactory propertyFactory) {
+    private PropertyFieldFactoryImpl(
+            final FieldSourceFactory fieldFactory,
+            final PropertyTypeReferenceFactory references) {
 
-        this.propertyFactory = propertyFactory;
+        this.fieldFactory = fieldFactory;
+        this.references = references;
     }
 
     @Override
-    public StreamEx<MethodSource> visitConventionType(final ConventionTypeElement element, final Void parameter) {
+    public FieldSource fieldForProperty(
+            final ConventionTypeElement element, final Property property) {
 
-        return StreamEx.of(element.properties())
-                .map(property -> this.propertyFactory.implFor(element, property));
+        return this.fieldFactory.createMutable(this.references.apiForProperty(element, property), property.name())
+                .makePrivate()
+                .makeFinal();
     }
 
 }

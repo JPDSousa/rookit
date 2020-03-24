@@ -76,15 +76,4 @@ public abstract class AbstractTypeProcessor extends AbstractConfigAwareTypeProce
         }
     }
 
-    @Override
-    public String toString() {
-        return "AbstractTypeProcessor{" +
-                "containerFactory=" + this.containerFactory +
-                ", generator=" + this.generator +
-                ", voidUtils=" + this.voidUtils +
-                ", filer=" + this.filer +
-                ", typeFactory=" + this.typeFactory +
-                "} " + super.toString();
-    }
-
 }

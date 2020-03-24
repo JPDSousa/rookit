@@ -21,11 +21,14 @@
  ******************************************************************************/
 package org.rookit.auto.javapoet.type.variable;
 
+import com.squareup.javapoet.TypeName;
+import com.squareup.javapoet.TypeVariableName;
+import org.rookit.auto.javapoet.type.reference.JavaPoetReference;
 import org.rookit.auto.source.type.variable.WildcardVariableSource;
 import org.rookit.utils.optional.Optional;
 import org.rookit.utils.optional.OptionalFactory;
 
-final class JavaPoetWildcard implements WildcardVariableSource {
+final class JavaPoetWildcard implements JavaPoetReference, WildcardVariableSource {
 
     private final OptionalFactory optionalFactory;
 
@@ -36,6 +39,11 @@ final class JavaPoetWildcard implements WildcardVariableSource {
     @Override
     public Optional<String> packageName() {
         return this.optionalFactory.empty();
+    }
+
+    @Override
+    public TypeName buildTypeName() {
+        return TypeVariableName.get("?");
     }
 
 }

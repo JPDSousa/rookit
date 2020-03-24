@@ -19,48 +19,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.convention.api.source.type;
+package org.rookit.guice.auto.source.annotation;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
-import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import one.util.streamex.StreamEx;
-import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
-import org.rookit.auto.source.type.TypeSource;
-import org.rookit.convention.annotation.LaConvention;
-import org.rookit.convention.auto.metatype.source.type.MetaTypeSourceFactory;
-import org.rookit.convention.auto.source.type.ConventionTypeElementTypeSourceVisitors;
 
-import java.lang.annotation.Annotation;
-import java.util.Set;
+public final class AnnotationModule extends AbstractModule {
 
-@SuppressWarnings("MethodMayBeStatic")
-public final class TypeModule extends AbstractModule {
-
-    private static final Module MODULE = new TypeModule();
+    private static final Module MODULE = new AnnotationModule();
 
     public static Module getModule() {
         return MODULE;
     }
 
-    private TypeModule() {}
+    private AnnotationModule() {}
 
     @Override
     protected void configure() {
 
+        bind(BindingAnnotationFactory.class).to(BindingAnnotationFactoryImpl.class)
+                .in(Singleton.class);
     }
 
-    @Provides
-    @Singleton
-    ExtendedElementVisitor<StreamEx<TypeSource>, Void> visitor(
-            final MetaTypeSourceFactory typeFactory,
-            @LaConvention final Set<Class<? extends Annotation>> annotations,
-            final ConventionTypeElementTypeSourceVisitors visitors) {
-
-        return visitors.<Void>conventionTypeSourceBuilder(typeFactory::apiFor, typeFactory::genericApiFor)
-                .withRecursiveVisiting(StreamEx::append)
-                .filterIfAnyAnnotationPresent(annotations)
-                .build();
-    }
 }

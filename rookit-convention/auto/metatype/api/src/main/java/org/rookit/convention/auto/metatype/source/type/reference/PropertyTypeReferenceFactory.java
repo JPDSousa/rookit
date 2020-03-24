@@ -19,38 +19,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.convention.auto.metatype.source.annotation;
+package org.rookit.convention.auto.metatype.source.type.reference;
 
-import com.google.inject.Inject;
-import org.rookit.auto.source.type.annotation.AnnotationSource;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.property.ContainerProperty;
 import org.rookit.convention.auto.property.Property;
-import org.rookit.guice.auto.source.annotation.BindingAnnotationFactory;
 
-final class PropertyAnnotationSourceFactoryImpl implements PropertyAnnotationSourceFactory {
+public interface PropertyTypeReferenceFactory {
 
-    private final BindingAnnotationFactory bindingAnnotations;
+    TypeReferenceSource apiForProperty(ConventionTypeElement enclosing, Property property);
 
-    @Inject
-    private PropertyAnnotationSourceFactoryImpl(
-            final BindingAnnotationFactory bindingAnnotations) {
-        this.bindingAnnotations = bindingAnnotations;
+    TypeReferenceSource genericApiForProperty(ConventionTypeElement enclosing, Property property);
 
-    }
+    TypeReferenceSource apiForContainer(ConventionTypeElement enclosing, ContainerProperty container);
 
-    @Override
-    public AnnotationSource bindingAnnotationForProperty(
-            final ConventionTypeElement enclosing, final Property property) {
+    TypeReferenceSource genericApiForContainer(ConventionTypeElement enclosing, ContainerProperty container);
 
-        return this.bindingAnnotations.annotationFromExecutable(enclosing, property.name());
-    }
+    TypeReferenceSource implForProperty(ConventionTypeElement enclosing, Property property);
 
-    @Override
-    public AnnotationSource bindingAnnotationForContainer(
-            final ConventionTypeElement enclosing, final ContainerProperty container) {
-
-        return bindingAnnotationForProperty(enclosing, container);
-    }
+    TypeReferenceSource implForContainer(ConventionTypeElement enclosing, ContainerProperty container);
 
 }

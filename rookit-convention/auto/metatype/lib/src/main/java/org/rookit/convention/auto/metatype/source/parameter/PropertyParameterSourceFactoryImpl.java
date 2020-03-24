@@ -29,20 +29,20 @@ import org.rookit.auto.source.type.annotation.AnnotationSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.metatype.source.annotation.PropertyAnnotationSourceFactory;
-import org.rookit.convention.auto.metatype.source.type.reference.PropertyTypeReferenceSourceFactory;
+import org.rookit.convention.auto.metatype.source.type.reference.PropertyTypeReferenceFactory;
 import org.rookit.convention.auto.property.Property;
 
 import java.util.Collection;
 
 final class PropertyParameterSourceFactoryImpl implements PropertyParameterSourceFactory {
 
-    private final PropertyTypeReferenceSourceFactory typePrototypes;
+    private final PropertyTypeReferenceFactory typePrototypes;
     private final PropertyAnnotationSourceFactory annotationPrototype;
     private final ParameterSourceFactory parameterFactory;
 
     @Inject
     private PropertyParameterSourceFactoryImpl(
-            final PropertyTypeReferenceSourceFactory typePrototypes,
+            final PropertyTypeReferenceFactory typePrototypes,
             final PropertyAnnotationSourceFactory annotationPrototype,
             final ParameterSourceFactory parameterFactory) {
         this.typePrototypes = typePrototypes;

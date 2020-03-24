@@ -27,7 +27,7 @@ import org.rookit.auto.source.type.reference.TypeReferenceSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.metatype.source.annotation.PropertyAnnotationSourceFactory;
 import org.rookit.convention.auto.metatype.source.parameter.PropertyParameterSourceFactory;
-import org.rookit.convention.auto.metatype.source.type.reference.PropertyTypeReferenceSourceFactory;
+import org.rookit.convention.auto.metatype.source.type.reference.PropertyTypeReferenceFactory;
 import org.rookit.convention.auto.property.ContainerProperty;
 import org.rookit.guice.auto.bind.BindingFactory;
 import org.rookit.guice.auto.bind.ProviderMethodBinding;
@@ -38,7 +38,7 @@ import static org.apache.commons.lang3.StringUtils.uncapitalize;
 
 final class PropertyMethodPrototypesImpl implements PropertyMethodPrototypes {
 
-    private final PropertyTypeReferenceSourceFactory returnType;
+    private final PropertyTypeReferenceFactory returnType;
     private final PropertyAnnotationSourceFactory annotationPrototype;
     private final BindingFactory bindingFactory;
     private final PropertyParameterSourceFactory parameterPrototypes;
@@ -46,7 +46,7 @@ final class PropertyMethodPrototypesImpl implements PropertyMethodPrototypes {
 
     @Inject
     private PropertyMethodPrototypesImpl(
-            final PropertyTypeReferenceSourceFactory returnType,
+            final PropertyTypeReferenceFactory returnType,
             final PropertyAnnotationSourceFactory annotationPrototype,
             final BindingFactory bindingFactory,
             final PropertyParameterSourceFactory parameterPrototypes) {

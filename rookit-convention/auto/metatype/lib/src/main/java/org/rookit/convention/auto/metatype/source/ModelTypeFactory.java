@@ -19,50 +19,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.convention.auto.metatype.source.method;
+package org.rookit.convention.auto.metatype.source;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
+import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.method.MethodSourceFactory;
-import org.rookit.auto.source.method.MutableMethodSource;
 import org.rookit.auto.source.type.parameter.TypeParameterSource;
 import org.rookit.auto.source.type.parameter.TypeParameterSourceFactory;
-import org.rookit.auto.source.type.variable.WildcardVariableSourceFactory;
-import org.rookit.convention.property.PropertyModel;
+import org.rookit.auto.source.type.reference.From;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
+import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
+import org.rookit.convention.auto.javax.ConventionTypeElement;
 
-final class PropertiesImplMethodSourceFactory implements PropertiesMethodSourceFactory {
+final class ModelTypeFactory implements MetaTypeModelTypeFactory {
 
-    private final WildcardVariableSourceFactory wildcardFactory;
+    private static final String ACCESSOR_NAME = "modelType";
+
     private final MethodSourceFactory methodFactory;
     private final TypeParameterSourceFactory typeParameterFactory;
+    private final TypeReferenceSource clazz;
 
     @Inject
-    private PropertiesImplMethodSourceFactory(
-            final WildcardVariableSourceFactory wildcardFactory,
+    private ModelTypeFactory(
             final MethodSourceFactory methodFactory,
-            final TypeParameterSourceFactory typeParameterFactory) {
-        this.wildcardFactory = wildcardFactory;
+            final TypeParameterSourceFactory typeParameterFactory,
+            @From(Class.class) final TypeReferenceSource clazz,
+            final TypeReferenceSourceFactory referenceFactory) {
         this.methodFactory = methodFactory;
         this.typeParameterFactory = typeParameterFactory;
+        this.clazz = clazz;
     }
 
     @Override
-    public PropertiesImplMethodSource createPropertiesMethod(final CharSequence name) {
+    public MethodSource methodFor(final ConventionTypeElement type) {
 
-        final String varName = "allProperties";
-        final TypeParameterSource varType = this.typeParameterFactory.create(
-                ImmutableList.Builder.class,
-                this.typeParameterFactory.create(
-                        PropertyModel.class,
-                        this.wildcardFactory.newWildcard()
-                ));
+        final TypeParameterSource reference = this.typeParameterFactory.create(this.clazz, type);
 
-        final MutableMethodSource method = this.methodFactory.createMutableMethod(name)
+        return this.methodFactory.createMutableMethod(ACCESSOR_NAME)
                 .makePublic()
-                .makeDefault()
-                .addVariable(varType, varName, "$T.builder()", ImmutableList.of(ImmutableList.class));
-
-        return new PropertiesImplMethodSourceImpl(name, varName, method);
+                .override()
+                .withReturnType(reference)
+                .addStatement("return $T.class", ImmutableList.of(type));
     }
 
 }

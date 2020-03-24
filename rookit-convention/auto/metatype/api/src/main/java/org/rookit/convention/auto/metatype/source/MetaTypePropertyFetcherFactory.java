@@ -19,38 +19,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.convention.auto.metatype.source.annotation;
+package org.rookit.convention.auto.metatype.source;
 
-import com.google.inject.Inject;
-import org.rookit.auto.source.type.annotation.AnnotationSource;
+import org.rookit.auto.source.arbitrary.ArbitraryCodeSource;
+import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.parameter.ParameterSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
-import org.rookit.convention.auto.property.ContainerProperty;
-import org.rookit.convention.auto.property.Property;
-import org.rookit.guice.auto.source.annotation.BindingAnnotationFactory;
 
-final class PropertyAnnotationSourceFactoryImpl implements PropertyAnnotationSourceFactory {
+import java.util.Collection;
 
-    private final BindingAnnotationFactory bindingAnnotations;
+public interface MetaTypePropertyFetcherFactory {
 
-    @Inject
-    private PropertyAnnotationSourceFactoryImpl(
-            final BindingAnnotationFactory bindingAnnotations) {
-        this.bindingAnnotations = bindingAnnotations;
+    MethodSource methodFor(ConventionTypeElement type);
 
-    }
+    PropertyFetcherFields fields();
 
-    @Override
-    public AnnotationSource bindingAnnotationForProperty(
-            final ConventionTypeElement enclosing, final Property property) {
+    ArbitraryCodeSource initializerFor(ConventionTypeElement typeElement);
 
-        return this.bindingAnnotations.annotationFromExecutable(enclosing, property.name());
-    }
-
-    @Override
-    public AnnotationSource bindingAnnotationForContainer(
-            final ConventionTypeElement enclosing, final ContainerProperty container) {
-
-        return bindingAnnotationForProperty(enclosing, container);
-    }
+    Collection<ParameterSource> constructorParametersFor(ConventionTypeElement typeElement);
 
 }

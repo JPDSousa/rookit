@@ -36,10 +36,8 @@ import org.rookit.auto.source.field.FieldSource;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.convention.auto.ConventionLibModule;
 import org.rookit.convention.auto.config.PropertyConfig;
-import org.rookit.convention.auto.property.ExtendedPropertyEvaluator;
 import org.rookit.convention.auto.property.ExtendedPropertyExtractor;
 import org.rookit.convention.auto.property.ExtendedPropertyExtractorFactory;
-import org.rookit.convention.auto.property.Property;
 import org.rookit.convention.property.source.config.ConfigurationModule;
 import org.rookit.convention.property.source.javapoet.JavaPoetModule;
 import org.rookit.failsafe.FailsafeModule;
@@ -79,7 +77,6 @@ public final class SourceModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(TypeProcessor.class).to(PropertyTypeProcessor.class).in(Singleton.class);
-        bind(ExtendedPropertyEvaluator.class).toInstance(Property::isContainer);
         bind(new TypeLiteral<ExtendedElementVisitor<StreamEx<FieldSource>, Void>>() {})
                 .to(MetaTypePropertyFieldVisitor.class).in(Singleton.class);
     }
