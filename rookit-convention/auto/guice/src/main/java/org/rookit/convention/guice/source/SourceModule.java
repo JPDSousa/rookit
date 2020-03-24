@@ -36,7 +36,6 @@ import org.rookit.convention.ConventionModule;
 import org.rookit.convention.annotation.LaConvention;
 import org.rookit.convention.auto.ConventionLibModule;
 import org.rookit.convention.auto.source.type.ConventionTypeElementTypeSourceVisitors;
-import org.rookit.convention.guice.source.javax.JavaxModule;
 import org.rookit.convention.guice.source.naming.NamingModule;
 import org.rookit.failsafe.FailsafeModule;
 import org.rookit.guice.auto.Guice;
@@ -61,7 +60,6 @@ public final class SourceModule extends AbstractModule {
             FailsafeModule.getModule(),
             GuiceAutoLibModule.getModule(),
             IOLibModule.getModule(),
-            JavaxModule.getModule(),
             NamingModule.getModule(),
             PathLibModule.getModule(),
             SerializationBundleModule.getModule(),
@@ -85,8 +83,8 @@ public final class SourceModule extends AbstractModule {
             @LaConvention final Set<Class<? extends Annotation>> annotations) {
 
         return visitors.typeSourceBuilder(baseVisitor)
-                .withRecursiveVisiting(StreamEx::append)
                 .filterIfAnyAnnotationPresent(annotations)
+                .withRecursiveVisiting(StreamEx::append)
                 .build();
     }
 

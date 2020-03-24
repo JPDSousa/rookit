@@ -37,6 +37,7 @@ import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 final class ConventionAnnotationBuilderImpl<V extends ConventionTypeElementVisitor<StreamEx<TypeSource>, P>, P>
         implements ConventionAnnotationBuilder<V, P> {
@@ -118,6 +119,12 @@ final class ConventionAnnotationBuilderImpl<V extends ConventionTypeElementVisit
     public ConventionAnnotationBuilder<V, P> withDirtyFallback(
             final ExtendedElementVisitor<StreamEx<TypeSource>, P> visitor) {
         return newStage(this.builder.withDirtyFallback(visitor));
+    }
+
+    @Override
+    public ConventionAnnotationBuilder<V, P> filter(final Predicate<ExtendedElement> predicate) {
+
+        return newStage(this.builder.filter(predicate));
     }
 
     @Override

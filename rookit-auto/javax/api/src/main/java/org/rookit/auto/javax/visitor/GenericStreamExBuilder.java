@@ -23,9 +23,11 @@ package org.rookit.auto.javax.visitor;
 
 import com.google.inject.Provider;
 import one.util.streamex.StreamEx;
+import org.rookit.auto.javax.ExtendedElement;
 
 import java.lang.annotation.Annotation;
 import java.util.Collection;
+import java.util.function.Predicate;
 
 public interface GenericStreamExBuilder<B extends GenericStreamExBuilder<B, V, R, P>,
         V extends ExtendedElementVisitor<StreamEx<R>, P>, R, P> extends
@@ -39,6 +41,8 @@ public interface GenericStreamExBuilder<B extends GenericStreamExBuilder<B, V, R
 
     @Deprecated
     B withDirtyFallback(ExtendedElementVisitor<StreamEx<R>, P> visitor);
+
+    B filter(Predicate<ExtendedElement> predicate);
 
     B filterIfAnnotationPresent(Class<? extends Annotation> annotationClass);
 

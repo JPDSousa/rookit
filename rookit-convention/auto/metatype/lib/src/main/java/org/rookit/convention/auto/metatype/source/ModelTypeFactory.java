@@ -29,7 +29,6 @@ import org.rookit.auto.source.type.parameter.TypeParameterSource;
 import org.rookit.auto.source.type.parameter.TypeParameterSourceFactory;
 import org.rookit.auto.source.type.reference.From;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
-import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 
 final class ModelTypeFactory implements MetaTypeModelTypeFactory {
@@ -44,8 +43,7 @@ final class ModelTypeFactory implements MetaTypeModelTypeFactory {
     private ModelTypeFactory(
             final MethodSourceFactory methodFactory,
             final TypeParameterSourceFactory typeParameterFactory,
-            @From(Class.class) final TypeReferenceSource clazz,
-            final TypeReferenceSourceFactory referenceFactory) {
+            @From(Class.class) final TypeReferenceSource clazz) {
         this.methodFactory = methodFactory;
         this.typeParameterFactory = typeParameterFactory;
         this.clazz = clazz;

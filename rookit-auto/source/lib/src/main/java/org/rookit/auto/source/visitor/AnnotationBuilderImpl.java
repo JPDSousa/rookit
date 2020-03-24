@@ -37,6 +37,7 @@ import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 final class AnnotationBuilderImpl<V extends ExtendedElementVisitor<StreamEx<TypeSource>, P>, P>
         implements AnnotationBuilder<V, P> {
@@ -111,6 +112,12 @@ final class AnnotationBuilderImpl<V extends ExtendedElementVisitor<StreamEx<Type
     public AnnotationBuilder<V, P> withDirtyFallback(
             final ExtendedElementVisitor<StreamEx<TypeSource>, P> visitor) {
         return newStage(this.builder.withDirtyFallback(visitor));
+    }
+
+    @Override
+    public AnnotationBuilder<V, P> filter(final Predicate<ExtendedElement> predicate) {
+
+        return newStage(this.builder.filter(predicate));
     }
 
     @Override

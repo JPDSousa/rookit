@@ -23,13 +23,7 @@ package org.rookit.convention.auto.metatype.source.parameter;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
-import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import one.util.streamex.StreamEx;
-import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
-import org.rookit.auto.source.parameter.ParameterSource;
-import org.rookit.convention.auto.javax.visitor.ConventionTypeElementVisitors;
-import org.rookit.convention.guice.MetaType;
 
 public final class ParameterModule extends AbstractModule {
 
@@ -45,28 +39,6 @@ public final class ParameterModule extends AbstractModule {
     protected void configure() {
         bind(PropertyParameterSourceFactory.class).to(PropertyParameterSourceFactoryImpl.class).in(Singleton.class);
         bind(MetaTypeParameterSourceFactory.class).to(MetaTypeParameterSourceFactoryImpl.class).in(Singleton.class);
-    }
-
-    @Provides
-    @Singleton
-    @MetaType(includeAnnotations = true)
-    ExtendedElementVisitor<StreamEx<ParameterSource>, Void> createAnnotatedMetaTypeFactory(
-            final ConventionTypeElementVisitors visitors,
-            final PropertyParameterSourceFactory parameterPrototypes) {
-
-        return visitors.<ParameterSource, Void>createPropertyLevelVisitor(parameterPrototypes::parameterForProperty)
-                .build();
-    }
-
-    @Provides
-    @Singleton
-    @MetaType
-    ExtendedElementVisitor<StreamEx<ParameterSource>, Void> createMetaTypeFactory(
-            final ConventionTypeElementVisitors visitors,
-            final PropertyParameterSourceFactory parameterPrototypes) {
-
-        return visitors.<ParameterSource, Void>createPropertyLevelVisitor(parameterPrototypes::parameterForProperty)
-                .build();
     }
 
 }

@@ -23,6 +23,7 @@ package org.rookit.auto.source.spec.parameter;
 
 import com.google.inject.Provider;
 import one.util.streamex.StreamEx;
+import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitors;
@@ -35,6 +36,7 @@ import org.rookit.utils.adapt.Adapter;
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.function.BinaryOperator;
+import java.util.function.Predicate;
 
 final class ParameterSourceBuilderImpl<V extends ExtendedElementVisitor<StreamEx<ParameterSource>, P>, P>
         implements ParameterSourceBuilder<V, P> {
@@ -91,6 +93,12 @@ final class ParameterSourceBuilderImpl<V extends ExtendedElementVisitor<StreamEx
     public ParameterSourceBuilder<V, P> withDirtyFallback(
             final ExtendedElementVisitor<StreamEx<ParameterSource>, P> visitor) {
         return newBuilder(this.builder.withDirtyFallback(visitor));
+    }
+
+    @Override
+    public ParameterSourceBuilder<V, P> filter(final Predicate<ExtendedElement> predicate) {
+
+        return newBuilder(this.builder.filter(predicate));
     }
 
     @Override

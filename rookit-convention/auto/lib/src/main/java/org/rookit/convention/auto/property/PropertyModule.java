@@ -45,7 +45,6 @@ public final class PropertyModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(PropertyFactory.class).to(BasePropertyFactory.class).in(Singleton.class);
-        bind(ExtendedPropertyExtractorFactory.class).to(ExtendedPropertyExtractorFactoryImpl.class).in(Singleton.class);
     }
 
 }

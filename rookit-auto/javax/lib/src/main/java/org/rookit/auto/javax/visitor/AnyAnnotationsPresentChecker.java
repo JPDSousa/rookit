@@ -21,12 +21,13 @@
  ******************************************************************************/
 package org.rookit.auto.javax.visitor;
 
-import javax.lang.model.AnnotatedConstruct;
+import org.rookit.auto.javax.ExtendedElement;
+
 import java.lang.annotation.Annotation;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-final class AnyAnnotationsPresentChecker implements Predicate<AnnotatedConstruct> {
+final class AnyAnnotationsPresentChecker implements Predicate<ExtendedElement> {
 
     private final Iterable<? extends Class<? extends Annotation>> annotationClasses;
 
@@ -35,7 +36,7 @@ final class AnyAnnotationsPresentChecker implements Predicate<AnnotatedConstruct
     }
 
     @Override
-    public boolean test(final AnnotatedConstruct construct) {
+    public boolean test(final ExtendedElement construct) {
         for (final Class<? extends Annotation> annotationClass : this.annotationClasses) {
             if (Objects.nonNull(construct.getAnnotation(annotationClass))) {
                 return true;

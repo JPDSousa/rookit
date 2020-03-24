@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.inject.Provider;
 import one.util.streamex.StreamEx;
+import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.utils.adapt.Adapter;
 import org.rookit.utils.optional.OptionalFactory;
@@ -35,6 +36,7 @@ import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 final class StreamExBuilderImpl<V extends ExtendedElementVisitor<StreamEx<R>, P>, R, P>
         implements StreamExBuilder<V, R, P> {
@@ -128,6 +130,11 @@ final class StreamExBuilderImpl<V extends ExtendedElementVisitor<StreamEx<R>, P>
             final ExtendedElementVisitor<StreamEx<R>, P> visitor) {
 
         return newStage(new DirtyFallbackVisitor<>(build(), visitor));
+    }
+
+    @Override
+    public StreamExBuilder<V, R, P> filter(final Predicate<ExtendedElement> predicate) {
+        return newStage(new FilterStreamExVisitor<>(predicate, build()));
     }
 
     @Override

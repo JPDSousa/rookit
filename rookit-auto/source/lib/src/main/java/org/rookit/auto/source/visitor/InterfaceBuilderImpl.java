@@ -37,6 +37,7 @@ import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 final class InterfaceBuilderImpl<V extends ExtendedElementVisitor<StreamEx<TypeSource>, P>, P>
         implements InterfaceBuilder<V, P> {
@@ -98,6 +99,12 @@ final class InterfaceBuilderImpl<V extends ExtendedElementVisitor<StreamEx<TypeS
     public InterfaceBuilder<V, P> withDirtyFallback(final ExtendedElementVisitor<StreamEx<TypeSource>, P> visitor) {
 
         return newStage(this.builder.withDirtyFallback(visitor));
+    }
+
+    @Override
+    public InterfaceBuilder<V, P> filter(final Predicate<ExtendedElement> predicate) {
+
+        return newStage(this.builder.filter(predicate));
     }
 
     @Override

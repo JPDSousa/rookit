@@ -36,8 +36,6 @@ import org.rookit.auto.source.field.FieldSource;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.convention.auto.ConventionLibModule;
 import org.rookit.convention.auto.config.PropertyConfig;
-import org.rookit.convention.auto.property.ExtendedPropertyExtractor;
-import org.rookit.convention.auto.property.ExtendedPropertyExtractorFactory;
 import org.rookit.convention.property.source.config.ConfigurationModule;
 import org.rookit.convention.property.source.javapoet.JavaPoetModule;
 import org.rookit.failsafe.FailsafeModule;
@@ -79,13 +77,6 @@ public final class SourceModule extends AbstractModule {
         bind(TypeProcessor.class).to(PropertyTypeProcessor.class).in(Singleton.class);
         bind(new TypeLiteral<ExtendedElementVisitor<StreamEx<FieldSource>, Void>>() {})
                 .to(MetaTypePropertyFieldVisitor.class).in(Singleton.class);
-    }
-
-    @Provides
-    @Singleton
-    ExtendedPropertyExtractor propertyExtractor(final ExtendedPropertyExtractorFactory factory) {
-        final ExtendedPropertyExtractor baseExtractor = factory.create(executableElement -> true);
-        return factory.createRecursive(baseExtractor);
     }
 
     @Provides

@@ -38,11 +38,6 @@
 
         <dependency>
             <groupId>${rookit.group}</groupId>
-            <artifactId>rookit-auto-source-lib</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>${rookit.group}</groupId>
             <artifactId>rookit-auto-api</artifactId>
         </dependency>
 

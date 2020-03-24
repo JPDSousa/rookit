@@ -25,19 +25,18 @@ import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.auto.javax.type.parameter.ExtendedTypeParameterElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
+import org.rookit.auto.javax.type.parameter.ExtendedTypeParameterElement;
 import org.rookit.auto.javax.variable.ExtendedVariableElement;
 
-import javax.lang.model.AnnotatedConstruct;
 import java.util.function.Predicate;
 
 final class FilterStreamExVisitor<R, P> implements ExtendedElementVisitor<StreamEx<R>, P> {
 
-    private final Predicate<AnnotatedConstruct> annotationsFilter;
+    private final Predicate<ExtendedElement> annotationsFilter;
     private final ExtendedElementVisitor<StreamEx<R>, P> upstream;
 
-    FilterStreamExVisitor(final Predicate<AnnotatedConstruct> annotationsFilter,
+    FilterStreamExVisitor(final Predicate<ExtendedElement> annotationsFilter,
                           final ExtendedElementVisitor<StreamEx<R>, P> upstream) {
         this.annotationsFilter = annotationsFilter;
         this.upstream = upstream;

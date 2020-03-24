@@ -25,8 +25,8 @@ import com.google.inject.Inject;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.type.ExtendedTypeElementFactory;
 import org.rookit.auto.javax.type.mirror.ExtendedTypeMirrorFactory;
-import org.rookit.convention.auto.property.ExtendedPropertyExtractor;
 import org.rookit.convention.auto.property.Property;
+import org.rookit.convention.auto.property.PropertyFactory;
 import org.rookit.utils.guice.Base;
 import org.rookit.utils.optional.OptionalFactory;
 
@@ -39,7 +39,7 @@ final class ConventionTypeElementFactoryImpl implements ConventionTypeElementFac
     private final OptionalFactory optionalFactory;
     private final ConventionElementUtils utils;
     private final ExtendedTypeMirrorFactory mirrorFactory;
-    private final ExtendedPropertyExtractor extractor;
+    private final PropertyFactory propertyFactory;
 
     @Inject
     private ConventionTypeElementFactoryImpl(
@@ -47,12 +47,12 @@ final class ConventionTypeElementFactoryImpl implements ConventionTypeElementFac
             final OptionalFactory optionalFactory,
             final ConventionElementUtils utils,
             final ExtendedTypeMirrorFactory mirrorFactory,
-            final ExtendedPropertyExtractor extractor) {
+            final PropertyFactory propertyFactory) {
         this.delegate = delegate;
         this.optionalFactory = optionalFactory;
         this.utils = utils;
         this.mirrorFactory = mirrorFactory;
-        this.extractor = extractor;
+        this.propertyFactory = propertyFactory;
     }
 
     @Override
@@ -62,32 +62,20 @@ final class ConventionTypeElementFactoryImpl implements ConventionTypeElementFac
     }
 
     private ConventionTypeElement fromExtendedTypeElement(final ExtendedTypeElement extended) {
-        final Collection<Property> properties = this.extractor.fromTypeAsCollection(extended);
 
         return new ConventionTypeElementImpl(
                 extended,
                 this.optionalFactory,
                 this.utils,
-                properties,
                 this.mirrorFactory,
-                this);
+                this,
+                this.propertyFactory);
     }
 
     @Override
     public ConventionTypeElement changeElementProperties(final ConventionTypeElement original,
                                                          final Collection<Property> newProperties) {
         return new PropertyOverridingExtendedTypeElement(original, newProperties);
-    }
-
-    @Override
-    public String toString() {
-        return "ConventionTypeElementFactoryImpl{" +
-                "delegate=" + this.delegate +
-                ", optionalFactory=" + this.optionalFactory +
-                ", utils=" + this.utils +
-                ", mirrorFactory=" + this.mirrorFactory +
-                ", extractor=" + this.extractor +
-                "}";
     }
 
 }

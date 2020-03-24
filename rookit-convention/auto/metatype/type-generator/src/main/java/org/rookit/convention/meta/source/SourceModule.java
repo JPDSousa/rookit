@@ -33,8 +33,6 @@ import org.rookit.convention.annotation.LaConvention;
 import org.rookit.convention.annotation.PartialEntity;
 import org.rookit.convention.auto.ConventionLibModule;
 import org.rookit.convention.auto.metatype.source.type.MetaTypeImplTypeSourceFactory;
-import org.rookit.convention.auto.property.ExtendedPropertyExtractor;
-import org.rookit.convention.auto.property.ExtendedPropertyExtractorFactory;
 import org.rookit.convention.auto.source.type.ConventionTypeElementTypeSourceVisitors;
 import org.rookit.convention.meta.source.config.ConfigurationModule;
 import org.rookit.convention.meta.source.metatype.MetaTypeModule;
@@ -65,14 +63,6 @@ public final class SourceModule extends AbstractModule {
     }
 
     private SourceModule() {}
-
-    @Provides
-    @Singleton
-    ExtendedPropertyExtractor propertyExtractor(final ExtendedPropertyExtractorFactory factory) {
-        final ExtendedPropertyExtractor baseExtractor = factory.create(executableElement -> true);
-        return factory.createRecursive(baseExtractor);
-    }
-
 
     @Provides
     @Singleton

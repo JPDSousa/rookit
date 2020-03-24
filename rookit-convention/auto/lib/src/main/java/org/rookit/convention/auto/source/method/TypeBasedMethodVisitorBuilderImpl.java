@@ -23,6 +23,7 @@ package org.rookit.convention.auto.source.method;
 
 import com.google.inject.Provider;
 import one.util.streamex.StreamEx;
+import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
@@ -117,6 +118,13 @@ final class TypeBasedMethodVisitorBuilderImpl<P>
     public TypeBasedMethodVisitorBuilder<TypeBasedMethodVisitor<P>, P>
     withDirtyFallback(final ExtendedElementVisitor<StreamEx<MethodSource>, P> visitor) {
         return newStage(this.delegate.withDirtyFallback(visitor));
+    }
+
+    @Override
+    public TypeBasedMethodVisitorBuilder<TypeBasedMethodVisitor<P>, P> filter(
+            final Predicate<ExtendedElement> predicate) {
+
+        return newStage(this.delegate.filter(predicate));
     }
 
     @Override

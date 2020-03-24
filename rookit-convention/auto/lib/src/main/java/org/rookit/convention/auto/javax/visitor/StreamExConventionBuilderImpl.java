@@ -23,6 +23,7 @@ package org.rookit.convention.auto.javax.visitor;
 
 import com.google.inject.Provider;
 import one.util.streamex.StreamEx;
+import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.javax.visitor.StreamExBuilder;
@@ -105,6 +106,12 @@ final class StreamExConventionBuilderImpl<V extends ConventionTypeElementVisitor
     public StreamExConventionBuilder<V, R, P> withDirtyFallback(
             final ExtendedElementVisitor<StreamEx<R>, P> visitor) {
         return newStage(this.delegate.withDirtyFallback(visitor));
+    }
+
+    @Override
+    public StreamExConventionBuilder<V, R, P> filter(final Predicate<ExtendedElement> predicate) {
+
+        return newStage(this.delegate.filter(predicate));
     }
 
     @Override

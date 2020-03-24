@@ -41,8 +41,6 @@ import org.rookit.convention.api.source.naming.NamingModule;
 import org.rookit.convention.auto.ConventionLibModule;
 import org.rookit.convention.auto.metatype.AutoMetaTypeModule;
 import org.rookit.convention.auto.metatype.source.type.MetaTypeSourceFactory;
-import org.rookit.convention.auto.property.ExtendedPropertyExtractor;
-import org.rookit.convention.auto.property.ExtendedPropertyExtractorFactory;
 import org.rookit.convention.auto.property.PropertyFactory;
 import org.rookit.convention.auto.source.type.ConventionTypeElementTypeSourceVisitors;
 import org.rookit.failsafe.FailsafeModule;
@@ -88,14 +86,6 @@ public final class SourceModule extends AbstractModule {
     protected void configure() {
         bind(PropertyFactory.class).annotatedWith(Container.class)
                 .to(PropertyFactory.class).in(Singleton.class);
-    }
-
-    @Singleton
-    @Provides
-    ExtendedPropertyExtractor methodExtractor(
-            final ExtendedPropertyExtractorFactory factory,
-            @Container final PropertyFactory propertyFactory) {
-        return factory.create(propertyFactory, executableElement -> true);
     }
 
     @Provides

@@ -40,6 +40,7 @@ import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 final class TypeSourceBuilderImpl<V extends ExtendedElementVisitor<StreamEx<TypeSource>, P>, P>
         implements TypeSourceBuilder<V, P> {
@@ -152,6 +153,11 @@ final class TypeSourceBuilderImpl<V extends ExtendedElementVisitor<StreamEx<Type
     public TypeSourceBuilder<V, P> withDirtyFallback(
             final ExtendedElementVisitor<StreamEx<TypeSource>, P> visitor) {
         return newStage(this.builder.withDirtyFallback(visitor));
+    }
+
+    @Override
+    public TypeSourceBuilder<V, P> filter(final Predicate<ExtendedElement> predicate) {
+        return newStage(this.builder.filter(predicate));
     }
 
     @Override

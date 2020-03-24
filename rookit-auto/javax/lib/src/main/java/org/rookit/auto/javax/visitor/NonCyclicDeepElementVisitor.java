@@ -45,6 +45,7 @@ final class NonCyclicDeepElementVisitor<R, P> implements ExtendedElementVisitor<
     }
 
     private R visitEnclosedElements(final ExtendedElement element, final VisitorContext<P> context) {
+
         return element.getEnclosedElements().stream()
                 .map(nestedElement -> context.tryVisit(nestedElement, this))
                 .flatMap(Optional::stream)

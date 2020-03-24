@@ -21,7 +21,6 @@
  ******************************************************************************/
 package org.rookit.convention.auto.javax;
 
-import com.google.common.collect.ImmutableList;
 import one.util.streamex.StreamEx;
 import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
@@ -36,6 +35,7 @@ import org.rookit.convention.annotation.EntityExtension;
 import org.rookit.convention.annotation.PartialEntity;
 import org.rookit.convention.annotation.PropertyContainer;
 import org.rookit.convention.auto.property.Property;
+import org.rookit.convention.auto.property.PropertyFactory;
 import org.rookit.utils.optional.Optional;
 import org.rookit.utils.optional.OptionalFactory;
 
@@ -57,28 +57,39 @@ final class ConventionTypeElementImpl implements ConventionTypeElement {
     private final ExtendedTypeElement delegate;
     private final OptionalFactory optionalFactory;
     private final ConventionElementUtils utils;
-    private final Collection<Property> properties;
     private final ExtendedTypeMirrorFactory mirrorFactory;
     private final ConventionTypeElementFactory factory;
+    private final PropertyFactory propertyFactory;
 
-    ConventionTypeElementImpl(final ExtendedTypeElement delegate,
-                              final OptionalFactory optionalFactory,
-                              final ConventionElementUtils utils,
-                              final Collection<Property> properties,
-                              final ExtendedTypeMirrorFactory mirrorFactory,
-                              final ConventionTypeElementFactory factory) {
+    ConventionTypeElementImpl(
+            final ExtendedTypeElement delegate,
+            final OptionalFactory optionalFactory,
+            final ConventionElementUtils utils,
+            final ExtendedTypeMirrorFactory mirrorFactory,
+            final ConventionTypeElementFactory factory,
+            final PropertyFactory propertyFactory) {
         this.delegate = delegate;
         this.optionalFactory = optionalFactory;
         this.utils = utils;
         this.mirrorFactory = mirrorFactory;
         this.factory = factory;
-        this.properties = ImmutableList.copyOf(properties);
+        this.propertyFactory = propertyFactory;
     }
 
 
     @Override
     public Collection<Property> properties() {
-        return this.properties;
+
+        final StreamEx<Property> properties = StreamEx.of(this.delegate.getEnclosedElements())
+                .filter(el -> el.getKind() == ElementKind.METHOD)
+                .select(ExtendedExecutableElement.class)
+                .map(this.propertyFactory::create);
+
+        return StreamEx.of(conventionInterfaces())
+                .map(ConventionTypeElement::properties)
+                .flatMap(Collection::stream)
+                .append(properties)
+                .toImmutableList();
     }
 
     @Override
