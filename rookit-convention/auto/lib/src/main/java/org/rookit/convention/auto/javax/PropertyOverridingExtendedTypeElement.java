@@ -65,6 +65,11 @@ final class PropertyOverridingExtendedTypeElement implements ConventionTypeEleme
     }
 
     @Override
+    public Collection<Property> declaredProperties() {
+        return this.overriddenProperties;
+    }
+
+    @Override
     public boolean isTopLevel() {
         return this.delegate.isTopLevel();
     }

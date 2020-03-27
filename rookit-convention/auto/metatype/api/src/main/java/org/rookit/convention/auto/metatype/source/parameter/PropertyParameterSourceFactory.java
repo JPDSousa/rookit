@@ -29,7 +29,10 @@ import java.util.Collection;
 
 public interface PropertyParameterSourceFactory {
 
-    ParameterSource parameterForProperty(ConventionTypeElement element, Property property);
+    ParameterSource parameterForProperty(
+            ConventionTypeElement declaringType,
+            ConventionTypeElement type,
+            Property property);
 
     Collection<ParameterSource> implDependenciesForProperty(ConventionTypeElement element, Property property);
 

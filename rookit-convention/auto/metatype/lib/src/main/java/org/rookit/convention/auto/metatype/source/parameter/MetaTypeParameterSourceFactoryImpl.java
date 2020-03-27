@@ -27,6 +27,7 @@ import org.rookit.auto.source.parameter.ParameterSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 
 import java.util.Collection;
+import java.util.stream.Stream;
 
 final class MetaTypeParameterSourceFactoryImpl implements MetaTypeParameterSourceFactory {
 
@@ -40,9 +41,25 @@ final class MetaTypeParameterSourceFactoryImpl implements MetaTypeParameterSourc
     @Override
     public Collection<ParameterSource> dependenciesFor(final ConventionTypeElement type) {
 
-        return StreamEx.of(type.properties())
-                .map(property -> this.propertyParamFactory.parameterForProperty(type, property))
+        return dependenciesFor(type, type);
+    }
+
+    private Collection<ParameterSource> dependenciesFor(final ConventionTypeElement declaringType,
+                                                        final ConventionTypeElement type) {
+
+        return StreamEx.of(declaringType.conventionInterfaces())
+                .map(parent -> dependenciesFor(parent, type))
+                .flatMap(Collection::stream)
+                .append(declaredDependenciesFor(declaringType, type))
                 .toImmutableList();
+    }
+
+    private Stream<ParameterSource> declaredDependenciesFor(
+            final ConventionTypeElement declaringType,
+            final ConventionTypeElement type) {
+
+        return StreamEx.of(declaringType.declaredProperties())
+                .map(property -> this.propertyParamFactory.parameterForProperty(declaringType, type, property));
     }
 
 }

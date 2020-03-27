@@ -23,38 +23,36 @@ package org.rookit.convention.auto.metatype.source;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
+import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.method.MethodSourceFactory;
 import org.rookit.auto.source.type.parameter.TypeParameterSource;
 import org.rookit.auto.source.type.parameter.TypeParameterSourceFactory;
-import org.rookit.auto.source.type.reference.From;
-import org.rookit.auto.source.type.reference.TypeReferenceSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
+import org.rookit.convention.guice.MetaTypeModelType;
 
 final class ModelTypeFactory implements MetaTypeModelTypeFactory {
 
-    private static final String ACCESSOR_NAME = "modelType";
-
     private final MethodSourceFactory methodFactory;
     private final TypeParameterSourceFactory typeParameterFactory;
-    private final TypeReferenceSource clazz;
+    private final ExtendedExecutableElement apiMethod;
 
     @Inject
     private ModelTypeFactory(
             final MethodSourceFactory methodFactory,
             final TypeParameterSourceFactory typeParameterFactory,
-            @From(Class.class) final TypeReferenceSource clazz) {
+            @MetaTypeModelType final ExtendedExecutableElement apiMethod) {
         this.methodFactory = methodFactory;
         this.typeParameterFactory = typeParameterFactory;
-        this.clazz = clazz;
+        this.apiMethod = apiMethod;
     }
 
     @Override
     public MethodSource methodFor(final ConventionTypeElement type) {
 
-        final TypeParameterSource reference = this.typeParameterFactory.create(this.clazz, type);
+        final TypeParameterSource reference = this.typeParameterFactory.create(this.apiMethod.getReturnType(), type);
 
-        return this.methodFactory.createMutableMethod(ACCESSOR_NAME)
+        return this.methodFactory.createMutableMethod(this.apiMethod.getSimpleName())
                 .makePublic()
                 .override()
                 .withReturnType(reference)

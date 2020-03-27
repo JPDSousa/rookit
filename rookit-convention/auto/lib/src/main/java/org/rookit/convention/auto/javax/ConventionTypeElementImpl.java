@@ -80,15 +80,21 @@ final class ConventionTypeElementImpl implements ConventionTypeElement {
     @Override
     public Collection<Property> properties() {
 
-        final StreamEx<Property> properties = StreamEx.of(this.delegate.getEnclosedElements())
-                .filter(el -> el.getKind() == ElementKind.METHOD)
-                .select(ExtendedExecutableElement.class)
-                .map(this.propertyFactory::create);
-
         return StreamEx.of(conventionInterfaces())
                 .map(ConventionTypeElement::properties)
                 .flatMap(Collection::stream)
-                .append(properties)
+                .append(declaredProperties())
+                .toImmutableList();
+    }
+
+    @Override
+    public Collection<Property> declaredProperties() {
+
+        return StreamEx.of(this.delegate.getEnclosedElements())
+                .filter(el -> el.getKind() == ElementKind.METHOD)
+                .select(ExtendedExecutableElement.class)
+                .filter(this.utils::isConventionElement)
+                .map(this.propertyFactory::create)
                 .toImmutableList();
     }
 

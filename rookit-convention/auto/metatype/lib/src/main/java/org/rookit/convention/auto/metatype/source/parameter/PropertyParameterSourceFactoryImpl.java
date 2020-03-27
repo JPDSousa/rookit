@@ -51,10 +51,13 @@ final class PropertyParameterSourceFactoryImpl implements PropertyParameterSourc
     }
 
     @Override
-    public ParameterSource parameterForProperty(final ConventionTypeElement element, final Property property) {
+    public ParameterSource parameterForProperty(
+            final ConventionTypeElement declaringType,
+            final ConventionTypeElement type,
+            final Property property) {
 
-        final TypeReferenceSource paramType = this.typePrototypes.apiForProperty(element, property);
-        final AnnotationSource annotation = this.annotationPrototype.bindingAnnotationForProperty(element,
+        final TypeReferenceSource paramType = this.typePrototypes.apiForProperty(type, property);
+        final AnnotationSource annotation = this.annotationPrototype.bindingAnnotationForProperty(declaringType,
                                                                                                   property);
 
         return this.parameterFactory.createMutable(property.name(), paramType)

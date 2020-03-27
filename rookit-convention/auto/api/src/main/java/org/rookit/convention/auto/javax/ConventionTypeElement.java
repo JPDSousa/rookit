@@ -34,6 +34,8 @@ public interface ConventionTypeElement extends ExtendedTypeElement {
 
     Collection<Property> properties();
 
+    Collection<Property> declaredProperties();
+
     boolean isTopLevel();
 
     boolean isEntity();

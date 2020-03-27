@@ -24,6 +24,7 @@ package org.rookit.convention.auto.metatype.source;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
+import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.source.arbitrary.ArbitraryCodeSource;
 import org.rookit.auto.source.arbitrary.ArbitraryCodeSourceFactory;
 import org.rookit.auto.source.field.FieldSourceFactory;
@@ -37,6 +38,7 @@ import org.rookit.auto.source.type.reference.TypeReferenceSource;
 import org.rookit.auto.source.type.variable.WildcardVariableSourceFactory;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.property.Property;
+import org.rookit.convention.guice.MetaTypeProperty;
 import org.rookit.convention.property.PropertyModel;
 import org.rookit.utils.guice.Separator;
 import org.rookit.utils.optional.Optional;
@@ -50,7 +52,6 @@ import static org.apache.commons.lang3.StringUtils.repeat;
 final class PropertyFetcherFactory implements MetaTypePropertyFetcherFactory {
 
     private static final String ACCESSOR_NAME = "propertyMap";
-    private static final String PARAM_NAME = "name";
     private static final String OPTIONAL_FACTORY = "optionalFactory";
 
     private final MethodSource method;
@@ -71,6 +72,7 @@ final class PropertyFetcherFactory implements MetaTypePropertyFetcherFactory {
             final TypeParameterSourceFactory typeParameterFactory,
             final WildcardVariableSourceFactory wildcardFactory,
             final ParameterSourceFactory parameterFactory,
+            @MetaTypeProperty final ExtendedExecutableElement apiMethod,
             @From(String.class) final TypeReferenceSource stringReference,
             @From(Map.class) final TypeReferenceSource mapReference,
             @From(OptionalFactory.class) final TypeReferenceSource optFactoryReference,
@@ -105,15 +107,15 @@ final class PropertyFetcherFactory implements MetaTypePropertyFetcherFactory {
                 )
         );
 
-        final ParameterSource parameter = parameterFactory.createMutable(PARAM_NAME, stringReference);
+        final ParameterSource parameter = parameterFactory.createFromElement(apiMethod.getParameters().get(0));
 
-        this.method = methodFactory.createMutableMethod("property")
+        this.method = methodFactory.createMutableOverride(apiMethod)
                 .makePublic()
                 .override()
                 .withReturnType(reference)
                 .addParameter(parameter)
                 .addStatement("return this.$L.ofNullable(this.$L.get($L))",
-                              ImmutableList.of(OPTIONAL_FACTORY, ACCESSOR_NAME, PARAM_NAME));
+                              ImmutableList.of(OPTIONAL_FACTORY, ACCESSOR_NAME, parameter.name()));
 
     }
 
