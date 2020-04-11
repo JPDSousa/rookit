@@ -71,7 +71,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.SortedSet;
 
-@SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
+@SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass", "MethodMayBeStatic"})
 public final class UtilsModule extends AbstractModule {
 
     private static final Module MODULE = Modules.combine(
