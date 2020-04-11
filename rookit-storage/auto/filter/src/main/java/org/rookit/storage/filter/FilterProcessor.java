@@ -24,14 +24,14 @@ package org.rookit.storage.filter;
 import com.google.auto.service.AutoService;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import org.rookit.convention.auto.AbstractConventionProcessor;
+import org.rookit.auto.AbstractExtendedProcessor;
 import org.rookit.storage.filter.source.SourceModule;
 
 import javax.annotation.processing.Processor;
 
 @SuppressWarnings("PublicConstructor")
 @AutoService(Processor.class)
-public final class FilterProcessor extends AbstractConventionProcessor {
+public final class FilterProcessor extends AbstractExtendedProcessor {
 
     public FilterProcessor() { }
 

@@ -19,29 +19,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.storage.update.filter;
+package org.rookit.storage.method;
 
-import com.google.auto.service.AutoService;
-import com.google.inject.Injector;
-import com.google.inject.Module;
-import org.rookit.auto.AbstractExtendedProcessor;
-import org.rookit.storage.update.filter.source.SourceModule;
+import com.google.inject.Inject;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
+import org.rookit.convention.auto.javax.visitor.TypeBasedMethodVisitor;
+import org.rookit.convention.auto.property.Property;
 
-import javax.annotation.processing.Processor;
+import java.util.Collection;
+import java.util.Set;
+import java.util.function.Predicate;
 
-@SuppressWarnings("PublicConstructor")
-@AutoService(Processor.class)
-public final class UpdateFilterProcessor extends AbstractExtendedProcessor {
+@Deprecated // TODO move this to the common approach of filtering the properties inside the ExtendedTypeElement
+public final class TypeFilter<P> implements Predicate<Property> {
 
-    public UpdateFilterProcessor() { }
+    public static <P> Predicate<Property> create(
+            final Set<TypeBasedMethodVisitor<P>> factories) {
+        return new TypeFilter<>(factories);
+    }
 
-    UpdateFilterProcessor(final Injector injector) {
-        super(injector);
+    private final Collection<TypeBasedMethodVisitor<P>> typeFactories;
+
+    @Inject
+    private TypeFilter(final Set<TypeBasedMethodVisitor<P>> typeFactories) {
+        this.typeFactories = typeFactories;
     }
 
     @Override
-    protected Module sourceModule() {
-        return SourceModule.getModule();
+    public boolean test(final Property property) {
+        final ExtendedTypeMirror propertyType = property.type();
+
+        return this.typeFactories.stream()
+                .anyMatch(factory -> factory.type().isSameTypeErasure(propertyType));
     }
 
+    @Override
+    public String toString() {
+        return "TypeFilter{" +
+                "typeFactories=" + this.typeFactories +
+                "}";
+    }
 }

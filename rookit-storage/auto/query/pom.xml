@@ -19,17 +19,37 @@
 
         <dependency>
             <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-failsafe-lib</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-io-lib</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-io-path-lib</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-serializer-bundle</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
             <artifactId>rookit-storage-api</artifactId>
         </dependency>
 
         <dependency>
             <groupId>${rookit.group}</groupId>
-            <artifactId>rookit-auto-source-javapoet-lib</artifactId>
+            <artifactId>rookit-storage-auto-lib</artifactId>
         </dependency>
 
         <dependency>
             <groupId>${rookit.group}</groupId>
-            <artifactId>rookit-storage-auto-filter</artifactId>
+            <artifactId>rookit-utils-lib</artifactId>
         </dependency>
 
         <!-- Test dependencies -->

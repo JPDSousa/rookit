@@ -44,26 +44,6 @@
 
         <dependency>
             <groupId>${rookit.group}</groupId>
-            <artifactId>rookit-auto-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>${rookit.group}</groupId>
-            <artifactId>rookit-convention-auto-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>${rookit.group}</groupId>
-            <artifactId>rookit-auto-lib</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>${rookit.group}</groupId>
-            <artifactId>rookit-auto-guice</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>${rookit.group}</groupId>
             <artifactId>rookit-storage-api</artifactId>
         </dependency>
 
@@ -79,22 +59,12 @@
 
         <dependency>
             <groupId>${rookit.group}</groupId>
-            <artifactId>rookit-auto-source-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>${rookit.group}</groupId>
             <artifactId>rookit-utils-api</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>${rookit.group}</groupId>
-            <artifactId>rookit-storage-auto-update-filter</artifactId>
         </dependency>
 
         <!-- Test dependencies -->

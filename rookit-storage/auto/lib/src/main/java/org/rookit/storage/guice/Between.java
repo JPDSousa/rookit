@@ -19,29 +19,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.storage.update.filter;
+package org.rookit.storage.guice;
 
-import com.google.auto.service.AutoService;
-import com.google.inject.Injector;
-import com.google.inject.Module;
-import org.rookit.auto.AbstractExtendedProcessor;
-import org.rookit.storage.update.filter.source.SourceModule;
+import com.google.inject.BindingAnnotation;
 
-import javax.annotation.processing.Processor;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
-@SuppressWarnings("PublicConstructor")
-@AutoService(Processor.class)
-public final class UpdateFilterProcessor extends AbstractExtendedProcessor {
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-    public UpdateFilterProcessor() { }
-
-    UpdateFilterProcessor(final Injector injector) {
-        super(injector);
-    }
-
-    @Override
-    protected Module sourceModule() {
-        return SourceModule.getModule();
-    }
-
+@SuppressWarnings("javadoc")
+@Retention(RUNTIME)
+@BindingAnnotation
+@Target({FIELD, METHOD, PARAMETER})
+public @interface Between {
 }

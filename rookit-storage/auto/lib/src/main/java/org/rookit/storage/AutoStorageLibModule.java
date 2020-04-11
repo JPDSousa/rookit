@@ -19,29 +19,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.storage.update.filter;
+package org.rookit.storage;
 
-import com.google.auto.service.AutoService;
-import com.google.inject.Injector;
+import com.google.inject.AbstractModule;
 import com.google.inject.Module;
-import org.rookit.auto.AbstractExtendedProcessor;
-import org.rookit.storage.update.filter.source.SourceModule;
+import com.google.inject.util.Modules;
+import org.rookit.storage.config.ConfigurationModule;
+import org.rookit.storage.method.MethodModule;
+import org.rookit.storage.naming.NamingModule;
+import org.rookit.storage.template.TemplateModule;
 
-import javax.annotation.processing.Processor;
+public final class AutoStorageLibModule extends AbstractModule {
 
-@SuppressWarnings("PublicConstructor")
-@AutoService(Processor.class)
-public final class UpdateFilterProcessor extends AbstractExtendedProcessor {
+    private static final Module MODULE = Modules.combine(
+            new AutoStorageLibModule(),
+            ConfigurationModule.getModule(),
+            MethodModule.getModule(),
+            NamingModule.getModule(),
+            TemplateModule.getModule()
+    );
 
-    public UpdateFilterProcessor() { }
-
-    UpdateFilterProcessor(final Injector injector) {
-        super(injector);
+    public static Module getModule() {
+        return MODULE;
     }
 
-    @Override
-    protected Module sourceModule() {
-        return SourceModule.getModule();
-    }
+    private AutoStorageLibModule() {}
+
+
 
 }

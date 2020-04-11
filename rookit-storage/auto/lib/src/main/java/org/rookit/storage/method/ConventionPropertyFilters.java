@@ -19,29 +19,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.storage.update.filter;
+package org.rookit.storage.method;
 
-import com.google.auto.service.AutoService;
-import com.google.inject.Injector;
-import com.google.inject.Module;
-import org.rookit.auto.AbstractExtendedProcessor;
-import org.rookit.storage.update.filter.source.SourceModule;
+import org.rookit.convention.auto.property.Property;
+import org.rookit.convention.auto.property.PropertyFactory;
 
-import javax.annotation.processing.Processor;
+import java.util.function.Predicate;
 
-@SuppressWarnings("PublicConstructor")
-@AutoService(Processor.class)
-public final class UpdateFilterProcessor extends AbstractExtendedProcessor {
+@Deprecated
+public final class ConventionPropertyFilters {
 
-    public UpdateFilterProcessor() { }
+    private ConventionPropertyFilters() {}
 
-    UpdateFilterProcessor(final Injector injector) {
-        super(injector);
+    public static Predicate<Property> createEntityFilter(final PropertyFactory propertyFactory) {
+        return new EntityFilter(propertyFactory);
     }
-
-    @Override
-    protected Module sourceModule() {
-        return SourceModule.getModule();
-    }
-
 }

@@ -23,24 +23,19 @@ package org.rookit.storage.filter.source;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
-import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
-import org.rookit.auto.source.type.variable.TypeVariableSource;
+import org.rookit.auto.config.ProcessorConfig;
+import org.rookit.storage.AutoStorageLibModule;
 import org.rookit.storage.api.config.FilterConfig;
-import org.rookit.storage.filter.source.config.ConfigurationModule;
-import org.rookit.storage.filter.source.method.FilterMethodModule;
-import org.rookit.storage.filter.source.naming.NamingModule;
-import org.rookit.storage.guice.filter.PartialFilter;
+import org.rookit.utils.guice.UtilsModule;
 
-@SuppressWarnings("MethodMayBeStatic")
 public final class SourceModule extends AbstractModule {
 
     private static final Module MODULE = Modules.combine(
             new SourceModule(),
-            ConfigurationModule.getModule(),
-            FilterMethodModule.getModule(),
-            NamingModule.getModule()
+            AutoStorageLibModule.getModule(),
+            UtilsModule.getModule()
     );
 
     public static Module getModule() {
@@ -49,11 +44,9 @@ public final class SourceModule extends AbstractModule {
 
     private SourceModule() {}
 
-    @Provides
-    @Singleton
-    @PartialFilter
-    TypeVariableSource typeVariableName(final FilterConfig config) {
-        return config.parameterName();
+    @Override
+    protected void configure() {
+        bind(ProcessorConfig.class).to(FilterConfig.class).in(Singleton.class);
     }
 
 }

@@ -23,28 +23,42 @@ package org.rookit.storage.query.source;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
-import com.google.inject.Provides;
-import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
-import org.rookit.auto.javax.naming.MethodNameTransformer;
-import org.rookit.auto.javax.naming.MethodNameTransformers;
-import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.auto.source.type.variable.TypeVariableSource;
-import org.rookit.storage.api.config.QueryConfig;
-import org.rookit.storage.guice.ElementQuery;
-import org.rookit.storage.guice.PartialQuery;
-import org.rookit.storage.guice.Query;
-import org.rookit.storage.guice.filter.PartialFilter;
+import org.rookit.auto.SourceUtilsModule;
+import org.rookit.auto.javapoet.SourceJavaPoetLibModule;
+import org.rookit.auto.source.SourceLibModule;
+import org.rookit.convention.ConventionModule;
+import org.rookit.convention.auto.ConventionAutoLibModule;
+import org.rookit.convention.auto.metatype.AutoMetaTypeModule;
+import org.rookit.failsafe.FailsafeModule;
+import org.rookit.guice.auto.GuiceAutoLibModule;
+import org.rookit.io.IOLibModule;
+import org.rookit.io.IOPathLibModule;
+import org.rookit.serializer.SerializationBundleModule;
+import org.rookit.storage.AutoStorageLibModule;
+import org.rookit.storage.naming.NamingModule;
 import org.rookit.storage.query.source.config.ConfigurationModule;
+import org.rookit.utils.guice.UtilsModule;
 
-@SuppressWarnings("MethodMayBeStatic")
 public final class SourceModule extends AbstractModule {
 
-    private static final Module MODULE = Modules.override(
-            org.rookit.storage.filter.source.SourceModule.getModule()
-    ).with(
+    private static final Module MODULE = Modules.combine(
             new SourceModule(),
-            ConfigurationModule.getModule()
+            AutoMetaTypeModule.getModule(),
+            AutoStorageLibModule.getModule(),
+            ConfigurationModule.getModule(),
+            ConventionModule.getModule(),
+            ConventionAutoLibModule.getModule(),
+            FailsafeModule.getModule(),
+            GuiceAutoLibModule.getModule(),
+            IOLibModule.getModule(),
+            NamingModule.getModule(),
+            IOPathLibModule.getModule(),
+            SerializationBundleModule.getModule(),
+            SourceLibModule.getModule(),
+            SourceJavaPoetLibModule.getModule(),
+            SourceUtilsModule.getModule(),
+            UtilsModule.getModule()
     );
 
     public static Module getModule() {
@@ -52,48 +66,5 @@ public final class SourceModule extends AbstractModule {
     }
 
     private SourceModule() {}
-
-    @Singleton
-    @Provides
-    @PartialQuery
-    ExtendedPackageElement queryPackage(final QueryConfig config) {
-        return config.basePackage();
-    }
-
-    @Provides
-    @Singleton
-    @PartialQuery
-    TypeVariableSource typeVariableName(final QueryConfig config) {
-        return config.parameterName();
-    }
-
-    @Provides
-    @Singleton
-    @ElementQuery
-    TypeVariableSource elementTypeVariableName(final QueryConfig config) {
-        return config.elementParameterName();
-    }
-
-    @Singleton
-    @Provides
-    @PartialQuery
-    MethodNameTransformer queryNamingFactory(final MethodNameTransformers factories, final QueryConfig config) {
-        return factories.fromTemplate(config.methodTemplate());
-    }
-
-    @Singleton
-    @Provides
-    @Query
-    MethodNameTransformer queryEntityNamingFactory(final MethodNameTransformers factories, final QueryConfig config) {
-        // TODO should this have the exact same binding as the one above??????
-        return factories.fromTemplate(config.methodTemplate());
-    }
-
-    @Provides
-    @Singleton
-    @PartialFilter
-    TypeVariableSource filterTypeVariableName(final QueryConfig config) {
-        return config.parameterName();
-    }
 
 }

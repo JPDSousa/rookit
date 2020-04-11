@@ -28,23 +28,19 @@ import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
 import org.rookit.auto.javax.pack.ExtendedPackageElement;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
+import org.rookit.storage.AutoStorageLibModule;
 import org.rookit.storage.api.config.UpdateConfig;
 import org.rookit.storage.guice.PartialUpdate;
 import org.rookit.storage.guice.Update;
 import org.rookit.storage.update.source.config.ConfigurationModule;
-import org.rookit.storage.update.source.method.MethodModule;
-import org.rookit.storage.update.source.naming.NamingModule;
 
 @SuppressWarnings("MethodMayBeStatic")
 public final class SourceModule extends AbstractModule {
 
-    private static final Module MODULE = Modules.override(
-            org.rookit.storage.update.filter.source.SourceModule.getModule()
-    ).with(
+    private static final Module MODULE = Modules.combine(
             new SourceModule(),
-            ConfigurationModule.getModule(),
-            MethodModule.getModule(),
-            NamingModule.getModule()
+            AutoStorageLibModule.getModule(),
+            ConfigurationModule.getModule()
     );
 
     public static Module getModule() {

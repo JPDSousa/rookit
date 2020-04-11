@@ -19,29 +19,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.storage.update.filter;
+package org.rookit.storage.method;
 
-import com.google.auto.service.AutoService;
-import com.google.inject.Injector;
-import com.google.inject.Module;
-import org.rookit.auto.AbstractExtendedProcessor;
-import org.rookit.storage.update.filter.source.SourceModule;
+import com.google.inject.Inject;
+import org.rookit.convention.auto.property.Property;
+import org.rookit.convention.auto.property.PropertyFactory;
+import org.rookit.convention.annotation.Entity;
 
-import javax.annotation.processing.Processor;
+import java.util.Objects;
+import java.util.function.Predicate;
 
-@SuppressWarnings("PublicConstructor")
-@AutoService(Processor.class)
-public final class UpdateFilterProcessor extends AbstractExtendedProcessor {
+final class EntityFilter implements Predicate<Property> {
 
-    public UpdateFilterProcessor() { }
+    private final PropertyFactory propertyFactory;
 
-    UpdateFilterProcessor(final Injector injector) {
-        super(injector);
+    @Inject
+    EntityFilter(final PropertyFactory propertyFactory) {
+        this.propertyFactory = propertyFactory;
     }
 
     @Override
-    protected Module sourceModule() {
-        return SourceModule.getModule();
+    public boolean test(final Property property) {
+        return this.propertyFactory.extend(property).typeAsElement()
+                .filter(element -> Objects.nonNull(element.getAnnotation(Entity.class)))
+                .isPresent();
     }
 
+    @Override
+    public String toString() {
+        return "EntityFilter{" +
+                "propertyFactory=" + this.propertyFactory +
+                "}";
+    }
 }

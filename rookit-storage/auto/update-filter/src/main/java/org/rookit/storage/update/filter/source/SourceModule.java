@@ -23,26 +23,46 @@ package org.rookit.storage.update.filter.source;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
-import com.google.inject.Provides;
-import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
-import org.rookit.auto.javax.naming.MethodNameTransformer;
-import org.rookit.auto.javax.naming.MethodNameTransformers;
-import org.rookit.auto.javax.pack.ExtendedPackageElement;
-import org.rookit.auto.source.type.variable.TypeVariableSource;
-import org.rookit.storage.api.config.UpdateFilterConfig;
-import org.rookit.storage.guice.PartialUpdateFilter;
-import org.rookit.storage.guice.UpdateFilter;
+import org.rookit.auto.SourceUtilsModule;
+import org.rookit.auto.javapoet.SourceJavaPoetLibModule;
+import org.rookit.auto.javax.JavaxLibModule;
+import org.rookit.auto.javax.naming.NamingModule;
+import org.rookit.auto.source.SourceLibModule;
+import org.rookit.convention.ConventionModule;
+import org.rookit.convention.auto.ConventionAutoLibModule;
+import org.rookit.convention.auto.metatype.AutoMetaTypeModule;
+import org.rookit.failsafe.FailsafeModule;
+import org.rookit.guice.auto.GuiceAutoLibModule;
+import org.rookit.io.IOLibModule;
+import org.rookit.io.IOPathLibModule;
+import org.rookit.serializer.SerializationBundleModule;
+import org.rookit.storage.AutoStorageLibModule;
 import org.rookit.storage.update.filter.source.config.ConfigurationModule;
-import org.rookit.utils.guice.Self;
-import org.rookit.utils.string.template.Template1;
+import org.rookit.utils.guice.UtilsModule;
 
 @SuppressWarnings("MethodMayBeStatic")
 public final class SourceModule extends AbstractModule {
 
-    private static final Module MODULE = Modules.combine(
+    private static final Module MODULE = Modules.override(
+            JavaxLibModule.getModule()
+    ).with(
             new SourceModule(),
-            ConfigurationModule.getModule()
+            AutoMetaTypeModule.getModule(),
+            AutoStorageLibModule.getModule(),
+            ConfigurationModule.getModule(),
+            ConventionModule.getModule(),
+            ConventionAutoLibModule.getModule(),
+            FailsafeModule.getModule(),
+            GuiceAutoLibModule.getModule(),
+            IOLibModule.getModule(),
+            NamingModule.getModule(),
+            IOPathLibModule.getModule(),
+            SerializationBundleModule.getModule(),
+            SourceLibModule.getModule(),
+            SourceJavaPoetLibModule.getModule(),
+            SourceUtilsModule.getModule(),
+            UtilsModule.getModule()
     );
 
     public static Module getModule() {
@@ -50,35 +70,5 @@ public final class SourceModule extends AbstractModule {
     }
 
     private SourceModule() {}
-
-    @Singleton
-    @Provides
-    @PartialUpdateFilter
-    MethodNameTransformer partialUpdateFilterNamingFactory(final MethodNameTransformers factories,
-                                                           @Self final Template1 noopTemplate) {
-        return factories.fromTemplate(noopTemplate);
-    }
-
-    @Singleton
-    @Provides
-    @UpdateFilter
-    MethodNameTransformer updateFilterNamingFactory(final MethodNameTransformers factories,
-                                                    @Self final Template1 noopTemplate) {
-        return factories.fromTemplate(noopTemplate);
-    }
-
-    @Singleton
-    @Provides
-    @UpdateFilter
-    ExtendedPackageElement updateFilterPackage(final UpdateFilterConfig config) {
-        return config.basePackage();
-    }
-
-    @Provides
-    @Singleton
-    @PartialUpdateFilter
-    TypeVariableSource parameterName(final UpdateFilterConfig config) {
-        return config.parameterName();
-    }
 
 }

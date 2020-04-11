@@ -16,10 +16,17 @@
     <name>Rookit Storage Auto Lib</name>
 
     <dependencies>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-auto-guice</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>${rookit.group}</groupId>
             <artifactId>rookit-storage-auto-api</artifactId>
         </dependency>
+
     </dependencies>
 
 </project>

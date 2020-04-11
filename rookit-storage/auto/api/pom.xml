@@ -17,19 +17,14 @@
 
     <dependencies>
 
-        <dependency>
-            <groupId>${rookit.group}</groupId>
-            <artifactId>rookit-auto-api</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>${rookit.group}</groupId>-->
+<!--            <artifactId>rookit-auto-api</artifactId>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>${rookit.group}</groupId>
             <artifactId>rookit-utils-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>${rookit.group}</groupId>
-            <artifactId>rookit-auto-source-api</artifactId>
         </dependency>
 
     </dependencies>

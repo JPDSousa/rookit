@@ -36,6 +36,4 @@ public interface FilterConfig extends ProcessorConfig {
 
     Template1 partialEntityTemplate();
 
-    Template1 methodTemplate();
-
 }

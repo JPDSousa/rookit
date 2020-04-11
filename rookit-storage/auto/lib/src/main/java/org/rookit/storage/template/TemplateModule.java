@@ -19,41 +19,56 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.storage.update.filter.source.config;
+package org.rookit.storage.template;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import org.rookit.auto.config.DependencyAwareProcessorConfig;
-import org.rookit.auto.config.ProcessorConfig;
-import org.rookit.storage.api.config.FilterConfig;
-import org.rookit.storage.api.config.UpdateFilterConfig;
-
-import javax.annotation.processing.Messager;
+import org.rookit.storage.guice.Add;
+import org.rookit.storage.guice.AddAll;
+import org.rookit.storage.guice.Remove;
+import org.rookit.storage.guice.RemoveAll;
+import org.rookit.utils.string.template.Template1;
+import org.rookit.utils.string.template.TemplateFactory;
 
 @SuppressWarnings("MethodMayBeStatic")
-public final class ConfigurationModule extends AbstractModule {
+public final class TemplateModule extends AbstractModule {
 
-    private static final Module MODULE = new ConfigurationModule();
+    private static final Module MODULE = new TemplateModule();
 
     public static Module getModule() {
         return MODULE;
     }
 
-    private ConfigurationModule() {}
+    private TemplateModule() {}
 
     @Provides
     @Singleton
-    ProcessorConfig processorConfig(final UpdateFilterConfig delegate,
-                                    final FilterConfig dependency,
-                                    final Messager messager) {
-        return DependencyAwareProcessorConfig.create(
-                delegate,
-                ImmutableSet.<ProcessorConfig>of(dependency),
-                messager
-        );
+    @Add
+    Template1 addTemplate(final TemplateFactory templateFactory) {
+        return templateFactory.template1("addAll{}");
+    }
+
+    @Provides
+    @Singleton
+    @AddAll
+    Template1 addAllTemplate(final TemplateFactory templateFactory) {
+        return templateFactory.template1("addAll{}");
+    }
+
+    @Provides
+    @Singleton
+    @Remove
+    Template1 removeTemplate(final TemplateFactory templateFactory) {
+        return templateFactory.template1("remove{}");
+    }
+
+    @Provides
+    @Singleton
+    @RemoveAll
+    Template1 removeAllTemplate(final TemplateFactory templateFactory) {
+        return templateFactory.template1("removeAll{}");
     }
 
 }

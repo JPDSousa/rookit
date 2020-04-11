@@ -28,13 +28,8 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import org.rookit.auto.config.DependencyAwareProcessorConfig;
 import org.rookit.auto.config.ProcessorConfig;
-import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
-import org.rookit.utils.object.DynamicObject;
-import org.rookit.storage.api.config.StorageConfig;
 import org.rookit.storage.api.config.UpdateConfig;
 import org.rookit.storage.api.config.UpdateFilterConfig;
-import org.rookit.utils.string.template.Template1;
-import org.rookit.utils.string.template.TemplateFactory;
 
 import javax.annotation.processing.Messager;
 
@@ -49,11 +44,6 @@ public final class ConfigurationModule extends AbstractModule {
 
     private ConfigurationModule() {}
 
-    @Override
-    protected void configure() {
-
-    }
-
     @Provides
     @Singleton
     ProcessorConfig processorConfig(final UpdateConfig delegate,
@@ -63,25 +53,6 @@ public final class ConfigurationModule extends AbstractModule {
                 delegate,
                 ImmutableSet.of(updateFilterConfig),
                 messager
-        );
-    }
-
-    @Provides
-    @Singleton
-    UpdateConfig updateConfig(final StorageConfig config,
-                              final TemplateFactory templateFactory,
-                              final TypeVariableSourceFactory typeVariableFactory) {
-
-        final String name = "update";
-        final DynamicObject rawConfig = config.getProcessorConfig(name);
-        final Template1 partialEntityPrefix = config.partialEntityTemplate();
-        return new UpdateConfigImpl(
-                rawConfig,
-                name,
-                partialEntityPrefix,
-                config.basePackage(),
-                templateFactory,
-                typeVariableFactory
         );
     }
 }

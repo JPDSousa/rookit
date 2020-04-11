@@ -19,29 +19,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.storage.update.filter;
+package org.rookit.storage.method.type.collection;
 
-import com.google.auto.service.AutoService;
-import com.google.inject.Injector;
-import com.google.inject.Module;
-import org.rookit.auto.AbstractExtendedProcessor;
-import org.rookit.storage.update.filter.source.SourceModule;
+import com.google.common.collect.ImmutableList;
+import com.google.inject.Inject;
+import org.rookit.auto.source.parameter.ParameterSource;
+import org.rookit.auto.source.parameter.ParameterSourceFactory;
+import org.rookit.convention.auto.property.Property;
 
-import javax.annotation.processing.Processor;
+import java.util.Collection;
+import java.util.function.Function;
 
-@SuppressWarnings("PublicConstructor")
-@AutoService(Processor.class)
-public final class UpdateFilterProcessor extends AbstractExtendedProcessor {
+final class CollectionParams implements Function<Property, Collection<ParameterSource>> {
 
-    public UpdateFilterProcessor() { }
+    private final ParameterSourceFactory parameterFactory;
 
-    UpdateFilterProcessor(final Injector injector) {
-        super(injector);
+    @Inject
+    private CollectionParams(final ParameterSourceFactory parameterFactory) {
+        this.parameterFactory = parameterFactory;
     }
 
     @Override
-    protected Module sourceModule() {
-        return SourceModule.getModule();
+    public Collection<ParameterSource> apply(final Property property) {
+
+        return ImmutableList.of(
+                this.parameterFactory.createMutable(property.name(), property.type())
+        );
     }
 
 }
