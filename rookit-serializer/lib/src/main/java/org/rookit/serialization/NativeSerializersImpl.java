@@ -21,55 +21,49 @@
  ******************************************************************************/
 package org.rookit.serialization;
 
+import com.google.inject.Inject;
+import org.rookit.utils.collection.MapUtils;
 import org.rookit.utils.optional.Optional;
 import org.rookit.utils.optional.OptionalFactory;
 
-final class PropertySerializer<T> implements Serializer<T> {
+import java.util.Collection;
+import java.util.Map;
 
-    private final Serializer<T> valueSerializer;
-    private final String propertyName;
+final class NativeSerializersImpl implements NativeSerializers {
+
+    private final MapUtils mapUtils;
     private final OptionalFactory optionalFactory;
 
-    PropertySerializer(final Serializer<T> valueSerializer,
-                       final String propertyName,
-                       final OptionalFactory optionalFactory) {
-        this.valueSerializer = valueSerializer;
-        this.propertyName = propertyName;
+    @Inject
+    private NativeSerializersImpl(final MapUtils mapUtils, final OptionalFactory optionalFactory) {
+        this.mapUtils = mapUtils;
         this.optionalFactory = optionalFactory;
     }
 
     @Override
-    public void write(final TypeWriter writer, final T value) {
-        writer.name(this.propertyName);
-        this.valueSerializer.write(writer, value);
+    public <K, V> Serializer<Map<K, V>> mapSerializer(final Serializer<K> keySerializer,
+                                                      final Serializer<V> valueSerializer) {
+
+        return new MapSerializer<>(
+                collectionSerializer(keySerializer),
+                collectionSerializer(valueSerializer),
+                this.mapUtils
+        );
     }
 
     @Override
-    public T read(final TypeReader reader) {
-        // ignores name
-        reader.name();
-        return this.valueSerializer.read(reader);
+    public <E> Serializer<Optional<E>> optionalSerializer(final Serializer<E> valueSerializer) {
+
+        return new OptionalSerializer<>(
+                valueSerializer,
+                this.optionalFactory
+        );
     }
 
     @Override
-    public Optional<T> readOptional(final TypeReader reader) {
-        if(this.propertyName.equals(reader.peekName())) {
-            return this.optionalFactory.of(read(reader));
-        }
-        return this.optionalFactory.empty();
+    public <E> Serializer<Collection<E>> collectionSerializer(final Serializer<E> itemSerializer) {
+
+        return new CollectionSerializer<>(itemSerializer);
     }
 
-    @Override
-    public Class<T> serializationClass() {
-        return this.valueSerializer.serializationClass();
-    }
-
-    @Override
-    public String toString() {
-        return "PropertySerializer{" +
-                "valueSerializer=" + this.valueSerializer +
-                ", propertyName='" + this.propertyName + '\'' +
-                ", optionalFactory=" + this.optionalFactory +
-                "}";
-    }
 }

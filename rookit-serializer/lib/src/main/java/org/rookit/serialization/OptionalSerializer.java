@@ -21,8 +21,36 @@
  ******************************************************************************/
 package org.rookit.serialization;
 
-public interface PropertySerializerFactory {
+import org.rookit.utils.optional.Optional;
+import org.rookit.utils.optional.OptionalFactory;
 
-    <T> Serializer<T> create(final String propertyName, final Serializer<T> valueSerializer);
+final class OptionalSerializer<T> implements Serializer<Optional<T>> {
+
+    private final Serializer<T> valueSerializer;
+    private final OptionalFactory optionalFactory;
+
+    OptionalSerializer(
+            final Serializer<T> valueSerializer,
+            final OptionalFactory optionalFactory) {
+        this.valueSerializer = valueSerializer;
+        this.optionalFactory = optionalFactory;
+    }
+
+    @Override
+    public void write(final TypeWriter writer, final Optional<T> optionalValue) {
+
+        if (optionalValue.isPresent()) {
+            this.valueSerializer.write(writer, optionalValue.get());
+        } else {
+            writer.markAbsent();
+        }
+    }
+
+    @Override
+    public Optional<T> read(final TypeReader reader) {
+
+        return reader.isNextAbsent() ? this.optionalFactory.empty()
+                : this.optionalFactory.of(this.valueSerializer.read(reader));
+    }
 
 }

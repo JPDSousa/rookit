@@ -21,35 +21,10 @@
  ******************************************************************************/
 package org.rookit.serialization;
 
-import com.google.common.collect.ImmutableList;
-import org.rookit.utils.optional.Optional;
-
-import java.util.Collection;
-
 public interface Serializer<T> {
-
-    default void writeCollection(final TypeWriter writer, final Collection<T> collection) {
-        writer.startArray();
-        collection.forEach(value -> write(writer, value));
-        writer.endArray();
-    }
 
     void write(TypeWriter writer, T value);
 
     T read(TypeReader reader);
-
-    Optional<T> readOptional(TypeReader reader);
-
-    default Collection<T> readCollection(final TypeReader reader) {
-        final ImmutableList.Builder<T> builder = ImmutableList.builder();
-        reader.startArray();
-        while(reader.hasNext()) {
-            builder.add(read(reader));
-        }
-        reader.endArray();
-        return builder.build();
-    }
-
-    Class<T> serializationClass();
 
 }

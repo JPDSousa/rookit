@@ -21,24 +21,42 @@
  ******************************************************************************/
 package org.rookit.serialization;
 
-import com.google.inject.Inject;
-import org.rookit.utils.optional.OptionalFactory;
+import java.util.ArrayList;
+import java.util.Collection;
 
-public final class PropertySerializerFactoryImpl implements PropertySerializerFactory {
+final class CollectionSerializer<E> implements Serializer<Collection<E>> {
 
-    public static PropertySerializerFactory create(final OptionalFactory optionalFactory) {
-        return new PropertySerializerFactoryImpl(optionalFactory);
-    }
+    private final Serializer<E> itemSerializer;
 
-    private final OptionalFactory optionalFactory;
-
-    @Inject
-    private PropertySerializerFactoryImpl(final OptionalFactory optionalFactory) {
-        this.optionalFactory = optionalFactory;
+    CollectionSerializer(final Serializer<E> itemSerializer) {
+        this.itemSerializer = itemSerializer;
     }
 
     @Override
-    public <T> Serializer<T> create(final String propertyName, final Serializer<T> valueSerializer) {
-        return new PropertySerializer<>(valueSerializer, propertyName, this.optionalFactory);
+    public void write(final TypeWriter writer, final Collection<E> collection) {
+
+        writer.startArray();
+        writer.value(collection.size());
+
+        collection.forEach(item -> this.itemSerializer.write(writer, item));
+
+        writer.endArray();
     }
+
+    @Override
+    public Collection<E> read(final TypeReader reader) {
+
+        reader.startArray();
+        final int size = reader.readInt();
+        final Collection<E> list = new ArrayList<>(size);
+
+        while (reader.hasNext()) {
+            list.add(this.itemSerializer.read(reader));
+        }
+
+        reader.endArray();
+
+        return list;
+    }
+
 }

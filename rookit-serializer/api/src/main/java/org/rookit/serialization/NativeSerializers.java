@@ -19,46 +19,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package org.rookit.convention.auto.property;
+package org.rookit.serialization;
 
-import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
+import org.rookit.utils.optional.Optional;
 
-// TODO use immutables
-final class BaseProperty extends AbstractProperty {
+import java.util.Collection;
+import java.util.Map;
 
-    private final String name;
-    private final ExtendedTypeMirror typeMirror;
-    private final boolean isContainer;
-    private final boolean isFinal;
+public interface NativeSerializers {
 
-    BaseProperty(final String name,
-                 final ExtendedTypeMirror typeMirror,
-                 final boolean isContainer,
-                 final boolean isFinal) {
-        this.name = name;
-        this.typeMirror = typeMirror;
-        this.isContainer = isContainer;
-        this.isFinal = isFinal;
-    }
+    <K, V> Serializer<Map<K, V>> mapSerializer(Serializer<K> keySerializer, Serializer<V> valueSerializer);
 
-    @Override
-    public String name() {
-        return this.name;
-    }
+    <E> Serializer<Optional<E>> optionalSerializer(Serializer<E> valueSerializer);
 
-    @Override
-    public ExtendedTypeMirror type() {
-        return this.typeMirror;
-    }
-
-    @Override
-    public boolean isContainer() {
-        return this.isContainer;
-    }
-
-    @Override
-    public boolean isFinal() {
-        return this.isFinal;
-    }
-
+    <E> Serializer<Collection<E>> collectionSerializer(Serializer<E> itemSerializer);
 }
