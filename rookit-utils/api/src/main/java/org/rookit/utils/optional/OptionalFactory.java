@@ -21,6 +21,7 @@
  ******************************************************************************/
 package org.rookit.utils.optional;
 
+import javax.annotation.Nullable;
 import java.util.Objects;
 
 public interface OptionalFactory {
@@ -29,7 +30,7 @@ public interface OptionalFactory {
 
     <T> Optional<T> of(T value);
 
-    default <T> Optional<T> ofNullable(final T value) {
+    default <T> Optional<T> ofNullable(@Nullable final T value) {
         if (Objects.isNull(value)) {
             return empty();
         }
