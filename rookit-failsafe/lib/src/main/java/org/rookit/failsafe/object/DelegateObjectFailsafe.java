@@ -49,7 +49,7 @@ public class DelegateObjectFailsafe implements ObjectFailsafe {
     }
 
     @Override
-    public <T> T isNotNull(final Logger logger, final Object object, final String name) {
+    public <T> T isNotNull(final Logger logger, final Object object, final CharSequence name) {
         return this.delegate.isNotNull(logger, object, name);
     }
 

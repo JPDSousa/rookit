@@ -39,12 +39,12 @@ public interface CollectionFailsafe extends ObjectFailsafe {
 
     <T, E> T isNotContainedIn(Logger logger, E object,
                               Collection<E> collection,
-                              String objectName);
+                              CharSequence objectName);
 
-    <T> T isNotEmpty(Logger logger, Collection<?> object, String name);
+    <T> T isNotEmpty(Logger logger, Collection<?> object, CharSequence name);
 
     <T> T isNotIntersecting(Logger logger, Collection<T> source,
                             Collection<T> target,
-                            String sourceName,
-                            String targetName);
+                            CharSequence sourceName,
+                            CharSequence targetName);
 }

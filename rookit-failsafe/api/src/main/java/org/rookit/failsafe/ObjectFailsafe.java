@@ -30,7 +30,7 @@ public interface ObjectFailsafe {
 
     <T> T isNotEquals(Logger logger, Object object, Object unexpected, String objectName);
 
-    <T> T isNotNull(Logger logger, Object object, String name);
+    <T> T isNotNull(Logger logger, Object object, CharSequence name);
 
     <T> T isNull(Logger logger, Object object, String name);
 

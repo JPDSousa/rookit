@@ -71,7 +71,7 @@ final class BaseCollectionFailsafe extends DelegateObjectFailsafe implements Col
     public <T, E> T isNotContainedIn(final Logger logger,
                                      final E object,
                                      final Collection<E> collection,
-                                     final String objectName) {
+                                     final CharSequence objectName) {
         isNotNull(logger, object, objectName);
         isNotNull(logger, collection, "collection");
         return is(logger, !collection.contains(object), "Collection %s does not contain %s: %s",
@@ -79,23 +79,26 @@ final class BaseCollectionFailsafe extends DelegateObjectFailsafe implements Col
     }
 
     @Override
-    public <T> T isNotEmpty(final Logger logger, final Collection<?> object, final String name) {
+    public <T> T isNotEmpty(final Logger logger, final Collection<?> object, final CharSequence name) {
+
         isNotNull(logger, object, name);
         return is(logger, !object.isEmpty(), "The %s cannot be empty", name);
     }
 
     @Override
-    public <T> T isNotIntersecting(final Logger logger,
-                                   final Collection<T> source,
-                                   final Collection<T> target,
-                                   final String sourceName,
-                                   final String targetName) {
+    public <T> T isNotIntersecting(
+            final Logger logger,
+            final Collection<T> source,
+            final Collection<T> target,
+            final CharSequence sourceName,
+            final CharSequence targetName) {
+
         isNotNull(logger, source, sourceName);
         isNotNull(logger, target, targetName);
         final Collection<T> intersection = CollectionUtils.intersection(source, target);
 
         return is(logger, intersection.isEmpty(), "%s is contained both in %s and %s", intersection.toString(),
-                sourceName,
-                targetName);
+                  sourceName,
+                  targetName);
     }
 }

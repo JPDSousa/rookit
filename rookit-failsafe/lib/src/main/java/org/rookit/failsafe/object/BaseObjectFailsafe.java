@@ -65,7 +65,7 @@ final class BaseObjectFailsafe implements ObjectFailsafe {
     }
 
     @Override
-    public <T> T isNotNull(final Logger logger, final Object object, final String name) {
+    public <T> T isNotNull(final Logger logger, final Object object, final CharSequence name) {
         return is(logger, Objects.nonNull(object), "The %s must not be null", name);
     }
 
