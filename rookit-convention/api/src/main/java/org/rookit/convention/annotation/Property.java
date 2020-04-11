@@ -32,5 +32,5 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
 @Target(METHOD)
 public @interface Property {
 
-    boolean isSettable() default false;
+    boolean mutable() default false;
 }

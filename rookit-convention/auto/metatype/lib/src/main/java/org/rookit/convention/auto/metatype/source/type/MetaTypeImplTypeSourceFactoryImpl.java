@@ -23,11 +23,17 @@ package org.rookit.convention.auto.metatype.source.type;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
-import one.util.streamex.StreamEx;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.auto.source.field.FieldSource;
+import org.rookit.auto.source.field.FieldSourceFactory;
 import org.rookit.auto.source.method.MethodSource;
+import org.rookit.auto.source.type.MutableTypeSource;
 import org.rookit.auto.source.type.TypeSource;
 import org.rookit.auto.source.type.TypeSourceFactory;
+import org.rookit.auto.source.type.parameter.TypeParameterSourceFactory;
+import org.rookit.auto.source.type.reference.From;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
+import org.rookit.convention.MetaType;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.metatype.source.MetaTypeModelSerializerFactory;
 import org.rookit.convention.auto.metatype.source.MetaTypeModelTypeFactory;
@@ -36,16 +42,22 @@ import org.rookit.convention.auto.metatype.source.field.PropertyFieldFactory;
 import org.rookit.convention.auto.metatype.source.method.MetaTypeConstructorSourceFactory;
 import org.rookit.convention.auto.metatype.source.method.MetaTypePropertiesMethodFactory;
 import org.rookit.convention.auto.metatype.source.method.PropertyMethodFactory;
-import org.rookit.convention.auto.metatype.source.type.reference.MetaTypeReferenceSourceFactory;
+import org.rookit.convention.auto.metatype.source.type.reference.MetaTypeReferenceFactory;
 import org.rookit.convention.auto.property.Property;
 
 import java.util.Collection;
 
-final class MetaTypeImplTypeSourceFactoryImpl implements MetaTypeImplTypeSourceFactory{
+final class MetaTypeImplTypeSourceFactoryImpl implements MetaTypeImplTypeSourceFactory {
+
+    private static final String DELEGATE = "metaType";
+
+    private final TypeReferenceSource metaType;
 
     private final TypeSourceFactory typeFactory;
-    private final MetaTypeReferenceSourceFactory references;
+    private final FieldSourceFactory fieldFactory;
+    private final TypeParameterSourceFactory typeParameterFactory;
 
+    private final MetaTypeReferenceFactory references;
     private final MetaTypeConstructorSourceFactory constructorFactory;
     private final MetaTypeModelTypeFactory modelTypeFactory;
     private final MetaTypePropertyFetcherFactory propertyFetchers;
@@ -57,8 +69,11 @@ final class MetaTypeImplTypeSourceFactoryImpl implements MetaTypeImplTypeSourceF
 
     @Inject
     private MetaTypeImplTypeSourceFactoryImpl(
+            @From(MetaType.class) final TypeReferenceSource metaType,
             final TypeSourceFactory typeFactory,
-            final MetaTypeReferenceSourceFactory references,
+            final FieldSourceFactory fieldFactory,
+            final TypeParameterSourceFactory typeParameterFactory,
+            final MetaTypeReferenceFactory references,
             final MetaTypeConstructorSourceFactory constructorFactory,
             final MetaTypeModelTypeFactory modelTypeFactory,
             final MetaTypePropertyFetcherFactory propertyFetchers,
@@ -66,7 +81,12 @@ final class MetaTypeImplTypeSourceFactoryImpl implements MetaTypeImplTypeSourceF
             final MetaTypeModelSerializerFactory serializers,
             final PropertyFieldFactory propertyFields,
             final PropertyMethodFactory propertyMethods) {
+
+        this.metaType = metaType;
+
         this.typeFactory = typeFactory;
+        this.fieldFactory = fieldFactory;
+        this.typeParameterFactory = typeParameterFactory;
         this.references = references;
         this.constructorFactory = constructorFactory;
         this.modelTypeFactory = modelTypeFactory;
@@ -88,44 +108,53 @@ final class MetaTypeImplTypeSourceFactoryImpl implements MetaTypeImplTypeSourceF
                 .addFields(baseFieldsFor(typeElement))
                 .addMethods(baseExecutablesFor(typeElement))
                 // property data
-                .addFields(fieldsFor(typeElement, properties))
-                .addMethods(propertyMethodsFor(typeElement, properties));
+                .addFields(this.propertyFields.fieldsForProperties(typeElement, properties))
+                .addMethods(this.propertyMethods.implFor(typeElement, properties));
+    }
+
+    @Override
+    public MutableTypeSource injectDelegate(
+            final MutableTypeSource original,
+            final ExtendedTypeMirror type) {
+
+        final FieldSource delegate = createDelegate(type);
+
+        return original
+                .addInjectedField(delegate)
+                .addMethod(this.properties.delegateMethodFor(type, delegate))
+                .addMethod(this.serializers.delegateMethodFor(type, delegate))
+                .addMethod(this.modelTypeFactory.delegateMethodFor(type, delegate))
+                .addMethod(this.propertyFetchers.delegateMethodFor(type, delegate));
+    }
+
+    private FieldSource createDelegate(final ExtendedTypeMirror type) {
+
+        final TypeReferenceSource reference = this.typeParameterFactory.create(this.metaType, type);
+
+        return this.fieldFactory.createMutable(reference, DELEGATE)
+                .makePrivate()
+                .makeFinal();
     }
 
     private Iterable<FieldSource> baseFieldsFor(final ConventionTypeElement typeElement) {
 
         return ImmutableList.<FieldSource>builder()
-                .addAll(this.propertyFetchers.fields().asCollection())
-                .add(this.serializers.fieldFor(typeElement))
+                .addAll(this.propertyFetchers.fieldsFor(typeElement).asCollection())
+                .add(this.serializers.fieldFor(typeElement.asType()))
                 .build();
     }
 
     private Iterable<MethodSource> baseExecutablesFor(final ConventionTypeElement typeElement) {
 
+        final ExtendedTypeMirror mirror = typeElement.asType();
+
         return ImmutableList.of(
                 this.constructorFactory.constructorFor(typeElement),
-                this.modelTypeFactory.methodFor(typeElement),
-                this.propertyFetchers.methodFor(typeElement),
+                this.modelTypeFactory.methodFor(mirror),
+                this.propertyFetchers.methodFor(mirror),
                 this.properties.implFor(typeElement),
-                this.serializers.methodFor(typeElement)
+                this.serializers.methodFor(mirror)
         );
-    }
-
-    private Iterable<MethodSource> propertyMethodsFor(
-            final ConventionTypeElement enclosing,
-            final Collection<Property> properties) {
-
-        return StreamEx.of(properties)
-                .map(property -> this.propertyMethods.implFor(enclosing, property))
-                .toImmutableList();
-    }
-
-    private Collection<FieldSource> fieldsFor(final ConventionTypeElement enclosing,
-                                              final Collection<Property> properties) {
-
-        return StreamEx.of(properties)
-                .map(property -> this.propertyFields.fieldForProperty(enclosing, property))
-                .toImmutableList();
     }
 
 }

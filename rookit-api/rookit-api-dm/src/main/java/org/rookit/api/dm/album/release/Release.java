@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Value.Style(canBuild = "isBuildable")
 public interface Release {
 
-    @Property(isSettable = true)
+    @Property(mutable = true)
     TypeRelease type();
 
     @Property

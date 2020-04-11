@@ -113,12 +113,32 @@ final class JavaPoetTypeParameterFactory implements TypeParameterSourceFactory {
 
     @Override
     public TypeParameterSource create(
+            final ExtendedTypeMirror erasure, final ExtendedTypeMirror... parameters) {
+
+        return newInstance(
+                TypeName.get(erasure),
+                createParams(parameters, TypeName::get)
+        );
+    }
+
+    @Override
+    public TypeParameterSource create(
             final TypeReferenceSource erasure, final ExtendedTypeElement... parameters) {
 
 
         return newInstance(
                 this.referenceAdapter.adaptTypeReference(erasure),
                 createParams(parameters)
+        );
+    }
+
+    @Override
+    public TypeParameterSource create(final TypeReferenceSource erasure,
+                                      final ExtendedTypeMirror... parameters) {
+
+        return newInstance(
+                this.referenceAdapter.adaptTypeReference(erasure),
+                createParams(parameters, TypeName::get)
         );
     }
 

@@ -21,9 +21,9 @@
  ******************************************************************************/
 package org.rookit.convention.auto.property.aggregator;
 
-import org.rookit.convention.auto.property.ExtendedProperty;
+import org.rookit.convention.auto.property.Property;
 import org.rookit.utils.aggregate.Aggregator;
 
-public interface ExtendedPropertyAggregator<R> extends Aggregator<ExtendedProperty, ExtendedPropertyAggregator<R>, R> {
+public interface ExtendedPropertyAggregator<R> extends Aggregator<Property, ExtendedPropertyAggregator<R>, R> {
 
 }

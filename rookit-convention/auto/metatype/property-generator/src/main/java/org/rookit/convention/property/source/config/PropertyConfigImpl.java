@@ -25,29 +25,24 @@ import org.rookit.auto.javax.pack.ExtendedPackageElement;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
 import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
 import org.rookit.convention.auto.config.ConventionConfig;
-import org.rookit.convention.auto.config.NamingConfig;
 import org.rookit.convention.auto.config.PropertyConfig;
 import org.rookit.utils.object.DynamicObject;
-import org.rookit.utils.string.template.TemplateFactory;
 
 final class PropertyConfigImpl implements PropertyConfig {
 
     private final DynamicObject configuration;
     private final ConventionConfig parent;
     private final String name;
-    private final TemplateFactory templateFactory;
     private final TypeVariableSourceFactory typeVariableFactory;
 
     PropertyConfigImpl(
             final DynamicObject configuration,
             final ConventionConfig parent,
             final String name,
-            final TemplateFactory templateFactory,
             final TypeVariableSourceFactory typeVariableFactory) {
         this.configuration = configuration;
         this.parent = parent;
         this.name = name;
-        this.templateFactory = templateFactory;
         this.typeVariableFactory = typeVariableFactory;
     }
 
@@ -59,11 +54,6 @@ final class PropertyConfigImpl implements PropertyConfig {
     @Override
     public TypeVariableSource parameterName() {
         return this.typeVariableFactory.createFromName(this.configuration.getString("parameterName"));
-    }
-
-    @Override
-    public NamingConfig naming() {
-        return new NamingConfigImpl(this.configuration.getDynamicObject("naming"));
     }
 
     @Override

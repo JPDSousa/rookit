@@ -24,66 +24,58 @@ package org.rookit.auto.javapoet.method;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
-import com.squareup.javapoet.CodeBlock;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterSpec;
-import com.squareup.javapoet.TypeName;
-import com.squareup.javapoet.TypeVariableName;
 import org.rookit.auto.javapoet.JavaPoetMutableAnnotatableFactory;
 import org.rookit.auto.javax.ExtendedElement;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.javax.mirror.variable.ExtendedTypeVariable;
 import org.rookit.auto.javax.type.parameter.ExtendedTypeParameterElement;
-import org.rookit.auto.source.arbitrary.ArbitraryCodeSourceAdapter;
+import org.rookit.auto.source.arbitrary.ArbitraryCodeSourceFactory;
+import org.rookit.auto.source.field.FieldSource;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.method.MethodSourceFactory;
 import org.rookit.auto.source.method.MutableMethodSource;
-import org.rookit.auto.source.parameter.ParameterSourceAdapter;
 import org.rookit.auto.source.parameter.ParameterSourceFactory;
-import org.rookit.auto.source.type.reference.TypeReferenceSourceAdapter;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
-import org.rookit.auto.source.type.variable.TypeVariableSourceAdapter;
 import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
+import org.rookit.utils.optional.OptionalFactory;
 
 import javax.lang.model.element.Modifier;
+import javax.lang.model.element.Name;
+import javax.lang.model.element.VariableElement;
 import java.util.Set;
 
 import static java.lang.String.format;
+import static java.util.stream.Collectors.joining;
 import static javax.lang.model.element.Modifier.ABSTRACT;
 import static javax.lang.model.element.Modifier.DEFAULT;
 
 final class JavaPoetMethodFactory implements MethodSourceFactory {
 
-    private final ParameterSourceFactory parameterFactory;
-    private final ParameterSourceAdapter<ParameterSpec> parameterAdapter;
-    private final TypeVariableSourceAdapter<TypeVariableName> typeVariableAdapter;
-    private final TypeVariableSourceFactory typeVariableFactory;
+    private static final String CONSTRUCTOR = "<init>";
 
-    private final TypeReferenceSourceAdapter<TypeName> referenceAdapter;
+    private final ParameterSourceFactory parameterFactory;
+    private final TypeVariableSourceFactory typeVariableFactory;
+    private final ArbitraryCodeSourceFactory codeFactory;
+    private final OptionalFactory optionalFactory;
+
     private final TypeReferenceSourceFactory referenceFactory;
 
     private final JavaPoetMutableAnnotatableFactory annotatableFactory;
 
-    private final ArbitraryCodeSourceAdapter<CodeBlock> codeAdapter;
-
     @Inject
     private JavaPoetMethodFactory(
             final ParameterSourceFactory parameterFactory,
-            final ParameterSourceAdapter<ParameterSpec> parameterAdapter,
-            final TypeVariableSourceAdapter<TypeVariableName> typeVariableAdapter,
             final TypeVariableSourceFactory typeVariableFactory,
-            final TypeReferenceSourceAdapter<TypeName> referenceAdapter,
+            final ArbitraryCodeSourceFactory codeFactory,
+            final OptionalFactory optionalFactory,
             final TypeReferenceSourceFactory referenceFactory,
-            final JavaPoetMutableAnnotatableFactory annotatableFactory,
-            final ArbitraryCodeSourceAdapter<CodeBlock> codeAdapter) {
+            final JavaPoetMutableAnnotatableFactory annotatableFactory) {
         this.parameterFactory = parameterFactory;
-        this.parameterAdapter = parameterAdapter;
-        this.typeVariableAdapter = typeVariableAdapter;
         this.typeVariableFactory = typeVariableFactory;
-        this.referenceAdapter = referenceAdapter;
+        this.codeFactory = codeFactory;
+        this.optionalFactory = optionalFactory;
         this.referenceFactory = referenceFactory;
         this.annotatableFactory = annotatableFactory;
-        this.codeAdapter = codeAdapter;
     }
 
     @Override
@@ -121,27 +113,31 @@ final class JavaPoetMethodFactory implements MethodSourceFactory {
     @Override
     public MutableMethodSource createMutableConstructor() {
 
-        return createJavaMethod(MethodSpec.constructorBuilder());
+        return createJavaMethod(CONSTRUCTOR, true);
     }
 
-    private MutableMethodSource createJavaMethod(final MethodSpec.Builder builder) {
+    private MutableMethodSource createJavaMethod(final CharSequence name,
+                                                 final boolean isConstructor) {
 
         return new JavaPoetMethod(
-                builder,
-                this.parameterAdapter,
-                this.typeVariableAdapter,
-                this.referenceAdapter,
                 this.referenceFactory,
-                this.codeAdapter,
+                this.codeFactory,
+                this.optionalFactory,
+                name,
                 this.annotatableFactory.createEmpty(),
                 ImmutableSet.of(),
-                ImmutableSet.of());
+                ImmutableSet.of(),
+                ImmutableSet.of(),
+                isConstructor,
+                ImmutableSet.of(),
+                ImmutableSet.of()
+        );
     }
 
     @Override
     public MutableMethodSource createMutableMethod(final CharSequence name) {
 
-        return createJavaMethod(MethodSpec.methodBuilder(name.toString()));
+        return createJavaMethod(name, false);
     }
 
     @Override
@@ -149,6 +145,21 @@ final class JavaPoetMethodFactory implements MethodSourceFactory {
 
         return fromExecutableElement(method)
                 .addAnnotationByClass(Override.class);
+    }
+
+    @Override
+    public MutableMethodSource createMutableDelegateOverride(
+            final ExtendedExecutableElement method,
+            final FieldSource field) {
+
+        final String returnTemplate = method.getParameters()
+                .stream()
+                .map(VariableElement::getSimpleName)
+                .map(Name::toString)
+                .collect(joining(", ", "return this.$L.$L(", ")"));
+
+        return createMutableOverride(method)
+                .addStatement(returnTemplate, ImmutableList.of(field.name(), method.getSimpleName()));
     }
 
     @Override

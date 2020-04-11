@@ -21,11 +21,14 @@
  ******************************************************************************/
 package org.rookit.convention.auto.metatype.source;
 
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
+import org.rookit.auto.source.field.FieldSource;
 import org.rookit.auto.source.method.MethodSource;
-import org.rookit.convention.auto.javax.ConventionTypeElement;
 
 public interface MetaTypeModelTypeFactory {
 
-    MethodSource methodFor(ConventionTypeElement type);
+    MethodSource methodFor(ExtendedTypeMirror type);
+
+    MethodSource delegateMethodFor(ExtendedTypeMirror type, FieldSource delegate);
 
 }

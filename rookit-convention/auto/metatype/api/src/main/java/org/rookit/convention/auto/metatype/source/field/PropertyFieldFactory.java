@@ -21,12 +21,23 @@
  ******************************************************************************/
 package org.rookit.convention.auto.metatype.source.field;
 
+import one.util.streamex.StreamEx;
 import org.rookit.auto.source.field.FieldSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.property.Property;
 
+import java.util.Collection;
+
 public interface PropertyFieldFactory {
 
-    FieldSource fieldForProperty(ConventionTypeElement element, Property property);
+    FieldSource fieldForProperty(ConventionTypeElement enclosing, Property property);
+
+    default Collection<FieldSource> fieldsForProperties(final ConventionTypeElement enclosing,
+                                                        final Collection<Property> properties) {
+
+        return StreamEx.of(properties)
+                .map(property -> fieldForProperty(enclosing, property))
+                .toImmutableList();
+    }
 
 }

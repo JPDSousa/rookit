@@ -55,9 +55,10 @@ final class JavaPoetFieldFactory implements FieldSourceFactory {
 
     @Override
     public MutableFieldSource createMutable(
-            final TypeReferenceSource type, final String name) {
+            final TypeReferenceSource type, final CharSequence name) {
 
-        final FieldSpec.Builder builder = FieldSpec.builder(this.referenceAdapter.adaptTypeReference(type), name);
+        final FieldSpec.Builder builder = FieldSpec.builder(this.referenceAdapter.adaptTypeReference(type),
+                                                            name.toString());
 
         return new JavaPoetField(
                 this.annotatableFactory.createEmpty(),

@@ -22,39 +22,9 @@
 package org.rookit.convention.auto.property;
 
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
-import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
-import org.rookit.utils.optional.Optional;
 
 public interface PropertyFactory {
 
-    Property changeType(Property source, ExtendedTypeMirror newReturnType);
-
-    Property changeName(Property source, String newName);
-
-    ContainerProperty changeName(ContainerProperty source, String newName);
-
-    Optional<ContainerProperty> toContainer(ExtendedProperty property);
-
-    default Optional<ContainerProperty> toContainer(final Property property) {
-        return toContainer(extend(property));
-    }
-
-    ExtendedProperty extend(Property property);
-
-    Property createMutable(CharSequence name, ExtendedTypeMirror type);
-
-    Property createImmutable(CharSequence name, ExtendedTypeMirror type);
-
-    default Property create(final ExtendedExecutableElement method) {
-        return createMutable(method.getSimpleName(), method.getReturnType());
-    }
-
-    default Property createMutable(final ExtendedExecutableElement method) {
-        return createMutable(method.getSimpleName(), method.getReturnType());
-    }
-
-    default Property createImmutable(final ExtendedExecutableElement method) {
-        return createImmutable(method.getSimpleName(), method.getReturnType());
-    }
+    Property create(final ExtendedExecutableElement method);
 
 }

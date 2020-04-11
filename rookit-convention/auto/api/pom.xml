@@ -18,6 +18,12 @@
     <dependencies>
 
         <dependency>
+            <groupId>org.immutables</groupId>
+            <artifactId>value</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>one.util</groupId>
             <artifactId>streamex</artifactId>
         </dependency>
@@ -38,8 +44,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.squareup</groupId>
-            <artifactId>javapoet</artifactId>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-convention-api</artifactId>
         </dependency>
 
     </dependencies>

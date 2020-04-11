@@ -16,11 +16,13 @@
     <name>Rookit Convention Api</name>
 
     <dependencies>
+
         <dependency>
             <groupId>${rookit.group}</groupId>
             <artifactId>rookit-guice-auto-annotations</artifactId>
             <scope>provided</scope>
         </dependency>
+
     </dependencies>
 
 </project>

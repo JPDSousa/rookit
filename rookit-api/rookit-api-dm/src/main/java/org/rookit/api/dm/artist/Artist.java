@@ -32,7 +32,7 @@ import java.util.Collection;
 @Entity
 public interface Artist extends Genreable, Comparable<Artist>, ArtistSetter {
 
-    @Property(isSettable = true)
+    @Property(mutable = true)
     Profile profile();
 
     /**
@@ -43,6 +43,6 @@ public interface Artist extends Genreable, Comparable<Artist>, ArtistSetter {
     @Property
     Collection<Artist> relatedArtists();
 
-    @Property(isSettable = true)
+    @Property(mutable = true)
     TypeArtist type();
 }

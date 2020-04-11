@@ -43,7 +43,13 @@ public interface GenericMutableMethodSource<S extends GenericMutableMethodSource
 
     S addParameter(ParameterSource parameter);
 
-    S assignParametersToFields(Iterable<ParameterSource> parameters);
+    default S assignParametersToFields(final Iterable<ParameterSource> parameters) {
+
+        parameters.forEach(this::assignParameterToField);
+        return self();
+    }
+
+    S assignParameterToField(ParameterSource parameter);
 
     S returnNewObject(TypeReferenceSource objectType, Iterable<CharSequence> parameters);
 
@@ -58,13 +64,6 @@ public interface GenericMutableMethodSource<S extends GenericMutableMethodSource
     }
 
     S withReturnType(TypeReferenceSource reference);
-
-    S returnMethodCall(TypeReferenceSource returnType,
-                       String delegateCall,
-                       List<Object> args);
-
-    S returnMethodCall(String delegateCall,
-                       List<Object> args);
 
     S defaultValue(String format, List<Object> args);
 

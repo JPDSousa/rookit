@@ -29,11 +29,6 @@
 
         <dependency>
             <groupId>${rookit.group}</groupId>
-            <artifactId>rookit-auto-lib</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>${rookit.group}</groupId>
             <artifactId>rookit-convention-auto-api</artifactId>
         </dependency>
 

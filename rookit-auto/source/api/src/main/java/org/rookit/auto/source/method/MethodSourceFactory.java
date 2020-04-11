@@ -22,6 +22,7 @@
 package org.rookit.auto.source.method;
 
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
+import org.rookit.auto.source.field.FieldSource;
 
 public interface MethodSourceFactory {
 
@@ -32,6 +33,10 @@ public interface MethodSourceFactory {
     MutableMethodSource createMutableMethod(CharSequence name);
 
     MutableMethodSource createMutableOverride(ExtendedExecutableElement method);
+
+    MutableMethodSource createMutableDelegateOverride(
+            ExtendedExecutableElement method,
+            FieldSource field);
 
     MutableMethodSource makeMutable(MethodSource method);
 

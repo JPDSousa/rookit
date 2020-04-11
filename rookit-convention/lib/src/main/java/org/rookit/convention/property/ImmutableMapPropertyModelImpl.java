@@ -26,27 +26,15 @@ import org.rookit.convention.MetaType;
 import java.util.Map;
 import java.util.function.Function;
 
-class ImmutableMapPropertyModelImpl<E, K, V> extends BasePropertyModel<V>
+final class ImmutableMapPropertyModelImpl<E, K, V> extends AbstractPropertyModel<E, Map<K, V>>
         implements ImmutableMapPropertyModel<E, K, V> {
 
-    private final Function<E, Map<K, V>> getter;
+    ImmutableMapPropertyModelImpl(
+            final String name,
+            final MetaType<Map<K, V>> metaType,
+            final Function<E, Map<K, V>> getter) {
 
-    ImmutableMapPropertyModelImpl(final String name,
-                                  final MetaType<V> metaType,
-                                  final Function<E, Map<K, V>> getter) {
-        super(name, metaType);
-        this.getter = getter;
+        super(name, metaType, getter);
     }
 
-    @Override
-    public Map<K, V> get(final E entity) {
-        return this.getter.apply(entity);
-    }
-
-    @Override
-    public String toString() {
-        return "ImmutableMapPropertyModelImpl{" +
-                "getter=" + this.getter +
-                "} " + super.toString();
-    }
 }

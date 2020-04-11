@@ -33,8 +33,10 @@ import org.rookit.auto.javax.type.ExtendedTypeElementFactory;
 import org.rookit.auto.javax.type.mirror.ExtendedTypeMirrorFactory;
 import org.rookit.convention.auto.metatype.guice.PropertyModelModuleMixin;
 import org.rookit.convention.property.guice.ImmutablePropertyModel;
-import org.rookit.convention.property.guice.ImmutablePropertyModelGet;
+import org.rookit.convention.property.guice.MutablePropertyModel;
+import org.rookit.convention.property.guice.MutablePropertyModelSet;
 import org.rookit.convention.property.guice.PropertyModel;
+import org.rookit.convention.property.guice.PropertyModelGet;
 import org.rookit.convention.property.guice.PropertyModelPropertyName;
 
 import javax.lang.model.element.TypeElement;
@@ -63,12 +65,23 @@ public final class PropertyModule extends AbstractModule
                 .toInstance(org.rookit.convention.property.PropertyModel.class);
         bind(new TypeLiteral<Class<?>>() {}).annotatedWith(ImmutablePropertyModel.class)
                 .toInstance(org.rookit.convention.property.ImmutablePropertyModel.class);
+        bind(new TypeLiteral<Class<?>>() {}).annotatedWith(MutablePropertyModel.class)
+                .toInstance(org.rookit.convention.property.MutablePropertyModel.class);
     }
 
     @Provides
     @Singleton
-    @ImmutablePropertyModelGet
-    ExtendedExecutableElement getterMethod(@ImmutablePropertyModel final ExtendedTypeElement propertyElement) {
+    @MutablePropertyModelSet
+    ExtendedExecutableElement mutablePropertySetterMethod(
+            @MutablePropertyModel final ExtendedTypeElement propertyElement) {
+
+        return getMethodOrFail(propertyElement, "set");
+    }
+
+    @Provides
+    @Singleton
+    @PropertyModelGet
+    ExtendedExecutableElement getterMethod(@PropertyModel final ExtendedTypeElement propertyElement) {
         return getMethodOrFail(propertyElement, "get");
     }
 
@@ -82,6 +95,19 @@ public final class PropertyModule extends AbstractModule
     @Override
     public Key<ExtendedExecutableElement> key() {
         return Key.get(ExtendedExecutableElement.class, PropertyModel.class);
+    }
+
+    @Provides
+    @Singleton
+    @MutablePropertyModel
+    ExtendedTypeElement mutablePropertyModel(@MutablePropertyModel final Class<?> clazz,
+                                             final ExtendedTypeMirrorFactory mirrorFactory,
+                                             final ExtendedTypeElementFactory typeFactory) {
+        return mirrorFactory.createWithErasure(clazz)
+                .toElement()
+                .select(TypeElement.class)
+                .map(typeFactory::extend)
+                .orElseThrow(() -> new IllegalArgumentException(format(INVALID_META_TYPE_CLASS, clazz)));
     }
 
     @Provides

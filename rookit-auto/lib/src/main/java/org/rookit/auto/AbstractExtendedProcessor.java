@@ -21,7 +21,6 @@
  ******************************************************************************/
 package org.rookit.auto;
 
-import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -38,10 +37,12 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
+import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Supplier;
 
+import static com.google.common.base.Suppliers.memoize;
 import static java.util.Objects.isNull;
 
 public abstract class AbstractExtendedProcessor extends AbstractInjectorExtendedProcessor {
@@ -84,7 +85,7 @@ public abstract class AbstractExtendedProcessor extends AbstractInjectorExtended
                                       bind(Filer.class).annotatedWith(Proxied.class).toInstance(processingEnv.getFiler());
                                   }
                               });
-                this.injector = Suppliers.memoize(() -> Guice.createInjector(ImmutableList.of(module)));
+                this.injector = memoize(() -> Guice.createInjector(ImmutableList.of(module)));
                 logger.debug("Injector supplier created");
             } else {
                 logger.debug("Injector already created");
@@ -112,16 +113,9 @@ public abstract class AbstractExtendedProcessor extends AbstractInjectorExtended
     }
 
     @Override
-    public String toString() {
-        this.instanceLock.lock();
-        try {
-            return "AbstractExtendedProcessor{" +
-                    "instanceLock=" + this.instanceLock +
-                    ", injector=" + this.injector +
-                    "} " + super.toString();
-        } finally {
-            this.instanceLock.unlock();
-        }
+    public Set<String> getSupportedAnnotationTypes() {
+        return injector().getInstance(SupportedAnnotations.class)
+                .annotationNames();
     }
 
 }

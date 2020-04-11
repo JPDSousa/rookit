@@ -22,89 +22,147 @@
 package org.rookit.convention.auto.property;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
-import org.rookit.auto.javax.ElementUtils;
-import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
-import org.rookit.convention.annotation.PropertyContainer;
-import org.rookit.convention.auto.javax.ConventionTypeElement;
+import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
 import org.rookit.utils.optional.Optional;
+import org.rookit.utils.optional.OptionalFactory;
+import org.rookit.utils.repetition.Repetition;
 
-import java.util.Objects;
+import static java.util.Objects.isNull;
 
-public final class BasePropertyFactory implements PropertyFactory {
+final class BasePropertyFactory implements PropertyFactory {
 
-    public static PropertyFactory create(final ElementUtils utils,
-                                         final Provider<ConventionTypeElementFactory> elementFactory) {
-        return new BasePropertyFactory(utils, elementFactory);
-    }
-
-    private final ElementUtils utils;
-    // TODO do not use providers
-    private final Provider<ConventionTypeElementFactory> elementFactory;
+    private final ConventionTypeElementFactory elementFactory;
+    private final OptionalFactory optionalFactory;
 
     @Inject
-    private BasePropertyFactory(final ElementUtils utils,
-                                final Provider<ConventionTypeElementFactory> elementFactory) {
-        this.utils = utils;
+    private BasePropertyFactory(
+            final ConventionTypeElementFactory elementFactory,
+            final OptionalFactory optionalFactory) {
         this.elementFactory = elementFactory;
+        this.optionalFactory = optionalFactory;
     }
 
     @Override
-    public Property changeType(final Property source, final ExtendedTypeMirror newReturnType) {
-        return new ReturnProperty(source, newReturnType);
-    }
+    public Property create(final ExtendedExecutableElement executable) {
 
-    @Override
-    public Property changeName(final Property source, final String newName) {
-        return new NameProperty(newName, source);
-    }
+        final org.rookit.convention.annotation.Property annotation
+                = executable.getAnnotation(org.rookit.convention.annotation.Property.class);
 
-    @Override
-    public ContainerProperty changeName(final ContainerProperty source, final String newName) {
-        return new NameContainerProperty(newName, source);
-    }
+        final Property baseProperty = AbstractProperty.builder()
+                .elementFactory(this.elementFactory)
+                .fromExecutable(executable)
+                .build();
 
-    @Override
-    public Optional<ContainerProperty> toContainer(final ExtendedProperty property) {
-        return property.typeAsElement()
-                .filter(ConventionTypeElement::isPropertyContainer)
-                .map(type -> new BaseContainerProperty(property, type));
-    }
+        if (isNull(annotation)) {
 
-    @Override
-    public ExtendedProperty extend(final Property property) {
-        if (property instanceof ExtendedProperty) {
-            return (ExtendedProperty) property;
+            return baseProperty;
         }
 
-        return new BaseExtendedProperty(property, this.utils, this.elementFactory.get());
+        return isCollection(baseProperty)
+                .orElseMaybe(() -> isMap(baseProperty))
+                .orElseMaybe(() -> isOptional(baseProperty))
+                .orElseMaybe(() -> isImmutable(baseProperty))
+                .orElseGet(() -> mutableProperty(baseProperty));
     }
 
-    @Override
-    public Property createMutable(final CharSequence name, final ExtendedTypeMirror type) {
-        return create(name, type, false);
+    private Property mutableProperty(final Property baseProperty) {
+
+        return ImmutableMutableProperty.builder()
+                .from(baseProperty)
+                .isFinal(false)
+                .build();
     }
 
-    @Override
-    public Property createImmutable(final CharSequence name, final ExtendedTypeMirror type) {
-        return create(name, type, true);
+    private Optional<Property> isImmutable(final Property baseProperty) {
+
+        if (baseProperty.isFinal()) {
+            return this.optionalFactory.empty();
+        }
+
+        return this.optionalFactory.of(
+                ImmutableImmutableProperty.builder()
+                        .from(baseProperty)
+                        .isFinal(true)
+                        .build()
+        );
     }
 
-    private Property create(final CharSequence name,
-                            final ExtendedTypeMirror typeMirror,
-                            final boolean isFinal) {
-        final boolean isContainer = typeMirror.toElement()
-                .filter(type -> Objects.nonNull(type.getAnnotation(PropertyContainer.class)))
-                .isPresent();
-        return new BaseProperty(name.toString(), typeMirror, isContainer, isFinal);
+    private Optional<Property> isMap(final Property baseProperty) {
+
+        final Repetition repetition = baseProperty.type().repetition();
+
+        if (repetition.isKeyed() && repetition.isMulti()) {
+
+            if (baseProperty.isFinal()) {
+
+                return this.optionalFactory.of(
+                        ImmutableImmutableMapProperty.builder()
+                                .from(baseProperty)
+                                .isFinal(true)
+                                .build()
+                );
+            }
+
+            return this.optionalFactory.of(
+                    ImmutableMutableMapProperty.builder()
+                            .from(baseProperty)
+                            .isFinal(false)
+                            .build()
+            );
+        }
+        return this.optionalFactory.empty();
     }
 
-    @Override
-    public String toString() {
-        return "BasePropertyFactory{" +
-                ", utils=" + this.utils +
-                ", elementFactory=" + this.elementFactory +
-                "}";
+    private Optional<Property> isOptional(final Property baseProperty) {
+
+        final Repetition repetition = baseProperty.type().repetition();
+
+        if (repetition.isOptional() && !repetition.isMulti() && !repetition.isKeyed()) {
+
+            if (baseProperty.isFinal()) {
+
+                return this.optionalFactory.of(
+                        ImmutableImmutableOptionalProperty.builder()
+                                .from(baseProperty)
+                                .isFinal(true)
+                                .build()
+                );
+            }
+
+            return this.optionalFactory.of(
+                    ImmutableMutableOptionalProperty.builder()
+                            .from(baseProperty)
+                            .isFinal(false)
+                            .build()
+            );
+        }
+        return this.optionalFactory.empty();
     }
+
+    private Optional<Property> isCollection(final Property baseProperty) {
+
+        final Repetition repetition = baseProperty.type().repetition();
+        if (repetition.isMulti() && !repetition.isKeyed()) {
+
+            if (baseProperty.isFinal()) {
+
+                return this.optionalFactory.of(
+                        ImmutableImmutableCollectionProperty.builder()
+                                .from(baseProperty)
+                                .isFinal(true)
+                                .build()
+                );
+            }
+
+            return this.optionalFactory.of(
+                    ImmutableMutableCollectionProperty.builder()
+                            .from(baseProperty)
+                            .isFinal(false)
+                            .build()
+            );
+        }
+        return this.optionalFactory.empty();
+    }
+
 }

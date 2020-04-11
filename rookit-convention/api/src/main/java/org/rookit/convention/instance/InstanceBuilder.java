@@ -23,13 +23,13 @@ package org.rookit.convention.instance;
 
 import org.rookit.convention.property.ImmutableCollectionPropertyModel;
 import org.rookit.convention.property.ImmutableOptionalPropertyModel;
-import org.rookit.convention.property.ImmutablePropertyModel;
+import org.rookit.convention.property.PropertyModel;
 
 import java.util.Collection;
 
 public interface InstanceBuilder<T> {
 
-    <E> InstanceBuilder<T> withProperty(ImmutablePropertyModel<T, E> property, E value);
+    <E> InstanceBuilder<T> withProperty(PropertyModel<T, E> property, E value);
 
     <E> InstanceBuilder<T> withOptionalProperty(ImmutableOptionalPropertyModel<T, E> property, E value);
 

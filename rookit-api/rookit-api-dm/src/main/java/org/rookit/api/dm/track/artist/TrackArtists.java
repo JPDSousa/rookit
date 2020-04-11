@@ -30,7 +30,7 @@ import java.util.Collection;
 @PropertyContainer
 public interface TrackArtists {
 
-    @Property(isSettable = true)
+    @Property(mutable = true)
     Collection<Artist> mainArtists();
 
     @Property

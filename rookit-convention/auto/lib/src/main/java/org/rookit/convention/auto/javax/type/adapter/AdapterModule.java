@@ -25,18 +25,14 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
-import org.rookit.auto.guice.Flat;
-import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
+import org.rookit.convention.auto.javax.adapter.ConventionTypeAdapters;
 import org.rookit.convention.auto.property.Property;
-import org.rookit.convention.auto.property.PropertyFactory;
 import org.rookit.utils.adapt.Adapter;
 import org.rookit.utils.guice.Collection;
 import org.rookit.utils.guice.Immutable;
 import org.rookit.utils.guice.Mutable;
-import org.rookit.utils.guice.Optional;
 
 import java.util.function.Predicate;
 
@@ -51,11 +47,8 @@ final class AdapterModule extends AbstractModule {
 
     private AdapterModule() {}
 
-    @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
     @Override
     protected void configure() {
-        bind(new TypeLiteral<Adapter<ConventionTypeElement>>() {}).annotatedWith(Flat.class)
-                .to(PropertyFlatAdapter.class).in(Singleton.class);
         bind(ConventionTypeAdapters.class).to(ConventionTypeAdaptersImpl.class).in(Singleton.class);
     }
 
@@ -67,24 +60,6 @@ final class AdapterModule extends AbstractModule {
             @Collection final Predicate<Property> collectionFilter,
             final ConventionTypeElementFactory elementFactory) {
         return typeAdapters.createPropertyFilterAdapter(collectionFilter, elementFactory);
-    }
-
-    @Provides
-    @Singleton
-    @Collection(unwrap = true)
-    Adapter<ConventionTypeElement> collectionPropertyFilteredUnwrappedElement(
-            final ConventionTypeAdapters typeAdapters,
-            final PropertyFactory propertyFactory,
-            @Collection(unwrap = true) final Adapter<ExtendedTypeMirror> collectionUnwrapper,
-            @Collection final Adapter<ConventionTypeElement> collectionAdapter,
-            final ConventionTypeElementFactory elementFactory
-    ) {
-        return typeAdapters.createPropertyTypeAdapter(
-                propertyFactory,
-                collectionUnwrapper,
-                collectionAdapter,
-                elementFactory
-        );
     }
 
     @Provides
@@ -105,17 +80,5 @@ final class AdapterModule extends AbstractModule {
             @Immutable final Predicate<Property> filter,
             final ConventionTypeElementFactory elementFactory) {
         return adapters.createPropertyFilterAdapter(filter, elementFactory);
-    }
-
-    @Provides
-    @Singleton
-    @Optional
-    Adapter<ConventionTypeElement> optionalUnwrapper(
-            final ConventionTypeAdapters adapters,
-            final PropertyFactory propertyFactory,
-            @Optional final Adapter<ExtendedTypeMirror> mirrorAdapter,
-            @Optional final Adapter<ConventionTypeElement> propertyAdapter,
-            final ConventionTypeElementFactory elementFactory) {
-        return adapters.createPropertyTypeAdapter(propertyFactory, mirrorAdapter, propertyAdapter, elementFactory);
     }
 }

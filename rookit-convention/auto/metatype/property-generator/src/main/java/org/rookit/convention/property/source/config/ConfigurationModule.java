@@ -31,11 +31,9 @@ import org.rookit.auto.config.DependencyAwareProcessorConfig;
 import org.rookit.auto.config.ProcessorConfig;
 import org.rookit.auto.source.type.variable.TypeVariableSourceFactory;
 import org.rookit.convention.auto.config.ConventionConfig;
+import org.rookit.convention.auto.config.PropertyConfig;
 import org.rookit.convention.auto.metatype.config.MetaTypeApiConfig;
 import org.rookit.guice.auto.config.GuiceConfig;
-import org.rookit.convention.auto.config.NamingConfig;
-import org.rookit.convention.auto.config.PropertyConfig;
-import org.rookit.utils.string.template.TemplateFactory;
 
 import javax.annotation.processing.Messager;
 
@@ -74,24 +72,17 @@ public final class ConfigurationModule extends AbstractModule {
 
     @Provides
     @Singleton
-    PropertyConfig config(final ConventionConfig config,
-                          final TemplateFactory templateFactory,
-                          final TypeVariableSourceFactory typeVariableFactory) {
+    PropertyConfig config(
+            final ConventionConfig config,
+            final TypeVariableSourceFactory typeVariableFactory) {
 
         final String name = "property";
         return new PropertyConfigImpl(
                 config.getProcessorConfig(name),
                 config,
                 name,
-                templateFactory,
                 typeVariableFactory
         );
-    }
-
-    @Provides
-    @Singleton
-    NamingConfig namingConfig(final PropertyConfig config) {
-        return config.naming();
     }
 
 }

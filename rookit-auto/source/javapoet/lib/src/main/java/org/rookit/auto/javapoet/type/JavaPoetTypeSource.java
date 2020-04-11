@@ -37,6 +37,8 @@ import org.rookit.auto.source.field.FieldAdapter;
 import org.rookit.auto.source.field.FieldSource;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.method.MethodSourceAdapter;
+import org.rookit.auto.source.method.MutableMethodSource;
+import org.rookit.auto.source.parameter.ParameterSourceFactory;
 import org.rookit.auto.source.type.MutableTypeSource;
 import org.rookit.auto.source.type.annotation.AnnotationSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
@@ -60,9 +62,12 @@ final class JavaPoetTypeSource extends AbstractJavaPoetTypeSource implements Jav
 
     private final TypeReferenceSource reference;
     private final TypeSpec.Builder source;
+    private final MutableMethodSource constructor;
     private final Collection<Modifier> modifiers;
     private final JavaPoetMutableAnnotatable annotatable;
     private final String separator;
+
+    private final ParameterSourceFactory parameterFactory;
 
     JavaPoetTypeSource(
             final TypeReferenceSource reference,
@@ -72,8 +77,10 @@ final class JavaPoetTypeSource extends AbstractJavaPoetTypeSource implements Jav
             final MethodSourceAdapter<MethodSpec> methodAdapter,
             final TypeVariableSourceAdapter<TypeVariableName> typeVariableAdapter,
             final TypeReferenceSourceAdapter<TypeName> typeReferenceAdapter,
+            final MutableMethodSource constructor,
             final JavaPoetMutableAnnotatable annotatable,
-            final String separator) {
+            final String separator,
+            final ParameterSourceFactory parameterFactory) {
         super(executor);
         this.source = source;
         this.reference = reference;
@@ -81,8 +88,10 @@ final class JavaPoetTypeSource extends AbstractJavaPoetTypeSource implements Jav
         this.methodAdapter = methodAdapter;
         this.typeVariableAdapter = typeVariableAdapter;
         this.typeReferenceAdapter = typeReferenceAdapter;
+        this.constructor = constructor;
         this.annotatable = annotatable;
         this.separator = separator;
+        this.parameterFactory = parameterFactory;
         this.modifiers = Sets.newHashSetWithExpectedSize(3);
     }
 
@@ -166,7 +175,15 @@ final class JavaPoetTypeSource extends AbstractJavaPoetTypeSource implements Jav
     @Override
     public MutableTypeSource addMethod(final MethodSource method) {
 
-        this.source.addMethod(this.methodAdapter.adaptMethod(method));
+        if (method.isConstructor()) {
+            // TODO this logic should be moved elsewhere
+            this.constructor.addParameters(method.parameters());
+            this.constructor.addAnnotations(method.annotations());
+            this.constructor.code().forEach(this.constructor::addStatement);
+        } else {
+            this.source.addMethod(this.methodAdapter.adaptMethod(method));
+        }
+
         return this;
     }
 
@@ -178,12 +195,22 @@ final class JavaPoetTypeSource extends AbstractJavaPoetTypeSource implements Jav
     }
 
     @Override
+    public MutableTypeSource addInjectedField(final FieldSource field) {
+
+        addField(field);
+        this.constructor.assignParameterToField(this.parameterFactory.createFromField(field));
+
+        return this;
+    }
+
+    @Override
     protected TypeSpec typeSpec() {
 
         final TypeSpec originalSpec = this.source.build();
         final TypeSpec.Builder builder = originalSpec.toBuilder();
 
         if ((originalSpec.kind != TypeSpec.Kind.INTERFACE) && (originalSpec.kind != TypeSpec.Kind.ANNOTATION)) {
+            builder.addMethod(this.methodAdapter.adaptMethod(this.constructor));
             builder.addMethod(createToString(originalSpec));
         }
 

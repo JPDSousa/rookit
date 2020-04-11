@@ -75,7 +75,7 @@ public interface Album extends Genreable, Comparable<Album>, AlbumSetter {
      *
      * @return album release
      */
-    @Property(isSettable = true)
+    @Property(mutable = true)
     TypeAlbum type();
 
     /**
@@ -83,7 +83,7 @@ public interface Album extends Genreable, Comparable<Album>, AlbumSetter {
      *
      * @return title of this album.
      */
-    @Property(isSettable = true)
+    @Property(mutable = true)
     String title();
 
     /**
@@ -91,7 +91,7 @@ public interface Album extends Genreable, Comparable<Album>, AlbumSetter {
      *
      * @return album's release release
      */
-    @Property(isSettable = true)
+    @Property(mutable = true)
     Release release();
 
     /**
@@ -108,7 +108,7 @@ public interface Album extends Genreable, Comparable<Album>, AlbumSetter {
      *
      * @return withProperty of authors of this album
      */
-    @Property(isSettable = true)
+    @Property(mutable = true)
     Collection<Artist> artists();
 
     @Override

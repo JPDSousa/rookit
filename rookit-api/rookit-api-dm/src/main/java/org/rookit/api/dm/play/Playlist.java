@@ -34,10 +34,10 @@ public interface Playlist extends Genreable, PlaylistSetter {
     @Property
     DataBucket image();
 
-    @Property(isSettable = true)
+    @Property(mutable = true)
     String name();
 
-    @Property(isSettable = true)
+    @Property(mutable = true)
     TypePlaylist type();
 
 }

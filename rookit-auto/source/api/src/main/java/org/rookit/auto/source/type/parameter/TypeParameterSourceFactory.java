@@ -31,7 +31,11 @@ public interface TypeParameterSourceFactory {
 
     TypeParameterSource create(ExtendedTypeMirror erasure, ExtendedTypeElement... parameters);
 
+    TypeParameterSource create(ExtendedTypeMirror erasure, ExtendedTypeMirror... parameters);
+
     TypeParameterSource create(TypeReferenceSource erasure, ExtendedTypeElement... parameters);
+
+    TypeParameterSource create(TypeReferenceSource erasure, ExtendedTypeMirror... parameters);
 
     TypeParameterSource create(TypeReferenceSource erasure, TypeReferenceSource... parameters);
 

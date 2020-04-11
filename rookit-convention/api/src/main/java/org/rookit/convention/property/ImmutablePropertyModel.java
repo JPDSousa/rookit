@@ -24,9 +24,12 @@ package org.rookit.convention.property;
 import org.rookit.guice.auto.annotation.BindingAnnotationGenerator;
 
 @BindingAnnotationGenerator
-public interface ImmutablePropertyModel<E, T> extends PropertyModel<T> {
+public interface ImmutablePropertyModel<E, T> extends PropertyModel<E, T> {
 
-    @BindingAnnotationGenerator
-    T get(E entity);
+    @Override
+    default boolean isPresent(final E entity) {
+
+        return true;
+    }
 
 }

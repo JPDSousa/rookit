@@ -33,10 +33,10 @@ import java.util.Collection;
 public interface MetaType<T> {
 
     @BindingAnnotationGenerator
-    Collection<PropertyModel<?>> properties();
+    Collection<PropertyModel<T, ?>> properties();
 
     @BindingAnnotationGenerator(copyBodyFrom = AnnotationBody.class)
-    Optional<PropertyModel<?>> property(String name);
+    Optional<PropertyModel<T, ?>> property(String name);
 
     @BindingAnnotationGenerator
     Class<T> modelType();

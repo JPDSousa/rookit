@@ -31,6 +31,4 @@ public interface PropertyConfig extends ProcessorConfig {
 
     TypeVariableSource parameterName();
 
-    NamingConfig naming();
-
 }

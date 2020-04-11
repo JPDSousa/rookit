@@ -33,48 +33,40 @@ import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.auto.javax.type.mirror.ExtendedTypeMirrorFactory;
 import org.rookit.auto.javax.type.parameter.TypeParameterExtractor;
 import org.rookit.utils.optional.OptionalFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.annotation.processing.Messager;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Types;
-import javax.tools.Diagnostic;
 import java.util.List;
 
 import static java.lang.String.format;
 
-public final class BaseExtendedTypeMirrorFactory implements ExtendedTypeMirrorFactory {
+final class BaseExtendedTypeMirrorFactory implements ExtendedTypeMirrorFactory {
 
-    public static ExtendedTypeMirrorFactory create(final Types types,
-                                                   final Messager messager,
-                                                   final ElementUtils elementUtils,
-                                                   final Provider<TypeParameterExtractor> extractor,
-                                                   final OptionalFactory optionalFactory,
-                                                   final RepetitiveTypeMirrorFactory repetitiveFactory,
-                                                   final JavaxRepetitionFactory repetitionFactory) {
-        return new BaseExtendedTypeMirrorFactory(types, elementUtils, messager, extractor,
-                optionalFactory, repetitiveFactory, repetitionFactory);
-    }
+    /**
+     * Logger for this class.
+     */
+    private static final Logger logger = LoggerFactory.getLogger(BaseExtendedTypeMirrorFactory.class);
 
     private final Types types;
     private final ElementUtils elementUtils;
-    private final Messager messager;
     private final Provider<TypeParameterExtractor> extractor;
     private final OptionalFactory optionalFactory;
     private final RepetitiveTypeMirrorFactory repetitiveFactory;
     private final JavaxRepetitionFactory repetitionFactory;
 
     @Inject
-    private BaseExtendedTypeMirrorFactory(final Types types,
-                                          final ElementUtils elementUtils,
-                                          final Messager messager,
-                                          final Provider<TypeParameterExtractor> extractor,
-                                          final OptionalFactory optionalFactory,
-                                          final RepetitiveTypeMirrorFactory repetitiveFactory,
-                                          final JavaxRepetitionFactory repetitionFactory) {
+    private BaseExtendedTypeMirrorFactory(
+            final Types types,
+            final ElementUtils elementUtils,
+            final Provider<TypeParameterExtractor> extractor,
+            final OptionalFactory optionalFactory,
+            final RepetitiveTypeMirrorFactory repetitiveFactory,
+            final JavaxRepetitionFactory repetitionFactory) {
         this.types = types;
         this.elementUtils = elementUtils;
-        this.messager = messager;
         this.extractor = extractor;
         this.optionalFactory = optionalFactory;
         this.repetitiveFactory = repetitiveFactory;
@@ -96,13 +88,10 @@ public final class BaseExtendedTypeMirrorFactory implements ExtendedTypeMirrorFa
     public ExtendedTypeMirror extend(final TypeMirror typeMirror) {
         if (typeMirror.getKind() == TypeKind.ERROR) {
             final String errMsg = format("Type mirror is invalid: %s", typeMirror);
-            this.messager.printMessage(Diagnostic.Kind.ERROR, errMsg);
             throw new IllegalArgumentException(errMsg);
         }
         if (typeMirror instanceof ExtendedTypeMirror) {
-            final String errMsg = format("%s is already a %s. Bypassing creation.", typeMirror,
-                    ExtendedTypeMirror.class.getName());
-            this.messager.printMessage(Diagnostic.Kind.NOTE, errMsg);
+            logger.debug("{} is already a {}. Bypassing creation.", typeMirror, ExtendedTypeMirror.class.getName());
             return (ExtendedTypeMirror) typeMirror;
         }
 
@@ -130,16 +119,4 @@ public final class BaseExtendedTypeMirrorFactory implements ExtendedTypeMirrorFa
         return extend(this.types.getPrimitiveType(typeKind));
     }
 
-    @Override
-    public String toString() {
-        return "BaseExtendedTypeMirrorFactory{" +
-                "types=" + this.types +
-                ", elementUtils=" + this.elementUtils +
-                ", messager=" + this.messager +
-                ", extractor=" + this.extractor +
-                ", optionalFactory=" + this.optionalFactory +
-                ", repetitiveFactory=" + this.repetitiveFactory +
-                ", repetitionFactory=" + this.repetitionFactory +
-                "}";
-    }
 }

@@ -21,7 +21,9 @@
  ******************************************************************************/
 package org.rookit.convention.auto.metatype.source;
 
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.auto.source.arbitrary.ArbitraryCodeSource;
+import org.rookit.auto.source.field.FieldSource;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.parameter.ParameterSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
@@ -30,9 +32,11 @@ import java.util.Collection;
 
 public interface MetaTypePropertyFetcherFactory {
 
-    MethodSource methodFor(ConventionTypeElement type);
+    MethodSource methodFor(ExtendedTypeMirror type);
 
-    PropertyFetcherFields fields();
+    MethodSource delegateMethodFor(ExtendedTypeMirror type, FieldSource delegate);
+
+    PropertyFetcherFields fieldsFor(ConventionTypeElement typeElement);
 
     ArbitraryCodeSource initializerFor(ConventionTypeElement typeElement);
 

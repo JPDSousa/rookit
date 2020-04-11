@@ -21,12 +21,74 @@
  ******************************************************************************/
 package org.rookit.convention.auto.property;
 
-import org.rookit.convention.auto.property.Property;
+import org.immutables.value.Value;
+import org.rookit.auto.javax.executable.ExtendedExecutableElement;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
+import org.rookit.convention.auto.javax.ConventionTypeElement;
+import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
+import org.rookit.utils.optional.Optional;
 
+import javax.lang.model.element.Name;
+import javax.lang.model.element.TypeElement;
 import java.util.Objects;
 
-// TODO having a class that only implements equals and hashcode seems like an anti pattern
+import static java.util.Objects.isNull;
+
+@Value.Immutable
+@Value.Style(
+        typeImmutable = "Base*"
+)
 abstract class AbstractProperty implements Property {
+
+    static Builder builder() {
+        return BaseProperty.builder();
+    }
+
+    interface Builder {
+
+        Builder elementFactory(ConventionTypeElementFactory elementFactory);
+
+        default Builder fromExecutable(final ExtendedExecutableElement executable) {
+
+            final ExtendedTypeMirror typeMirror = executable.getReturnType();
+            final Name name = executable.getSimpleName();
+
+            final org.rookit.convention.annotation.Property annotation
+                    = executable.getAnnotation(org.rookit.convention.annotation.Property.class);
+
+            final boolean isFinal = isNull(annotation) || !annotation.mutable();
+
+            return this.isFinal(isFinal)
+                    .name(name)
+                    .type(typeMirror);
+        }
+
+        Builder isFinal(boolean isFinal);
+
+        Builder name(CharSequence name);
+
+        Builder type(ExtendedTypeMirror typeMirror);
+
+        Property build();
+
+    }
+
+    protected abstract ConventionTypeElementFactory elementFactory();
+
+    @Value.Derived
+    @Override
+    public <R, P> R accept(final PropertyVisitor<R, P> visitor, final P param) {
+
+        return visitor.visitUnknown(this, param);
+    }
+
+    @Value.Derived
+    @Override
+    public Optional<ConventionTypeElement> typeAsElement() {
+        return type().toElement()
+                .map(element -> (TypeElement) element)
+                .map(elementFactory()::extend);
+    }
 
     @Override
     public boolean equals(final Object o) {

@@ -24,14 +24,14 @@ package org.rookit.convention.module;
 import com.google.auto.service.AutoService;
 import com.google.inject.Module;
 import com.google.inject.util.Modules;
-import org.rookit.convention.auto.AbstractConventionProcessor;
+import org.rookit.auto.AbstractExtendedProcessor;
 import org.rookit.convention.module.source.SourceModule;
 
 import javax.annotation.processing.Processor;
 
 @SuppressWarnings("PublicConstructor") // needed by SPI
 @AutoService(Processor.class)
-public final class ModuleProcessor extends AbstractConventionProcessor {
+public final class ModuleProcessor extends AbstractExtendedProcessor {
 
     private static final Module BASE_BASE_BASE_MODULE = Modules.override(
             org.rookit.convention.guice.source.SourceModule.getModule()

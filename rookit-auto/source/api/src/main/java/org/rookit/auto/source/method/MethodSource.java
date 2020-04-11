@@ -21,10 +21,17 @@
  ******************************************************************************/
 package org.rookit.auto.source.method;
 
+import org.rookit.auto.source.arbitrary.ArbitraryCodeSource;
+import org.rookit.auto.source.parameter.ParameterSource;
 import org.rookit.auto.source.type.annotation.Annotatable;
 import org.rookit.auto.source.CodeSource;
 import org.rookit.auto.source.CodeSourceVisitor;
 import org.rookit.auto.source.modifier.Modifiable;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
+import org.rookit.auto.source.type.variable.TypeVariableSource;
+import org.rookit.utils.optional.Optional;
+
+import java.util.Collection;
 
 public interface MethodSource extends CodeSource, Modifiable, Annotatable {
 
@@ -32,5 +39,23 @@ public interface MethodSource extends CodeSource, Modifiable, Annotatable {
     default <R, P> R accept(final CodeSourceVisitor<R, P> visitor, final P parameter) {
         return visitor.visitMethod(this, parameter);
     }
+
+    boolean isConstructor();
+
+    Collection<ParameterSource> parameters();
+
+    Collection<ArbitraryCodeSource> code();
+
+    Collection<TypeReferenceSource> thrownTypes();
+
+    CharSequence name();
+
+    Optional<TypeReferenceSource> returnType();
+
+    Optional<ArbitraryCodeSource> defaultValue();
+
+    Collection<TypeVariableSource> typeVariables();
+
+    boolean isVarArgs();
 
 }

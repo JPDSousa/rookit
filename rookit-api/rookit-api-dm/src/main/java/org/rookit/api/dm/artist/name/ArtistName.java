@@ -8,7 +8,7 @@ import java.util.Collection;
 @PropertyContainer
 public interface ArtistName extends Comparable<ArtistName> {
 
-    @Property(isSettable = true)
+    @Property(mutable = true)
     String official();
 
     @Property

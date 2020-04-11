@@ -32,6 +32,8 @@ import com.squareup.javapoet.TypeVariableName;
 import org.rookit.auto.javapoet.JavaPoetMutableAnnotatableFactory;
 import org.rookit.auto.source.field.FieldAdapter;
 import org.rookit.auto.source.method.MethodSourceAdapter;
+import org.rookit.auto.source.method.MethodSourceFactory;
+import org.rookit.auto.source.parameter.ParameterSourceFactory;
 import org.rookit.auto.source.type.MutableTypeSource;
 import org.rookit.auto.source.type.TypeSource;
 import org.rookit.auto.source.type.TypeSourceFactory;
@@ -50,27 +52,33 @@ final class JavaPoetTypeSourceFactory implements TypeSourceFactory {
     private final Executor executor;
     private final FieldAdapter<FieldSpec> fieldAdapter;
     private final MethodSourceAdapter<MethodSpec> methodAdapter;
+    private final MethodSourceFactory methodFactory;
     private final TypeReferenceSourceAdapter<TypeName> referenceAdapter;
     private final TypeVariableSourceAdapter<TypeVariableName> typeVariableAdapter;
     private final JavaPoetMutableAnnotatableFactory annotatableFactory;
     private final String separator;
+    private final ParameterSourceFactory parameterFactory;
 
     @Inject
     private JavaPoetTypeSourceFactory(
             final Executor executor,
             final FieldAdapter<FieldSpec> fieldAdapter,
             final MethodSourceAdapter<MethodSpec> methodAdapter,
+            final MethodSourceFactory methodFactory,
             final TypeVariableSourceAdapter<TypeVariableName> typeVariableAdapter,
             final JavaPoetMutableAnnotatableFactory annotatableFactory,
             @Separator final String separator,
-            final TypeReferenceSourceAdapter<TypeName> referenceAdapter) {
+            final TypeReferenceSourceAdapter<TypeName> referenceAdapter,
+            final ParameterSourceFactory parameterFactory) {
         this.executor = executor;
         this.fieldAdapter = fieldAdapter;
         this.methodAdapter = methodAdapter;
+        this.methodFactory = methodFactory;
         this.referenceAdapter = referenceAdapter;
         this.typeVariableAdapter = typeVariableAdapter;
         this.annotatableFactory = annotatableFactory;
         this.separator = separator;
+        this.parameterFactory = parameterFactory;
     }
 
     private TypeSpec createBuilder(final Function<ClassName, TypeSpec.Builder> builderFunc,
@@ -137,6 +145,7 @@ final class JavaPoetTypeSourceFactory implements TypeSourceFactory {
     }
 
     private MutableTypeSource createTypeSource(final TypeReferenceSource reference, final TypeSpec source) {
+
         return new JavaPoetTypeSource(
                 reference,
                 source.toBuilder(),
@@ -145,9 +154,10 @@ final class JavaPoetTypeSourceFactory implements TypeSourceFactory {
                 this.methodAdapter,
                 this.typeVariableAdapter,
                 this.referenceAdapter,
+                this.methodFactory.createMutableConstructor(),
                 this.annotatableFactory.createEmpty(),
-                this.separator
-        );
+                this.separator,
+                this.parameterFactory);
     }
 
 }

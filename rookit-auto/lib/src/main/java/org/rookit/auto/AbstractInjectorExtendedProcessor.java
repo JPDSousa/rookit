@@ -22,34 +22,40 @@
 package org.rookit.auto;
 
 import com.google.inject.Injector;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.Messager;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.ElementFilter;
-import javax.tools.Diagnostic;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Set;
+
+import static java.util.stream.Collectors.toList;
 
 abstract class AbstractInjectorExtendedProcessor extends AbstractProcessor implements ExtendedProcessor {
 
     @Override
     public boolean process(final Set<? extends TypeElement> annotations, final RoundEnvironment roundEnv) {
-        final Injector injector = injector();
-        final Messager messager = injector.getInstance(Messager.class);
+
         try {
-            final TypeProcessor handler = injector.getInstance(TypeProcessor.class);
-            for (final TypeElement annotation : annotations) {
-                messager.printMessage(Diagnostic.Kind.NOTE, "Processing: " + annotation.getQualifiedName());
-                handler.process(ElementFilter.typesIn(roundEnv.getElementsAnnotatedWith(annotation)));
+            final Collection<TypeElement> elements = annotations.stream()
+                    .map(roundEnv::getElementsAnnotatedWith)
+                    .map(ElementFilter::typesIn)
+                    .flatMap(Collection::stream)
+                    .collect(toList());
+
+            if (!elements.isEmpty()) {
+
+                final Injector injector = injector();
+                final TypeProcessor handler = injector.getInstance(TypeProcessor.class);
+                handler.process(elements);
+                handler.postProcess();
+
             }
-            handler.postProcess();
+
             return false;
-        } catch (final RuntimeException | IOException e) {
-            final String stackTrace = ExceptionUtils.getStackTrace(e);
-            messager.printMessage(Diagnostic.Kind.ERROR, stackTrace);
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         }
     }

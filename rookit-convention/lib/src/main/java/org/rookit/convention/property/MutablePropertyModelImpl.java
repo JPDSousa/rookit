@@ -26,16 +26,20 @@ import org.rookit.convention.MetaType;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-final class MutablePropertyModelImpl<E, T> extends ImmutablePropertyModelImpl<E, T>
+final class MutablePropertyModelImpl<E, T> extends AbstractPropertyModel<E, T>
         implements MutablePropertyModel<E, T> {
 
+    private final Function<E, T> getter;
     private final BiConsumer<E, T> setter;
 
-    MutablePropertyModelImpl(final String name,
-                             final BiConsumer<E, T> setter,
-                             final Function<E, T> getter,
-                             final MetaType<T> metaType) {
+    MutablePropertyModelImpl(
+            final String name,
+            final BiConsumer<E, T> setter,
+            final Function<E, T> getter,
+            final MetaType<T> metaType) {
+
         super(name, metaType, getter);
+        this.getter = getter;
         this.setter = setter;
     }
 
@@ -45,10 +49,9 @@ final class MutablePropertyModelImpl<E, T> extends ImmutablePropertyModelImpl<E,
     }
 
     @Override
-    public String toString() {
-        return "MutablePropertyModelImpl{" +
-                "setter=" + this.setter +
-                "} " + super.toString();
+    public T get(final E entity) {
+
+        return this.getter.apply(entity);
     }
 
 }

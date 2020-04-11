@@ -25,26 +25,30 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.auto.source.arbitrary.ArbitraryCodeSource;
 import org.rookit.auto.source.arbitrary.ArbitraryCodeSourceFactory;
+import org.rookit.auto.source.field.FieldSource;
 import org.rookit.auto.source.field.FieldSourceFactory;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.method.MethodSourceFactory;
 import org.rookit.auto.source.parameter.ParameterSource;
 import org.rookit.auto.source.parameter.ParameterSourceFactory;
+import org.rookit.auto.source.type.parameter.TypeParameterSource;
 import org.rookit.auto.source.type.parameter.TypeParameterSourceFactory;
 import org.rookit.auto.source.type.reference.From;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
-import org.rookit.auto.source.type.variable.WildcardVariableSourceFactory;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
+import org.rookit.convention.auto.metatype.source.type.reference.PropertyTypeReferenceFactory;
 import org.rookit.convention.auto.property.Property;
 import org.rookit.convention.guice.MetaTypeProperty;
-import org.rookit.convention.property.PropertyModel;
 import org.rookit.utils.guice.Separator;
 import org.rookit.utils.optional.Optional;
 import org.rookit.utils.optional.OptionalFactory;
 
+import javax.lang.model.element.Name;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import static org.apache.commons.lang3.StringUtils.repeat;
@@ -54,12 +58,18 @@ final class PropertyFetcherFactory implements MetaTypePropertyFetcherFactory {
     private static final String ACCESSOR_NAME = "propertyMap";
     private static final String OPTIONAL_FACTORY = "optionalFactory";
 
-    private final MethodSource method;
+    private final ExtendedExecutableElement apiMethod;
+
+    private final MethodSourceFactory methodFactory;
+    private final TypeParameterSourceFactory typeParameterFactory;
+    private final FieldSourceFactory fieldFactory;
+    private final PropertyTypeReferenceFactory references;
+
     private final TypeReferenceSource keyReference;
-    private final TypeReferenceSource valueReference;
     private final ParameterSource optFactoryParam;
 
-    private final PropertyFetcherFields fields;
+    private final TypeReferenceSource mapReference;
+    private final List<FieldSource> secondaryFields;
 
     private final ArbitraryCodeSourceFactory codeFactory;
     private final String lineSeparator;
@@ -68,9 +78,9 @@ final class PropertyFetcherFactory implements MetaTypePropertyFetcherFactory {
     private PropertyFetcherFactory(
             final FieldSourceFactory fieldFactory,
             final MethodSourceFactory methodFactory,
+            final PropertyTypeReferenceFactory references,
             final ArbitraryCodeSourceFactory codeFactory,
             final TypeParameterSourceFactory typeParameterFactory,
-            final WildcardVariableSourceFactory wildcardFactory,
             final ParameterSourceFactory parameterFactory,
             @MetaTypeProperty final ExtendedExecutableElement apiMethod,
             @From(String.class) final TypeReferenceSource stringReference,
@@ -78,57 +88,68 @@ final class PropertyFetcherFactory implements MetaTypePropertyFetcherFactory {
             @From(OptionalFactory.class) final TypeReferenceSource optFactoryReference,
             @Separator final String lineSeparator) {
 
+        this.fieldFactory = fieldFactory;
+        this.references = references;
+        this.apiMethod = apiMethod;
+        this.methodFactory = methodFactory;
+        this.typeParameterFactory = typeParameterFactory;
         this.codeFactory = codeFactory;
         this.keyReference = stringReference;
         this.lineSeparator = lineSeparator;
 
-        // TODO instead of hardcoding all of this, fetch the actual method from the compiler and extend it.
-        this.valueReference = typeParameterFactory.create(PropertyModel.class, wildcardFactory.newWildcard());
-        final TypeReferenceSource reference = typeParameterFactory.create(
-                Optional.class,
-                this.valueReference
-        );
-
         this.optFactoryParam = parameterFactory.createMutable(OPTIONAL_FACTORY, optFactoryReference);
+        this.mapReference = mapReference;
 
-        final TypeReferenceSource fieldReference = typeParameterFactory.create(
-                mapReference,
+        this.secondaryFields = ImmutableList.of(
+                this.fieldFactory.createMutable(optFactoryReference, OPTIONAL_FACTORY)
+                        .makePrivate()
+                        .makeFinal()
+        );
+    }
+
+    @Override
+    public MethodSource methodFor(final ExtendedTypeMirror type) {
+
+        final Name paramName = this.apiMethod.getParameters()
+                .get(0)
+                .getSimpleName();
+
+        return this.methodFactory.createMutableOverride(this.apiMethod)
+                .withReturnType(methodReferenceFor(type))
+                .addStatement("return this.$L.ofNullable(this.$L.get($L))",
+                              ImmutableList.of(OPTIONAL_FACTORY, ACCESSOR_NAME, paramName));
+    }
+
+    private TypeParameterSource methodReferenceFor(final ExtendedTypeMirror type) {
+
+        return this.typeParameterFactory.create(
+                Optional.class,
+                this.references.genericFor(type)
+        );
+    }
+
+    @Override
+    public MethodSource delegateMethodFor(
+            final ExtendedTypeMirror type, final FieldSource delegate) {
+
+        return this.methodFactory.createMutableDelegateOverride(this.apiMethod, delegate)
+                .withReturnType(methodReferenceFor(type));
+    }
+
+    @Override
+    public PropertyFetcherFields fieldsFor(final ConventionTypeElement typeElement) {
+
+        final TypeReferenceSource fieldReference = this.typeParameterFactory.create(
+                this.mapReference,
                 this.keyReference,
-                this.valueReference);
+                this.references.genericFor(typeElement));
 
-        this.fields = new PropertyFetcherFieldsImpl(
-                fieldFactory.createMutable(fieldReference, ACCESSOR_NAME)
+        return new PropertyFetcherFieldsImpl(
+                this.fieldFactory.createMutable(fieldReference, ACCESSOR_NAME)
                         .makePrivate()
                         .makeFinal(),
-                ImmutableList.of(
-                        fieldFactory.createMutable(optFactoryReference, OPTIONAL_FACTORY)
-                                .makePrivate()
-                                .makeFinal()
-                )
+                this.secondaryFields
         );
-
-        final ParameterSource parameter = parameterFactory.createFromElement(apiMethod.getParameters().get(0));
-
-        this.method = methodFactory.createMutableOverride(apiMethod)
-                .makePublic()
-                .override()
-                .withReturnType(reference)
-                .addParameter(parameter)
-                .addStatement("return this.$L.ofNullable(this.$L.get($L))",
-                              ImmutableList.of(OPTIONAL_FACTORY, ACCESSOR_NAME, parameter.name()));
-
-    }
-
-    @Override
-    public MethodSource methodFor(final ConventionTypeElement type) {
-
-        return this.method;
-    }
-
-    @Override
-    public PropertyFetcherFields fields() {
-
-        return this.fields;
     }
 
     @Override
@@ -139,7 +160,7 @@ final class PropertyFetcherFactory implements MetaTypePropertyFetcherFactory {
         final int expectedSize = 4 + (nProperties * 2);
 
         final ImmutableList.Builder<Object> argsBuilder = ImmutableList.builderWithExpectedSize(expectedSize)
-                .add(ACCESSOR_NAME, ImmutableMap.class, this.keyReference, this.valueReference);
+                .add(ACCESSOR_NAME, ImmutableMap.class, this.keyReference, this.references.genericFor(typeElement));
 
         final String format = "this.$L = $T.<$T, $T>builder()"
                 + repeat(this.lineSeparator + ".put(\"$L\", $L)", nProperties)

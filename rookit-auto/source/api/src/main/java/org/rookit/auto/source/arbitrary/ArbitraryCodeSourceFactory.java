@@ -21,6 +21,8 @@
  ******************************************************************************/
 package org.rookit.auto.source.arbitrary;
 
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
+
 import java.util.List;
 
 public interface ArbitraryCodeSourceFactory {
@@ -28,5 +30,15 @@ public interface ArbitraryCodeSourceFactory {
     ArbitraryCodeSource createFromFormat(String format, List<Object> args);
 
     ArbitraryCodeSource createEmpty();
+
+    ArbitraryCodeSource initializeDependency(CharSequence name);
+
+    ArbitraryCodeSource returnNew(TypeReferenceSource objectType, Iterable<CharSequence> paramNames);
+
+    ArbitraryCodeSource returnInstanceField(CharSequence fieldName);
+
+    ArbitraryCodeSource newValue(TypeReferenceSource type, CharSequence name, ArbitraryCodeSource initializer);
+
+    ArbitraryCodeSource returnField(CharSequence fieldName);
 
 }

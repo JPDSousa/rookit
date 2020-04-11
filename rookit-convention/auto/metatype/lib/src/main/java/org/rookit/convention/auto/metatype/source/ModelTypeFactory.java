@@ -24,11 +24,12 @@ package org.rookit.convention.auto.metatype.source;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
+import org.rookit.auto.source.field.FieldSource;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.method.MethodSourceFactory;
 import org.rookit.auto.source.type.parameter.TypeParameterSource;
 import org.rookit.auto.source.type.parameter.TypeParameterSourceFactory;
-import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.guice.MetaTypeModelType;
 
 final class ModelTypeFactory implements MetaTypeModelTypeFactory {
@@ -48,15 +49,23 @@ final class ModelTypeFactory implements MetaTypeModelTypeFactory {
     }
 
     @Override
-    public MethodSource methodFor(final ConventionTypeElement type) {
+    public MethodSource methodFor(final ExtendedTypeMirror type) {
 
-        final TypeParameterSource reference = this.typeParameterFactory.create(this.apiMethod.getReturnType(), type);
-
-        return this.methodFactory.createMutableMethod(this.apiMethod.getSimpleName())
-                .makePublic()
-                .override()
-                .withReturnType(reference)
+        return this.methodFactory.createMutableOverride(this.apiMethod)
+                .withReturnType(referenceFor(type))
                 .addStatement("return $T.class", ImmutableList.of(type));
+    }
+
+    private TypeParameterSource referenceFor(final ExtendedTypeMirror type) {
+
+        return this.typeParameterFactory.create(this.apiMethod.getReturnType(), type);
+    }
+
+    @Override
+    public MethodSource delegateMethodFor(final ExtendedTypeMirror type, final FieldSource delegate) {
+
+        return this.methodFactory.createMutableDelegateOverride(this.apiMethod, delegate)
+                .withReturnType(referenceFor(type));
     }
 
 }

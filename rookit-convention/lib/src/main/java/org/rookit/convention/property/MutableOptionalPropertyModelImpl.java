@@ -27,13 +27,13 @@ import org.rookit.utils.optional.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-final class MutableOptionalPropertyModelImpl<E, T> extends ImmutableOptionalPropertyModelImpl<E, T>
+final class MutableOptionalPropertyModelImpl<E, T> extends AbstractPropertyModel<E, Optional<T>>
         implements MutableOptionalPropertyModel<E, T> {
 
     private final BiConsumer<E, T> setter;
 
     MutableOptionalPropertyModelImpl(final String name,
-                                     final MetaType<T> metaType,
+                                     final MetaType<Optional<T>> metaType,
                                      final Function<E, Optional<T>> getter,
                                      final BiConsumer<E, T> setter) {
         super(name, metaType, getter);
@@ -45,10 +45,4 @@ final class MutableOptionalPropertyModelImpl<E, T> extends ImmutableOptionalProp
         this.setter.accept(entity, value);
     }
 
-    @Override
-    public String toString() {
-        return "MutableOptionalPropertyModelImpl{" +
-                "setter=" + this.setter +
-                "} " + super.toString();
-    }
 }

@@ -21,8 +21,22 @@
  ******************************************************************************/
 package org.rookit.convention.property;
 
-public interface MutableOptionalPropertyModel<E, T> extends ImmutableOptionalPropertyModel<E, T> {
+import org.rookit.guice.auto.annotation.BindingAnnotationGenerator;
+import org.rookit.utils.optional.Optional;
 
+@BindingAnnotationGenerator
+public interface MutableOptionalPropertyModel<E, T> extends PropertyModel<E, Optional<T>> {
+
+    @Override
+    default boolean isPresent(final E entity) {
+
+        return get(entity).isPresent();
+    }
+
+    @BindingAnnotationGenerator
     void set(E entity, T value);
+
+    @BindingAnnotationGenerator
+    void clear(E entity);
 
 }

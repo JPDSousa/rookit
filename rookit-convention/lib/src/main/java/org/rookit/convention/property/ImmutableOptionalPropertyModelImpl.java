@@ -26,27 +26,13 @@ import org.rookit.utils.optional.Optional;
 
 import java.util.function.Function;
 
-class ImmutableOptionalPropertyModelImpl<E, T> extends BasePropertyModel<T>
+final class ImmutableOptionalPropertyModelImpl<E, T> extends AbstractPropertyModel<E, Optional<T>>
         implements ImmutableOptionalPropertyModel<E, T> {
 
-    private final Function<E, Optional<T>> getter;
-
     ImmutableOptionalPropertyModelImpl(final String name,
-                                       final MetaType<T> metaType,
+                                       final MetaType<Optional<T>> metaType,
                                        final Function<E, Optional<T>> getter) {
-        super(name, metaType);
-        this.getter = getter;
+        super(name, metaType, getter);
     }
 
-    @Override
-    public Optional<T> get(final E entity) {
-        return this.getter.apply(entity);
-    }
-
-    @Override
-    public String toString() {
-        return "ImmutableOptionalPropertyModelImpl{" +
-                "getter=" + this.getter +
-                "} " + super.toString();
-    }
 }

@@ -23,7 +23,12 @@ package org.rookit.convention.property;
 
 import org.rookit.utils.optional.Optional;
 
-public interface ImmutableOptionalPropertyModel<E, T> extends PropertyModel<T> {
+public interface ImmutableOptionalPropertyModel<E, T> extends PropertyModel<E, Optional<T>> {
 
-    Optional<T> get(E entity);
+    @Override
+    default boolean isPresent(final E entity) {
+
+        return get(entity).isPresent();
+    }
+
 }

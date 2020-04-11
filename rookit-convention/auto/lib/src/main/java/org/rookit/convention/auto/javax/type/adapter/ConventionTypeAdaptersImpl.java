@@ -23,11 +23,10 @@ package org.rookit.convention.auto.javax.type.adapter;
 
 import com.google.inject.Inject;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
-import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
+import org.rookit.convention.auto.javax.adapter.ConventionTypeAdapters;
 import org.rookit.convention.auto.property.Property;
-import org.rookit.convention.auto.property.PropertyFactory;
 import org.rookit.utils.adapt.Adapter;
 
 import java.util.function.Predicate;
@@ -52,22 +51,6 @@ final class ConventionTypeAdaptersImpl implements ConventionTypeAdapters {
             final Predicate<Property> propertyFilter,
             final ConventionTypeElementFactory elementFactory) {
         return new PropertyFilterAdapter(propertyFilter, elementFactory);
-    }
-
-    @Override
-    public Adapter<ConventionTypeElement> createPropertyFlatAdapter(
-            final PropertyFactory propertyFactory,
-            final ConventionTypeElementFactory elementFactory) {
-        return new PropertyFlatAdapter(propertyFactory, elementFactory);
-    }
-
-    @Override
-    public Adapter<ConventionTypeElement> createPropertyTypeAdapter(
-            final PropertyFactory propertyFactory,
-            final Adapter<ExtendedTypeMirror> typeMirrorAdapter,
-            final Adapter<ConventionTypeElement> upstreamAdapter,
-            final ConventionTypeElementFactory elementFactory) {
-        return new PropertyTypeAdapter(propertyFactory, typeMirrorAdapter, upstreamAdapter, elementFactory);
     }
 
     @Override

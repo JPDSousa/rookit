@@ -27,6 +27,7 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
 import one.util.streamex.StreamEx;
+import org.rookit.auto.config.ProcessorConfig;
 import org.rookit.auto.javapoet.SourceJavaPoetLibModule;
 import org.rookit.auto.javax.JavaxLibModule;
 import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
@@ -34,15 +35,15 @@ import org.rookit.auto.source.SourceLibModule;
 import org.rookit.auto.source.type.TypeSource;
 import org.rookit.convention.ConventionModule;
 import org.rookit.convention.annotation.LaConvention;
-import org.rookit.convention.auto.ConventionLibModule;
+import org.rookit.convention.auto.ConventionAutoLibModule;
 import org.rookit.convention.auto.source.type.ConventionTypeElementTypeSourceVisitors;
 import org.rookit.convention.guice.source.naming.NamingModule;
 import org.rookit.failsafe.FailsafeModule;
 import org.rookit.guice.auto.Guice;
 import org.rookit.guice.auto.GuiceAutoLibModule;
-import org.rookit.guice.auto.annotation.config.ConfigurationModule;
+import org.rookit.guice.auto.config.GuiceConfig;
 import org.rookit.io.IOLibModule;
-import org.rookit.io.PathLibModule;
+import org.rookit.io.IOPathLibModule;
 import org.rookit.serializer.SerializationBundleModule;
 import org.rookit.utils.guice.UtilsModule;
 
@@ -54,14 +55,13 @@ public final class SourceModule extends AbstractModule {
     private static final Module MODULE = Modules.override(
             JavaxLibModule.getModule()
     ).with(
-            ConfigurationModule.getModule(),
-            ConventionLibModule.getModule(),
+            ConventionAutoLibModule.getModule(),
             ConventionModule.getModule(),
             FailsafeModule.getModule(),
             GuiceAutoLibModule.getModule(),
             IOLibModule.getModule(),
             NamingModule.getModule(),
-            PathLibModule.getModule(),
+            IOPathLibModule.getModule(),
             SerializationBundleModule.getModule(),
             SourceJavaPoetLibModule.getModule(),
             SourceLibModule.getModule(),
@@ -74,6 +74,11 @@ public final class SourceModule extends AbstractModule {
     }
 
     private SourceModule() {}
+
+    @Override
+    protected void configure() {
+        bind(ProcessorConfig.class).to(GuiceConfig.class).in(Singleton.class);
+    }
 
     @Provides
     @Singleton

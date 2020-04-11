@@ -24,14 +24,14 @@ package org.rookit.convention.api;
 import com.google.auto.service.AutoService;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import org.rookit.auto.AbstractExtendedProcessor;
 import org.rookit.convention.api.source.SourceModule;
-import org.rookit.convention.auto.AbstractConventionProcessor;
 
 import javax.annotation.processing.Processor;
 
 @SuppressWarnings("PublicConstructor")
 @AutoService(Processor.class)
-public final class ConventionProcessor extends AbstractConventionProcessor {
+public final class ConventionProcessor extends AbstractExtendedProcessor {
 
     public ConventionProcessor() { }
 
@@ -43,4 +43,5 @@ public final class ConventionProcessor extends AbstractConventionProcessor {
     protected Module sourceModule() {
         return SourceModule.getModule();
     }
+
 }

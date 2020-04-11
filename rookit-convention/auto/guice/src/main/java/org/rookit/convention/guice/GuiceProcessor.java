@@ -24,14 +24,14 @@ package org.rookit.convention.guice;
 import com.google.auto.service.AutoService;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import org.rookit.convention.auto.AbstractConventionProcessor;
+import org.rookit.auto.AbstractExtendedProcessor;
 import org.rookit.convention.guice.source.SourceModule;
 
 import javax.annotation.processing.Processor;
 
 @SuppressWarnings({"PublicConstructor", "unused"})
 @AutoService(Processor.class)
-public final class GuiceProcessor extends AbstractConventionProcessor {
+public final class GuiceProcessor extends AbstractExtendedProcessor {
 
     public GuiceProcessor() { }
 

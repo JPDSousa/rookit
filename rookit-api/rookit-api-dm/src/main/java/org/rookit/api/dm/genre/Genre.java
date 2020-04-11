@@ -33,7 +33,7 @@ public interface Genre extends Playable, Comparable<Genre>, GenreSetter {
     @Property
     Optional<String> description();
 
-    @Property(isSettable = true)
+    @Property(mutable = true)
     String name();
 
 }

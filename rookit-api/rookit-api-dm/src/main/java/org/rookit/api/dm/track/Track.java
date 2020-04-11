@@ -37,16 +37,16 @@ public interface Track extends Genreable, Comparable<Track>, TrackSetter {
     @Property
     AudioContent audio();
 
-    @Property(isSettable = true)
+    @Property(mutable = true)
     TrackArtists artists();
 
     @Property
     Lyrics lyrics();
 
-    @Property(isSettable = true)
+    @Property(mutable = true)
     TrackTitle title();
 
-    @Property(isSettable = true)
+    @Property(mutable = true)
     TypeTrack type();
 
 }

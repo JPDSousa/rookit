@@ -27,7 +27,7 @@ import org.rookit.auto.source.type.TypeSource;
 import org.rookit.auto.source.type.TypeSourceFactory;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.metatype.source.method.PropertyMethodFactory;
-import org.rookit.convention.auto.metatype.source.type.reference.MetaTypeReferenceSourceFactory;
+import org.rookit.convention.auto.metatype.source.type.reference.MetaTypeReferenceFactory;
 
 import java.util.List;
 
@@ -37,13 +37,13 @@ final class MetaTypeSourceFactoryImpl implements MetaTypeSourceFactory {
 
     private final TypeSourceFactory typeFactory;
     private final PropertyMethodFactory propertyMethods;
-    private final MetaTypeReferenceSourceFactory metaTypeReferences;
+    private final MetaTypeReferenceFactory metaTypeReferences;
 
     @Inject
     private MetaTypeSourceFactoryImpl(
             final TypeSourceFactory typeFactory,
             final PropertyMethodFactory propertyMethods,
-            final MetaTypeReferenceSourceFactory metaTypeReferences) {
+            final MetaTypeReferenceFactory metaTypeReferences) {
 
         this.typeFactory = typeFactory;
         this.propertyMethods = propertyMethods;

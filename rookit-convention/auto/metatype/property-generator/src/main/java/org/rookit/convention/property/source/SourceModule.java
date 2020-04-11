@@ -25,21 +25,16 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
 import com.google.inject.util.Modules;
-import one.util.streamex.StreamEx;
 import org.rookit.auto.TypeProcessor;
 import org.rookit.auto.javax.naming.MethodNameTransformer;
 import org.rookit.auto.javax.naming.MethodNameTransformers;
-import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
-import org.rookit.auto.source.field.FieldSource;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
-import org.rookit.convention.auto.ConventionLibModule;
+import org.rookit.convention.auto.ConventionAutoLibModule;
 import org.rookit.convention.auto.config.PropertyConfig;
 import org.rookit.convention.property.source.config.ConfigurationModule;
-import org.rookit.convention.property.source.javapoet.JavaPoetModule;
 import org.rookit.failsafe.FailsafeModule;
-import org.rookit.io.PathLibModule;
+import org.rookit.io.IOPathLibModule;
 import org.rookit.utils.guice.Self;
 import org.rookit.utils.guice.UtilsModule;
 import org.rookit.utils.string.template.Template1;
@@ -58,10 +53,9 @@ public final class SourceModule extends AbstractModule {
     ).with(
             new SourceModule(),
             ConfigurationModule.getModule(),
-            ConventionLibModule.getModule(),
+            ConventionAutoLibModule.getModule(),
             FailsafeModule.getModule(),
-            JavaPoetModule.getModule(),
-            PathLibModule.getModule(),
+            IOPathLibModule.getModule(),
             UtilsModule.getModule()
     );
 
@@ -71,12 +65,9 @@ public final class SourceModule extends AbstractModule {
 
     private SourceModule() {}
 
-    @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
     @Override
     protected void configure() {
         bind(TypeProcessor.class).to(PropertyTypeProcessor.class).in(Singleton.class);
-        bind(new TypeLiteral<ExtendedElementVisitor<StreamEx<FieldSource>, Void>>() {})
-                .to(MetaTypePropertyFieldVisitor.class).in(Singleton.class);
     }
 
     @Provides

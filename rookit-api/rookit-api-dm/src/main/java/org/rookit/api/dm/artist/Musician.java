@@ -28,9 +28,9 @@ import org.rookit.convention.annotation.Property;
 @EntityExtension
 public interface Musician extends Artist {
 
-    @Property(isSettable = true)
+    @Property(mutable = true)
     String fullName();
 
-    @Property(isSettable = true)
+    @Property(mutable = true)
     TypeGender gender();
 }

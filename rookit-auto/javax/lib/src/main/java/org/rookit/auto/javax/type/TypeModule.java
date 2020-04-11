@@ -26,7 +26,6 @@ import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
-import org.rookit.auto.javax.type.adapter.AdapterModule;
 import org.rookit.auto.javax.type.filter.FilterModule;
 import org.rookit.auto.javax.type.mirror.ExtendedTypeMirrorFactory;
 import org.rookit.auto.javax.type.parameter.ParameterModule;
@@ -36,7 +35,6 @@ import org.rookit.utils.guice.Base;
 public final class TypeModule extends AbstractModule {
 
     private static final Module MODULE = Modules.combine(
-            AdapterModule.getModule(),
             FilterModule.getModule(),
             ParameterModule.getModule(),
             new TypeModule()

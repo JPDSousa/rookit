@@ -45,7 +45,8 @@ public final class ReferenceModule extends AbstractModule {
     protected void configure() {
         bind(PropertyTypeReferenceFactory.class).to(PropertyTypeReferenceFactoryImpl.class)
                 .in(Singleton.class);
-        bind(MetaTypeReferenceSourceFactory.class).to(MetaTypeReferenceSourceFactoryImpl.class).in(Singleton.class);
+        bind(MetaTypeReferenceFactory.class).to(MetaTypeReferenceFactoryImpl.class).in(Singleton.class);
+        bind(PropertiesReferenceFactory.class).to(PropertiesReferenceFactoryImpl.class).in(Singleton.class);
     }
 
     @Provides

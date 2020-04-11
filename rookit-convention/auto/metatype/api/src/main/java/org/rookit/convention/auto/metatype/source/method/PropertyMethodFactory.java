@@ -21,14 +21,25 @@
  ******************************************************************************/
 package org.rookit.convention.auto.metatype.source.method;
 
+import one.util.streamex.StreamEx;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.property.Property;
+
+import java.util.Collection;
 
 public interface PropertyMethodFactory {
 
     MethodSource apiFor(ConventionTypeElement enclosing, Property property);
 
     MethodSource implFor(ConventionTypeElement enclosing, Property property);
+
+    default Collection<MethodSource> implFor(final ConventionTypeElement enclosing,
+                                             final Collection<Property> properties) {
+
+        return StreamEx.of(properties)
+                .map(property -> implFor(enclosing, property))
+                .toImmutableList();
+    }
 
 }

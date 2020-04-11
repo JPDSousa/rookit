@@ -25,14 +25,14 @@ import com.google.auto.service.AutoService;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.util.Modules;
-import org.rookit.convention.auto.AbstractConventionProcessor;
+import org.rookit.auto.AbstractExtendedProcessor;
 import org.rookit.convention.property.source.SourceModule;
 
 import javax.annotation.processing.Processor;
 
 @SuppressWarnings("PublicConstructor")
 @AutoService(Processor.class)
-public final class PropertyProcessor extends AbstractConventionProcessor {
+public final class PropertyProcessor extends AbstractExtendedProcessor {
 
     private static final Module BASE_BASE_MODULE = Modules.override(
             org.rookit.convention.guice.source.SourceModule.getModule()

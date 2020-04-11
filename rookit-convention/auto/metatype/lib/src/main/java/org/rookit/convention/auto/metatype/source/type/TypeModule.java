@@ -49,6 +49,7 @@ public final class TypeModule extends AbstractModule {
 
         bind(MetaTypeSourceFactory.class).to(MetaTypeSourceFactoryImpl.class).in(Singleton.class);
         bind(MetaTypeImplTypeSourceFactory.class).to(MetaTypeImplTypeSourceFactoryImpl.class).in(Singleton.class);
+        bind(PropertyImplTypeFactory.class).to(PropertyTypeFactory.class).in(Singleton.class);
 
     }
 

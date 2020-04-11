@@ -23,7 +23,6 @@ package org.rookit.api.dm.track;
 
 import org.apache.commons.lang3.StringUtils;
 
-@SuppressWarnings("javadoc")
 public enum TypeTrack {
 
     ORIGINAL,

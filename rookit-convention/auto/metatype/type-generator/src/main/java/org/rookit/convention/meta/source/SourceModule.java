@@ -31,13 +31,13 @@ import org.rookit.auto.javax.visitor.ExtendedElementVisitor;
 import org.rookit.auto.source.type.TypeSource;
 import org.rookit.convention.annotation.LaConvention;
 import org.rookit.convention.annotation.PartialEntity;
-import org.rookit.convention.auto.ConventionLibModule;
+import org.rookit.convention.auto.ConventionAutoLibModule;
 import org.rookit.convention.auto.metatype.source.type.MetaTypeImplTypeSourceFactory;
 import org.rookit.convention.auto.source.type.ConventionTypeElementTypeSourceVisitors;
 import org.rookit.convention.meta.source.config.ConfigurationModule;
 import org.rookit.convention.meta.source.metatype.MetaTypeModule;
 import org.rookit.failsafe.FailsafeModule;
-import org.rookit.io.PathLibModule;
+import org.rookit.io.IOPathLibModule;
 import org.rookit.utils.guice.UtilsModule;
 
 import java.lang.annotation.Annotation;
@@ -50,11 +50,11 @@ public final class SourceModule extends AbstractModule {
 
     private static final Module MODULE = Modules.combine(
             new SourceModule(),
-            ConventionLibModule.getModule(),
+            ConventionAutoLibModule.getModule(),
             MetaTypeModule.getModule(),
             ConfigurationModule.getModule(),
             FailsafeModule.getModule(),
-            PathLibModule.getModule(),
+            IOPathLibModule.getModule(),
             UtilsModule.getModule()
     );
 

@@ -31,69 +31,81 @@ import org.rookit.auto.source.type.parameter.TypeParameterSourceFactory;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
+import org.rookit.auto.source.type.variable.WildcardVariableSourceFactory;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.metatype.guice.MetaTypeAPI;
-import org.rookit.convention.auto.property.ContainerProperty;
 import org.rookit.convention.auto.property.Property;
-import org.rookit.convention.auto.property.PropertyTypeResolver;
+import org.rookit.convention.property.PropertyModel;
+import org.rookit.utils.string.StringUtils;
 
 final class PropertyTypeReferenceFactoryImpl implements PropertyTypeReferenceFactory {
 
     private final TypeReferenceSourceFactory referenceFactory;
-    private final TypeParameterSourceFactory parameterFactory;
-    private final PropertyTypeResolver propertyTypeResolver;
+    private final TypeParameterSourceFactory typeParameterFactory;
+    private final WildcardVariableSourceFactory wildcardFactory;
     private final TypeVariableSource variableName;
     private final IdentifierTransformer idTransformer;
+    private final StringUtils stringUtils;
 
     @Inject
     private PropertyTypeReferenceFactoryImpl(
             final TypeReferenceSourceFactory referenceFactory,
             final TypeParameterSourceFactory parameterFactory,
-            final PropertyTypeResolver propertyTypeResolver,
+            final WildcardVariableSourceFactory wildcardFactory,
             @MetaTypeAPI final TypeVariableSource variableName,
-            final IdentifierTransformer idTransformer) {
+            final IdentifierTransformer idTransformer,
+            final StringUtils stringUtils) {
+
         this.referenceFactory = referenceFactory;
-        this.parameterFactory = parameterFactory;
-        this.propertyTypeResolver = propertyTypeResolver;
+        this.typeParameterFactory = parameterFactory;
+        this.wildcardFactory = wildcardFactory;
         this.variableName = variableName;
         this.idTransformer = idTransformer;
+        this.stringUtils = stringUtils;
     }
 
     @Override
-    public TypeReferenceSource apiForProperty(final ConventionTypeElement enclosing,
-                                              final Property property) {
+    public TypeReferenceSource apiFor(final ConventionTypeElement enclosing,
+                                      final Property property) {
 
         return apiForProperty(enclosing, property, false);
     }
 
     @Override
-    public TypeReferenceSource genericApiForProperty(final ConventionTypeElement enclosing, final Property property) {
+    public TypeReferenceSource nativeApiFor(final ConventionTypeElement enclosing,
+                                            final Property property) {
 
         return apiForProperty(enclosing, property, true);
     }
 
+    @Override
+    public TypeReferenceSource genericFor(final ExtendedTypeMirror mirror) {
+
+        return this.typeParameterFactory.create(
+                PropertyModel.class,
+                this.referenceFactory.create(mirror.boxIfPrimitive()),
+                this.wildcardFactory.newWildcard()
+        );
+    }
+
     private TypeReferenceSource apiForProperty(final ConventionTypeElement enclosing,
                                                final Property property,
-                                               final boolean useGeneric) {
-
-        if (property instanceof ContainerProperty) {
-            return apiForContainer(enclosing, (ContainerProperty) property, useGeneric);
-        }
+                                               final boolean useNative) {
 
         // FIXME the boolean is definitely not a constant value
-        final TypeReferenceSource reference = parameterFor(enclosing, useGeneric);
+        final TypeReferenceSource reference = parameterFor(enclosing, useNative);
         final ExtendedTypeMirror type = property.type().boxIfPrimitive();
         final TypeReferenceSource propType = unwrapIfRepetitive(type);
-        final Class<?> clazz = this.propertyTypeResolver.resolve(property);
+        final Class<?> clazz = property.propertyModel();
 
         if (type instanceof KeyedRepetitiveTypeMirror) {
             final ExtendedTypeMirror keyType = ((KeyedRepetitiveTypeMirror) type).unwrapKey();
             // TODO this has to be changed, as it is boxing stuff
             final TypeReferenceSource keyClass = this.referenceFactory.create(keyType.boxIfPrimitive());
-            return this.parameterFactory.create(clazz, reference, keyClass, propType);
+            return this.typeParameterFactory.create(clazz, reference, keyClass, propType);
         }
 
-        return this.parameterFactory.create(clazz, reference, propType);
+        return this.typeParameterFactory.create(clazz, reference, propType);
     }
 
     private TypeReferenceSource unwrapIfRepetitive(final ExtendedTypeMirror typeMirror) {
@@ -104,54 +116,31 @@ final class PropertyTypeReferenceFactoryImpl implements PropertyTypeReferenceFac
         return this.referenceFactory.create(typeMirror);
     }
 
-    private TypeReferenceSource parameterFor(final ConventionTypeElement element, final boolean useGeneric) {
+    private TypeReferenceSource parameterFor(final ConventionTypeElement element, final boolean useNative) {
 
-        if (!element.isPropertyContainer() && (useGeneric || !element.isEntity())) {
+        if (!element.isPropertyContainer() && (useNative || !element.isEntity())) {
             return this.variableName;
         }
         return this.referenceFactory.create(element);
     }
 
     @Override
-    public TypeReferenceSource apiForContainer(final ConventionTypeElement enclosing,
-                                               final ContainerProperty container) {
-
-        return apiForContainer(enclosing, container, false);
-    }
-
-    @Override
-    public TypeReferenceSource genericApiForContainer(final ConventionTypeElement enclosing,
-                                                      final ContainerProperty container) {
-
-        return apiForContainer(enclosing, container, true);
-    }
-
-    private TypeReferenceSource apiForContainer(final ConventionTypeElement enclosing,
-                                                final ContainerProperty container,
-                                                final boolean useGeneric) {
-
-        // FIXME the boolean is definitely not a constant value
-        final TypeReferenceSource typeName = parameterFor(enclosing, useGeneric);
-        final TypeReferenceSource baseName = this.referenceFactory.create(container.typeAsElement());
-
-        return this.parameterFactory.create(baseName, typeName);
-    }
-
-    @Override
-    public TypeReferenceSource implForProperty(final ConventionTypeElement enclosing, final Property property) {
+    public TypeReferenceSource implFor(final ConventionTypeElement enclosing, final Property property) {
 
         final ExtendedPackageElement packageRef
                 = this.idTransformer.transformPackage(enclosing.packageInfo());
-        final String name = this.idTransformer.transformName(enclosing.getSimpleName()) + property.name() + "Impl";
+        final String name = this.idTransformer.transformName(
+                enclosing.getSimpleName())
+                + this.stringUtils.capitalizeFirstChar(property.name().toString())
+                + "Impl";
 
-        return this.referenceFactory.fromSplitPackageAndName(packageRef, name);
-    }
+        final TypeReferenceSource baseName = this.referenceFactory.fromSplitPackageAndName(packageRef, name);
 
-    @Override
-    public TypeReferenceSource implForContainer(final ConventionTypeElement enclosing,
-                                                final ContainerProperty container) {
+        if (enclosing.isPartialEntity()) {
+            return this.typeParameterFactory.create(baseName, this.variableName);
+        }
 
-        return implForProperty(enclosing, container);
+        return baseName;
     }
 
 }

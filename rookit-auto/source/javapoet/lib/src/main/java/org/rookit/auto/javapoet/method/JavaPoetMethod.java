@@ -21,29 +21,24 @@
  ******************************************************************************/
 package org.rookit.auto.javapoet.method;
 
-import com.google.common.base.Joiner;
-import com.squareup.javapoet.CodeBlock;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterSpec;
-import com.squareup.javapoet.TypeName;
-import com.squareup.javapoet.TypeVariableName;
 import org.rookit.auto.javapoet.JavaPoetMutableAnnotatable;
 import org.rookit.auto.javax.type.ExtendedTypeElement;
 import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.auto.source.arbitrary.ArbitraryCodeSource;
-import org.rookit.auto.source.arbitrary.ArbitraryCodeSourceAdapter;
+import org.rookit.auto.source.arbitrary.ArbitraryCodeSourceFactory;
 import org.rookit.auto.source.method.MutableMethodSource;
 import org.rookit.auto.source.parameter.ParameterSource;
-import org.rookit.auto.source.parameter.ParameterSourceAdapter;
 import org.rookit.auto.source.type.annotation.AnnotationSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
-import org.rookit.auto.source.type.reference.TypeReferenceSourceAdapter;
 import org.rookit.auto.source.type.reference.TypeReferenceSourceFactory;
 import org.rookit.auto.source.type.variable.TypeVariableSource;
-import org.rookit.auto.source.type.variable.TypeVariableSourceAdapter;
+import org.rookit.utils.optional.Optional;
+import org.rookit.utils.optional.OptionalFactory;
 
+import javax.annotation.Nullable;
 import javax.lang.model.element.Modifier;
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -53,86 +48,74 @@ import static java.util.Collections.unmodifiableCollection;
 
 final class JavaPoetMethod implements MutableMethodSource {
 
-    private static final Object[] ARRAY_INIT = new Object[0];
-
-    private final MethodSpec.Builder builder;
-
-    private final ParameterSourceAdapter<ParameterSpec> parameterAdapter;
-
-    private final TypeVariableSourceAdapter<TypeVariableName> typeVariableAdapter;
-
-    private final TypeReferenceSourceAdapter<TypeName> referenceAdapter;
     private final TypeReferenceSourceFactory referenceFactory;
+    private final ArbitraryCodeSourceFactory codeFactory;
+    private final OptionalFactory optionalFactory;
 
-    private final ArbitraryCodeSourceAdapter<CodeBlock> codeAdapter;
+    private final CharSequence name;
+
+    @Nullable
+    private TypeReferenceSource returnType;
 
     private final JavaPoetMutableAnnotatable annotatable;
-
     private final Set<Modifier> modifiers;
-
     private final Set<TypeReferenceSource> thrownTypes;
+    private final Collection<ParameterSource> parameters;
+    private final boolean isConstructor;
+    private boolean isVarArgs;
+    private final Collection<ArbitraryCodeSource> statements;
+    private final Collection<TypeVariableSource> typeVariables;
+
+    @Nullable
+    private ArbitraryCodeSource defaultValue;
 
     JavaPoetMethod(
-            final MethodSpec.Builder builder,
-            final ParameterSourceAdapter<ParameterSpec> parameterAdapter,
-            final TypeVariableSourceAdapter<TypeVariableName> typeVariableAdapter,
-            final TypeReferenceSourceAdapter<TypeName> referenceAdapter,
             final TypeReferenceSourceFactory referenceFactory,
-            final ArbitraryCodeSourceAdapter<CodeBlock> codeAdapter,
+            final ArbitraryCodeSourceFactory codeFactory,
+            final OptionalFactory optionalFactory, final CharSequence name,
             final JavaPoetMutableAnnotatable annotatable,
             final Set<Modifier> modifiers,
-            final Set<TypeReferenceSource> thrownTypes) {
-        this.builder = builder;
-        this.codeAdapter = codeAdapter;
+            final Set<TypeReferenceSource> thrownTypes,
+            final Collection<ParameterSource> parameters,
+            final boolean isConstructor,
+            final Collection<ArbitraryCodeSource> statements,
+            final Collection<TypeVariableSource> typeVariables) {
+
+        this.codeFactory = codeFactory;
+        this.optionalFactory = optionalFactory;
+        this.name = name;
         this.annotatable = annotatable;
-        this.parameterAdapter = parameterAdapter;
-        this.typeVariableAdapter = typeVariableAdapter;
-        this.referenceAdapter = referenceAdapter;
         this.referenceFactory = referenceFactory;
         this.modifiers = new LinkedHashSet<>(modifiers);
         this.thrownTypes = new LinkedHashSet<>(thrownTypes);
-    }
-
-    MethodSpec build() {
-        final MethodSpec.Builder builder = this.builder.build()
-                .toBuilder();
-
-        builder.addModifiers(this.modifiers);
-        builder.addAnnotations(this.annotatable.annotationSpecs());
-        this.thrownTypes.stream()
-                .map(this.referenceAdapter::adaptTypeReference)
-                .forEach(builder::addException);
-
-        return builder.build();
+        this.parameters = new ArrayList<>(parameters);
+        this.isConstructor = isConstructor;
+        this.statements = new ArrayList<>(statements);
+        this.typeVariables = new ArrayList<>(typeVariables);
     }
 
     @Override
     public MutableMethodSource addParameter(final ParameterSource parameter) {
 
-        this.builder.addParameter(this.parameterAdapter.adaptParameter(parameter));
+        this.parameters.add(parameter);
         return this;
     }
 
     @Override
-    public MutableMethodSource assignParametersToFields(final Iterable<ParameterSource> parameters) {
+    public MutableMethodSource assignParameterToField(final ParameterSource parameter) {
 
-        addParameters(parameters);
-        for (final ParameterSource parameter : parameters) {
-            final CharSequence parameterName = parameter.name();
-            this.builder.addStatement("this.$L = $L", parameterName, parameterName);
-        }
-        return this;
+        addParameter(parameter);
+
+        return addStatement(this.codeFactory.initializeDependency(parameter.name()));
     }
 
     @Override
     public MutableMethodSource returnNewObject(
             final TypeReferenceSource objectType, final Iterable<CharSequence> parameters) {
 
-        final String paramString = Joiner.on(",")
-                .join(parameters);
-        final TypeName typeName = this.referenceAdapter.adaptTypeReference(objectType);
-        this.builder.addStatement("return new $T($L)", typeName, paramString);
-        this.builder.returns(typeName);
+        this.statements.add(this.codeFactory.returnNew(objectType, parameters));
+        withReturnType(objectType);
+
         return this;
     }
 
@@ -147,8 +130,7 @@ final class JavaPoetMethod implements MutableMethodSource {
     public MutableMethodSource returnInstanceField(final TypeReferenceSource fieldType, final CharSequence fieldName) {
 
         withReturnType(fieldType);
-        this.builder.addStatement("return this.$L", fieldName);
-        return this;
+        return addStatement(this.codeFactory.returnInstanceField(fieldName));
     }
 
     @Override
@@ -161,31 +143,15 @@ final class JavaPoetMethod implements MutableMethodSource {
     @Override
     public MutableMethodSource withReturnType(final TypeReferenceSource reference) {
 
-        this.builder.returns(this.referenceAdapter.adaptTypeReference(reference));
-        return this;
-    }
-
-    @Override
-    public MutableMethodSource returnMethodCall(
-            final TypeReferenceSource returnType, final String delegateCall, final List<Object> args) {
-
-        final TypeName typeName = this.referenceAdapter.adaptTypeReference(returnType);
-        this.builder.returns(typeName);
-        return returnMethodCall(delegateCall, args);
-    }
-
-    @Override
-    public MutableMethodSource returnMethodCall(final String delegateCall, final List<Object> args) {
-
-        this.builder.addStatement("return " + delegateCall, args.toArray(ARRAY_INIT));
-        return this;
+        this.returnType = reference;
+        return self();
     }
 
     @Override
     public MutableMethodSource defaultValue(final String format, final List<Object> args) {
 
-        this.builder.defaultValue(format, args.toArray(ARRAY_INIT));
-        return this;
+        this.defaultValue = this.codeFactory.createFromFormat(format, args);
+        return self();
     }
 
     @Override
@@ -195,28 +161,27 @@ final class JavaPoetMethod implements MutableMethodSource {
             final String initialization,
             final List<Object> args) {
 
-        final TypeName typeName = this.referenceAdapter.adaptTypeReference(type);
-        this.builder.addStatement("$T $L = " + initialization, typeName, name, args.toArray(ARRAY_INIT));
-        return this;
+        final ArbitraryCodeSource initializer = this.codeFactory.createFromFormat(initialization, args);
+        return addStatement(this.codeFactory.newValue(type, name, initializer));
     }
 
     @Override
     public MutableMethodSource addStatement(final String statement, final List<Object> args) {
 
-        this.builder.addStatement(statement, args.toArray(ARRAY_INIT));
-        return this;
+        return addStatement(this.codeFactory.createFromFormat(statement, args));
     }
 
     @Override
     public MutableMethodSource addStatement(final ArbitraryCodeSource statement) {
 
-        this.builder.addStatement(this.codeAdapter.adaptArbitraryCodeBlock(statement));
+        this.statements.add(statement);
         return self();
     }
 
     @Override
     public MutableMethodSource varArgs(final boolean varArgs) {
-        this.builder.varargs(varArgs);
+
+        this.isVarArgs = varArgs;
         return self();
     }
 
@@ -236,8 +201,7 @@ final class JavaPoetMethod implements MutableMethodSource {
     public MutableMethodSource returnStaticField(final TypeReferenceSource returnType, final CharSequence fieldName) {
 
         withReturnType(returnType);
-        this.builder.addStatement("return $L", fieldName);
-        return self();
+        return addStatement(this.codeFactory.returnField(fieldName));
     }
 
     @Override
@@ -302,8 +266,61 @@ final class JavaPoetMethod implements MutableMethodSource {
     @Override
     public MutableMethodSource addTypeVariable(final TypeVariableSource typeVariable) {
 
-        this.builder.addTypeVariable(this.typeVariableAdapter.adaptTypeVariable(typeVariable));
+        this.typeVariables.add(typeVariable);
         return this;
+    }
+
+    @Override
+    public boolean isConstructor() {
+        return this.isConstructor;
+    }
+
+    @Override
+    public Collection<ParameterSource> parameters() {
+
+        return unmodifiableCollection(this.parameters);
+    }
+
+    @Override
+    public Collection<ArbitraryCodeSource> code() {
+
+        return unmodifiableCollection(this.statements);
+    }
+
+    @Override
+    public Collection<TypeReferenceSource> thrownTypes() {
+
+        return unmodifiableCollection(this.thrownTypes);
+    }
+
+    @Override
+    public CharSequence name() {
+
+        return this.name;
+    }
+
+    @Override
+    public Optional<TypeReferenceSource> returnType() {
+
+        return this.optionalFactory.ofNullable(this.returnType);
+    }
+
+    @Override
+    public Optional<ArbitraryCodeSource> defaultValue() {
+
+        return this.optionalFactory.ofNullable(this.defaultValue);
+    }
+
+    @Override
+    public Collection<TypeVariableSource> typeVariables() {
+
+        return unmodifiableCollection(this.typeVariables);
+    }
+
+    @Override
+    public boolean isVarArgs() {
+
+        return this.isVarArgs;
     }
 
 }

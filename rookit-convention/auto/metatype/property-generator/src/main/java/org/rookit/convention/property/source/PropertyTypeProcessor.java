@@ -24,10 +24,10 @@ package org.rookit.convention.property.source;
 import com.google.inject.Inject;
 import org.rookit.auto.AbstractConfigAwareTypeProcessor;
 import org.rookit.auto.config.ProcessorConfig;
-import org.rookit.convention.auto.source.type.PropertyTypeSourceFactory;
+import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.javax.ConventionTypeElementFactory;
+import org.rookit.convention.auto.metatype.source.type.PropertyImplTypeFactory;
 import org.rookit.convention.auto.property.PropertyFactory;
-import org.rookit.utils.optional.Optional;
 
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
@@ -35,32 +35,33 @@ import javax.lang.model.element.TypeElement;
 
 final class PropertyTypeProcessor extends AbstractConfigAwareTypeProcessor {
 
-    private final PropertyTypeSourceFactory propertyEntityFactory;
     private final ConventionTypeElementFactory elementFactory;
     private final Filer filer;
     private final PropertyFactory propertyFactory;
+    private final PropertyImplTypeFactory typeFactory;
 
     @Inject
-    private PropertyTypeProcessor(final ProcessorConfig config,
-                                  final Messager messager,
-                                  final PropertyTypeSourceFactory propEntityFactory,
-                                  final ConventionTypeElementFactory elementFactory,
-                                  final Filer filer,
-                                  final PropertyFactory propertyFactory) {
+    private PropertyTypeProcessor(
+            final ProcessorConfig config,
+            final Messager messager,
+            final ConventionTypeElementFactory elementFactory,
+            final Filer filer,
+            final PropertyFactory propertyFactory,
+            final PropertyImplTypeFactory typeFactory) {
         super(config, messager);
-        this.propertyEntityFactory = propEntityFactory;
         this.elementFactory = elementFactory;
         this.filer = filer;
         this.propertyFactory = propertyFactory;
+        this.typeFactory = typeFactory;
     }
 
     @Override
     protected void doProcessEntity(final TypeElement element) {
-        this.elementFactory.extend(element).properties().stream()
-                .map(this.propertyFactory::toContainer)
-                .flatMap(Optional::stream)
-                .map(this.propertyEntityFactory::create)
-                .forEach(entity -> entity.writeTo(this.filer));
+        final ConventionTypeElement conventionType = this.elementFactory.extend(element);
+
+        conventionType.properties().stream()
+                .map(property -> this.typeFactory.implFor(conventionType, property))
+                .forEach(source -> source.writeTo(this.filer));
     }
 
     @Override
@@ -68,13 +69,4 @@ final class PropertyTypeProcessor extends AbstractConfigAwareTypeProcessor {
         // nothing to do
     }
 
-    @Override
-    public String toString() {
-        return "PropertyTypeProcessor{" +
-                "propertyEntityFactory=" + this.propertyEntityFactory +
-                ", elementFactory=" + this.elementFactory +
-                ", filer=" + this.filer +
-                ", propertyFactory=" + this.propertyFactory +
-                "} " + super.toString();
-    }
 }

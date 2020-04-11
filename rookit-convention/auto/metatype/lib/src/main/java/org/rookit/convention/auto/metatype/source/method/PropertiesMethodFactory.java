@@ -23,49 +23,58 @@ package org.rookit.convention.auto.metatype.source.method;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
+import org.rookit.auto.javax.executable.ExtendedExecutableElement;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
+import org.rookit.auto.source.field.FieldSource;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.auto.source.method.MethodSourceFactory;
-import org.rookit.auto.source.type.parameter.TypeParameterSourceFactory;
-import org.rookit.auto.source.type.reference.From;
-import org.rookit.auto.source.type.reference.TypeReferenceSource;
-import org.rookit.auto.source.type.variable.WildcardVariableSourceFactory;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.metatype.source.MetaTypePropertyFetcherFactory;
-import org.rookit.convention.property.PropertyModel;
-
-import java.util.Collection;
+import org.rookit.convention.auto.metatype.source.type.reference.PropertiesReferenceFactory;
+import org.rookit.convention.guice.MetaTypeProperties;
 
 final class PropertiesMethodFactory implements MetaTypePropertiesMethodFactory {
 
-    private final MethodSource propertiesMethod;
+    private final MethodSourceFactory methodFactory;
+
+    private final MetaTypePropertyFetcherFactory propertyFetcher;
+    private final PropertiesReferenceFactory references;
+    private final ExtendedExecutableElement properties;
 
     @Inject
     private PropertiesMethodFactory(
-            final WildcardVariableSourceFactory wildcardFactory,
+            @MetaTypeProperties final ExtendedExecutableElement properties,
             final MethodSourceFactory methodFactory,
-            final TypeParameterSourceFactory typeParameterFactory,
-            @From(Collection.class) final TypeReferenceSource collection,
-            final MetaTypePropertyFetcherFactory propertyFetcher) {
+            final MetaTypePropertyFetcherFactory propertyFetcher,
+            final PropertiesReferenceFactory references) {
 
-        final TypeReferenceSource propertyModel = typeParameterFactory.create(
-                PropertyModel.class, wildcardFactory.newWildcard());
-        final TypeReferenceSource returnType = typeParameterFactory.create(collection, propertyModel);
-
-        final CharSequence propertyMapName = propertyFetcher.fields()
-                .propertyMap()
-                .name();
-
-        this.propertiesMethod = methodFactory.createMutableMethod("properties")
-                .makePublic()
-                .override()
-                .withReturnType(returnType)
-                .addStatement("return $L.values()", ImmutableList.of(propertyMapName));
+        this.properties = properties;
+        this.methodFactory = methodFactory;
+        this.propertyFetcher = propertyFetcher;
+        this.references = references;
     }
 
     @Override
     public MethodSource implFor(final ConventionTypeElement type) {
 
-        return this.propertiesMethod;
+        final CharSequence propertyMapName = this.propertyFetcher.fieldsFor(type)
+                .propertyMap()
+                .name();
+
+        return this.methodFactory.createMutableOverride(this.properties)
+                .withReturnType(this.references.methodReferenceFor(type))
+                .addStatement("return $L.values()", ImmutableList.of(propertyMapName));
+    }
+
+    @Override
+    public MethodSource delegateMethodFor(
+            final ExtendedTypeMirror type,
+            final FieldSource delegate) {
+
+        return this.methodFactory.createMutableOverride(this.properties)
+                .withReturnType(this.references.methodReferenceFor(type))
+                .addStatement("return $L.$L()",
+                              ImmutableList.of(delegate.name(), this.properties.getSimpleName()));
     }
 
 }

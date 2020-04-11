@@ -28,7 +28,7 @@ import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.metatype.source.annotation.PropertyAnnotationSourceFactory;
 import org.rookit.convention.auto.metatype.source.parameter.PropertyParameterSourceFactory;
 import org.rookit.convention.auto.metatype.source.type.reference.PropertyTypeReferenceFactory;
-import org.rookit.convention.auto.property.ContainerProperty;
+import org.rookit.convention.auto.property.Property;
 import org.rookit.guice.auto.bind.BindingFactory;
 import org.rookit.guice.auto.bind.ProviderMethodBinding;
 
@@ -57,17 +57,17 @@ final class PropertyMethodPrototypesImpl implements PropertyMethodPrototypes {
     }
 
     @Override
-    public ProviderMethodBinding bindingFor(final ConventionTypeElement enclosing, final ContainerProperty property) {
+    public ProviderMethodBinding bindingFor(final ConventionTypeElement enclosing, final Property property) {
 
-        final TypeReferenceSource bindingSource = this.returnType.apiForContainer(enclosing, property);
+        final TypeReferenceSource bindingSource = this.returnType.apiFor(enclosing, property);
         final String methodName = uncapitalize(enclosing.getSimpleName().toString()) + property.name();
 
         final Collection<ParameterSource> dependencies = this.parameterPrototypes.implDependenciesForProperty(enclosing,
                                                                                                               property);
 
         return this.bindingFactory.bindSingletonThroughProviderMethod(bindingSource, methodName)
-                .throughConstructor(this.returnType.implForContainer(enclosing, property))
-                .addBindingAnnotation(this.annotationPrototype.bindingAnnotationForContainer(enclosing, property))
+                .throughConstructor(this.returnType.implFor(enclosing, property))
+                .addBindingAnnotation(this.annotationPrototype.bindingAnnotationForProperty(enclosing, property))
                 .addDependencies(dependencies)
                 .build();
     }

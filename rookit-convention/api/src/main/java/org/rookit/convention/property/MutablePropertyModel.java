@@ -21,8 +21,18 @@
  ******************************************************************************/
 package org.rookit.convention.property;
 
-public interface MutablePropertyModel<E, T> extends ImmutablePropertyModel<E, T> {
+import org.rookit.guice.auto.annotation.BindingAnnotationGenerator;
 
+@BindingAnnotationGenerator
+public interface MutablePropertyModel<E, T> extends PropertyModel<E, T> {
+
+    @Override
+    default boolean isPresent(final E entity) {
+
+        return true;
+    }
+
+    @BindingAnnotationGenerator
     void set(E model, T value);
 
 }

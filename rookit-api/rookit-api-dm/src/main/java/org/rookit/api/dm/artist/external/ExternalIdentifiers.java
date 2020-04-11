@@ -10,6 +10,6 @@ public interface ExternalIdentifiers {
     @Property
     Optional<String> ipi();
 
-    @Property(isSettable = true)
+    @Property(mutable = true)
     String isni();
 }

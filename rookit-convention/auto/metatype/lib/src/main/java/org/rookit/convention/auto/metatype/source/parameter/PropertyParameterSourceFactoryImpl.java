@@ -56,7 +56,7 @@ final class PropertyParameterSourceFactoryImpl implements PropertyParameterSourc
             final ConventionTypeElement type,
             final Property property) {
 
-        final TypeReferenceSource paramType = this.typePrototypes.apiForProperty(type, property);
+        final TypeReferenceSource paramType = this.typePrototypes.apiFor(type, property);
         final AnnotationSource annotation = this.annotationPrototype.bindingAnnotationForProperty(declaringType,
                                                                                                   property);
 

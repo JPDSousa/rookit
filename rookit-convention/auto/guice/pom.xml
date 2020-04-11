@@ -19,7 +19,22 @@
 
         <dependency>
             <groupId>${rookit.group}</groupId>
-            <artifactId>rookit-guice-auto-annotations</artifactId>
+            <artifactId>rookit-auto-lib</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-auto-javax-lib</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-auto-source-javapoet-lib</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-auto-source-lib</artifactId>
         </dependency>
 
         <dependency>
@@ -29,25 +44,39 @@
 
         <dependency>
             <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-convention-auto-lib</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
             <artifactId>rookit-convention-lib</artifactId>
         </dependency>
 
         <dependency>
             <groupId>${rookit.group}</groupId>
-            <artifactId>rookit-auto-javax-lib</artifactId>
+            <artifactId>rookit-failsafe-lib</artifactId>
         </dependency>
-        <dependency>
-            <groupId>${rookit.group}</groupId>
-            <artifactId>rookit-auto-source-javapoet-lib</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${rookit.group}</groupId>
-            <artifactId>rookit-convention-auto-lib</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>${rookit.group}</groupId>
             <artifactId>rookit-io-path-lib</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-io-lib</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-serializer-bundle</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${rookit.group}</groupId>
+            <artifactId>rookit-utils-lib</artifactId>
+        </dependency>
+
         <!-- Test dependencies -->
         <dependency>
             <groupId>${rookit.group}</groupId>
@@ -55,5 +84,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
 
 </project>

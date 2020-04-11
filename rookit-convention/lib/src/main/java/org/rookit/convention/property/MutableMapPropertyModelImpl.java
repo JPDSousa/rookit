@@ -29,7 +29,7 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-final class MutableMapPropertyModelImpl<E, K, V> extends ImmutableMapPropertyModelImpl<E, K, V>
+final class MutableMapPropertyModelImpl<E, K, V> extends AbstractPropertyModel<E, Map<K, V>>
         implements MutableMapPropertyModel<E, K, V> {
 
     private final BiConsumer<E, Map<K, V>> setter;
@@ -37,13 +37,15 @@ final class MutableMapPropertyModelImpl<E, K, V> extends ImmutableMapPropertyMod
     private final BiConsumer<E, Map<K, V>> allPutter;
     private final BiFunction<E, K, V> remover;
 
-    MutableMapPropertyModelImpl(final String name,
-                                final MetaType<V> metaType,
-                                final Function<E, Map<K, V>> getter,
-                                final BiConsumer<E, Map<K, V>> setter,
-                                final BiConsumer<E, Map.Entry<K, V>> putter,
-                                final BiConsumer<E, Map<K, V>> allPutter,
-                                final BiFunction<E, K, V> remover) {
+    MutableMapPropertyModelImpl(
+            final String name,
+            final MetaType<Map<K, V>> metaType,
+            final Function<E, Map<K, V>> getter,
+            final BiConsumer<E, Map<K, V>> setter,
+            final BiConsumer<E, Map.Entry<K, V>> putter,
+            final BiConsumer<E, Map<K, V>> allPutter,
+            final BiFunction<E, K, V> remover) {
+
         super(name, metaType, getter);
         this.setter = setter;
         this.putter = putter;
@@ -71,13 +73,4 @@ final class MutableMapPropertyModelImpl<E, K, V> extends ImmutableMapPropertyMod
         return this.remover.apply(entity, key);
     }
 
-    @Override
-    public String toString() {
-        return "MutableMapPropertyModelImpl{" +
-                "setter=" + this.setter +
-                ", putter=" + this.putter +
-                ", allPutter=" + this.allPutter +
-                ", remover=" + this.remover +
-                "} " + super.toString();
-    }
 }

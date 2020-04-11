@@ -24,7 +24,6 @@ package org.rookit.convention;
 import com.google.inject.AbstractModule;
 import com.google.inject.Key;
 import com.google.inject.Module;
-import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.Multibinder;
 import com.google.inject.util.Modules;
@@ -58,7 +57,5 @@ public final class ConventionModule extends AbstractModule {
         mBinder.addBinding().toInstance(PartialEntity.class);
         mBinder.addBinding().toInstance(Property.class);
         mBinder.addBinding().toInstance(PropertyContainer.class);
-
-        bind(ConventionUtils.class).to(ConventionUtilsImpl.class).in(Singleton.class);
     }
 }

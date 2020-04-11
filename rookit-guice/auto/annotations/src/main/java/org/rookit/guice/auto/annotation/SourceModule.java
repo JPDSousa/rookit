@@ -38,7 +38,7 @@ import org.rookit.guice.auto.GuiceAutoLibModule;
 import org.rookit.guice.auto.annotation.config.ConfigurationModule;
 import org.rookit.guice.auto.annotation.type.TypeModule;
 import org.rookit.io.IOLibModule;
-import org.rookit.io.PathLibModule;
+import org.rookit.io.IOPathLibModule;
 import org.rookit.serializer.SerializationBundleModule;
 import org.rookit.utils.guice.UtilsModule;
 
@@ -55,7 +55,7 @@ public final class SourceModule extends AbstractModule {
             GuiceAutoLibModule.getModule(),
             IOLibModule.getModule(),
             JavaxLibModule.getModule(),
-            PathLibModule.getModule(),
+            IOPathLibModule.getModule(),
             SerializationBundleModule.getModule(),
             SourceJavaPoetLibModule.getModule(),
             TypeModule.getModule(),

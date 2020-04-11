@@ -35,18 +35,16 @@ import org.rookit.auto.source.SourceLibModule;
 import org.rookit.auto.source.type.TypeSource;
 import org.rookit.convention.ConventionModule;
 import org.rookit.convention.annotation.LaConvention;
-import org.rookit.convention.api.guice.Container;
 import org.rookit.convention.api.source.config.ConfigurationModule;
 import org.rookit.convention.api.source.naming.NamingModule;
-import org.rookit.convention.auto.ConventionLibModule;
+import org.rookit.convention.auto.ConventionAutoLibModule;
 import org.rookit.convention.auto.metatype.AutoMetaTypeModule;
 import org.rookit.convention.auto.metatype.source.type.MetaTypeSourceFactory;
-import org.rookit.convention.auto.property.PropertyFactory;
 import org.rookit.convention.auto.source.type.ConventionTypeElementTypeSourceVisitors;
 import org.rookit.failsafe.FailsafeModule;
 import org.rookit.guice.auto.GuiceAutoLibModule;
 import org.rookit.io.IOLibModule;
-import org.rookit.io.PathLibModule;
+import org.rookit.io.IOPathLibModule;
 import org.rookit.serializer.SerializationBundleModule;
 import org.rookit.utils.guice.UtilsModule;
 
@@ -63,12 +61,12 @@ public final class SourceModule extends AbstractModule {
             AutoMetaTypeModule.getModule(),
             ConfigurationModule.getModule(),
             ConventionModule.getModule(),
-            ConventionLibModule.getModule(),
+            ConventionAutoLibModule.getModule(),
             FailsafeModule.getModule(),
             GuiceAutoLibModule.getModule(),
             IOLibModule.getModule(),
             NamingModule.getModule(),
-            PathLibModule.getModule(),
+            IOPathLibModule.getModule(),
             SerializationBundleModule.getModule(),
             SourceLibModule.getModule(),
             SourceJavaPoetLibModule.getModule(),
@@ -81,12 +79,6 @@ public final class SourceModule extends AbstractModule {
     }
 
     private SourceModule() {}
-
-    @Override
-    protected void configure() {
-        bind(PropertyFactory.class).annotatedWith(Container.class)
-                .to(PropertyFactory.class).in(Singleton.class);
-    }
 
     @Provides
     @Singleton

@@ -26,9 +26,8 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
-import org.rookit.auto.guice.Annotation;
-import org.rookit.convention.auto.property.Property;
 import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
+import org.rookit.convention.auto.property.Property;
 import org.rookit.utils.guice.Collection;
 import org.rookit.utils.guice.Immutable;
 import org.rookit.utils.guice.Mutable;
@@ -49,8 +48,6 @@ public final class FilterModule extends AbstractModule {
     @SuppressWarnings({"AnonymousInnerClassMayBeStatic", "AnonymousInnerClass", "EmptyClass"})
     @Override
     protected void configure() {
-        bind(new TypeLiteral<Predicate<Property>>() {}).annotatedWith(Annotation.class)
-                .to(EntityFilter.class).in(Singleton.class);
         bind(new TypeLiteral<Predicate<Property>>() {}).annotatedWith(Immutable.class)
                 .toInstance(Property::isFinal);
         bind(new TypeLiteral<Predicate<Property>>() {}).annotatedWith(Mutable.class)

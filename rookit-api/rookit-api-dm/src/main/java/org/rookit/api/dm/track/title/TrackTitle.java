@@ -27,7 +27,7 @@ import org.rookit.convention.annotation.PropertyContainer;
 @PropertyContainer
 public interface TrackTitle {
 
-    @Property(isSettable = true)
+    @Property(mutable = true)
     Title singleTitle();
 
     Title longFullTitle();

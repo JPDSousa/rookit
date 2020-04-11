@@ -24,6 +24,7 @@ package org.rookit.auto.source.parameter;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
 import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.auto.javax.variable.ExtendedVariableElement;
+import org.rookit.auto.source.field.FieldSource;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
@@ -39,6 +40,8 @@ public interface ParameterSourceFactory {
     MutableParameterSource createMutable(CharSequence name, Class<?> type);
 
     MutableParameterSource createFromElement(ExtendedVariableElement variable);
+
+    MutableParameterSource createFromField(FieldSource field);
 
     default Iterable<MutableParameterSource> parametersFor(final ExtendedExecutableElement method) {
         return method.getParameters().stream()

@@ -21,11 +21,17 @@
  ******************************************************************************/
 package org.rookit.convention.auto.metatype.source.type;
 
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
+import org.rookit.auto.source.type.MutableTypeSource;
 import org.rookit.auto.source.type.TypeSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 
 public interface MetaTypeImplTypeSourceFactory {
 
     TypeSource implFor(ConventionTypeElement typeElement);
+
+    MutableTypeSource injectDelegate(
+            MutableTypeSource original,
+            ExtendedTypeMirror type);
 
 }

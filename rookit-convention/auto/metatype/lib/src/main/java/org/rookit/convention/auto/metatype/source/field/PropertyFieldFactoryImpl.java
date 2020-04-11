@@ -44,9 +44,9 @@ final class PropertyFieldFactoryImpl implements PropertyFieldFactory {
 
     @Override
     public FieldSource fieldForProperty(
-            final ConventionTypeElement element, final Property property) {
+            final ConventionTypeElement enclosing, final Property property) {
 
-        return this.fieldFactory.createMutable(this.references.apiForProperty(element, property), property.name())
+        return this.fieldFactory.createMutable(this.references.apiFor(enclosing, property), property.name())
                 .makePrivate()
                 .makeFinal();
     }

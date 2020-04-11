@@ -7,7 +7,7 @@ import org.rookit.utils.optional.Optional;
 @PropertyContainer
 public interface Title {
 
-    @Property(isSettable = true)
+    @Property(mutable = true)
     String title();
 
     Optional<String> artists();

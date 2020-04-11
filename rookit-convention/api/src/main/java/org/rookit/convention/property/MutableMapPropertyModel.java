@@ -23,7 +23,13 @@ package org.rookit.convention.property;
 
 import java.util.Map;
 
-public interface MutableMapPropertyModel<E, K, V> extends ImmutableMapPropertyModel<E, K, V> {
+public interface MutableMapPropertyModel<E, K, V> extends PropertyModel<E, Map<K, V>> {
+
+    @Override
+    default boolean isPresent(final E entity) {
+
+        return !get(entity).isEmpty();
+    }
 
     void set(E entity, Map<K, V> map);
 

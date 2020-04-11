@@ -27,6 +27,7 @@ import com.squareup.javapoet.TypeName;
 import org.rookit.auto.javapoet.JavaPoetMutableAnnotatableFactory;
 import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.auto.javax.variable.ExtendedVariableElement;
+import org.rookit.auto.source.field.FieldSource;
 import org.rookit.auto.source.parameter.MutableParameterSource;
 import org.rookit.auto.source.parameter.ParameterSource;
 import org.rookit.auto.source.parameter.ParameterSourceFactory;
@@ -107,12 +108,10 @@ final class JavaPoetParameterFactory implements ParameterSourceFactory {
     }
 
     @Override
-    public String toString() {
-        return "JavaPoetParameterFactory{" +
-                "annotatableFactory=" + this.annotatableFactory +
-                ", typeNameAdapter=" + this.typeNameAdapter +
-                ", referenceFactory=" + this.referenceFactory +
-                "}";
+    public MutableParameterSource createFromField(final FieldSource field) {
+
+        return createMutable(field.name(), field.type())
+                .addAnnotations(field.annotations());
     }
 
 }

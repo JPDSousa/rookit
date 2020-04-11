@@ -26,9 +26,14 @@ import org.rookit.convention.guice.AnnotationBody;
 import org.rookit.guice.auto.annotation.BindingAnnotationGenerator;
 
 @BindingAnnotationGenerator(copyBodyFrom = AnnotationBody.class)
-public interface PropertyModel<T> extends MetaType<T> {
+public interface PropertyModel<E, T> extends MetaType<T> {
 
     @BindingAnnotationGenerator
     String propertyName();
+
+    @BindingAnnotationGenerator
+    T get(E entity);
+
+    boolean isPresent(E entity);
 
 }

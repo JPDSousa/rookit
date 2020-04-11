@@ -26,14 +26,12 @@ import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.util.Modules;
 import org.rookit.convention.auto.property.filter.FilterModule;
-import org.rookit.convention.auto.property.resolver.ResolverModule;
 
 public final class PropertyModule extends AbstractModule {
 
     private static final Module MODULE = Modules.combine(
             new PropertyModule(),
-            FilterModule.getModule(),
-            ResolverModule.getModule()
+            FilterModule.getModule()
     );
 
     public static Module getModule() {

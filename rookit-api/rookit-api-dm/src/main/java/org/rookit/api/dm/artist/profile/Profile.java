@@ -38,13 +38,13 @@ public interface Profile extends Comparable<Profile> {
         return name().compareTo(o.name());
     }
 
-    @Property(isSettable = true)
+    @Property(mutable = true)
     ArtistName name();
 
     @Property
     Timeline timeline();
 
-    @Property(isSettable = true)
+    @Property(mutable = true)
     ExternalIdentifiers externalIdentifiers();
 
     /**

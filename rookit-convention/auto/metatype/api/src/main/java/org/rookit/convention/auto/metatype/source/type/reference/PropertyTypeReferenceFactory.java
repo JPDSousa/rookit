@@ -21,23 +21,23 @@
  ******************************************************************************/
 package org.rookit.convention.auto.metatype.source.type.reference;
 
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.auto.source.type.reference.TypeReferenceSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
-import org.rookit.convention.auto.property.ContainerProperty;
 import org.rookit.convention.auto.property.Property;
 
 public interface PropertyTypeReferenceFactory {
 
-    TypeReferenceSource apiForProperty(ConventionTypeElement enclosing, Property property);
+    TypeReferenceSource apiFor(ConventionTypeElement enclosing, Property property);
 
-    TypeReferenceSource genericApiForProperty(ConventionTypeElement enclosing, Property property);
+    TypeReferenceSource nativeApiFor(ConventionTypeElement enclosing, Property property);
 
-    TypeReferenceSource apiForContainer(ConventionTypeElement enclosing, ContainerProperty container);
+    default TypeReferenceSource genericFor(final ConventionTypeElement typeElement) {
+        return genericFor(typeElement.asType());
+    }
 
-    TypeReferenceSource genericApiForContainer(ConventionTypeElement enclosing, ContainerProperty container);
+    TypeReferenceSource genericFor(ExtendedTypeMirror mirror);
 
-    TypeReferenceSource implForProperty(ConventionTypeElement enclosing, Property property);
-
-    TypeReferenceSource implForContainer(ConventionTypeElement enclosing, ContainerProperty container);
+    TypeReferenceSource implFor(ConventionTypeElement enclosing, Property property);
 
 }

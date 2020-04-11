@@ -25,7 +25,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import org.rookit.auto.source.arbitrary.ArbitraryCodeSource;
 import org.rookit.auto.source.arbitrary.ArbitraryCodeSourceFactory;
-import org.rookit.utils.primitive.VoidUtils;
+import org.rookit.auto.source.type.reference.TypeReferenceSource;
 
 import java.util.List;
 
@@ -33,12 +33,8 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 final class JavaPoetCodeBlockFactory implements ArbitraryCodeSourceFactory {
 
-    private final VoidUtils voidUtils;
-
     @Inject
-    private JavaPoetCodeBlockFactory(final VoidUtils voidUtils) {
-        this.voidUtils = voidUtils;
-    }
+    private JavaPoetCodeBlockFactory() { }
 
     @Override
     public ArbitraryCodeSource createFromFormat(final String format, final List<Object> args) {
@@ -53,10 +49,54 @@ final class JavaPoetCodeBlockFactory implements ArbitraryCodeSourceFactory {
     }
 
     @Override
-    public String toString() {
-        return "JavaPoetCodeBlockFactory{" +
-                "voidUtils=" + this.voidUtils +
-                "}";
+    public ArbitraryCodeSource initializeDependency(final CharSequence name) {
+
+        return createFromFormat("this.$L = $L", ImmutableList.of(name, name));
+    }
+
+    @Override
+    public ArbitraryCodeSource returnNew(
+            final TypeReferenceSource objectType, final Iterable<CharSequence> paramNames) {
+
+        final List<Object> params = ImmutableList.builder()
+                .add(objectType)
+                .addAll(paramNames)
+                .build();
+
+        return createFromFormat("return new $T($L)", params);
+    }
+
+    @Override
+    public ArbitraryCodeSource returnInstanceField(final CharSequence fieldName) {
+
+        return createFromFormat("return this.$L", ImmutableList.of(fieldName));
+    }
+
+    @Override
+    public ArbitraryCodeSource newValue(
+            final TypeReferenceSource type, final CharSequence name, final ArbitraryCodeSource initializer) {
+
+        return append(
+                createFromFormat("final $T $L = ", ImmutableList.of(type, name)),
+                initializer
+        );
+    }
+
+    @Override
+    public ArbitraryCodeSource returnField(final CharSequence fieldName) {
+
+        return createFromFormat("return $L", ImmutableList.of(fieldName));
+    }
+
+    private ArbitraryCodeSource append(final ArbitraryCodeSource left, final ArbitraryCodeSource right) {
+
+        return createFromFormat(
+                left.format().toString() + right.format(),
+                ImmutableList.builder()
+                        .addAll(left.arguments())
+                        .addAll(right.arguments())
+                        .build()
+        );
     }
 
 }

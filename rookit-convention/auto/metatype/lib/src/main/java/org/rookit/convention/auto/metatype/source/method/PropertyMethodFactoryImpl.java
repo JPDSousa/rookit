@@ -52,13 +52,13 @@ final class PropertyMethodFactoryImpl implements PropertyMethodFactory {
     public MethodSource apiFor(final ConventionTypeElement enclosing, final Property property) {
         return baseMethod(property)
                 .makeAbstract()
-                .withReturnType(this.returnType.genericApiForProperty(enclosing, property));
+                .withReturnType(this.returnType.nativeApiFor(enclosing, property));
     }
 
     @Override
     public MethodSource implFor(final ConventionTypeElement enclosing, final Property property) {
 
-        final TypeReferenceSource returnType = this.returnType.apiForProperty(enclosing, property);
+        final TypeReferenceSource returnType = this.returnType.apiFor(enclosing, property);
 
         return baseMethod(property)
                 .addAnnotationByClass(Override.class)

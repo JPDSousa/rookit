@@ -27,7 +27,7 @@ import java.util.Collection;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-final class MutableCollectionPropertyModelImpl<E, T> extends ImmutableCollectionPropertyModelImpl<E, T>
+final class MutableCollectionPropertyModelImpl<E, T> extends AbstractPropertyModel<E, Collection<T>>
         implements MutableCollectionPropertyModel<E, T> {
 
     private final BiConsumer<E, Collection<T>> setter;
@@ -36,14 +36,16 @@ final class MutableCollectionPropertyModelImpl<E, T> extends ImmutableCollection
     private final BiConsumer<E, T> remover;
     private final BiConsumer<E, Collection<T>> removeAller;
 
-    MutableCollectionPropertyModelImpl(final String name,
-                                       final MetaType<T> metaType,
-                                       final Function<E, Collection<T>> getter,
-                                       final BiConsumer<E, Collection<T>> setter,
-                                       final BiConsumer<E, T> adder,
-                                       final BiConsumer<E, Collection<T>> addAller,
-                                       final BiConsumer<E, T> remover,
-                                       final BiConsumer<E, Collection<T>> removeAller) {
+    MutableCollectionPropertyModelImpl(
+            final String name,
+            final MetaType<Collection<T>> metaType,
+            final Function<E, Collection<T>> getter,
+            final BiConsumer<E, Collection<T>> setter,
+            final BiConsumer<E, T> adder,
+            final BiConsumer<E, Collection<T>> addAller,
+            final BiConsumer<E, T> remover,
+            final BiConsumer<E, Collection<T>> removeAller) {
+
         super(name, metaType, getter);
         this.setter = setter;
         this.adder = adder;
@@ -77,14 +79,4 @@ final class MutableCollectionPropertyModelImpl<E, T> extends ImmutableCollection
         this.removeAller.accept(entity, item);
     }
 
-    @Override
-    public String toString() {
-        return "MutableCollectionPropertyModelImpl{" +
-                "setter=" + this.setter +
-                ", adder=" + this.adder +
-                ", addAller=" + this.addAller +
-                ", remover=" + this.remover +
-                ", removeAller=" + this.removeAller +
-                "} " + super.toString();
-    }
 }

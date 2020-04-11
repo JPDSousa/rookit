@@ -23,7 +23,7 @@ package org.rookit.convention.module.source.aggregator.property;
 
 import com.google.common.collect.ImmutableList;
 import org.rookit.auto.source.method.MethodSource;
-import org.rookit.convention.auto.property.ExtendedProperty;
+import org.rookit.convention.auto.property.Property;
 import org.rookit.convention.auto.property.aggregator.ExtendedPropertyAggregator;
 
 import javax.annotation.processing.Messager;
@@ -46,7 +46,7 @@ final class ReducedExtendedPropertyMultiMethodAggregator
     }
 
     @Override
-    public boolean accept(final ExtendedProperty item) {
+    public boolean accept(final Property item) {
         this.messager.printMessage(Diagnostic.Kind.WARNING, "This aggregator is already in reduction stage. " +
                 "It can no longer accept more items.");
         return false;

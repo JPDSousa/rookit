@@ -23,6 +23,7 @@ package org.rookit.convention.auto.metatype.source;
 
 import com.google.inject.Inject;
 import org.rookit.auto.javax.executable.ExtendedExecutableElement;
+import org.rookit.auto.javax.type.mirror.ExtendedTypeMirror;
 import org.rookit.auto.source.field.FieldSource;
 import org.rookit.auto.source.field.FieldSourceFactory;
 import org.rookit.auto.source.method.MethodSource;
@@ -31,7 +32,6 @@ import org.rookit.auto.source.parameter.ParameterSource;
 import org.rookit.auto.source.parameter.ParameterSourceFactory;
 import org.rookit.auto.source.type.parameter.TypeParameterSource;
 import org.rookit.auto.source.type.parameter.TypeParameterSourceFactory;
-import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.guice.MetaTypeModelSerializer;
 
 final class ModelSerializerFactory implements MetaTypeModelSerializerFactory {
@@ -60,7 +60,7 @@ final class ModelSerializerFactory implements MetaTypeModelSerializerFactory {
     }
 
     @Override
-    public FieldSource fieldFor(final ConventionTypeElement type) {
+    public FieldSource fieldFor(final ExtendedTypeMirror type) {
 
         final TypeParameterSource fieldType = referenceFor(type);
 
@@ -69,20 +69,29 @@ final class ModelSerializerFactory implements MetaTypeModelSerializerFactory {
                 .makeFinal();
     }
 
-    private TypeParameterSource referenceFor(final ConventionTypeElement type) {
+    private TypeParameterSource referenceFor(final ExtendedTypeMirror type) {
 
         return this.typeParameterFactory.create(this.apiMethod.getReturnType(), type);
     }
 
     @Override
-    public MethodSource methodFor(final ConventionTypeElement type) {
+    public MethodSource methodFor(final ExtendedTypeMirror type) {
 
         return this.methodFactory.createMutableOverride(this.apiMethod)
                 .returnInstanceField(referenceFor(type), this.fieldName);
     }
 
     @Override
-    public ParameterSource parameterFor(final ConventionTypeElement type) {
+    public MethodSource delegateMethodFor(
+            final ExtendedTypeMirror type,
+            final FieldSource delegate) {
+
+        return this.methodFactory.createMutableDelegateOverride(this.apiMethod, delegate)
+                .withReturnType(referenceFor(type));
+    }
+
+    @Override
+    public ParameterSource parameterFor(final ExtendedTypeMirror type) {
 
         return this.parameterFactory.createMutable(this.fieldName, referenceFor(type));
     }

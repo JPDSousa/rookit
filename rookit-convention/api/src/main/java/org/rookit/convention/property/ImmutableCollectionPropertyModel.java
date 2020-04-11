@@ -23,8 +23,12 @@ package org.rookit.convention.property;
 
 import java.util.Collection;
 
-public interface ImmutableCollectionPropertyModel<E, T> extends PropertyModel<T> {
+public interface ImmutableCollectionPropertyModel<E, T> extends PropertyModel<E, Collection<T>> {
 
-    Collection<T> get(E entity);
+    @Override
+    default boolean isPresent(final E entity) {
+
+        return !get(entity).isEmpty();
+    }
 
 }

@@ -22,11 +22,11 @@
 package org.rookit.convention.auto.metatype.source.prototype;
 
 import org.rookit.convention.auto.javax.ConventionTypeElement;
-import org.rookit.convention.auto.property.ContainerProperty;
+import org.rookit.convention.auto.property.Property;
 import org.rookit.guice.auto.bind.ProviderMethodBinding;
 
 public interface PropertyMethodPrototypes {
 
-    ProviderMethodBinding bindingFor(ConventionTypeElement enclosing, ContainerProperty property);
+    ProviderMethodBinding bindingFor(ConventionTypeElement enclosing, Property property);
 
 }

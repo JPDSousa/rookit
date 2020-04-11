@@ -25,6 +25,6 @@ import org.rookit.auto.source.type.reference.TypeReferenceSource;
 
 public interface FieldSourceFactory {
 
-    MutableFieldSource createMutable(TypeReferenceSource type, String name);
+    MutableFieldSource createMutable(TypeReferenceSource type, CharSequence name);
 
 }

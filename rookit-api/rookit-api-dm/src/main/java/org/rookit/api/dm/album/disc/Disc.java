@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 @PropertyContainer
 public interface Disc extends Iterable<Track> {
 
-    @Property(isSettable = true)
+    @Property(mutable = true)
     String name();
 
     Optional<Track> track(int number);
@@ -31,7 +31,7 @@ public interface Disc extends Iterable<Track> {
                 .reduce(Duration.ZERO, Duration::plus);
     }
 
-    @Property(isSettable = true)
+    @Property(mutable = true)
     Int2ObjectMap<Track> trackMap();
 
     Collection<Track> asTrackCollection();

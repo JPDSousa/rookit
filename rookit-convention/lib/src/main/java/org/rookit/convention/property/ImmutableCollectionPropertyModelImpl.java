@@ -26,27 +26,15 @@ import org.rookit.convention.MetaType;
 import java.util.Collection;
 import java.util.function.Function;
 
-class ImmutableCollectionPropertyModelImpl<E, T> extends BasePropertyModel<T>
+final class ImmutableCollectionPropertyModelImpl<E, T> extends AbstractPropertyModel<E, Collection<T>>
         implements ImmutableCollectionPropertyModel<E, T> {
 
-    private final Function<E, Collection<T>> getter;
+    ImmutableCollectionPropertyModelImpl(
+            final String name,
+            final MetaType<Collection<T>> metaType,
+            final Function<E, Collection<T>> getter) {
 
-    ImmutableCollectionPropertyModelImpl(final String name,
-                                         final MetaType<T> metaType,
-                                         final Function<E, Collection<T>> getter) {
-        super(name, metaType);
-        this.getter = getter;
+        super(name, metaType, getter);
     }
 
-    @Override
-    public Collection<T> get(final E entity) {
-        return this.getter.apply(entity);
-    }
-
-    @Override
-    public String toString() {
-        return "ImmutableCollectionPropertyModelImpl{" +
-                "getter=" + this.getter +
-                "} " + super.toString();
-    }
 }

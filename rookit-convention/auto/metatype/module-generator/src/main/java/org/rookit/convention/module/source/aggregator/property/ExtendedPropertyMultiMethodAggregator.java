@@ -26,12 +26,10 @@ import one.util.streamex.StreamEx;
 import org.rookit.auto.source.method.MethodSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
 import org.rookit.convention.auto.metatype.source.prototype.PropertyMethodPrototypes;
-import org.rookit.convention.auto.property.ExtendedProperty;
 import org.rookit.convention.auto.property.Property;
 import org.rookit.convention.auto.property.PropertyFactory;
 import org.rookit.convention.auto.property.aggregator.ExtendedPropertyAggregator;
 import org.rookit.guice.auto.bind.ProviderMethodBinding;
-import org.rookit.utils.optional.Optional;
 
 import javax.annotation.processing.Messager;
 import java.util.Collection;
@@ -59,7 +57,7 @@ final class ExtendedPropertyMultiMethodAggregator implements ExtendedPropertyAgg
     }
 
     @Override
-    public boolean accept(final ExtendedProperty item) {
+    public boolean accept(final Property item) {
         this.properties.add(item);
         return true;
     }
@@ -73,8 +71,6 @@ final class ExtendedPropertyMultiMethodAggregator implements ExtendedPropertyAgg
     @Override
     public Collection<MethodSource> result() {
         return StreamEx.of(this.properties)
-                .map(this.propertyFactory::toContainer)
-                .flatMap(Optional::stream)
                 .map(property -> this.propertyPrototype.bindingFor(this.element, property))
                 .map(ProviderMethodBinding::asMethod)
                 .toImmutableList();

@@ -57,7 +57,7 @@ final class MetaTypeConstructorSourceFactoryImpl implements MetaTypeConstructorS
                 .addAnnotationByClass(Inject.class)
                 .assignParametersToFields(this.parameters.dependenciesFor(typeElement))
                 .assignParametersToFields(this.propertyFetchers.constructorParametersFor(typeElement))
-                .assignParametersToFields(ImmutableList.of(this.serializers.parameterFor(typeElement)))
+                .assignParametersToFields(ImmutableList.of(this.serializers.parameterFor(typeElement.asType())))
                 .addStatement(this.propertyFetchers.initializerFor(typeElement));
     }
 

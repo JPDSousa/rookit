@@ -37,15 +37,25 @@ public interface MutableTypeSource extends TypeSource, MutableModifiable<Mutable
     MutableTypeSource addMethod(MethodSource method);
 
     default MutableTypeSource addMethods(final Iterable<MethodSource> methods) {
+
         methods.forEach(this::addMethod);
-        return this;
+        return self();
     }
 
     MutableTypeSource addField(FieldSource field);
 
+    MutableTypeSource addInjectedField(FieldSource field);
+
+    default MutableTypeSource addInjectedFields(final Iterable<FieldSource> field) {
+
+        field.forEach(this::addInjectedField);
+        return self();
+    }
+
     default MutableTypeSource addFields(final Iterable<FieldSource> fields) {
+
         fields.forEach(this::addField);
-        return this;
+        return self();
     }
 
     MutableTypeSource addJavadoc(String javadoc);
@@ -53,8 +63,9 @@ public interface MutableTypeSource extends TypeSource, MutableModifiable<Mutable
     MutableTypeSource addTypeVariable(TypeVariableSource typeVariable);
 
     default MutableTypeSource addTypeVariables(final Iterable<TypeVariableSource> typeVariables) {
+
         typeVariables.forEach(this::addTypeVariable);
-        return this;
+        return self();
     }
 
     MutableTypeSource withSuperclass(TypeReferenceSource superclass);
@@ -66,8 +77,9 @@ public interface MutableTypeSource extends TypeSource, MutableModifiable<Mutable
     MutableTypeSource addInterface(TypeReferenceSource interfaceSource);
 
     default MutableTypeSource addInterfaces(final Iterable<TypeReferenceSource> interfaces) {
+
         interfaces.forEach(this::addInterface);
-        return this;
+        return self();
     }
 
 

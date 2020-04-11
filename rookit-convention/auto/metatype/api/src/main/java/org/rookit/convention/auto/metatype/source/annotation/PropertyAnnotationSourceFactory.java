@@ -23,13 +23,10 @@ package org.rookit.convention.auto.metatype.source.annotation;
 
 import org.rookit.auto.source.type.annotation.AnnotationSource;
 import org.rookit.convention.auto.javax.ConventionTypeElement;
-import org.rookit.convention.auto.property.ContainerProperty;
 import org.rookit.convention.auto.property.Property;
 
 public interface PropertyAnnotationSourceFactory {
 
     AnnotationSource bindingAnnotationForProperty(ConventionTypeElement enclosing, Property property);
-
-    AnnotationSource bindingAnnotationForContainer(ConventionTypeElement enclosing, ContainerProperty container);
 
 }
