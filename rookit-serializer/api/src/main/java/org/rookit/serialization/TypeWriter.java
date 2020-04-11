@@ -25,6 +25,10 @@ public interface TypeWriter {
 
     TypeWriter name(String name);
 
+    TypeWriter value(boolean value);
+
+    TypeWriter value(int value);
+
     TypeWriter value(String value);
 
     TypeWriter startArray();
@@ -34,5 +38,7 @@ public interface TypeWriter {
     TypeWriter startObject();
 
     TypeWriter endObject();
+
+    TypeWriter markAbsent();
 
 }

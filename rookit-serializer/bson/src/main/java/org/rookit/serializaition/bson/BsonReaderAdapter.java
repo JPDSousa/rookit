@@ -27,6 +27,8 @@ import org.rookit.serialization.TypeReader;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
+import static org.bson.BsonType.NULL;
+
 @NotThreadSafe
 final class BsonReaderAdapter implements TypeReader {
 
@@ -48,18 +50,36 @@ final class BsonReaderAdapter implements TypeReader {
     }
 
     @Override
+    public boolean readBoolean() {
+
+        return this.reader.readBoolean();
+    }
+
+    @Override
+    public int readInt() {
+
+        return this.reader.readInt32();
+    }
+
+    @Override
     public String peekName() {
         return name();
     }
 
     @Override
-    public void startDocument() {
+    public boolean isNextAbsent() {
+
+        return this.reader.getCurrentBsonType() == NULL;
+    }
+
+    @Override
+    public void startObject() {
         this.readName = false;
         this.reader.readStartDocument();
     }
 
     @Override
-    public void endDocument() {
+    public void endObject() {
         this.readName = false;
         this.reader.readEndDocument();
     }

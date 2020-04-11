@@ -39,6 +39,20 @@ final class BsonWriterAdapter implements TypeWriter {
     }
 
     @Override
+    public TypeWriter value(final boolean value) {
+
+        this.writer.writeBoolean(value);
+        return this;
+    }
+
+    @Override
+    public TypeWriter value(final int value) {
+
+        this.writer.writeInt32(value);
+        return this;
+    }
+
+    @Override
     public TypeWriter value(final String value) {
         this.writer.writeString(value);
         return this;
@@ -69,9 +83,10 @@ final class BsonWriterAdapter implements TypeWriter {
     }
 
     @Override
-    public String toString() {
-        return "BsonWriterAdapter{" +
-                "writer=" + this.writer +
-                "}";
+    public TypeWriter markAbsent() {
+
+        this.writer.writeNull();
+        return this;
     }
+
 }

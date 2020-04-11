@@ -27,9 +27,15 @@ public interface TypeReader {
 
     String peekName();
 
-    void startDocument();
+    boolean isNextAbsent();
 
-    void endDocument();
+    boolean readBoolean();
+
+    int readInt();
+
+    void startObject();
+
+    void endObject();
 
     void startArray();
 

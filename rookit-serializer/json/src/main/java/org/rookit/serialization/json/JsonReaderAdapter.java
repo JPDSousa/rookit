@@ -41,6 +41,17 @@ final class JsonReaderAdapter implements TypeReader {
 
     @Override
     public String name() {
+
+        try {
+            return this.reader.nextFieldName();
+        } catch (final IOException e) {
+            return this.failsafe.handleException().inputOutputException(e);
+        }
+    }
+
+    @Override
+    public String peekName() {
+
         try {
             return this.reader.currentName();
         } catch (final IOException e) {
@@ -49,8 +60,52 @@ final class JsonReaderAdapter implements TypeReader {
     }
 
     @Override
-    public String peekName() {
-        return name();
+    public boolean isNextAbsent() {
+
+        try {
+            return this.reader.nextToken() == JsonToken.VALUE_NULL;
+        } catch (final IOException e) {
+            //noinspection AutoUnboxing
+            return this.failsafe.handleException().inputOutputException(e);
+        }
+    }
+
+    @Override
+    public boolean readBoolean() {
+
+        try {
+            final JsonToken token = this.reader.nextToken();
+
+            if (token == JsonToken.VALUE_TRUE) {
+                return true;
+            }
+            if (token == JsonToken.VALUE_FALSE) {
+                return false;
+            }
+
+            throw new IllegalStateException("Expecting a boolean value, but found " + token.asString());
+        } catch (final IOException e) {
+            //noinspection AutoUnboxing
+            return this.failsafe.handleException().inputOutputException(e);
+        }
+    }
+
+    @Override
+    public int readInt() {
+
+        try {
+            final JsonToken token = this.reader.nextToken();
+
+            if (token == JsonToken.VALUE_NUMBER_INT) {
+                return this.reader.getIntValue();
+            }
+
+            throw new IllegalStateException("Expecting an int value, but found " + token.asString());
+        } catch (final IOException e) {
+
+            //noinspection AutoUnboxing
+            return this.failsafe.handleException().inputOutputException(e);
+        }
     }
 
     private void moveCursor(final JsonToken expectedToken) {
@@ -64,12 +119,12 @@ final class JsonReaderAdapter implements TypeReader {
     }
 
     @Override
-    public void startDocument() {
+    public void startObject() {
         moveCursor(JsonToken.START_OBJECT);
     }
 
     @Override
-    public void endDocument() {
+    public void endObject() {
         moveCursor(JsonToken.END_OBJECT);
     }
 
