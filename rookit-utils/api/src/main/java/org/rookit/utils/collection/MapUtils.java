@@ -21,6 +21,7 @@
  ******************************************************************************/
 package org.rookit.utils.collection;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -30,4 +31,6 @@ public interface MapUtils {
     <K, V> V getOrDefault(Map<K, V> map, K key, Supplier<V> supplier);
 
     <K, V> Map<K, V> mapByIndex(List<K> keys, List<V> values);
+
+    <K, V> Map<K, V> mapByIteration(Collection<K> keys, Collection<V> values);
 }
