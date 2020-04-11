@@ -62,10 +62,4 @@ final class TemplateFactoryImpl implements TemplateFactory {
         return new Template1Impl(prefix, suffix);
     }
 
-    @Override
-    public String toString() {
-        return "TemplateFactoryImpl{" +
-                "selfTemplate1=" + this.selfTemplate1 +
-                "}";
-    }
 }
