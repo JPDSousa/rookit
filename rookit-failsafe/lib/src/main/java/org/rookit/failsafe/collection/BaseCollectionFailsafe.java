@@ -101,4 +101,22 @@ final class BaseCollectionFailsafe extends DelegateObjectFailsafe implements Col
                   sourceName,
                   targetName);
     }
+
+    @Override
+    public <T> T isOfSameSize(
+            final Logger logger,
+            final Collection<?> collection1,
+            final CharSequence name1,
+            final Collection<?> collection2,
+            final CharSequence name2) {
+
+        isNotNull(logger, collection1, name1);
+        isNotNull(logger, collection2, name2);
+
+        final int size1 = collection1.size();
+        final int size2 = collection2.size();
+        return is(logger, size1 == size2,
+                  "%s (%d) is not of the same size as %s (%d)", name1, size1, name2, size2);
+    }
+
 }

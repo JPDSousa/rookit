@@ -47,4 +47,11 @@ public interface CollectionFailsafe extends ObjectFailsafe {
                             Collection<T> target,
                             CharSequence sourceName,
                             CharSequence targetName);
+
+    <T> T isOfSameSize(
+            Logger logger,
+            Collection<?> collection1,
+            CharSequence name1,
+            Collection<?> collection2, CharSequence name2);
+
 }
