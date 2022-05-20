@@ -55,7 +55,7 @@
         <fastutil.version>8.1.1</fastutil.version>
         <findbugs.version>3.0.2</findbugs.version>
         <guice.version>4.2.2</guice.version>
-        <gson.version>2.8.5</gson.version>
+        <gson.version>2.8.9</gson.version>
         <guava.version>27.1-jre</guava.version>
         <immutables.version>2.7.1</immutables.version>
         <jackson.version>2.9.8</jackson.version>
